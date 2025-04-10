@@ -1,0 +1,30 @@
+/* Import your existing CSS styles here */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "Boiling";
+  src: url("/assets/fonts/BoilingBlackDemo-jEReR.ttf");
+}
+
+@font-face {
+  font-family: "Bad-mofo";
+  src: url("/assets/fonts/BadMofo.ttf");
+}
+
+html {
+  font-size: 18px;
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  width: 100vw;
+  font-family: "poppins";
+}
+
+/* Add the rest of your CSS from landing_styles.css */
