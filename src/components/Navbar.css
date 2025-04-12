@@ -10,10 +10,10 @@
     justify-content: center;
     align-items: center;
     padding: 15px 20px;
-    z-index: 100;
+    z-index: 1000; /* Increased z-index to ensure navbar appears above other elements */
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease;
     transform: translateY(-100%); /* Hidden by default */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* Enhanced shadow for better visibility */
   }
 
   #nav[style*="opacity: 1"] {
