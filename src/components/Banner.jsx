@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
+import Sidebar from './Sidebar';
 
 function Banner() {
   const [days, setDays] = useState(0);
@@ -17,11 +18,11 @@ function Banner() {
 
     // Countdown Timer
     const festDay = new Date("July 27, 2021 11:00:00").getTime();
-    
+
     const interval = setInterval(() => {
       const now = new Date().getTime();
       const distance = festDay - now;
-      
+
       setDays(Math.max(0, Math.floor(distance / (1000 * 60 * 60 * 24))));
       setHours(Math.max(0, Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))));
       setMinutes(Math.max(0, Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))));
@@ -40,7 +41,16 @@ function Banner() {
   return (
     <div className="banner panel" id="top">
       <Navbar />
-      <video src="/assets/background.mp4" loop muted autoPlay></video>
+      <Sidebar />
+      <video src="/assets/background.mp4" loop muted autoPlay style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        zIndex: -2
+      }}></video>
       <div className="overlay"></div>
       <div className="heading">
         <h1>Essence</h1>

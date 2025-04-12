@@ -7,6 +7,7 @@ import Pronites from './components/Pronites'
 import Sponsors from './components/Sponsors'
 import Footer from './components/Footer'
 import GoodieBanner from './components/GoodieBanner'
+import ParticlesComponent from './components/ParticlesComponent'
 import './App.css'
 
 function App() {
@@ -40,7 +41,7 @@ function App() {
         <div className="content">
           <About />
           <Timeline />
-          <div id="particles-js"></div>
+          <ParticlesComponent />
         </div>
         <Pronites />
         <GoodieBanner />

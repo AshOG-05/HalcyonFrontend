@@ -1,30 +1,65 @@
-/* Import your existing CSS styles here */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* Import the main styles from public/styles.css */
+
+/* React-specific styles */
+.App {
+  text-align: center;
 }
 
-@font-face {
-  font-family: "Boiling";
-  src: url("/assets/fonts/BoilingBlackDemo-jEReR.ttf");
+/* Override any specific styles for React components here */
+
+/* Ensure the particles container is properly sized */
+#particles-js {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 
-@font-face {
-  font-family: "Bad-mofo";
-  src: url("/assets/fonts/BadMofo.ttf");
+/* Ensure the preloader works correctly */
+.loader-bg {
+  position: fixed;
+  z-index: 99999;
+  background: rgb(19, 18, 18);
+  height: 100%;
+  width: 100%;
+  opacity: 1;
+  overflow: hidden;
 }
 
-html {
-  font-size: 18px;
-  scroll-behavior: smooth;
+.loader {
+  position: absolute;
+  top: 45vh;
+  left: 45vw;
 }
 
-body {
+.loader img {
+  height: 20vh;
+  animation: loader 0.7s linear infinite alternate;
+}
+
+@keyframes loader {
+  from {
+    transform: translateY(0%);
+  }
+  to {
+    transform: translateY(-25%);
+  }
+}
+
+/* Ensure the well container is properly styled */
+.well {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
   overflow-x: hidden;
-  overflow-y: scroll;
-  width: 100vw;
-  font-family: "poppins";
 }
 
-/* Add the rest of your CSS from landing_styles.css */
+/* Ensure the content area is properly styled */
+.content {
+  position: relative;
+  width: 100%;
+  background-color: #000;
+  z-index: 1;
+}
