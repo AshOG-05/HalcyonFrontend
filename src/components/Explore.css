@@ -1,0 +1,20 @@
+.explore.panel {
+  position: relative;
+  min-height: 100vh;
+  padding: 4rem 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.8));
+  overflow: hidden;
+}
+
+.explore-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 2rem 0;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}

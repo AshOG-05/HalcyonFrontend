@@ -1,5 +1,12 @@
 /* About Component Styles */
 
+/* Star Background Animation */
+@keyframes twinkle {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
 .about.panel {
   position: relative;
   min-height: 100vh;

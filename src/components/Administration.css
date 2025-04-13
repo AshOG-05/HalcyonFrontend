@@ -1,0 +1,137 @@
+.administration.panel {
+  min-height: 100vh;
+  padding: 4rem 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.8));
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.admin-title {
+  font-size: 2.5rem;
+  color: white;
+  text-align: center;
+  margin-bottom: 3rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.admin-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(255, 152, 0, 0.8), transparent);
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.admin-card {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 152, 0, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 250px;
+}
+
+.admin-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 152, 0, 0.6);
+}
+
+.admin-card i {
+  font-size: 3rem;
+  color: rgba(255, 152, 0, 0.8);
+  margin-bottom: 1rem;
+}
+
+.admin-card h3 {
+  font-size: 1.5rem;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.admin-card p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1.5rem;
+}
+
+.admin-btn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background: rgba(255, 152, 0, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 152, 0, 0.5);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.admin-btn:hover {
+  background: rgba(255, 152, 0, 0.4);
+  transform: scale(1.05);
+}
+
+/* Stars background */
+.admin-stars-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.admin-star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-title {
+    font-size: 2rem;
+  }
+  
+  .admin-card {
+    min-height: 200px;
+  }
+}

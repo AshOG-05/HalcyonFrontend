@@ -6,8 +6,8 @@ import Timeline from './components/Timeline'
 import Pronites from './components/Pronites'
 import Sponsors from './components/Sponsors'
 import Footer from './components/Footer'
-import GoodieBanner from './components/GoodieBanner'
 import ParticlesComponent from './components/ParticlesComponent'
+import Explore from './components/Explore'
 import './App.css'
 
 function App() {
@@ -43,8 +43,8 @@ function App() {
           <Timeline />
           <ParticlesComponent />
         </div>
+        <Explore />
         <Pronites />
-        <GoodieBanner />
         <Sponsors />
         <Footer />
       </div>

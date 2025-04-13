@@ -54,7 +54,9 @@ function Sidebar() {
         sidebar.removeEventListener('touchend', handleTouchEnd);
       };
     }
-  }, [sidebarOpen, touchStart, touchEnd]);
+  }, [sidebarOpen, touchStart, touchEnd, handleTouchStart, handleTouchMove, handleTouchEnd]);
+
+
 
   return (
     <>
@@ -110,6 +112,10 @@ function Sidebar() {
             <i className="fas fa-calendar-alt"></i>
             <span>Timeline</span>
           </a>
+          <a title="Explore" href="#explore_anchor" onClick={closeSidebar}>
+            <i className="fas fa-compass"></i>
+            <span>Explore</span>
+          </a>
           <a title="Pronites" href="#pronites_anchor" onClick={closeSidebar}>
             <i className="fas fa-music"></i>
             <span>Pronites</span>
@@ -126,10 +132,7 @@ function Sidebar() {
             <i className="fas fa-user"></i>
             <span>Sign-in</span>
           </a>
-          <a title="Goodies" href="./goodies/" onClick={closeSidebar}>
-            <i className="fas fa-tag"></i>
-            <span>Goodies</span>
-          </a>
+
           <a title="FAQ" href="./faqpage" onClick={closeSidebar}>
             <i className="fas fa-question"></i>
             <span>FAQ's</span>

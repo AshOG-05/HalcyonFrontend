@@ -16,7 +16,7 @@ function Pronites() {
     {
       id: 1,
       name: "ANUV JAIN",
-      date: "27th June 2023",
+      date: "29th May 2025",
       time: "9:00PM-10:30PM",
       image: "/assets/anuvjain.webp",
       alt: "Anuv Jain",
@@ -28,7 +28,7 @@ function Pronites() {
     {
       id: 2,
       name: "ANUBHAV SINGH BASSI",
-      date: "28th June 2023",
+      date: "29th May 2025",
       time: "9:30PM-10:30PM",
       image: "/assets/bassi.webp",
       alt: "Anubhav Singh Bassi",
@@ -40,7 +40,7 @@ function Pronites() {
     {
       id: 3,
       name: "ABHISHEK UPMANYU",
-      date: "29th June 2023",
+      date: "30th May 2025",
       time: "9:45PM-10:30PM",
       image: "/assets/upmanyu.webp",
       alt: "Abhishek Upmanyu",
@@ -52,7 +52,7 @@ function Pronites() {
     {
       id: 4,
       name: "ODESZA",
-      date: "30th June 2023",
+      date: "30th May 2025",
       time: "10:00PM-12:00AM",
       image: "/assets/odesza.webp",
       alt: "Odesza",

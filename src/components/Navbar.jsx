@@ -29,6 +29,7 @@ function Navbar() {
     <nav id="nav" style={{ opacity: showNav ? 1 : 0 }}>
       <a title="About" href="#about_anchor">About</a>
       <a title="Timeline" href="#timeline_anchor">Timeline</a>
+      <a title="Explore" href="#explore_anchor">Explore</a>
       <a title="Pronites" href="#pronites_anchor">Pronites</a>
       <a title="Contact" href="#contact_anchor">Contact</a>
       <a title="Sponsors" href="#sponsors_anchor">Sponsors</a>
