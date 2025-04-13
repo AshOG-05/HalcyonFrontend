@@ -40,7 +40,7 @@ function GoodieBanner() {
             <span className="goodie-title-text">FESTIVAL</span>
             <span className="goodie-title-highlight">GOODIES</span>
           </h1>
-          <p className="goodie-subtitle">Take home memories of Essence Festival with our exclusive merchandise</p>
+          <p className="goodie-subtitle">Take home memories of Halcyon Festival with our exclusive merchandise</p>
         </div>
 
         <div className="goodie-preview">

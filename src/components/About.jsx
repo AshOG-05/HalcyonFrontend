@@ -1,4 +1,5 @@
 import './About.css';
+import Marquee from './Marquee';
 
 function About() {
 
@@ -9,7 +10,7 @@ function About() {
         <img
           id="astronaut"
           alt="astronaut"
-          src="/assets/astronaut.webp"
+          src="/assets/Dancer.png"
           style={{
             position: 'absolute',
             right: '10%',
@@ -22,7 +23,7 @@ function About() {
         <img
           id="planet"
           alt="planet"
-          src="/assets/moon.webp"
+          src="/assets/circular.png"
           style={{
             position: 'absolute',
             left: '10%',
@@ -65,17 +66,21 @@ function About() {
       </div>
 
       <div className="about-box" style={{ marginTop: '10vh' }}>
-        <h1>About <span className="highlight">Essence</span></h1>
+        <h1>About <span className="highlight">Halcyon</span></h1>
         <div className="about-content">
           <p className="about-text">
-            Welcome to <span className="highlight">Essence</span> - the biggest, most exciting college fest of Central India!
+            Welcome to <span className="highlight">Halcyon</span> - the biggest, most exciting college fest of Siddaganga Institutue of Technology, Tumkur!
             Join us for an unforgettable celebration of youth, talent, and culture.
           </p>
+
+          {/* Added Marquee component here */}
+          <Marquee />
+
           <div className="about-features">
             <div className="feature">
               <i className="fas fa-calendar-alt"></i>
-              <h3>4 Days of Fun</h3>
-              <p>Experience four ecstatic days filled with competitions, performances, and memories.</p>
+              <h3>2 Days of Fun</h3>
+              <p>Experience two ecstatic days filled with competitions, performances, and memories.</p>
             </div>
             <div className="feature">
               <i className="fas fa-music"></i>

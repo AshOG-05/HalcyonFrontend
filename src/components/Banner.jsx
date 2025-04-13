@@ -17,7 +17,7 @@ function Banner() {
     }
 
     // Countdown Timer
-    const festDay = new Date("July 27, 2021 11:00:00").getTime();
+    const festDay = new Date("MAY 29, 2025 11:00:00").getTime();
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -53,10 +53,10 @@ function Banner() {
       }}></video>
       <div className="overlay"></div>
       <div className="heading">
-        <h1>Essence</h1>
-        <h1>Essence</h1>
+        <h1>HALCYON</h1>
+        <h1>2025</h1>
         <p>Step into the unknown.</p>
-        <p>27th June 2021 - 30th June 2021</p>
+        <p>29th MAY 2025 - 30th MAY 2025</p>
 
         {!isLoggedIn ? (
           <div className="register-button">
@@ -75,7 +75,7 @@ function Banner() {
         {/* Countdown timer */}
         <div id="countdown">
           <ul>
-            <li><div id="days">{days}</div>days</li>
+            <li><div id="days">{days}</div>Days</li>
             <li><div id="hours">{hours}</div>Hours</li>
             <li><div id="minutes">{minutes}</div>Minutes</li>
             <li><div id="seconds">{seconds}</div>Seconds</li>

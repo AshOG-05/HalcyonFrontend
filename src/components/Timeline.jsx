@@ -22,21 +22,7 @@ function Timeline() {
     { title: "Chess Qualifiers", time: "7:00PM-12:30AM", link: "./EventPages/chess.html" }
   ];
 
-  // Day 3 events
-  const day3Events = [
-    { title: "Open Mic", time: "11:00AM-12:30PM", link: "./EventPages/openmic.html" },
-    { title: "Dance Battle", time: "1:00PM-3:00PM", link: "./EventPages/danceBattle.html" },
-    { title: "Chess Finals", time: "3:00PM-6:00PM", link: "./EventPages/chess.html" },
-    { title: "Valo Qualifiers", time: "7:00PM-12:30AM", link: "./EventPages/valoqual.html" }
-  ];
 
-  // Day 4 events
-  const day4Events = [
-    { title: "Open Mic", time: "11:00AM-12:30PM", link: "./EventPages/openmic.html" },
-    { title: "COD Finals", time: "1:00PM - 3:00PM", link: "./EventPages/cod.html" },
-    { title: "Valorant Finals", time: "3:00PM - 6:00PM", link: "./EventPages/valofinal.html" },
-    { title: "Band Event", time: "7:00PM-12:30AM", link: "./EventPages/BandEvent.html" }
-  ];
 
   useEffect(() => {
     AOS.init({
@@ -74,35 +60,102 @@ function Timeline() {
           <span className="day-number">02</span>
           <span className="day-text">DAY 2</span>
         </button>
-        <button
-          className={activeDay === 3 ? 'active' : ''}
-          onClick={() => setActiveDay(3)}
-        >
-          <span className="day-number">03</span>
-          <span className="day-text">DAY 3</span>
-        </button>
-        <button
-          className={activeDay === 4 ? 'active' : ''}
-          onClick={() => setActiveDay(4)}
-        >
-          <span className="day-number">04</span>
-          <span className="day-text">DAY 4</span>
-        </button>
+
       </div>
 
       {/* Timeline visualization */}
-      <div className="timeline-progress">
-        <div className="timeline-track">
-          <div className="timeline-progress-bar" style={{ width: `${activeDay * 25}%` }}></div>
-          {[1, 2, 3, 4].map(day => (
-            <div
-              key={day}
-              className={`timeline-node ${activeDay >= day ? 'active' : ''}`}
-              onClick={() => setActiveDay(day)}
-            >
-              <span>{day}</span>
-            </div>
-          ))}
+      <div className="timeline-progress" style={{ margin: '3rem 0 5rem' }}>
+        <div className="timeline-track" style={{ position: 'relative', width: '80%', maxWidth: '600px', height: '4px', backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: '2px', margin: '0 auto' }}>
+          <div
+            className="timeline-progress-bar"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              height: '100%',
+              width: `${activeDay === 1 ? '50%' : '100%'}`,
+              backgroundColor: '#ff9800',
+              borderRadius: '2px',
+              transition: 'width 0.5s ease'
+            }}
+          ></div>
+
+          {/* Day 1 node */}
+          <div
+            className={`timeline-node ${activeDay >= 1 ? 'active' : ''}`}
+            onClick={() => setActiveDay(1)}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '25%',
+              transform: 'translate(-50%, -50%)',
+              width: '20px',
+              height: '20px',
+              borderRadius: '50%',
+              backgroundColor: activeDay >= 1 ? '#ff9800' : 'rgba(255, 255, 255, 0.3)',
+              border: '2px solid #ff9800',
+              cursor: 'pointer',
+              zIndex: 2,
+              transition: 'all 0.3s ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <span style={{ color: '#fff', fontSize: '12px', fontWeight: 'bold' }}>1</span>
+          </div>
+
+          {/* Day 2 node */}
+          <div
+            className={`timeline-node ${activeDay >= 2 ? 'active' : ''}`}
+            onClick={() => setActiveDay(2)}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '75%',
+              transform: 'translate(-50%, -50%)',
+              width: '20px',
+              height: '20px',
+              borderRadius: '50%',
+              backgroundColor: activeDay >= 2 ? '#ff9800' : 'rgba(255, 255, 255, 0.3)',
+              border: '2px solid #ff9800',
+              cursor: 'pointer',
+              zIndex: 2,
+              transition: 'all 0.3s ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <span style={{ color: '#fff', fontSize: '12px', fontWeight: 'bold' }}>2</span>
+          </div>
+
+          {/* Day labels */}
+          <div style={{
+            position: 'absolute',
+            top: '150%',
+            left: '25%',
+            transform: 'translateX(-50%)',
+            color: activeDay === 1 ? '#ff9800' : '#fff',
+            fontSize: '14px',
+            fontWeight: activeDay === 1 ? 'bold' : 'normal',
+            transition: 'all 0.3s ease'
+          }}>
+            Day 1
+          </div>
+
+          <div style={{
+            position: 'absolute',
+            top: '150%',
+            left: '75%',
+            transform: 'translateX(-50%)',
+            color: activeDay === 2 ? '#ff9800' : '#fff',
+            fontSize: '14px',
+            fontWeight: activeDay === 2 ? 'bold' : 'normal',
+            transition: 'all 0.3s ease'
+          }}>
+            Day 2
+          </div>
         </div>
       </div>
 
@@ -111,7 +164,7 @@ function Timeline() {
         {activeDay === 1 && (
           <TimelineCard
             day="DAY 1"
-            description="We kick off the event with an exciting fashion show, after which we crown our Mr and Ms Essence. Later at night, rack your brains as you hunt for treasure."
+            description="We kick off the event with an exciting fashion show, after which we crown our Mr and Ms Halcyon. Later at night, rack your brains as you hunt for treasure."
             events={day1Events}
             cardClass="day1-card"
             animation="fade-up"
@@ -128,33 +181,13 @@ function Timeline() {
           />
         )}
 
-        {activeDay === 3 && (
-          <TimelineCard
-            day="Day 3"
-            description="Impress the crowd with your voice, or with your moves on the dance floor. Then use your big brain to get through the chess finals and valorant qualifiers."
-            events={day3Events}
-            cardClass="day3-card"
-            animation="fade-up"
-          />
-        )}
 
-        {activeDay === 4 && (
-          <TimelineCard
-            day="Day 4"
-            description="The final day sees the best gamers fight it out in the arena. Later, music groups from all over India have a battle of their own."
-            events={day4Events}
-            cardClass="day4-card"
-            animation="fade-up"
-          />
-        )}
       </div>
 
       {/* Mobile view */}
       <div className="timeline-container mobile-view">
         {activeDay === 1 && <TimelineCardMobile events={day1Events} />}
         {activeDay === 2 && <TimelineCardMobile events={day2Events} />}
-        {activeDay === 3 && <TimelineCardMobile events={day3Events} />}
-        {activeDay === 4 && <TimelineCardMobile events={day4Events} />}
       </div>
     </div>
   );
