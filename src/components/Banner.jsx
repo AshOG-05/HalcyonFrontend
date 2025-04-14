@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
+import { APP_CONFIG } from '../config';
+import { logout } from '../services/authService';
 
 function Banner() {
   const [days, setDays] = useState(0);
@@ -11,7 +13,7 @@ function Banner() {
 
   useEffect(() => {
     // Check if user is logged in
-    const token = localStorage.getItem("cookie");
+    const token = localStorage.getItem(APP_CONFIG.tokenName);
     if (token) {
       setIsLoggedIn(true);
     }
@@ -34,8 +36,7 @@ function Banner() {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    localStorage.removeItem("cookie");
-    window.location.href = "./";
+    logout();
   };
 
   return (
@@ -61,7 +62,7 @@ function Banner() {
         {!isLoggedIn ? (
           <div className="register-button">
             <div className="left"></div>
-            <a title="Register" href="./RegisterLogin/">Enter !</a>
+            <a title="Register" href="/RegisterLogin">Enter !</a>
             <div className="right"></div>
           </div>
         ) : (
