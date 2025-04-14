@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { APP_CONFIG } from '../config';
 
 function Pronites() {
   const [index, setIndex] = useState(0);
@@ -65,7 +66,7 @@ function Pronites() {
 
   useEffect(() => {
     // Check if user is logged in
-    const token = localStorage.getItem("cookie");
+    const token = localStorage.getItem(APP_CONFIG.tokenName);
     if (token) {
       setIsLoggedIn(true);
     }
