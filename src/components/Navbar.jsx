@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import './Navbar.css';
+import { APP_CONFIG } from '../config';
 
 function Navbar() {
   const [showNav, setShowNav] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // For demo purposes, we'll just check if there's a token in localStorage
-    const token = localStorage.getItem("cookie");
+    // Check if there's a token in localStorage
+    const token = localStorage.getItem(APP_CONFIG.tokenName);
     if (token) {
       setIsLoggedIn(true);
     }

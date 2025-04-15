@@ -128,7 +128,7 @@ function Sidebar() {
             <i className="fas fa-envelope"></i>
             <span>Contact</span>
           </a>
-          <a title="Sign-in" href="./RegisterLogin/" className="in" onClick={closeSidebar}>
+          <a title="Sign-in" href="/RegisterLogin" className="in" onClick={closeSidebar}>
             <i className="fas fa-user"></i>
             <span>Sign-in</span>
           </a>
