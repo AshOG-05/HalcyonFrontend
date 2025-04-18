@@ -19,7 +19,7 @@ function Banner() {
     }
 
     // Countdown Timer
-    const festDay = new Date("MAY 29, 2025 11:00:00").getTime();
+    const festDay = new Date("MAY 16, 2025 11:00:00").getTime();
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
