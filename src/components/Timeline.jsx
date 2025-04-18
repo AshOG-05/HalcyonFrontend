@@ -64,8 +64,8 @@ function Timeline() {
       </div>
 
       {/* Timeline visualization */}
-      <div className="timeline-progress" style={{ margin: '3rem 0 5rem' }}>
-        <div className="timeline-track" style={{ position: 'relative', width: '80%', maxWidth: '600px', height: '4px', backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: '2px', margin: '0 auto' }}>
+      <div className="timeline-progress" style={{ margin: '3rem auto 5rem', width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <div className="timeline-track" style={{ position: 'relative', width: '80%', maxWidth: '600px', height: '4px', backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: '2px' }}>
           <div
             className="timeline-progress-bar"
             style={{

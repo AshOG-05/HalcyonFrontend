@@ -14,7 +14,7 @@ function TiltCards() {
       if (window.VanillaTilt) {
         window.VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
           max: 15,
-          speed: 400,
+          speed: 2000,
           glare: true,
           "max-glare": 0.3,
         });
