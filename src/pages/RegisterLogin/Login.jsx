@@ -1,14 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { login } from '../../services/authService';
 import { APP_CONFIG } from '../../config';
 
 function Login() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [redirectPath, setRedirectPath] = useState(APP_CONFIG.defaultRedirectPath);
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    // Check if there's a redirect parameter in the URL
+    const searchParams = new URLSearchParams(location.search);
+    const redirect = searchParams.get('redirect');
+    if (redirect) {
+      setRedirectPath(redirect);
+    }
+  }, [location]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,8 +42,8 @@ function Login() {
       // Store the token in localStorage
       localStorage.setItem(APP_CONFIG.tokenName, data.token);
 
-      // Redirect to home page
-      window.location.href = APP_CONFIG.defaultRedirectPath;
+      // Redirect to the specified path or default path
+      navigate(redirectPath);
     } catch (err) {
       setError(err.message || 'An error occurred during login');
     } finally {

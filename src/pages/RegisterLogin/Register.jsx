@@ -6,11 +6,8 @@ function Register() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    usn: '',
     password: '',
-    confirmPassword: '',
-    college: '',
-    phone: ''
+    confirmPassword: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -55,6 +52,7 @@ function Register() {
   return (
     <div className="auth-form-container">
       <h3>Create a New Account</h3>
+      <p className="auth-subtitle">Register as a participant to join events and activities</p>
       {error && <div className="auth-error">{error}</div>}
       <form onSubmit={handleSubmit} className="auth-form">
         <div className="form-group">
@@ -80,43 +78,8 @@ function Register() {
             required
             placeholder="Enter your email"
           />
-          </div>
-        <div className="form-group">
-          <label htmlFor="email">USN</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            placeholder="Enter your college usn"
-          />
         </div>
-        <div className="form-group">
-          <label htmlFor="college">College</label>
-          <input
-            type="text"
-            id="college"
-            name="college"
-            value={formData.college}
-            onChange={handleChange}
-            required
-            placeholder="Enter your college name"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="phone">Phone Number</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-            placeholder="Enter your phone number"
-          />
-        </div>
+
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input

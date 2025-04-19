@@ -1,0 +1,116 @@
+/* Team Dashboard Styles */
+.dashboard-container.team-dashboard {
+  background: linear-gradient(to bottom, #1a237e, #283593, #303f9f);
+}
+
+.team-dashboard .dashboard-header h2 {
+  color: #64b5f6;
+}
+
+.team-dashboard .logout-btn {
+  border-color: #64b5f6;
+  color: #64b5f6;
+}
+
+.team-dashboard .logout-btn:hover {
+  background-color: #64b5f6;
+  color: #000;
+}
+
+.team-dashboard .sidebar-btn.active {
+  background-color: rgba(100, 181, 246, 0.2);
+  border-left: 4px solid #64b5f6;
+}
+
+.team-dashboard .dashboard-table-container h3 {
+  color: #64b5f6;
+}
+
+.team-dashboard .dashboard-table th {
+  color: #64b5f6;
+}
+
+/* Form styles for spot registration */
+.dashboard-form-container {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-form-container h3 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #64b5f6;
+  font-size: 1.4rem;
+}
+
+.dashboard-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.dashboard-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dashboard-form label {
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.dashboard-form input,
+.dashboard-form select {
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font-size: 1rem;
+}
+
+.dashboard-form input:focus,
+.dashboard-form select:focus {
+  outline: none;
+  border-color: #64b5f6;
+  box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.2);
+}
+
+.dashboard-form .submit-btn {
+  background-color: #64b5f6;
+  color: #000;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.dashboard-form .submit-btn:hover {
+  background-color: #42a5f5;
+  transform: translateY(-2px);
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-form {
+    gap: 1rem;
+  }
+
+  .dashboard-form input,
+  .dashboard-form select {
+    padding: 0.6rem;
+  }
+}

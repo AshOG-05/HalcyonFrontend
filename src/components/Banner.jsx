@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import { APP_CONFIG } from '../config';
 import { logout } from '../services/authService';
+import './Banner.css';
 
 function Banner() {
   const [days, setDays] = useState(0);
@@ -41,6 +42,16 @@ function Banner() {
 
   return (
     <div className="banner panel" id="top">
+      <style>
+        {`
+          .banner .register-button a, .banner .logout-button a {
+            background: transparent !important;
+            background-color: transparent !important;
+            background-image: none !important;
+            box-shadow: none !important;
+          }
+        `}
+      </style>
       <Navbar />
       <Sidebar />
       <video src="/assets/background.mp4" loop muted autoPlay style={{
@@ -61,15 +72,53 @@ function Banner() {
 
         {!isLoggedIn ? (
           <div className="register-button">
-            <div className="left"></div>
-            <a title="Register" href="/RegisterLogin">Enter !</a>
-            <div className="right"></div>
+            <a
+              title="Register"
+              href="/RegisterLogin"
+              style={{
+                backgroundColor: 'transparent',
+                background: 'none',
+                border: '2px solid rgba(255, 255, 255, 0.5)',
+                borderRadius: '30px',
+                padding: '0.8rem 2rem',
+                color: 'white',
+                textDecoration: 'none',
+                fontSize: '1.2rem',
+                fontWeight: '600',
+                transition: 'all 0.3s ease',
+                display: 'inline-block',
+                boxShadow: 'none',
+                WebkitAppearance: 'none',
+                MozAppearance: 'none'
+              }}
+            >
+              Enter !
+            </a>
           </div>
         ) : (
-          <div className="logout-button" style={{ visibility: 'visible' }}>
-            <div className="left"></div>
-            <a href="#" onClick={handleLogout}>Log Out</a>
-            <div className="right"></div>
+          <div className="logout-button">
+            <a
+              href="#"
+              onClick={handleLogout}
+              style={{
+                backgroundColor: 'transparent',
+                background: 'none',
+                border: '2px solid rgba(255, 255, 255, 0.5)',
+                borderRadius: '30px',
+                padding: '0.8rem 2rem',
+                color: 'white',
+                textDecoration: 'none',
+                fontSize: '1.2rem',
+                fontWeight: '600',
+                transition: 'all 0.3s ease',
+                display: 'inline-block',
+                boxShadow: 'none',
+                WebkitAppearance: 'none',
+                MozAppearance: 'none'
+              }}
+            >
+              Log Out
+            </a>
           </div>
         )}
 

@@ -1,0 +1,239 @@
+.event-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.event-modal {
+  background: linear-gradient(to bottom, #1a237e, #283593, #303f9f);
+  border-radius: 15px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  position: relative;
+  animation: modalFadeIn 0.3s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.close-modal:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ff9800;
+}
+
+.event-modal-header {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 30px 30px 20px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.event-modal-header h2 {
+  color: #ff9800;
+  margin: 0 0 15px 0;
+  font-size: 2rem;
+  padding-right: 30px;
+}
+
+.event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.event-date-time, .event-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.event-date-time i, .event-location i {
+  color: #ff9800;
+}
+
+.event-modal-content {
+  padding: 30px;
+  color: #fff;
+}
+
+.event-description, .event-rules, .event-prizes, .event-coordinators {
+  margin-bottom: 25px;
+}
+
+.event-description h3, .event-rules h3, .event-prizes h3, .event-coordinators h3 {
+  color: #ff9800;
+  margin: 0 0 15px 0;
+  font-size: 1.3rem;
+}
+
+.event-description p {
+  line-height: 1.6;
+  margin: 0;
+}
+
+.event-rules ul, .event-prizes ul, .event-coordinators ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.event-rules li, .event-prizes li, .event-coordinators li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.event-modal-actions {
+  padding: 20px 30px 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.register-button {
+  background-color: #ff9800;
+  color: #000;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.register-button:hover {
+  background-color: #f57c00;
+  transform: translateY(-2px);
+}
+
+.register-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.modal-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  color: #fff;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid #ff9800;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.modal-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  color: #f44336;
+  text-align: center;
+}
+
+.modal-error i {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.registration-message {
+  padding: 12px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.registration-message.success {
+  background-color: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.registration-message.error {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .event-modal {
+    width: 95%;
+    max-height: 85vh;
+  }
+  
+  .event-modal-header {
+    padding: 25px 20px 15px;
+  }
+  
+  .event-modal-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .event-modal-content, .event-modal-actions {
+    padding: 20px;
+  }
+  
+  .event-meta {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

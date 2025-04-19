@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { adminLogin } from '../../services/authService';
+import { adminLogin, teamLogin } from '../../services/authService';
 import { APP_CONFIG } from '../../config';
 
 function AdminLogin() {
   const [formData, setFormData] = useState({
     email: '',
-    password: '',
-    adminCode: ''
+    password: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [loginType, setLoginType] = useState('admin'); // 'admin' or 'team'
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,21 +19,36 @@ function AdminLogin() {
     });
   };
 
+  const handleLoginTypeChange = (type) => {
+    setLoginType(type);
+    setError('');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
     try {
-      const data = await adminLogin(formData.email, formData.password, formData.adminCode);
+      let data;
 
-      // Store the admin token in localStorage
-      localStorage.setItem(APP_CONFIG.adminTokenName, data.token);
-
-      // Redirect to admin dashboard
-      window.location.href = APP_CONFIG.adminRedirectPath;
+      if (loginType === 'admin') {
+        // For admin login
+        data = await adminLogin(formData.email, formData.password);
+        // Store the admin token in localStorage
+        localStorage.setItem(APP_CONFIG.adminTokenName, data.token);
+        // Redirect to admin dashboard
+        window.location.href = APP_CONFIG.adminRedirectPath;
+      } else {
+        // For team login
+        data = await teamLogin(formData.email, formData.password);
+        // Store the team token in localStorage
+        localStorage.setItem(APP_CONFIG.teamTokenName, data.token);
+        // Redirect to team dashboard
+        window.location.href = APP_CONFIG.teamRedirectPath;
+      }
     } catch (err) {
-      setError(err.message || 'An error occurred during admin login');
+      setError(err.message || `An error occurred during ${loginType} login`);
     } finally {
       setLoading(false);
     }
@@ -41,11 +56,39 @@ function AdminLogin() {
 
   return (
     <div className="auth-form-container">
-      <h3>Admin Login</h3>
+      <h3>{loginType === 'admin' ? 'Admin Login' : 'Team Login'}</h3>
+
+      <p className="auth-subtitle">
+        {loginType === 'admin'
+          ? 'Login with your pre-created admin account'
+          : 'Login with your pre-created team account'}
+      </p>
+      <p className="auth-note">
+        Note: Admin and team accounts cannot be created through registration.
+        Please contact the system administrator if you need access.
+      </p>
+
+      <div className="auth-tabs">
+        <button
+          className={`auth-tab ${loginType === 'admin' ? 'active' : ''}`}
+          onClick={() => handleLoginTypeChange('admin')}
+          type="button"
+        >
+          Admin
+        </button>
+        <button
+          className={`auth-tab ${loginType === 'team' ? 'active' : ''}`}
+          onClick={() => handleLoginTypeChange('team')}
+          type="button"
+        >
+          Team
+        </button>
+      </div>
+
       {error && <div className="auth-error">{error}</div>}
       <form onSubmit={handleSubmit} className="auth-form">
         <div className="form-group">
-          <label htmlFor="email">Admin Email</label>
+          <label htmlFor="email">{loginType === 'admin' ? 'Admin' : 'Team'} Email</label>
           <input
             type="email"
             id="email"
@@ -53,7 +96,7 @@ function AdminLogin() {
             value={formData.email}
             onChange={handleChange}
             required
-            placeholder="Enter admin email"
+            placeholder={`Enter ${loginType} email`}
           />
         </div>
         <div className="form-group">
@@ -65,27 +108,16 @@ function AdminLogin() {
             value={formData.password}
             onChange={handleChange}
             required
-            placeholder="Enter admin password"
+            placeholder="Enter password"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="adminCode">Admin Code</label>
-          <input
-            type="password"
-            id="adminCode"
-            name="adminCode"
-            value={formData.adminCode}
-            onChange={handleChange}
-            required
-            placeholder="Enter admin security code"
-          />
-        </div>
+
         <button
           type="submit"
-          className="auth-button admin-button"
+          className={`auth-button ${loginType === 'admin' ? 'admin-button' : 'team-button'}`}
           disabled={loading}
         >
-          {loading ? 'Logging in...' : 'Admin Login'}
+          {loading ? 'Logging in...' : `${loginType === 'admin' ? 'Admin' : 'Team'} Login`}
         </button>
       </form>
     </div>
