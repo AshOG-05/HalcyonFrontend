@@ -8,18 +8,21 @@ function FineArts() {
     <div className="finearts-page">
       <Navbar />
       <Sidebar />
-      
+
       <div className="finearts-container">
+        <a href="/" className="back-button">
+          <i className="fas fa-arrow-left"></i> Back to Home
+        </a>
         <div className="finearts-card">
           <div className="finearts-header">
             <h1>FINE ARTS</h1>
           </div>
-          
+
           <div className="finearts-content">
             <div className="finearts-illustration">
               <img src="/assets/bg_astronaut.webp" alt="Fine Arts illustration" />
             </div>
-            
+
             <div className="finearts-details">
               <div className="finearts-event">
                 <h2>FACE PAINTING</h2>
@@ -28,7 +31,7 @@ function FineArts() {
                 <p>PROVISIONS-WASTE CLOTH/PAPER, WATER, PLASTIC CUPS.</p>
                 <p>TIME LIMIT: 1 HOUR.</p>
               </div>
-              
+
               <div className="finearts-event">
                 <h2>CREATIVE PHOTOGRAPHY</h2>
                 <p>INDIVIDUAL EVENT.</p>
@@ -39,7 +42,7 @@ function FineArts() {
                 <p>THE TOPIC WILL BE ANNOUNCED ON THE WEBSITE 48 HOURS PRIOR TO THE EVENT.</p>
                 <p>STUDENTS FROM OTHER COLLEGES WILL BE MAILED A VIDEO CONFERENCE LINK IN WHICH THEY WILL HAVE TO BRIEFLY EXPLAIN.</p>
               </div>
-              
+
               <div className="finearts-event">
                 <h2>SKETCHING</h2>
                 <p>INDIVIDUAL EVENT.</p>
@@ -49,7 +52,7 @@ function FineArts() {
                 <p>PARTICIPANTS WILL NOT BE ALLOWED TO LEAVE THE HALL DURING THE EVENT.</p>
                 <p>TIME LIMIT: 45 MINUTES.</p>
               </div>
-              
+
               <div className="finearts-event">
                 <h2>REELS MAKING</h2>
                 <p>ALL REELS MUST BE SHOT WITHIN COLLEGE PREMISES. ANY REEL SHOT OUTSIDE THE CAMPUS WILL BE DISQUALIFIED.</p>
@@ -60,7 +63,7 @@ function FineArts() {
               </div>
             </div>
           </div>
-          
+
           <div className="general-rules-section">
             <h2>GENERAL RULES</h2>
             <div className="general-rules-content">
@@ -73,7 +76,7 @@ function FineArts() {
               </ol>
             </div>
           </div>
-          
+
           <div className="finearts-footer">
             <div className="registration-info">
               <h3>REGISTRATION</h3>
@@ -81,7 +84,7 @@ function FineArts() {
               <p>Registration Fee: ₹200 per participant</p>
               <button className="register-btn">Register Now</button>
             </div>
-            
+
             <div className="contact-info">
               <h3>CONTACT</h3>
               <p>Event Coordinator: Ravi Kumar</p>
@@ -91,7 +94,7 @@ function FineArts() {
           </div>
         </div>
       </div>
-      
+
       <div className="finearts-background-elements">
         <div className="mandala top-left">
           <img src="/assets/mandala.png" alt="Decorative mandala" />

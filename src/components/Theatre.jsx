@@ -8,18 +8,21 @@ function Theatre() {
     <div className="theatre-page">
       <Navbar />
       <Sidebar />
-      
+
       <div className="theatre-container">
+        <a href="/" className="back-button">
+          <i className="fas fa-arrow-left"></i> Back to Home
+        </a>
         <div className="theatre-card">
           <div className="theatre-header">
             <h1>THEATRE</h1>
           </div>
-          
+
           <div className="theatre-content">
             <div className="theatre-illustration">
               <img src="/assets/gradient.webp" alt="Theatre illustration" />
             </div>
-            
+
             <div className="theatre-details">
               <div className="theatre-event">
                 <h2>SKIT</h2>
@@ -28,7 +31,7 @@ function Theatre() {
                 <p>THE PERFORMANCE SHOULD NOT BE A PART OF ANY MOVIE OR TV SHOW.</p>
                 <p>TIME LIMIT: 10+2 MINUTES.</p>
               </div>
-              
+
               <div className="theatre-event">
                 <h2>STREET PLAY</h2>
                 <p>MINIMUM 8 AND MAXIMUM 15 PARTICIPANTS PER TEAM.</p>
@@ -36,7 +39,7 @@ function Theatre() {
                 <p>THE PLAY SHOULD BE FOR A SOCIAL CAUSE.</p>
                 <p>TIME LIMIT: 12+3 MINUTES.</p>
               </div>
-              
+
               <div className="theatre-event">
                 <h2>MIME</h2>
                 <p>MAXIMUM 7 PARTICIPANTS PER TEAM.</p>
@@ -47,7 +50,7 @@ function Theatre() {
               </div>
             </div>
           </div>
-          
+
           <div className="general-rules-section">
             <h2>GENERAL RULES</h2>
             <div className="general-rules-content">
@@ -60,7 +63,7 @@ function Theatre() {
               </ol>
             </div>
           </div>
-          
+
           <div className="theatre-footer">
             <div className="registration-info">
               <h3>REGISTRATION</h3>
@@ -68,7 +71,7 @@ function Theatre() {
               <p>Registration Fee: ₹250 per team</p>
               <button className="register-btn">Register Now</button>
             </div>
-            
+
             <div className="contact-info">
               <h3>CONTACT</h3>
               <p>Event Coordinator: Neha Patel</p>
@@ -78,7 +81,7 @@ function Theatre() {
           </div>
         </div>
       </div>
-      
+
       <div className="theatre-background-elements">
         <div className="mandala top-left">
           <img src="/assets/mandala.png" alt="Decorative mandala" />

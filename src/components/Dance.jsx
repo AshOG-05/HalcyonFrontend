@@ -10,6 +10,9 @@ function Dance() {
       <Sidebar />
 
       <div className="dance-container">
+        <a href="/" className="back-button">
+          <i className="fas fa-arrow-left"></i> Back to Home
+        </a>
         <div className="dance-card">
           <div className="dance-header">
             <h1>DANCE</h1>
