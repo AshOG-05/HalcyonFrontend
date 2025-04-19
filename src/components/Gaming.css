@@ -1,0 +1,352 @@
+/* Gaming Page Styles */
+.gaming-page {
+  min-height: 100vh;
+  background-color: #f9ecd9;
+  position: relative;
+  overflow: hidden;
+  padding: 80px 0;
+  background-image: linear-gradient(to bottom, #f9ecd9, #e8d7b5);
+}
+
+.gaming-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.gaming-card {
+  background-color: #f9ecd9;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  border: 1px solid #000;
+}
+
+/* Border pattern similar to the image */
+.gaming-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background-image: url('/assets/border-pattern.png');
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+}
+
+.gaming-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background-image: url('/assets/border-pattern.png');
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+}
+
+/* Header styles */
+.gaming-header {
+  text-align: center;
+  padding: 2rem 0;
+  position: relative;
+}
+
+.gaming-header h1 {
+  font-size: 5rem;
+  font-weight: 900;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  margin: 0;
+  font-family: 'Arial Black', sans-serif;
+}
+
+/* Content styles */
+.gaming-content {
+  display: flex;
+  padding: 2rem;
+}
+
+.gaming-illustration {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gaming-illustration img {
+  max-width: 100%;
+  height: auto;
+  max-height: 500px;
+}
+
+.gaming-details {
+  flex: 1;
+  background-color: #e0c9a1;
+  padding: 2rem;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  margin-left: 2rem;
+  border: 1px solid #8b4513;
+  background-image: url('/assets/parchment-texture.jpg');
+  background-size: cover;
+  background-blend-mode: multiply;
+}
+
+/* Create a scroll-like appearance */
+.gaming-details::before,
+.gaming-details::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: #8b4513;
+  border-radius: 50%;
+}
+
+.gaming-details::before {
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.gaming-details::after {
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.gaming-event {
+  margin-bottom: 2rem;
+  border-bottom: 1px dashed #8b4513;
+  padding-bottom: 1rem;
+}
+
+.gaming-event:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.gaming-event h2 {
+  font-size: 1.5rem;
+  color: #000;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.gaming-event p {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* General Rules Section */
+.general-rules-section {
+  padding: 2rem;
+  margin: 2rem 0;
+  background-color: #f5e6c8;
+  border-top: 1px solid #8b4513;
+  border-bottom: 1px solid #8b4513;
+}
+
+.general-rules-section h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: #8b4513;
+  margin-bottom: 1.5rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.general-rules-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.general-rules-list {
+  padding-left: 2rem;
+  counter-reset: rule-counter;
+}
+
+.general-rules-list li {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 500;
+  position: relative;
+  padding-left: 0.5rem;
+  list-style-type: none;
+  counter-increment: rule-counter;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+.general-rules-list li::before {
+  content: counter(rule-counter) ".";
+  position: absolute;
+  left: -2rem;
+  color: #8b4513;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* Footer styles */
+.gaming-footer {
+  display: flex;
+  padding: 2rem;
+  background-color: #8b4513;
+  color: #fff;
+  border-top: 5px solid #000;
+}
+
+.registration-info,
+.contact-info {
+  flex: 1;
+  padding: 1rem;
+}
+
+.registration-info h3,
+.contact-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.register-btn {
+  background-color: #f9ecd9;
+  color: #8b4513;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.register-btn:hover {
+  background-color: #e0c9a1;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Background decorative elements */
+.gaming-background-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.mandala {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  opacity: 0.1;
+}
+
+.mandala img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.top-left {
+  top: -50px;
+  left: -50px;
+}
+
+.bottom-right {
+  bottom: -50px;
+  right: -50px;
+  transform: rotate(180deg);
+}
+
+/* Decorative border at the bottom */
+.gaming-page::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background-image: url('/assets/border-pattern.png');
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  z-index: 3;
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .gaming-content {
+    flex-direction: column;
+  }
+  
+  .gaming-details {
+    margin-left: 0;
+    margin-top: 2rem;
+  }
+  
+  .gaming-header h1 {
+    font-size: 4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .gaming-footer {
+    flex-direction: column;
+  }
+  
+  .gaming-header h1 {
+    font-size: 3rem;
+    letter-spacing: 5px;
+  }
+  
+  .gaming-container {
+    padding: 1rem;
+  }
+  
+  .gaming-content {
+    padding: 1rem;
+  }
+  
+  .general-rules-section h2 {
+    font-size: 1.8rem;
+  }
+  
+  .general-rules-list li {
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gaming-header h1 {
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+  }
+}

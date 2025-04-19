@@ -6,34 +6,39 @@ function InteractiveExplore() {
   const itemList = [
     {
       id: 1,
-      title: "Music",
-      image: "/assets/blue-space.webp",
-    },
-    {
-      id: 2,
       title: "Dance",
       image: "/assets/astro-guitar.webp",
     },
     {
+      id: 2,
+      title: "Music",
+      image: "/assets/blue-space.webp",
+    },
+    {
       id: 3,
-      title: "Tech",
+      title: "Gaming",
       image: "/assets/goodies-space.webp",
     },
     {
       id: 4,
-      title: "Arts",
+      title: "Theatre",
       image: "/assets/gradient.webp",
     },
     {
       id: 5,
-      title: "Sports",
+      title: "Fine Arts",
       image: "/assets/bg_astronaut.webp",
+    },
+    {
+      id: 6,
+      title: "Literary",
+      image: "/assets/circular.png",
     },
   ];
 
   return (
     <div className="interactive-explore">
-      <h1 className="explore-title">Explore Your Interests</h1>
+      <h1 className="explore-title">Events</h1>
 
       <section className="flex-cards-section">
         {itemList.map((item) => (
@@ -49,9 +54,35 @@ function InteractiveExplore() {
             <div className="card-overlay">
               <h1 className="card-title">{item.title}</h1>
             </div>
-            <a href="#" className="card-link">
-              <div className="card-link-overlay"></div>
-            </a>
+            {item.title === 'Dance' ? (
+              <a href="/events/dance" className="card-link">
+                <div className="card-link-overlay"></div>
+              </a>
+            ) : item.title === 'Music' ? (
+              <a href="/events/music" className="card-link">
+                <div className="card-link-overlay"></div>
+              </a>
+            ) : item.title === 'Gaming' ? (
+              <a href="/events/gaming" className="card-link">
+                <div className="card-link-overlay"></div>
+              </a>
+            ) : item.title === 'Theatre' ? (
+              <a href="/events/theatre" className="card-link">
+                <div className="card-link-overlay"></div>
+              </a>
+            ) : item.title === 'Fine Arts' ? (
+              <a href="/events/finearts" className="card-link">
+                <div className="card-link-overlay"></div>
+              </a>
+            ) : item.title === 'Literary' ? (
+              <a href="/events/literary" className="card-link">
+                <div className="card-link-overlay"></div>
+              </a>
+            ) : (
+              <a href="#" className="card-link">
+                <div className="card-link-overlay"></div>
+              </a>
+            )}
           </article>
         ))}
       </section>
