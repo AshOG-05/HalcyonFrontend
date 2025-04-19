@@ -16,6 +16,30 @@
   z-index: 2;
 }
 
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  background-color: #8b4513;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.back-button i {
+  margin-right: 0.5rem;
+}
+
+.back-button:hover {
+  background-color: #6b3100;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
 .music-card {
   background-color: #f9ecd9;
   border-radius: 8px;
@@ -303,12 +327,12 @@
   .music-content {
     flex-direction: column;
   }
-  
+
   .music-details {
     margin-left: 0;
     margin-top: 2rem;
   }
-  
+
   .music-header h1 {
     font-size: 4rem;
   }
@@ -318,24 +342,24 @@
   .music-footer {
     flex-direction: column;
   }
-  
+
   .music-header h1 {
     font-size: 3rem;
     letter-spacing: 5px;
   }
-  
+
   .music-container {
     padding: 1rem;
   }
-  
+
   .music-content {
     padding: 1rem;
   }
-  
+
   .general-rules-section h2 {
     font-size: 1.8rem;
   }
-  
+
   .general-rules-list li {
     font-size: 0.9rem;
     margin-bottom: 0.8rem;

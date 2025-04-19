@@ -8,18 +8,21 @@ function Literary() {
     <div className="literary-page">
       <Navbar />
       <Sidebar />
-      
+
       <div className="literary-container">
+        <a href="/" className="back-button">
+          <i className="fas fa-arrow-left"></i> Back to Home
+        </a>
         <div className="literary-card">
           <div className="literary-header">
             <h1>LITERARY</h1>
           </div>
-          
+
           <div className="literary-content">
             <div className="literary-illustration">
               <img src="/assets/astro-jelly.webp" alt="Literary illustration" />
             </div>
-            
+
             <div className="literary-details">
               <div className="literary-event">
                 <h2>JAM</h2>
@@ -30,7 +33,7 @@ function Literary() {
                 <p>STANDARD FORMATS ARE NOT TO BE USED.</p>
                 <p>1ST ROUND: WRITTEN ELIMINATION ROUND.</p>
               </div>
-              
+
               <div className="literary-event">
                 <h2>20Q</h2>
                 <p>ONLY 2 MEMBERS PER TEAM.</p>
@@ -42,7 +45,7 @@ function Literary() {
                 <p>THE TIME ALLOTTED IS 20 MINUTES. 10 MINUTES ARE THEN ALLOTTED TO GUESS 3 ANSWERS BASED ON THE GIVEN CLUES.</p>
                 <p>FINALS: STANDARD 20Q RULES.</p>
               </div>
-              
+
               <div className="literary-event">
                 <h2>BLINDFOLD TEXTING</h2>
                 <p>A TEXT OF 160 CHARACTERS WILL BE READ OUT TO THE BLINDFOLDED PARTICIPANTS WHO HAVE TO TYPE IT ON THEIR PHONES.</p>
@@ -50,21 +53,21 @@ function Literary() {
                 <p>T9/PREDICTIVE TEXT AND AUTOCORRECT ARE NOT ALLOWED.</p>
                 <p>NO RESTRICTIONS ON THE PHONE USED.</p>
               </div>
-              
+
               <div className="literary-event">
                 <h2>CREATIVE WRITING</h2>
                 <p>WORD LIMIT: 1000 WORDS.</p>
                 <p>THE TOPIC WILL BE GIVEN ON SPOT.</p>
                 <p>TIME LIMIT: 75 MINUTES.</p>
               </div>
-              
+
               <div className="literary-event">
                 <h2>QUIZ</h2>
                 <p>2 MEMBERS PER TEAM.</p>
                 <p>THE NUMBER OF ROUNDS WILL BE DECIDED BY THE QUIZMASTER.</p>
                 <p>ONE WRITTEN PRELIMINARY TEST, FROM WHICH TOP TEAMS WILL BE SELECTED FOR THE FINALS.</p>
               </div>
-              
+
               <div className="literary-event">
                 <h2>SPELL BEE</h2>
                 <p>THIS IS A VERBAL EVENT.</p>
@@ -73,7 +76,7 @@ function Literary() {
               </div>
             </div>
           </div>
-          
+
           <div className="general-rules-section">
             <h2>GENERAL RULES</h2>
             <div className="general-rules-content">
@@ -83,7 +86,7 @@ function Literary() {
               </ol>
             </div>
           </div>
-          
+
           <div className="literary-footer">
             <div className="registration-info">
               <h3>REGISTRATION</h3>
@@ -91,7 +94,7 @@ function Literary() {
               <p>Registration Fee: ₹150 per participant</p>
               <button className="register-btn">Register Now</button>
             </div>
-            
+
             <div className="contact-info">
               <h3>CONTACT</h3>
               <p>Event Coordinator: Ananya Singh</p>
@@ -101,7 +104,7 @@ function Literary() {
           </div>
         </div>
       </div>
-      
+
       <div className="literary-background-elements">
         <div className="mandala top-left">
           <img src="/assets/mandala.png" alt="Decorative mandala" />

@@ -10,6 +10,9 @@ function Music() {
       <Sidebar />
 
       <div className="music-container">
+        <a href="/" className="back-button">
+          <i className="fas fa-arrow-left"></i> Back to Home
+        </a>
         <div className="music-card">
           <div className="music-header">
             <h1>MUSIC</h1>

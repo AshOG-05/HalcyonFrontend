@@ -10,6 +10,9 @@ function Gaming() {
       <Sidebar />
 
       <div className="gaming-container">
+        <a href="/" className="back-button">
+          <i className="fas fa-arrow-left"></i> Back to Home
+        </a>
         <div className="gaming-card">
           <div className="gaming-header">
             <h1>GAMING</h1>
