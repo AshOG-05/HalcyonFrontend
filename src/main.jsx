@@ -8,6 +8,12 @@ import TeamDashboard from './pages/TeamDashboard'
 import Events from './pages/Events'
 import EventDetail from './pages/EventDetail'
 import TestPage from './TestPage'
+import Dance from './components/Dance'
+import Music from './components/Music'
+import Gaming from './components/Gaming'
+import Theatre from './components/Theatre'
+import FineArts from './components/FineArts'
+import Literary from './components/Literary'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -19,6 +25,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/team/dashboard" element={<TeamDashboard />} />
         <Route path="/events" element={<Events />} />
+        <Route path="/events/dance" element={<Dance />} />
+        <Route path="/events/music" element={<Music />} />
+        <Route path="/events/gaming" element={<Gaming />} />
+        <Route path="/events/theatre" element={<Theatre />} />
+        <Route path="/events/finearts" element={<FineArts />} />
+        <Route path="/events/literary" element={<Literary />} />
         <Route path="/events/:id" element={<EventDetail />} />
       </Routes>
     </BrowserRouter>

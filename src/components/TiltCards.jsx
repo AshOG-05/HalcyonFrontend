@@ -32,23 +32,33 @@ function TiltCards() {
   const events = [
     {
       id: 1,
-      title: "MUSIC NIGHT",
-      image: "/assets/anuvjain.webp",
-    },
-    {
-      id: 2,
-      title: "DANCE BATTLE",
+      title: "DANCE COMPETITION",
       image: "/assets/Dancer.png",
     },
     {
+      id: 2,
+      title: "MUSIC FESTIVAL",
+      image: "/assets/anuvjain.webp",
+    },
+    {
       id: 3,
-      title: "TECH EXPO",
-      image: "/assets/astro-jelly.webp",
+      title: "GAMING TOURNAMENT",
+      image: "/assets/goodies-space.webp",
     },
     {
       id: 4,
-      title: "ART GALLERY",
+      title: "THEATRE PLAY",
+      image: "/assets/gradient.webp",
+    },
+    {
+      id: 5,
+      title: "ART EXHIBITION",
       image: "/assets/circular.png",
+    },
+    {
+      id: 6,
+      title: "POETRY SLAM",
+      image: "/assets/astro-jelly.webp",
     },
   ];
 
@@ -67,6 +77,36 @@ function TiltCards() {
                     className="tilt-card-image"
                     style={{ backgroundImage: `url(${event.image})` }}
                   ></div>
+                  {event.title === "DANCE COMPETITION" && (
+                    <a href="/events/dance" className="tilt-card-link">
+                      <div className="tilt-card-link-overlay"></div>
+                    </a>
+                  )}
+                  {event.title === "MUSIC FESTIVAL" && (
+                    <a href="/events/music" className="tilt-card-link">
+                      <div className="tilt-card-link-overlay"></div>
+                    </a>
+                  )}
+                  {event.title === "GAMING TOURNAMENT" && (
+                    <a href="/events/gaming" className="tilt-card-link">
+                      <div className="tilt-card-link-overlay"></div>
+                    </a>
+                  )}
+                  {event.title === "THEATRE PLAY" && (
+                    <a href="/events/theatre" className="tilt-card-link">
+                      <div className="tilt-card-link-overlay"></div>
+                    </a>
+                  )}
+                  {event.title === "ART EXHIBITION" && (
+                    <a href="/events/finearts" className="tilt-card-link">
+                      <div className="tilt-card-link-overlay"></div>
+                    </a>
+                  )}
+                  {event.title === "POETRY SLAM" && (
+                    <a href="/events/literary" className="tilt-card-link">
+                      <div className="tilt-card-link-overlay"></div>
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
