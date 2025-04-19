@@ -18,7 +18,7 @@ const apiRequest = async (url, method, data = null) => {
   const responseData = await response.json();
 
   if (!response.ok) {
-    throw new Error(responseData.message || 'An error occurred');
+    throw new Error(responseData.error || responseData.message || 'An error occurred');
   }
 
   return responseData;
@@ -26,17 +26,44 @@ const apiRequest = async (url, method, data = null) => {
 
 // Login user
 export const login = async (email, password) => {
-  return apiRequest('/login', 'POST', { email, password });
+  return apiRequest('/auth/login', 'POST', { email, password });
 };
 
 // Register user
 export const register = async (userData) => {
-  return apiRequest('/register', 'POST', userData);
+  // Ensure the user is registered as a normal user by explicitly setting the role
+  const userDataWithRole = {
+    ...userData,
+    role: 'user' // Force the role to be 'user'
+  };
+
+  return apiRequest('/auth/register', 'POST', userDataWithRole);
 };
 
 // Admin login
-export const adminLogin = async (email, password, adminCode) => {
-  return apiRequest('/admin/login', 'POST', { email, password, adminCode });
+export const adminLogin = async (email, password) => {
+  // Proceed with login
+  const data = await apiRequest('/auth/login', 'POST', { email, password });
+
+  // Verify if the user has admin role
+  if (data.user && data.user.role !== 'admin') {
+    throw new Error('You do not have admin privileges');
+  }
+
+  return data;
+};
+
+// Team login
+export const teamLogin = async (email, password) => {
+  // Proceed with login
+  const data = await apiRequest('/auth/login', 'POST', { email, password });
+
+  // Verify if the user has team role
+  if (data.user && data.user.role !== 'team') {
+    throw new Error('You do not have team privileges');
+  }
+
+  return data;
 };
 
 // Request password reset (send OTP)
@@ -64,6 +91,11 @@ export const isAdminLoggedIn = () => {
   return !!localStorage.getItem(APP_CONFIG.adminTokenName);
 };
 
+// Check if team member is logged in
+export const isTeamLoggedIn = () => {
+  return !!localStorage.getItem(APP_CONFIG.teamTokenName);
+};
+
 // Logout user
 export const logout = () => {
   localStorage.removeItem(APP_CONFIG.tokenName);
@@ -76,15 +108,24 @@ export const adminLogout = () => {
   window.location.href = APP_CONFIG.defaultRedirectPath;
 };
 
+// Logout team member
+export const teamLogout = () => {
+  localStorage.removeItem(APP_CONFIG.teamTokenName);
+  window.location.href = APP_CONFIG.defaultRedirectPath;
+};
+
 export default {
   login,
   register,
   adminLogin,
+  teamLogin,
   requestPasswordReset,
   verifyOTP,
   resetPassword,
   isLoggedIn,
   isAdminLoggedIn,
+  isTeamLoggedIn,
   logout,
-  adminLogout
+  adminLogout,
+  teamLogout
 };

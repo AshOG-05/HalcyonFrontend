@@ -41,7 +41,7 @@ function App() {
         <div className="content">
           <About />
           <Timeline />
-          <ParticlesComponent />
+          {/* <ParticlesComponent /> */}
         </div>
         <Explore />
         <Pronites />
