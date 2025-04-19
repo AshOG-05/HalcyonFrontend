@@ -20,7 +20,7 @@
     transform: translateY(0); /* Slide down when visible */
   }
 
-  #nav a {
+  #nav a, #nav a.login-btn, #nav a:visited {
     color: white;
     text-decoration: none;
     margin: 0 15px;
@@ -54,14 +54,21 @@
     transform-origin: bottom left;
   }
 
-  #nav .profile {
+  #nav .profile, #nav .login-btn {
     display: flex;
     align-items: center;
     gap: 8px;
   }
 
-  #nav .profile i {
+  #nav .profile i, #nav .login-btn i {
     font-size: 1.2rem;
+  }
+
+  #nav .login-btn {
+    background-color: rgba(255, 152, 0, 0.2);
+    border: 1px solid #ff9800;
+    border-radius: 4px;
+    padding: 5px 10px;
   }
 
   /* Responsive Design */

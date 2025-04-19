@@ -1,0 +1,57 @@
+/* Custom styles for the Banner component */
+
+/* Reset all button styles first */
+.banner .register-button, .banner .logout-button {
+  position: relative;
+  display: inline-block;
+  margin: 2rem 0;
+  background: none !important;
+}
+
+.banner .heading .register-button a, .banner .heading .logout-button a {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: none !important;
+  background-color: transparent !important;
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+  border-radius: 30px;
+  box-shadow: none !important;
+  position: relative;
+  z-index: 1;
+}
+
+/* Remove any background elements */
+.banner .register-button::before, .banner .register-button::after,
+.banner .logout-button::before, .banner .logout-button::after,
+.banner .register-button .left, .banner .register-button .right,
+.banner .logout-button .left, .banner .logout-button .right {
+  display: none !important;
+}
+
+.banner .heading .register-button a:hover, .banner .heading .logout-button a:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.8);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Make the overlay more transparent to show the video better */
+.banner .overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Override any other styles that might be affecting the button */
+.banner .heading .register-button a {
+  background-color: transparent !important;
+  background-image: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+}
