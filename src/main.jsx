@@ -7,6 +7,7 @@ import AdminDashboard from './pages/AdminDashboard'
 import TeamDashboard from './pages/TeamDashboard'
 import Events from './pages/Events'
 import EventDetail from './pages/EventDetail'
+import CategoryEvents from './pages/CategoryEvents'
 import TestPage from './TestPage'
 import Dance from './components/Dance'
 import Music from './components/Music'
@@ -32,6 +33,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/events/finearts" element={<FineArts />} />
         <Route path="/events/literary" element={<Literary />} />
         <Route path="/events/:id" element={<EventDetail />} />
+        <Route path="/category/:categoryId" element={<CategoryEvents />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

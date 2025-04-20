@@ -160,6 +160,14 @@
   color: #fff;
 }
 
+.event-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
 .add-btn {
   background-color: #4caf50;
   color: white;
@@ -167,13 +175,51 @@
   padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
-  margin-bottom: 1rem;
   transition: all 0.3s ease;
 }
 
 .add-btn:hover {
   background-color: #45a049;
   transform: translateY(-2px);
+}
+
+.filter-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.filter-group select {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: #ff9800;
+}
+
+.event-count {
+  margin-bottom: 1rem;
+  color: #ccc;
+  font-size: 0.9rem;
+  text-align: right;
 }
 
 .loading {
@@ -198,6 +244,23 @@
   padding: 2rem;
   color: #aaa;
   font-style: italic;
+}
+
+/* Category badge styles */
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-left: 8px;
+  color: #fff;
+  font-size: 12px;
+}
+
+.dashboard-table td {
+  vertical-align: middle;
 }
 
 /* Responsive adjustments */
