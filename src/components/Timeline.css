@@ -9,6 +9,8 @@
   padding-top: 4rem;
 }
 
+
+
 .timeline-loading {
   display: flex;
   justify-content: center;
@@ -83,6 +85,18 @@
   font-size: 0.9rem;
   color: #ccc;
 }
+
+.category-link {
+  position: relative;
+  border-left: 3px solid #ff9800;
+}
+
+.category-link:hover {
+  background-color: rgba(255, 152, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+
 
 .event-arrow {
   color: #ff9800;

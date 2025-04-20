@@ -85,14 +85,32 @@
   font-size: 0.9rem;
 }
 
-.event-date-time, .event-location {
+.event-date-time, .event-location, .event-category, .event-day-badge {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.event-date-time i, .event-location i {
+.event-date-time i, .event-location i, .event-category i, .event-day-badge i {
   color: #ff9800;
+}
+
+.event-category {
+  background-color: rgba(255, 152, 0, 0.1);
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 152, 0, 0.3);
+}
+
+.event-day-badge {
+  background-color: rgba(33, 150, 243, 0.1);
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(33, 150, 243, 0.3);
+}
+
+.event-day-badge i {
+  color: #2196f3;
 }
 
 .event-modal-content {
@@ -219,19 +237,19 @@
     width: 95%;
     max-height: 85vh;
   }
-  
+
   .event-modal-header {
     padding: 25px 20px 15px;
   }
-  
+
   .event-modal-header h2 {
     font-size: 1.5rem;
   }
-  
+
   .event-modal-content, .event-modal-actions {
     padding: 20px;
   }
-  
+
   .event-meta {
     flex-direction: column;
     gap: 10px;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API_URL, APP_CONFIG } from '../config';
+import { API_URL, APP_CONFIG, EVENT_CATEGORIES } from '../config';
 import { isLoggedIn } from '../services/authService';
 import './EventModal.css';
 
@@ -14,6 +14,7 @@ const createMockEventData = (eventId) => {
       date: new Date('2025-03-15T13:00:00'),
       venue: 'Main Auditorium',
       day: 1,
+      category: 'theatre',
       rules: [
         'Participants must register in teams of 3-5 members',
         'Each team will get 10 minutes for their performance',
@@ -37,6 +38,7 @@ const createMockEventData = (eventId) => {
       date: new Date('2025-03-15T15:00:00'),
       venue: 'Main Stage',
       day: 1,
+      category: 'other',
       rules: [
         'Individual participation only',
         'Three rounds: Introduction, Talent, and Q&A',
@@ -60,6 +62,7 @@ const createMockEventData = (eventId) => {
       date: new Date('2025-03-15T19:00:00'),
       venue: 'Entire Campus',
       day: 1,
+      category: 'gaming',
       rules: [
         'Teams of 3-4 members',
         'All clues must be solved in sequence',
@@ -86,6 +89,7 @@ const createMockEventData = (eventId) => {
     date: new Date(),
     venue: 'TBD',
     day: 1,
+    category: 'other',
     rules: [],
     prizes: [],
     coordinators: []
@@ -234,6 +238,14 @@ function EventModal({ eventId, onClose }) {
                 <div className="event-location">
                   <i className="fas fa-map-marker-alt"></i>
                   <span>{event.venue}</span>
+                </div>
+                <div className="event-category">
+                  <i className={EVENT_CATEGORIES.find(cat => cat.id === (event.category || 'other'))?.icon || 'fas fa-star'}></i>
+                  <span>{EVENT_CATEGORIES.find(cat => cat.id === (event.category || 'other'))?.label || 'Other'}</span>
+                </div>
+                <div className="event-day-badge">
+                  <i className="fas fa-calendar-day"></i>
+                  <span>Day {event.day || 1}</span>
                 </div>
               </div>
             </div>
