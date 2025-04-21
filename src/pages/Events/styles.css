@@ -28,7 +28,7 @@
   margin: 0 auto;
 }
 
-.event-card {
+.event-card, .category-card {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
   padding: 1.5rem;
@@ -42,12 +42,67 @@
   flex-direction: column;
 }
 
-.event-card:hover {
+.event-card:hover, .category-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   background: rgba(255, 255, 255, 0.08);
 }
 
+/* Category specific styles */
+.category-card {
+  text-align: center;
+  border-top: 4px solid #ff9800;
+}
+
+.category-icon {
+  font-size: 3rem;
+  color: #ff9800;
+  margin: 1rem 0;
+}
+
+.category-name {
+  font-size: 1.8rem;
+  margin: 1rem 0;
+  color: #fff;
+}
+
+.category-count {
+  display: inline-block;
+  background: rgba(255, 152, 0, 0.2);
+  color: #ff9800;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.category-description {
+  color: #ddd;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+  line-height: 1.6;
+}
+
+.category-details-btn {
+  display: inline-block;
+  background: transparent;
+  color: #ff9800;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid #ff9800;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-align: center;
+  width: 100%;
+}
+
+.category-details-btn:hover {
+  background: #ff9800;
+  color: #000;
+}
+
+/* Original event card styles */
 .event-date {
   position: absolute;
   top: 0;
@@ -134,11 +189,11 @@
   .events-container {
     padding: 3rem 1rem;
   }
-  
+
   .events-title {
     font-size: 2rem;
   }
-  
+
   .events-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { API_URL } from '../../config';
+import { API_URL, EVENT_CATEGORIES } from '../../config';
 import './styles.css';
 
 function Events() {
   const [events, setEvents] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -15,13 +16,44 @@ function Events() {
   const fetchEvents = async () => {
     try {
       const response = await fetch(`${API_URL}/event`);
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch events');
       }
-      
+
       const data = await response.json();
       setEvents(data);
+
+      // Group events by category
+      const eventsByCategory = data.reduce((acc, event) => {
+        const category = event.category || 'other';
+        if (!acc[category]) {
+          // Find the category info from EVENT_CATEGORIES
+          const categoryInfo = EVENT_CATEGORIES.find(cat => cat.id === category) || {
+            id: category,
+            label: category.charAt(0).toUpperCase() + category.slice(1),
+            icon: 'fas fa-star'
+          };
+
+          acc[category] = {
+            id: category,
+            title: categoryInfo.label,
+            icon: categoryInfo.icon,
+            events: [],
+            description: `Explore all ${categoryInfo.label.toLowerCase()} events at Halcyon 2025`
+          };
+        }
+
+        acc[category].events.push(event);
+        return acc;
+      }, {});
+
+      // Convert to array and sort alphabetically by title
+      const categoriesArray = Object.values(eventsByCategory).sort((a, b) =>
+        a.title.localeCompare(b.title)
+      );
+
+      setCategories(categoriesArray);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -47,32 +79,27 @@ function Events() {
 
   return (
     <div className="events-container">
-      <h1 className="events-title">Upcoming Events</h1>
-      <p className="events-subtitle">Join us for these exciting events at Halcyon 2025</p>
-      
-      {events.length === 0 ? (
-        <div className="no-events">No events found. Check back later!</div>
+      <h1 className="events-title">Event Categories</h1>
+      <p className="events-subtitle">Explore events by category at Halcyon 2025</p>
+
+      {categories.length === 0 ? (
+        <div className="no-events">No categories found. Check back later!</div>
       ) : (
         <div className="events-grid">
-          {events.map(event => (
-            <div key={event._id} className="event-card">
-              <div className="event-date">
-                {new Date(event.date).toLocaleDateString('en-US', { 
-                  month: 'short',
-                  day: 'numeric'
-                })}
+          {categories.map(category => (
+            <div key={category.id} className="category-card">
+              <div className="category-icon">
+                <i className={category.icon}></i>
               </div>
-              <h3 className="event-name">{event.name}</h3>
-              <p className="event-venue">
-                <i className="fas fa-map-marker-alt"></i> {event.venue}
+              <h3 className="category-name">{category.title}</h3>
+              <p className="category-count">
+                {category.events.length} event{category.events.length !== 1 ? 's' : ''}
               </p>
-              <p className="event-description">
-                {event.description.length > 100 
-                  ? `${event.description.substring(0, 100)}...` 
-                  : event.description}
+              <p className="category-description">
+                {category.description}
               </p>
-              <Link to={`/events/${event._id}`} className="event-details-btn">
-                View Details
+              <Link to={`/category/${category.id}`} className="category-details-btn">
+                View Events
               </Link>
             </div>
           ))}
