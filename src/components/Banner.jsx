@@ -65,11 +65,10 @@ function Banner() {
       }}></video>
       <div className="overlay"></div>
       <div className="heading">
-        <h1>HALCYON</h1>
-        <h1>2025</h1>
+        <h1 className="samarkan" style={{fontFamily:'CustomFont'}}>HALCYON</h1>
+        <h1 className="samarkan" style={{fontFamily:'CustomFont'}}>2025</h1>
         <p>Step into the unknown.</p>
         <p>29th MAY 2025 - 30th MAY 2025</p>
-
         {!isLoggedIn ? (
           <div className="register-button">
             <a
