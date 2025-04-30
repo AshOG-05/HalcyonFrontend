@@ -1,6 +1,10 @@
 /* Custom styles for the Banner component */
 
 /* Reset all button styles first */
+@font-face{
+  font-family:'CustomFont';
+  src:url('../../fonts/samarkan.ttf') format('truetype');
+}
 .banner .register-button, .banner .logout-button {
   position: relative;
   display: inline-block;
@@ -54,4 +58,8 @@
   box-shadow: none !important;
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
+}
+
+.samarkan{
+  font-family: 'CustomFont';
 }

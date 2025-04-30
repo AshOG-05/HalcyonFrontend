@@ -160,16 +160,6 @@
   color: #fff;
 }
 
-.certificate-btn {
-  border-color: #9c27b0;
-  color: #9c27b0;
-}
-
-.certificate-btn:hover {
-  background-color: #9c27b0;
-  color: #fff;
-}
-
 .event-controls {
   display: flex;
   justify-content: space-between;
