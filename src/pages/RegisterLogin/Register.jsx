@@ -6,6 +6,7 @@ function Register() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    mobile: '',
     password: '',
     confirmPassword: ''
   });
@@ -77,6 +78,21 @@ function Register() {
             onChange={handleChange}
             required
             placeholder="Enter your email"
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="mobile">Phone Number</label>
+          <input
+            type="tel"
+            id="mobile"
+            name="mobile"
+            value={formData.mobile}
+            onChange={handleChange}
+            required
+            placeholder="Enter your phone number"
+            pattern="[0-9]{10}"
+            title="Please enter a valid 10-digit phone number"
           />
         </div>
 

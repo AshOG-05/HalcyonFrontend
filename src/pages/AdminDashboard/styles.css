@@ -160,6 +160,16 @@
   color: #fff;
 }
 
+.certificate-btn {
+  border-color: #9c27b0;
+  color: #9c27b0;
+}
+
+.certificate-btn:hover {
+  background-color: #9c27b0;
+  color: #fff;
+}
+
 .event-controls {
   display: flex;
   justify-content: space-between;
@@ -220,6 +230,37 @@
   color: #ccc;
   font-size: 0.9rem;
   text-align: right;
+}
+
+/* PDF Generation Button */
+.registration-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.generate-pdf-btn {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.generate-pdf-btn i {
+  font-size: 1.1rem;
+}
+
+.generate-pdf-btn:hover {
+  background-color: #b71c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .loading {
