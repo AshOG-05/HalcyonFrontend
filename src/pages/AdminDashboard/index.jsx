@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { isAdminLoggedIn, adminLogout } from '../../services/authService';
-import { API_URL } from '../../config';
+import { API_URL, EVENT_CATEGORIES } from '../../config';
 import EventForm from '../../components/EventForm';
 import './styles.css';
 
@@ -8,10 +8,42 @@ function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('users');
   const [users, setUsers] = useState([]);
   const [events, setEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
   const [registrations, setRegistrations] = useState([]);
+  const [filteredRegistrations, setFilteredRegistrations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showEventForm, setShowEventForm] = useState(false);
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [dayFilter, setDayFilter] = useState('all');
+  const [registrationCategoryFilter, setRegistrationCategoryFilter] = useState('all');
+  const [registrationEventFilter, setRegistrationEventFilter] = useState('all');
+
+  // Helper functions for category display
+  const getCategoryLabel = (categoryId) => {
+    const category = EVENT_CATEGORIES.find(cat => cat.id === (categoryId || 'other'));
+    return category ? category.label : 'Other';
+  };
+
+  const getCategoryIcon = (categoryId) => {
+    const category = EVENT_CATEGORIES.find(cat => cat.id === (categoryId || 'other'));
+    return category ? category.icon : 'fas fa-star';
+  };
+
+  const getCategoryColor = (categoryId) => {
+    // Define colors for each category
+    const colors = {
+      'dance': 'rgba(255, 99, 132, 0.7)',
+      'music': 'rgba(54, 162, 235, 0.7)',
+      'gaming': 'rgba(255, 206, 86, 0.7)',
+      'theatre': 'rgba(75, 192, 192, 0.7)',
+      'finearts': 'rgba(153, 102, 255, 0.7)',
+      'literary': 'rgba(255, 159, 64, 0.7)',
+      'other': 'rgba(201, 203, 207, 0.7)'
+    };
+
+    return colors[categoryId || 'other'] || colors.other;
+  };
 
   useEffect(() => {
     // Check if admin is logged in
@@ -58,6 +90,7 @@ function AdminDashboard() {
 
       const data = await response.json();
       setEvents(data);
+      setFilteredEvents(data);
     } catch (err) {
       setError(err.message);
     }
@@ -69,11 +102,72 @@ function AdminDashboard() {
 
   const handleEventAdded = (newEvent) => {
     // Add the new event to the events list
-    setEvents([...events, newEvent]);
+    const updatedEvents = [...events, newEvent];
+    setEvents(updatedEvents);
+    applyFilters(updatedEvents, categoryFilter, dayFilter);
+  };
+
+  const handleCategoryFilterChange = (e) => {
+    const category = e.target.value;
+    setCategoryFilter(category);
+    applyFilters(events, category, dayFilter);
+  };
+
+  const handleDayFilterChange = (e) => {
+    const day = e.target.value;
+    setDayFilter(day);
+    applyFilters(events, categoryFilter, day);
+  };
+
+  const applyFilters = (eventsList, category, day) => {
+    let filtered = [...eventsList];
+
+    // Apply category filter
+    if (category !== 'all') {
+      filtered = filtered.filter(event => (event.category || 'other') === category);
+    }
+
+    // Apply day filter
+    if (day !== 'all') {
+      filtered = filtered.filter(event => (event.day || 1) === parseInt(day));
+    }
+
+    setFilteredEvents(filtered);
   };
 
   const handleCancelAddEvent = () => {
     setShowEventForm(false);
+  };
+
+  const handleDeleteEvent = async (eventId) => {
+    if (!window.confirm('Are you sure you want to delete this event? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('adminCookie');
+      const response = await fetch(`${API_URL}/admin/event/${eventId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete event');
+      }
+
+      // Remove the event from the state
+      const updatedEvents = events.filter(event => event._id !== eventId);
+      setEvents(updatedEvents);
+      applyFilters(updatedEvents, categoryFilter, dayFilter);
+
+      // Show success message
+      alert('Event deleted successfully');
+    } catch (err) {
+      console.error('Error deleting event:', err);
+      alert(`Error deleting event: ${err.message}`);
+    }
   };
 
   const fetchRegistrations = async () => {
@@ -91,13 +185,187 @@ function AdminDashboard() {
 
       const data = await response.json();
       setRegistrations(data);
+      setFilteredRegistrations(data);
     } catch (err) {
       setError(err.message);
     }
   };
 
+  const handleRegistrationCategoryFilterChange = (e) => {
+    const category = e.target.value;
+    setRegistrationCategoryFilter(category);
+    applyRegistrationFilters(registrations, category, registrationEventFilter);
+  };
+
+  const handleRegistrationEventFilterChange = (e) => {
+    const eventId = e.target.value;
+    setRegistrationEventFilter(eventId);
+    applyRegistrationFilters(registrations, registrationCategoryFilter, eventId);
+  };
+
+  const applyRegistrationFilters = (registrationsList, category, eventId) => {
+    let filtered = [...registrationsList];
+
+    // Apply category filter
+    if (category !== 'all') {
+      filtered = filtered.filter(reg => {
+        // Check if the event exists and has a category
+        if (!reg.event) return false;
+        return (reg.event.category || 'other') === category;
+      });
+    }
+
+    // Apply event filter
+    if (eventId !== 'all') {
+      filtered = filtered.filter(reg => {
+        // Check if the event exists
+        if (!reg.event) return false;
+        return reg.event._id === eventId;
+      });
+    }
+
+    setFilteredRegistrations(filtered);
+  };
+
   const handleLogout = () => {
     adminLogout();
+  };
+
+  const handleGeneratePdf = async () => {
+    try {
+      const token = localStorage.getItem('adminCookie');
+
+      // Show loading message
+      alert('Generating PDF report. This may take a few seconds...');
+
+      // Use fetch to get the PDF as a blob
+      const response = await fetch(`${API_URL}/admin/pdf`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate PDF');
+      }
+
+      // Convert response to blob
+      const blob = await response.blob();
+
+      // Create a URL for the blob
+      const url = window.URL.createObjectURL(blob);
+
+      // Create a temporary link element
+      const a = document.createElement('a');
+      a.href = url;
+
+      // Get filename from Content-Disposition header or use default
+      const contentDisposition = response.headers.get('Content-Disposition');
+      let filename = 'halcyon_registrations.pdf';
+
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename=([^;]+)/);
+        if (filenameMatch && filenameMatch[1]) {
+          filename = filenameMatch[1].replace(/["']/g, '');
+        }
+      }
+
+      a.download = filename;
+
+      // Append to body, click and remove
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      // Release the URL object
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Error generating PDF:', err);
+      alert(`Error generating PDF: ${err.message}`);
+    }
+  };
+
+  const handleGenerateCertificate = async (registration) => {
+    try {
+      const token = localStorage.getItem('adminCookie');
+
+      // Show loading message
+      alert('Generating certificate. This may take a few seconds...');
+
+      // Prepare data for certificate generation
+      const certificateData = {
+        name: registration.participant?.name || 'Participant',
+        mobile: registration.participant?.mobile || 'N/A',
+        event: registration.event?.name || 'Event'
+      };
+
+      console.log('Sending certificate data:', certificateData);
+
+      // Use fetch to get the PDF as a blob
+      const response = await fetch(`${API_URL}/admin/generate-certificate`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(certificateData)
+      });
+
+      // Check if response is JSON (error) or PDF
+      const contentType = response.headers.get('Content-Type');
+
+      if (!response.ok) {
+        // Try to get error message from JSON response
+        if (contentType && contentType.includes('application/json')) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to generate certificate');
+        } else {
+          throw new Error('Failed to generate certificate');
+        }
+      }
+
+      // Make sure we got a PDF
+      if (!contentType || !contentType.includes('application/pdf')) {
+        console.error('Unexpected content type:', contentType);
+        throw new Error('Server did not return a PDF file');
+      }
+
+      // Convert response to blob
+      const blob = await response.blob();
+
+      // Create a URL for the blob
+      const url = window.URL.createObjectURL(blob);
+
+      // Create a temporary link element
+      const a = document.createElement('a');
+      a.href = url;
+
+      // Get filename from Content-Disposition header or use default
+      const contentDisposition = response.headers.get('Content-Disposition');
+      let filename = `certificate_${certificateData.name.replace(/\s+/g, '_')}.pdf`;
+
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename=([^;]+)/);
+        if (filenameMatch && filenameMatch[1]) {
+          filename = filenameMatch[1].replace(/["']/g, '');
+        }
+      }
+
+      a.download = filename;
+
+      // Append to body, click and remove
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      // Release the URL object
+      window.URL.revokeObjectURL(url);
+
+      alert('Certificate generated successfully!');
+    } catch (err) {
+      console.error('Error generating certificate:', err);
+      alert(`Error generating certificate: ${err.message}`);
+    }
   };
 
   const renderContent = () => {
@@ -150,8 +418,42 @@ function AdminDashboard() {
                 onCancel={handleCancelAddEvent}
               />
             ) : (
-              <button className="add-btn" onClick={handleAddEvent}>Add New Event</button>
+              <div className="event-controls">
+                <button className="add-btn" onClick={handleAddEvent}>Add New Event</button>
+
+                <div className="filter-controls">
+                  <div className="filter-group">
+                    <label htmlFor="categoryFilter">Category:</label>
+                    <select
+                      id="categoryFilter"
+                      value={categoryFilter}
+                      onChange={handleCategoryFilterChange}
+                    >
+                      <option value="all">All Categories</option>
+                      {EVENT_CATEGORIES.map(cat => (
+                        <option key={cat.id} value={cat.id}>{cat.label}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="filter-group">
+                    <label htmlFor="dayFilter">Day:</label>
+                    <select
+                      id="dayFilter"
+                      value={dayFilter}
+                      onChange={handleDayFilterChange}
+                    >
+                      <option value="all">All Days</option>
+                      <option value="1">Day 1</option>
+                      <option value="2">Day 2</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
             )}
+            <div className="event-count">
+              Showing {filteredEvents.length} of {events.length} events
+            </div>
             <table className="dashboard-table">
               <thead>
                 <tr>
@@ -159,19 +461,33 @@ function AdminDashboard() {
                   <th>Description</th>
                   <th>Date</th>
                   <th>Venue</th>
+                  <th>Category</th>
+                  <th>Day</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {events.map(event => (
+                {filteredEvents.map(event => (
                   <tr key={event._id}>
                     <td>{event.name}</td>
-                    <td>{event.description}</td>
+                    <td>{event.description.substring(0, 50)}...</td>
                     <td>{new Date(event.date).toLocaleDateString()}</td>
                     <td>{event.venue}</td>
                     <td>
+                      {getCategoryLabel(event.category)}
+                      <span className="category-badge" style={{ backgroundColor: getCategoryColor(event.category) }}>
+                        <i className={getCategoryIcon(event.category)}></i>
+                      </span>
+                    </td>
+                    <td>Day {event.day || 1}</td>
+                    <td>
                       <button className="action-btn edit-btn">Edit</button>
-                      <button className="action-btn delete-btn">Delete</button>
+                      <button
+                        className="action-btn delete-btn"
+                        onClick={() => handleDeleteEvent(event._id)}
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -184,31 +500,93 @@ function AdminDashboard() {
         return (
           <div className="dashboard-table-container">
             <h3>Registration Management</h3>
+
+            <div className="registration-actions">
+              <button className="generate-pdf-btn" onClick={handleGeneratePdf}>
+                <i className="fas fa-file-pdf"></i> Generate PDF Report
+              </button>
+            </div>
+
+            <div className="filter-controls">
+              <div className="filter-group">
+                <label htmlFor="registrationCategoryFilter">Category:</label>
+                <select
+                  id="registrationCategoryFilter"
+                  value={registrationCategoryFilter}
+                  onChange={handleRegistrationCategoryFilterChange}
+                >
+                  <option value="all">All Categories</option>
+                  {EVENT_CATEGORIES.map(cat => (
+                    <option key={cat.id} value={cat.id}>{cat.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="filter-group">
+                <label htmlFor="registrationEventFilter">Event:</label>
+                <select
+                  id="registrationEventFilter"
+                  value={registrationEventFilter}
+                  onChange={handleRegistrationEventFilterChange}
+                >
+                  <option value="all">All Events</option>
+                  {events.map(event => (
+                    <option key={event._id} value={event._id}>{event.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="event-count">
+              Showing {filteredRegistrations.length} of {registrations.length} registrations
+            </div>
+
             <table className="dashboard-table">
               <thead>
                 <tr>
                   <th>Participant</th>
+                  <th>Email</th>
+                  <th>Phone</th>
                   <th>Event</th>
+                  <th>Category</th>
                   <th>Registration Date</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {registrations.length > 0 ? (
-                  registrations.map(reg => (
+                {filteredRegistrations.length > 0 ? (
+                  filteredRegistrations.map(reg => (
                     <tr key={reg._id}>
                       <td>{reg.participant?.name || 'Unknown'}</td>
+                      <td>{reg.participant?.email || 'Unknown'}</td>
+                      <td>{reg.participant?.mobile || 'Unknown'}</td>
                       <td>{reg.event?.name || 'Unknown'}</td>
+                      <td>
+                        {reg.event ? (
+                          <>
+                            {getCategoryLabel(reg.event.category)}
+                            <span className="category-badge" style={{ backgroundColor: getCategoryColor(reg.event.category) }}>
+                              <i className={getCategoryIcon(reg.event.category)}></i>
+                            </span>
+                          </>
+                        ) : 'Unknown'}
+                      </td>
                       <td>{new Date(reg.registeredAt).toLocaleDateString()}</td>
                       <td>
                         <button className="action-btn view-btn">View</button>
                         <button className="action-btn delete-btn">Cancel</button>
+                        <button
+                          className="action-btn certificate-btn"
+                          onClick={() => handleGenerateCertificate(reg)}
+                        >
+                          Certificate
+                        </button>
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="4" className="no-data">No registrations found</td>
+                    <td colSpan="7" className="no-data">No registrations found</td>
                   </tr>
                 )}
               </tbody>

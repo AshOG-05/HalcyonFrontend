@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import TimelineCard from './TimelineCard';
 import TimelineCardMobile from './TimelineCardMobile';
 import EventModal from './EventModal';
-import { API_URL, FESTIVAL_DAYS } from '../config';
+import { API_URL, FESTIVAL_DAYS, EVENT_CATEGORIES } from '../config';
+import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './Timeline.css';
@@ -31,6 +32,8 @@ function Timeline() {
           const eventDate = new Date(event.date);
           // Use the day field from the event, or default to 1
           const festivalDay = event.day || 1;
+          // Use the category field from the event, or default to 'other'
+          const category = event.category || 'other';
 
           // Format the time
           const formattedTime = eventDate.toLocaleTimeString('en-US', {
@@ -45,7 +48,8 @@ function Timeline() {
             title: event.name,
             time: formattedTime,
             date: eventDate,
-            day: festivalDay
+            day: festivalDay,
+            category: category
           };
 
           // Add to the appropriate day
@@ -70,38 +74,68 @@ function Timeline() {
     fetchEvents();
   }, []);
 
-  // Get events for the active day
-  const getEventsForActiveDay = () => {
+  // Get categories for the active day
+  const getCategoriesForActiveDay = () => {
     if (loading || error || !events || Object.keys(events).length === 0) {
-      console.log('Using empty array for events due to loading/error/empty state');
+      console.log('Using empty array for categories due to loading/error/empty state');
       return [];
     }
 
-    // Get events for the active day (1 or 2)
-    // We directly use the activeDay as the key since we're now grouping by festival day
-    const result = events[activeDay] || [];
-    console.log(`Events for day ${activeDay}:`, result);
-    return result;
+    // Get events for the active day
+    const dayEvents = events[activeDay] || [];
+
+    // Group events by category
+    const categoriesMap = dayEvents.reduce((acc, event) => {
+      const category = event.category || 'other';
+      if (!acc[category]) {
+        // Find the category info from EVENT_CATEGORIES
+        const categoryInfo = EVENT_CATEGORIES.find(cat => cat.id === category) || {
+          id: category,
+          label: category.charAt(0).toUpperCase() + category.slice(1),
+          icon: 'fas fa-star'
+        };
+
+        acc[category] = {
+          id: category,
+          title: categoryInfo.label,
+          icon: categoryInfo.icon,
+          events: [],
+          time: '0 events'
+        };
+      }
+
+      acc[category].events.push(event);
+      acc[category].time = `${acc[category].events.length} event${acc[category].events.length !== 1 ? 's' : ''}`;
+
+      return acc;
+    }, {});
+
+    // Convert to array
+    return Object.values(categoriesMap);
   };
 
-  // Fallback events in case API fails
-  const getFallbackEvents = () => {
-    console.log('Using fallback events for day', activeDay);
+  // Fallback categories in case API fails
+  const getFallbackCategories = () => {
+    console.log('Using fallback categories for day', activeDay);
     if (activeDay === 1) {
       return [
-        { id: 'fallback1', title: "Fashion Show", time: "1:00 PM" },
-        { id: 'fallback2', title: "Mr and Ms Fest", time: "3:00 PM" },
-        { id: 'fallback3', title: "Treasure Hunt", time: "7:00 PM" }
+        { id: 'dance', title: "Dance", icon: "fas fa-music", time: "2 events" },
+        { id: 'music', title: "Music", icon: "fas fa-guitar", time: "3 events" },
+        { id: 'gaming', title: "Gaming", icon: "fas fa-gamepad", time: "1 event" }
       ];
     } else {
-      // No fallback events for Day 2 - will be added through admin page
-      return [];
+      // Fallback categories for Day 2
+      return [
+        { id: 'theatre', title: "Theatre", icon: "fas fa-theater-masks", time: "1 event" },
+        { id: 'literary', title: "Literary", icon: "fas fa-book", time: "2 events" }
+      ];
     }
   };
 
-  const handleEventClick = (eventId) => {
-    console.log('Event clicked with ID:', eventId);
-    setSelectedEventId(eventId);
+  const handleCategoryClick = (categoryId) => {
+    console.log('Category clicked with ID:', categoryId);
+    // Navigate to category page
+    window.location.href = `/category/${categoryId}`;
   };
 
   const closeEventModal = () => {
@@ -208,32 +242,28 @@ function Timeline() {
         </div>
       </div>
 
+      {/* Category filters removed */}
+
       {/* Desktop view */}
       <div className="timeline-container desktop-view">
         <TimelineCard
           day={FESTIVAL_DAYS[activeDay - 1].label}
           description={FESTIVAL_DAYS[activeDay - 1].description}
-          events={error || getEventsForActiveDay().length === 0 ? getFallbackEvents() : getEventsForActiveDay()}
+          categories={error || getCategoriesForActiveDay().length === 0 ? getFallbackCategories() : getCategoriesForActiveDay()}
           cardClass={`day${activeDay}-card`}
           animation="fade-up"
-          onEventClick={handleEventClick}
+          onCategoryClick={handleCategoryClick}
           loading={loading}
         />
       </div>
 
-      {/* Event Modal */}
-      {selectedEventId && (
-        <EventModal
-          eventId={selectedEventId}
-          onClose={closeEventModal}
-        />
-      )}
+      {/* No Event Modal needed as we're navigating to category pages */}
 
       {/* Mobile view */}
       <div className="timeline-container mobile-view">
         <TimelineCardMobile
-          events={error || getEventsForActiveDay().length === 0 ? getFallbackEvents() : getEventsForActiveDay()}
-          onEventClick={handleEventClick}
+          categories={error || getCategoriesForActiveDay().length === 0 ? getFallbackCategories() : getCategoriesForActiveDay()}
+          onCategoryClick={handleCategoryClick}
           loading={loading}
         />
       </div>

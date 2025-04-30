@@ -20,8 +20,20 @@ export const FESTIVAL_DAYS = [
   { id: 2, label: 'Day 2', description: 'The fun continues through to the second day with more amazing events!' }
 ];
 
+// Event categories configuration
+export const EVENT_CATEGORIES = [
+  { id: 'dance', label: 'Dance', icon: 'fas fa-music' },
+  { id: 'music', label: 'Music', icon: 'fas fa-guitar' },
+  { id: 'gaming', label: 'Gaming', icon: 'fas fa-gamepad' },
+  { id: 'theatre', label: 'Theatre', icon: 'fas fa-theater-masks' },
+  { id: 'finearts', label: 'Fine Arts', icon: 'fas fa-paint-brush' },
+  { id: 'literary', label: 'Literary', icon: 'fas fa-book' },
+  { id: 'other', label: 'Other', icon: 'fas fa-star' }
+];
+
 export default {
   API_URL,
   APP_CONFIG,
-  FESTIVAL_DAYS
+  FESTIVAL_DAYS,
+  EVENT_CATEGORIES
 };

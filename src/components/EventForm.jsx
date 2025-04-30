@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { API_URL, APP_CONFIG } from '../config';
+import { API_URL, APP_CONFIG, EVENT_CATEGORIES } from '../config';
 import './EventForm.css';
 
 function EventForm({ onEventAdded, onCancel }) {
@@ -12,7 +12,8 @@ function EventForm({ onEventAdded, onCancel }) {
     rules: '',
     prizes: '',
     coordinators: '',
-    day: 1 // Default to Day 1
+    day: 1, // Default to Day 1
+    category: 'other' // Default to Other category
   });
 
   const [loading, setLoading] = useState(false);
@@ -61,7 +62,8 @@ function EventForm({ onEventAdded, onCancel }) {
         rules: rules,
         prizes: prizes,
         coordinators: coordinators,
-        day: parseInt(formData.day) // Make sure it's a number
+        day: parseInt(formData.day), // Make sure it's a number
+        category: formData.category
       };
 
       // Get admin token
@@ -94,7 +96,8 @@ function EventForm({ onEventAdded, onCancel }) {
         rules: '',
         prizes: '',
         coordinators: '',
-        day: 1
+        day: 1,
+        category: 'other'
       });
 
       // Notify parent component
@@ -177,18 +180,37 @@ function EventForm({ onEventAdded, onCancel }) {
           </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="day">Event Day</label>
-          <select
-            id="day"
-            name="day"
-            value={formData.day}
-            onChange={handleChange}
-            required
-          >
-            <option value="1">Day 1</option>
-            <option value="2">Day 2</option>
-          </select>
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="day">Event Day</label>
+            <select
+              id="day"
+              name="day"
+              value={formData.day}
+              onChange={handleChange}
+              required
+            >
+              <option value="1">Day 1</option>
+              <option value="2">Day 2</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="category">Event Category</label>
+            <select
+              id="category"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              required
+            >
+              {EVENT_CATEGORIES.map(category => (
+                <option key={category.id} value={category.id}>
+                  {category.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="form-group">
