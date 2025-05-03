@@ -45,29 +45,57 @@ function Timeline() {
   ];
 
   useEffect(() => {
-    // Check if we're on a mobile device
-    const isMobile = window.innerWidth <= 768;
-
+    // Initialize AOS with faster settings
     AOS.init({
-      offset: isMobile ? 80 : 150,
-      duration: isMobile ? 500 : 700,
-      easing: isMobile ? 'ease-out' : 'ease-out-cubic',
+      offset: 50,
+      duration: 200,
+      easing: 'ease',
       once: true,
       mirror: false,
-      anchorPlacement: 'top-bottom',
+      anchorPlacement: 'top-center',
+      disable: 'phone',  // Disable AOS on phones initially
     });
 
-    // Refresh AOS when window is resized
-    window.addEventListener('resize', () => {
-      AOS.refresh();
-    });
+    // Custom function to handle sequential animations on mobile
+    const handleMobileAnimations = () => {
+      const isMobile = window.innerWidth <= 768;
+
+      if (isMobile) {
+        // Re-enable AOS with faster mobile-specific settings
+        AOS.init({
+          offset: 30,
+          duration: 200,
+          easing: 'ease',
+          once: true,
+          mirror: false,
+          anchorPlacement: 'top-center',
+          disable: false,
+        });
+
+        // Force refresh to apply new settings immediately
+        setTimeout(() => {
+          AOS.refresh();
+        }, 10);
+      }
+    };
+
+    // Initial call
+    handleMobileAnimations();
+
+    // Add event listener for resize
+    window.addEventListener('resize', handleMobileAnimations);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleMobileAnimations);
+    };
   }, []);
 
   return (
     <div className="panel timeline" id="timeline_anchor">
-      <div className="timeline-header">
-        <h1 data-aos="fade-up" data-aos-duration="400">
-          <span className="timeline-title-text">TIMELINE</span>
+      <div className="timeline-header mobile-visible">
+        <h1 className="mobile-visible">
+          <span className="timeline-title-text mobile-visible">TIMELINE</span>
         </h1>
       </div>
 
@@ -88,7 +116,7 @@ function Timeline() {
       </div>
 
       {/* Events Display */}
-      <div className="timeline-events-container" data-aos="fade-up" data-aos-delay="50" data-aos-duration="500">
+      <div className="timeline-events-container" data-aos="fade-up" data-aos-delay="30" data-aos-duration="150">
         <div className="timeline-wrapper">
           <div className="timeline-line"></div>
 
@@ -100,9 +128,9 @@ function Timeline() {
                   className={`timeline-event ${index % 2 === 0 ? 'left' : 'right'}`}
                   key={index}
                   data-aos="fade-up"
-                  data-aos-delay={100 + (index * 80)}
-                  data-aos-duration={window.innerWidth <= 768 ? 400 : 700}
-                  data-aos-anchor-placement="top-bottom"
+                  data-aos-delay={50 + (index * 30)}
+                  data-aos-duration="200"
+                  data-aos-anchor-placement="top-center"
                 >
                   <div className="timeline-event-content">
                     <div className="timeline-event-dot"></div>
@@ -117,9 +145,9 @@ function Timeline() {
                   className={`timeline-event ${index % 2 === 0 ? 'left' : 'right'}`}
                   key={index}
                   data-aos="fade-up"
-                  data-aos-delay={100 + (index * 80)}
-                  data-aos-duration={window.innerWidth <= 768 ? 400 : 700}
-                  data-aos-anchor-placement="top-bottom"
+                  data-aos-delay={50 + (index * 30)}
+                  data-aos-duration="200"
+                  data-aos-anchor-placement="top-center"
                 >
                   <div className="timeline-event-content">
                     <div className="timeline-event-dot"></div>

@@ -203,9 +203,34 @@
     padding-bottom: 2rem;
   }
 
+  /* Force timeline header visibility on mobile */
+  .mobile-visible {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+    pointer-events: auto !important;
+    z-index: 100 !important;
+  }
+
   .timeline-header h1 {
     font-size: 2.5rem;
     margin-bottom: 2rem;
+    color: white !important;
+  }
+
+  .timeline-title-text {
+    display: inline-block !important;
+    color: white !important;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3) !important;
+    font-size: 2.5rem !important;
+    font-weight: bold !important;
+    letter-spacing: 3px !important;
+    background: none !important;
+    -webkit-text-fill-color: white !important;
   }
 
   .timeline-tabs button {
