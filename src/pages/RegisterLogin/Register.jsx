@@ -6,6 +6,7 @@ function Register() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     password: '',
     confirmPassword: ''
   });
@@ -28,6 +29,14 @@ function Register() {
     // Basic validation
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
+      setLoading(false);
+      return;
+    }
+
+    // Phone number validation
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      setError('Please enter a valid 10-digit phone number');
       setLoading(false);
       return;
     }
@@ -77,6 +86,20 @@ function Register() {
             onChange={handleChange}
             required
             placeholder="Enter your email"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="phone">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+            placeholder="Enter your phone number"
+            pattern="[0-9]{10}"
+            title="Please enter a valid 10-digit phone number"
           />
         </div>
 
