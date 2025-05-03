@@ -18,3 +18,10 @@
   50% { opacity: 1; }
   100% { opacity: 0.3; }
 }
+
+/* Reduce top padding on mobile to reduce space between timeline and explore */
+@media (max-width: 768px) {
+  .explore.panel {
+    padding-top: 2rem;
+  }
+}

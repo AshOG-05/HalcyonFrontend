@@ -45,13 +45,21 @@ function Timeline() {
   ];
 
   useEffect(() => {
+    // Check if we're on a mobile device
+    const isMobile = window.innerWidth <= 768;
+
     AOS.init({
-      offset: 150,
-      duration: 700,
-      easing: 'ease-out-cubic',
+      offset: isMobile ? 80 : 150,
+      duration: isMobile ? 500 : 700,
+      easing: isMobile ? 'ease-out' : 'ease-out-cubic',
       once: true,
       mirror: false,
       anchorPlacement: 'top-bottom',
+    });
+
+    // Refresh AOS when window is resized
+    window.addEventListener('resize', () => {
+      AOS.refresh();
     });
   }, []);
 
@@ -80,7 +88,7 @@ function Timeline() {
       </div>
 
       {/* Events Display */}
-      <div className="timeline-events-container" data-aos="fade-up" data-aos-delay="150">
+      <div className="timeline-events-container" data-aos="fade-up" data-aos-delay="50" data-aos-duration="500">
         <div className="timeline-wrapper">
           <div className="timeline-line"></div>
 
@@ -91,8 +99,10 @@ function Timeline() {
                 <div
                   className={`timeline-event ${index % 2 === 0 ? 'left' : 'right'}`}
                   key={index}
-                  data-aos={index % 2 === 0 ? "fade-right" : "fade-left"}
-                  data-aos-delay={50 + (index * 30)}
+                  data-aos="fade-up"
+                  data-aos-delay={100 + (index * 80)}
+                  data-aos-duration={window.innerWidth <= 768 ? 400 : 700}
+                  data-aos-anchor-placement="top-bottom"
                 >
                   <div className="timeline-event-content">
                     <div className="timeline-event-dot"></div>
@@ -106,8 +116,10 @@ function Timeline() {
                 <div
                   className={`timeline-event ${index % 2 === 0 ? 'left' : 'right'}`}
                   key={index}
-                  data-aos={index % 2 === 0 ? "fade-right" : "fade-left"}
-                  data-aos-delay={50 + (index * 30)}
+                  data-aos="fade-up"
+                  data-aos-delay={100 + (index * 80)}
+                  data-aos-duration={window.innerWidth <= 768 ? 400 : 700}
+                  data-aos-anchor-placement="top-bottom"
                 >
                   <div className="timeline-event-content">
                     <div className="timeline-event-dot"></div>
