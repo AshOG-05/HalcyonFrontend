@@ -21,7 +21,7 @@ function Banner() {
     }
 
     // Countdown Timer
-    const festDay = new Date("MAY 16, 2025 11:00:00").getTime();
+    const festDay = new Date("MAY 16, 2025 12:00:00").getTime();
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -68,8 +68,8 @@ function Banner() {
       <div className="heading">
         <h1 className="samarkan" style={{fontFamily:'CustomFont'}}>HALCYON</h1>
         <h1 className="samarkan" style={{fontFamily:'CustomFont'}}>2025</h1>
-        <p>Step into the unknown.</p>
-        <p>29th MAY 2025 - 30th MAY 2025</p>
+        <p>Vivdhta ka utsav sanskrithi ka samrajya</p>
+        <p>16th MAY 2025 - 17th MAY 2025</p>
         {!isLoggedIn ? (
           <div className="register-button">
             <a
@@ -92,7 +92,7 @@ function Banner() {
                 MozAppearance: 'none'
               }}
             >
-              Enter !
+              Register !
             </a>
           </div>
         ) : (

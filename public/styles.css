@@ -123,12 +123,12 @@ body {
   text-transform: uppercase;
   margin: 0;
   line-height: 1;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Restored original glow effect */
 }
 
 .banner .heading h1:nth-child(1) {
   color: transparent;
-  -webkit-text-stroke: 2px white;
+  -webkit-text-stroke: 1px white; /* Reduced from 2px to 1px */
 }
 
 .banner .heading p {
@@ -176,24 +176,37 @@ body {
   display: flex;
   justify-content: center;
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 #countdown ul li {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 1rem;
+  justify-content: center;
+  margin: 0 0.8rem;
   font-size: 0.9rem;
   color: white;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 1rem;
+  background: rgba(255, 255, 255, 0.15); /* Slightly more transparent */
+  padding: 1.2rem 0;
   border-radius: 10px;
-  min-width: 80px;
+  width: 100px; /* Fixed width for all boxes */
+  height: 100px; /* Fixed height for all boxes */
   backdrop-filter: blur(5px);
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#countdown ul li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 #countdown ul li div {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
   color: #fff;
@@ -371,26 +384,51 @@ body {
   flex: 1;
   min-width: 200px;
   padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 152, 0, 0.1);
+  border: 1px solid rgba(255, 152, 0, 0.3);
   border-radius: 10px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .feature:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 152, 0, 0.15);
+  box-shadow: 0 10px 25px rgba(255, 152, 0, 0.2);
 }
 
 .feature i {
   font-size: 2.5rem;
-  color: #ff9800;
+  color: gold;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
   margin-bottom: 1rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.feature:hover i {
+  transform: scale(1.1);
 }
 
 .feature h3 {
   font-size: 1.3rem;
   margin-bottom: 0.8rem;
-  color: white;
+  color: gold;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+  position: relative;
+  display: inline-block;
+}
+
+.feature h3::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, gold, transparent);
 }
 
 .feature p {
@@ -2040,6 +2078,23 @@ footer::before {
 
   .banner .heading h1 {
     font-size: 3.5rem;
+  }
+
+  /* Responsive countdown timer */
+  #countdown ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #countdown ul li {
+    width: 80px;
+    height: 80px;
+    margin: 0.5rem;
+    padding: 0.8rem 0;
+  }
+
+  #countdown ul li div {
+    font-size: 1.8rem;
   }
 
   .timeline-container {

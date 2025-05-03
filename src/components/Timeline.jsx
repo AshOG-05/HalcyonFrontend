@@ -1,240 +1,127 @@
 import React, { useEffect, useState } from 'react';
-import TimelineCard from './TimelineCard';
-import TimelineCardMobile from './TimelineCardMobile';
-import EventModal from './EventModal';
-import { API_URL, FESTIVAL_DAYS, EVENT_CATEGORIES } from '../config';
-import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './Timeline.css';
 
 function Timeline() {
   const [activeDay, setActiveDay] = useState(1);
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [selectedEventId, setSelectedEventId] = useState(null);
 
-  // Fetch events from the backend
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await fetch(`${API_URL}/event/`);
+  // Day 1 and Day 2 events from the image
+  const day1Events = [
+    "Inauguration",
+    "Face painting",
+    "Classical and Folk Dance",
+    "NFS",
+    "Classical Vocal Solo",
+    "Creative Writing",
+    "BGMI",
+    "20Q (Prelims)",
+    "Battle of Bands",
+    "Western Solo Dance",
+    "Duet Dance",
+    "Quiz (Prelims)",
+    "Street Play",
+    "20Q (Finals)",
+    "Quiz (Finals)",
+    "Collage",
+    "Indian Ethnic Show",
+    "Choreography"
+  ];
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch events');
-        }
-
-        const data = await response.json();
-
-        // Group events by festival day (1 or 2)
-        const groupedEvents = data.reduce((acc, event) => {
-          const eventDate = new Date(event.date);
-          // Use the day field from the event, or default to 1
-          const festivalDay = event.day || 1;
-          // Use the category field from the event, or default to 'other'
-          const category = event.category || 'other';
-
-          // Format the time
-          const formattedTime = eventDate.toLocaleTimeString('en-US', {
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true
-          });
-
-          // Create a formatted event object
-          const formattedEvent = {
-            id: event._id,
-            title: event.name,
-            time: formattedTime,
-            date: eventDate,
-            day: festivalDay,
-            category: category
-          };
-
-          // Add to the appropriate day
-          if (!acc[festivalDay]) {
-            acc[festivalDay] = [];
-          }
-          acc[festivalDay].push(formattedEvent);
-
-          return acc;
-        }, {});
-
-        console.log('Fetched events:', data);
-        console.log('Grouped events:', groupedEvents);
-        setEvents(groupedEvents);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
-  }, []);
-
-  // Get categories for the active day
-  const getCategoriesForActiveDay = () => {
-    if (loading || error || !events || Object.keys(events).length === 0) {
-      console.log('Using empty array for categories due to loading/error/empty state');
-      return [];
-    }
-
-    // Get events for the active day
-    const dayEvents = events[activeDay] || [];
-
-    // Group events by category
-    const categoriesMap = dayEvents.reduce((acc, event) => {
-      const category = event.category || 'other';
-      if (!acc[category]) {
-        // Find the category info from EVENT_CATEGORIES
-        const categoryInfo = EVENT_CATEGORIES.find(cat => cat.id === category) || {
-          id: category,
-          label: category.charAt(0).toUpperCase() + category.slice(1),
-          icon: 'fas fa-star'
-        };
-
-        acc[category] = {
-          id: category,
-          title: categoryInfo.label,
-          icon: categoryInfo.icon,
-          events: [],
-          time: '0 events'
-        };
-      }
-
-      acc[category].events.push(event);
-      acc[category].time = `${acc[category].events.length} event${acc[category].events.length !== 1 ? 's' : ''}`;
-
-      return acc;
-    }, {});
-
-    // Convert to array
-    return Object.values(categoriesMap);
-  };
-
-  // Fallback categories in case API fails
-  const getFallbackCategories = () => {
-    console.log('Using fallback categories for day', activeDay);
-    if (activeDay === 1) {
-      return [
-        { id: 'dance', title: "Dance", icon: "fas fa-music", time: "2 events" },
-        { id: 'music', title: "Music", icon: "fas fa-guitar", time: "3 events" },
-        { id: 'gaming', title: "Gaming", icon: "fas fa-gamepad", time: "1 event" }
-      ];
-    } else {
-      // Fallback categories for Day 2
-      return [
-        { id: 'theatre', title: "Theatre", icon: "fas fa-theater-masks", time: "1 event" },
-        { id: 'literary', title: "Literary", icon: "fas fa-book", time: "2 events" }
-      ];
-    }
-  };
-
-  const handleCategoryClick = (categoryId) => {
-    console.log('Category clicked with ID:', categoryId);
-    // Navigate to category page
-    window.location.href = `/category/${categoryId}`;
-  };
-
-  const closeEventModal = () => {
-    setSelectedEventId(null);
-  };
+  const day2Events = [
+    "Mime",
+    "Skit",
+    "Spell Bee",
+    "Ludo King",
+    "Jam (Prelims)",
+    "Indo western vocal solo",
+    "Valorant",
+    "Sketching",
+    "Duet Singing",
+    "Blind fold Texting",
+    "Creative Photography",
+    "JAM (Finals)",
+    "Valedictory Function Musical Night"
+  ];
 
   useEffect(() => {
     AOS.init({
       offset: 300,
       duration: 1500,
-      once: true, // Prevents animation on scroll down only
+      once: true,
     });
   }, []);
 
   return (
     <div className="panel timeline" id="timeline_anchor">
       <div className="timeline-header">
-        <h1>
-          <span data-aos="fade-right">TIME</span>
-          <span data-aos="fade-left">LINE</span>
+        <h1 data-aos="fade-up" data-aos-duration="800">
+          <span className="timeline-title-text">TIMELINE</span>
         </h1>
-      </div>
-      <div className="timeline-header-mob">
-        <h1>TIMELINE</h1>
       </div>
 
       {/* Day selector tabs */}
-      <div className="timeline-tabs">
-        {FESTIVAL_DAYS.map((day) => (
-          <button
-            key={day.id}
-            className={activeDay === day.id ? 'active' : ''}
-            onClick={() => setActiveDay(day.id)}
-          >
-            <span className="day-number">{String(day.id).padStart(2, '0')}</span>
-            <span className="day-text">{day.label}</span>
-          </button>
-        ))}
+      <div className="timeline-tabs" data-aos="fade-up" data-aos-delay="200">
+        <button
+          className={activeDay === 1 ? 'active' : ''}
+          onClick={() => setActiveDay(1)}
+          data-aos="zoom-in"
+          data-aos-delay="300"
+        >
+          <span className="day-number">01</span>
+          <span className="day-text">Day 1</span>
+        </button>
+        <button
+          className={activeDay === 2 ? 'active' : ''}
+          onClick={() => setActiveDay(2)}
+          data-aos="zoom-in"
+          data-aos-delay="400"
+        >
+          <span className="day-number">02</span>
+          <span className="day-text">Day 2</span>
+        </button>
       </div>
 
       {/* Timeline visualization */}
-      <div className="timeline-progress" style={{ margin: '3rem auto 5rem', width: '100%', display: 'flex', justifyContent: 'center' }}>
-        <div className="timeline-track" style={{ position: 'relative', width: '80%', maxWidth: '600px', height: '4px', backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: '2px' }}>
+      <div className="timeline-progress" data-aos="fade-up" data-aos-delay="500">
+        <div className="timeline-track" data-aos="width" data-aos-delay="600">
           <div
             className="timeline-progress-bar"
             style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              height: '100%',
-              width: `${(activeDay / FESTIVAL_DAYS.length) * 100}%`,
-              backgroundColor: '#ff9800',
-              borderRadius: '2px',
-              transition: 'width 0.5s ease'
+              width: `${(activeDay / 2) * 100}%`,
             }}
           ></div>
 
           {/* Day nodes */}
-          {FESTIVAL_DAYS.map((day, index) => {
-            const leftPosition = ((index + 1) / (FESTIVAL_DAYS.length + 1)) * 100;
+          {[1, 2].map((day, index) => {
+            const leftPosition = ((index + 1) / 3) * 100;
             return (
-              <React.Fragment key={day.id}>
+              <React.Fragment key={day}>
                 {/* Node */}
                 <div
-                  className={`timeline-node ${activeDay >= day.id ? 'active' : ''}`}
-                  onClick={() => setActiveDay(day.id)}
+                  className={`timeline-node ${activeDay >= day ? 'active' : ''}`}
+                  onClick={() => setActiveDay(day)}
                   style={{
-                    position: 'absolute',
-                    top: '50%',
                     left: `${leftPosition}%`,
-                    transform: 'translate(-50%, -50%)',
-                    width: '20px',
-                    height: '20px',
-                    borderRadius: '50%',
-                    backgroundColor: activeDay >= day.id ? '#ff9800' : 'rgba(255, 255, 255, 0.3)',
-                    border: '2px solid #ff9800',
-                    cursor: 'pointer',
-                    zIndex: 2,
-                    transition: 'all 0.3s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
                   }}
+                  data-aos="zoom-in"
+                  data-aos-delay={700 + (day * 100)}
                 >
-                  <span style={{ color: '#fff', fontSize: '12px', fontWeight: 'bold' }}>{day.id}</span>
+                  <span>{day}</span>
                 </div>
 
                 {/* Label */}
-                <div style={{
-                  position: 'absolute',
-                  top: '150%',
-                  left: `${leftPosition}%`,
-                  transform: 'translateX(-50%)',
-                  color: activeDay === day.id ? '#ff9800' : '#fff',
-                  fontSize: '14px',
-                  fontWeight: activeDay === day.id ? 'bold' : 'normal',
-                  transition: 'all 0.3s ease'
-                }}>
-                  {day.label}
+                <div
+                  className="timeline-node-label"
+                  style={{
+                    left: `${leftPosition}%`,
+                    color: activeDay === day ? '#ff9800' : '#fff',
+                    fontWeight: activeDay === day ? 'bold' : 'normal',
+                  }}
+                  data-aos="fade-up"
+                  data-aos-delay={800 + (day * 100)}
+                >
+                  Day {day}
                 </div>
               </React.Fragment>
             );
@@ -242,30 +129,90 @@ function Timeline() {
         </div>
       </div>
 
-      {/* Category filters removed */}
+      {/* Events Display */}
+      <div className="timeline-events-container" data-aos="fade-up">
+        <div className="timeline-split-container">
+          {/* Left Column */}
+          <div className="timeline-split-column">
+            <div className="timeline-events-list">
+              {activeDay === 1 ?
+                // For Day 1, show odd-indexed events (0, 2, 4, etc.)
+                day1Events.filter((_, index) => index % 2 === 0).map((event, index) => (
+                  <div
+                    className="timeline-event-item"
+                    key={index}
+                    style={{
+                      marginTop: index === 0 ? '0' : '2.5rem',
+                      marginBottom: '2.5rem'
+                    }}
+                    data-aos="fade-right"
+                    data-aos-delay={1000 + (index * 100)}
+                  >
+                    {event}
+                  </div>
+                ))
+                :
+                // For Day 2, show odd-indexed events
+                day2Events.filter((_, index) => index % 2 === 0).map((event, index) => (
+                  <div
+                    className="timeline-event-item"
+                    key={index}
+                    style={{
+                      marginTop: index === 0 ? '0' : '2.5rem',
+                      marginBottom: '2.5rem'
+                    }}
+                    data-aos="fade-right"
+                    data-aos-delay={1000 + (index * 100)}
+                  >
+                    {event}
+                  </div>
+                ))
+              }
+            </div>
+          </div>
 
-      {/* Desktop view */}
-      <div className="timeline-container desktop-view">
-        <TimelineCard
-          day={FESTIVAL_DAYS[activeDay - 1].label}
-          description={FESTIVAL_DAYS[activeDay - 1].description}
-          categories={error || getCategoriesForActiveDay().length === 0 ? getFallbackCategories() : getCategoriesForActiveDay()}
-          cardClass={`day${activeDay}-card`}
-          animation="fade-up"
-          onCategoryClick={handleCategoryClick}
-          loading={loading}
-        />
-      </div>
+          {/* Center Divider */}
+          <div className="timeline-divider"></div>
 
-      {/* No Event Modal needed as we're navigating to category pages */}
-
-      {/* Mobile view */}
-      <div className="timeline-container mobile-view">
-        <TimelineCardMobile
-          categories={error || getCategoriesForActiveDay().length === 0 ? getFallbackCategories() : getCategoriesForActiveDay()}
-          onCategoryClick={handleCategoryClick}
-          loading={loading}
-        />
+          {/* Right Column */}
+          <div className="timeline-split-column">
+            <div className="timeline-events-list">
+              {activeDay === 1 ?
+                // For Day 1, show even-indexed events (1, 3, 5, etc.)
+                day1Events.filter((_, index) => index % 2 === 1).map((event, index) => (
+                  <div
+                    className="timeline-event-item"
+                    key={index}
+                    style={{
+                      marginTop: index === 0 ? '1.25rem' : '2.5rem',
+                      marginBottom: '2.5rem'
+                    }}
+                    data-aos="fade-left"
+                    data-aos-delay={1100 + (index * 100)}
+                  >
+                    {event}
+                  </div>
+                ))
+                :
+                // For Day 2, show even-indexed events
+                day2Events.filter((_, index) => index % 2 === 1).map((event, index) => (
+                  <div
+                    className="timeline-event-item"
+                    key={index}
+                    style={{
+                      marginTop: index === 0 ? '1.25rem' : '2.5rem',
+                      marginBottom: '2.5rem'
+                    }}
+                    data-aos="fade-left"
+                    data-aos-delay={1100 + (index * 100)}
+                  >
+                    {event}
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

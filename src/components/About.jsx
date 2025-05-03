@@ -77,20 +77,20 @@ function About() {
           <Marquee />
 
           <div className="about-features">
-            <div className="feature">
+            <div className="feature" data-aos="fade-up" data-aos-delay="100">
               <i className="fas fa-calendar-alt"></i>
               <h3>2 Days of Fun</h3>
               <p>Experience two ecstatic days filled with competitions, performances, and memories.</p>
             </div>
-            <div className="feature">
+            <div className="feature" data-aos="fade-up" data-aos-delay="200">
               <i className="fas fa-music"></i>
               <h3>Amazing Pronites</h3>
               <p>Enjoy electrifying performances by renowned artists and bands.</p>
             </div>
-            <div className="feature">
-              <i className="fas fa-trophy"></i>
-              <h3>Exciting Events</h3>
-              <p>Participate in a wide range of events and showcase your talents.</p>
+            <div className="feature" data-aos="fade-up" data-aos-delay="300">
+              <i className="fas fa-rupee-sign"></i>
+              <h3>₹2.26 Lakh Prize Pool</h3>
+              <p>Win big from our massive prize pool across all competitions.</p>
             </div>
           </div>
           <p className="about-cta">

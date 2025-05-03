@@ -62,4 +62,18 @@
 
 .samarkan{
   font-family: 'CustomFont';
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5) !important; /* Restored original glow effect */
+  letter-spacing: 2px; /* Added spacing for better readability */
+}
+
+/* Override for the first heading (HALCYON) */
+.banner .heading h1:nth-child(1).samarkan {
+  -webkit-text-stroke: 1px white !important; /* Thinner stroke */
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.6) !important; /* Enhanced glow for HALCYON */
+}
+
+/* Override for the second heading (2025) */
+.banner .heading h1:nth-child(2).samarkan {
+  -webkit-text-stroke: 0.5px white !important; /* Even thinner stroke for 2025 */
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.5) !important; /* Slightly less glow for 2025 */
 }
