@@ -148,6 +148,7 @@
   border-radius: 5px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
   transition: all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+  width: 100%;
 }
 
 .timeline-event-content:hover {
@@ -197,6 +198,11 @@
 
 /* Responsive styles */
 @media (max-width: 768px) {
+  /* Reduce space between timeline and explore section on mobile */
+  .panel.timeline {
+    padding-bottom: 2rem;
+  }
+
   .timeline-header h1 {
     font-size: 2.5rem;
     margin-bottom: 2rem;
@@ -207,34 +213,83 @@
     font-size: 1rem;
   }
 
+  /* Remove the timeline line on mobile */
   .timeline-line {
-    left: 30px;
+    display: none;
   }
 
+  /* Make all events perfectly aligned in a straight line */
   .timeline-event {
     width: 100%;
-    left: 0;
-    margin-bottom: 20px;
+    left: 0 !important;
+    margin: 0 auto 12px;
+    padding: 0;
+    position: relative;
   }
 
+  /* Add more space at the bottom of the timeline container */
+  .timeline-events-container {
+    padding-bottom: 20px;
+  }
+
+  /* Remove staggered effect - ensure perfect alignment in a straight line */
   .timeline-event.left,
   .timeline-event.right {
-    padding-left: 60px;
-    padding-right: 0;
-    text-align: left;
+    padding: 0;
+    text-align: center;
+    left: 0 !important;
+    width: 100%;
   }
 
-  .timeline-event.left .timeline-event-dot,
-  .timeline-event.right .timeline-event-dot {
-    left: 22px;
-    right: auto;
+  /* Remove the dots/bullets */
+  .timeline-event-dot {
+    display: none;
   }
 
+  /* Center the content in a straight line */
+  .timeline-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  /* Style the event cards for mobile - perfectly aligned in a straight line */
   .timeline-event-content {
     padding: 12px 15px;
+    width: 100%;
+    margin: 0;
+    background: rgba(255, 152, 0, 0.08);
+    border: 1px solid rgba(255, 152, 0, 0.2);
+    box-sizing: border-box;
   }
 
   .timeline-event-title {
     font-size: 1rem;
+    text-align: center;
+  }
+
+  /* Adjust hover effect for mobile */
+  .timeline-event-content:hover {
+    transform: translateY(-3px);
+    scale: 1;
+  }
+
+  /* Add smooth sequential animation for mobile */
+  @keyframes mobileSequentialFade {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Apply the animation to timeline events on mobile */
+  .timeline-event {
+    animation-fill-mode: both;
   }
 }

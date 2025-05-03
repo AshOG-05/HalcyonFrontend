@@ -6,7 +6,7 @@ function Register() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    mobile: '',
+    phone: '',
     password: '',
     confirmPassword: ''
   });
@@ -35,7 +35,7 @@ function Register() {
 
     // Phone number validation
     const phoneRegex = /^[0-9]{10}$/;
-    if (!phoneRegex.test(formData.mobile)) {
+    if (!phoneRegex.test(formData.phone)) {
       setError('Please enter a valid 10-digit phone number');
       setLoading(false);
       return;
@@ -92,9 +92,9 @@ function Register() {
           <label htmlFor="phone">Phone Number</label>
           <input
             type="tel"
-            id="mobile"
-            name="mobile"
-            value={formData.mobile}
+            id="phone"
+            name="phone"
+            value={formData.phone}
             onChange={handleChange}
             required
             placeholder="Enter your phone number"
