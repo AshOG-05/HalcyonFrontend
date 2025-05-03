@@ -48,6 +48,14 @@
   }
 }
 
+/* Hide preloader on mobile devices */
+@media (max-width: 768px) {
+  .loader-bg,
+  .loader {
+    display: none !important;
+  }
+}
+
 /* Ensure the well container is properly styled */
 .well {
   position: relative;

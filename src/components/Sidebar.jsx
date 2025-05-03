@@ -6,6 +6,7 @@ function Sidebar() {
   const sidebarRef = useRef(null);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   // Minimum swipe distance (in px) to trigger sidebar close
   const minSwipeDistance = 50;
@@ -56,6 +57,18 @@ function Sidebar() {
     }
   }, [sidebarOpen, touchStart, touchEnd, handleTouchStart, handleTouchMove, handleTouchEnd]);
 
+  // Add resize event listener to update isMobile state
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
 
 
   return (
@@ -89,7 +102,10 @@ function Sidebar() {
         <label htmlFor="check" style={{ background: 'none', boxShadow: 'none' }}>
           <i className="fas fa-bars" id="btn" style={{ background: 'none', boxShadow: 'none' }}></i>
         </label>
-        <div className="sidebar" ref={sidebarRef}>
+        <div
+          className="sidebar"
+          ref={sidebarRef}
+          style={isMobile ? { width: '70%', maxWidth: '70%' } : {}}>
           <div className="sidebar-header">
             <header>Explore</header>
             <button
@@ -100,6 +116,7 @@ function Sidebar() {
               <i className="fas fa-times"></i>
             </button>
           </div>
+          <div className="sidebar-content">
           <a title="Homepage" href="#top" className="active" onClick={closeSidebar}>
             <i className="fas fa-rocket"></i>
             <span>Homepage</span>
@@ -137,6 +154,7 @@ function Sidebar() {
             <i className="fas fa-question"></i>
             <span>FAQ's</span>
           </a>
+          </div>
         </div>
       </div>
     </>

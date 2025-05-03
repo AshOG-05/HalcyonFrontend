@@ -11,20 +11,24 @@ import Explore from './components/Explore'
 import './App.css'
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  // Initialize loading state based on device type
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  const [loading, setLoading] = useState(!isMobile); // Start with loading=false on mobile
 
   useEffect(() => {
-    // Preloader
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2500);
-
-    return () => clearTimeout(timer);
-  }, []);
+    // Only set up the timer for desktop devices
+    if (!isMobile) {
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 2500);
+      return () => clearTimeout(timer);
+    }
+    // No timer needed for mobile - already set to false
+  }, [isMobile]);
 
   return (
     <>
-      {loading && (
+      {loading && !isMobile && (
         <div className="loader-bg">
           <div className="loader">
             <img src="/assets/preloader.webp" alt="Preloader" />
