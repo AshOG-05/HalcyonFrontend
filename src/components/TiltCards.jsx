@@ -12,20 +12,42 @@ function TiltCards() {
     // Initialize tilt effect after script loads
     script.onload = () => {
       if (window.VanillaTilt) {
+        // Apply tilt effect on all devices with adjusted settings for mobile
+        const isMobile = window.innerWidth <= 768;
+
         window.VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
-          max: 15,
-          speed: 2000,
+          max: isMobile ? 10 : 15,
+          speed: isMobile ? 1000 : 2000,
           glare: true,
-          "max-glare": 0.3,
+          "max-glare": isMobile ? 0.2 : 0.3,
+          scale: isMobile ? 1.05 : 1.1,
         });
       }
     };
 
+    // Handle window resize for responsive behavior
+    const handleResize = () => {
+      if (window.VanillaTilt) {
+        // Destroy and reinitialize tilt effect with appropriate settings
+        window.VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+          max: window.innerWidth <= 768 ? 10 : 15,
+          speed: window.innerWidth <= 768 ? 1000 : 2000,
+          glare: true,
+          "max-glare": window.innerWidth <= 768 ? 0.2 : 0.3,
+          scale: window.innerWidth <= 768 ? 1.05 : 1.1,
+          reset: true,
+        });
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
     return () => {
-      // Clean up script when component unmounts
+      // Clean up script and event listeners when component unmounts
       if (script.parentNode) {
         script.parentNode.removeChild(script);
       }
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
