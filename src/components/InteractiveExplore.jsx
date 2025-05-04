@@ -1,7 +1,75 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function InteractiveExplore() {
   const [activeId, setActiveId] = useState(1);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile and handle scroll events
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Initial check
+    checkMobile();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', checkMobile);
+
+    // Handle scroll for mobile view
+    const handleScroll = () => {
+      if (window.innerWidth <= 768) {
+        const cardsSection = document.querySelector('.flex-cards-section');
+        if (!cardsSection) return;
+
+        const cards = Array.from(cardsSection.querySelectorAll('.flex-card-container'));
+        if (!cards.length) return;
+
+        // Get the position of each card relative to the viewport
+        const cardPositions = cards.map(card => {
+          const rect = card.getBoundingClientRect();
+          return {
+            id: parseInt(card.getAttribute('data-id')),
+            top: rect.top,
+            bottom: rect.bottom,
+            height: rect.height
+          };
+        });
+
+        // Find the card that is most visible in the viewport
+        const viewportHeight = window.innerHeight;
+        const viewportCenter = viewportHeight / 2;
+
+        let closestCard = null;
+        let closestDistance = Infinity;
+
+        cardPositions.forEach(card => {
+          const cardCenter = (card.top + card.bottom) / 2;
+          const distance = Math.abs(cardCenter - viewportCenter);
+
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestCard = card;
+          }
+        });
+
+        if (closestCard && closestCard.id !== activeId) {
+          setActiveId(closestCard.id);
+        }
+      }
+    };
+
+    // Add scroll event listener for mobile
+    if (window.innerWidth <= 768) {
+      window.addEventListener('scroll', handleScroll);
+    }
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [activeId]);
 
   const itemList = [
     {
@@ -44,11 +112,13 @@ function InteractiveExplore() {
         {itemList.map((item) => (
           <article
             key={item.id}
+            data-id={item.id}
             className={`flex-card-container ${activeId === item.id ? 'active' : ''}`}
             style={{
               backgroundImage: `url(${item.image})`,
+              ...(isMobile && activeId === item.id ? { height: '15rem' } : {})
             }}
-            onMouseEnter={() => setActiveId(item.id)}
+            onMouseEnter={() => !isMobile && setActiveId(item.id)}
             onClick={() => setActiveId(item.id)}
           >
             <div className="card-overlay">
