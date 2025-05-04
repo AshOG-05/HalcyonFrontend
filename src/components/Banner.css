@@ -77,3 +77,158 @@
   -webkit-text-stroke: 0.5px white !important; /* Even thinner stroke for 2025 */
   text-shadow: 0 0 12px rgba(255, 255, 255, 0.5) !important; /* Slightly less glow for 2025 */
 }
+
+/* Countdown Timer Styles */
+#countdown {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+#countdown ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+#countdown ul li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem;
+  font-size: 0.9rem;
+  color: white;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 1rem 0;
+  border-radius: 10px;
+  width: 100px;
+  height: 100px;
+  backdrop-filter: blur(5px);
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#countdown ul li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#countdown ul li div {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #fff;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive styles for countdown timer */
+@media (max-width: 992px) {
+  #countdown ul li {
+    width: 90px;
+    height: 90px;
+    margin: 0.4rem;
+  }
+
+  #countdown ul li div {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  #countdown ul {
+    justify-content: center;
+  }
+
+  #countdown ul li {
+    width: 80px;
+    height: 80px;
+    margin: 0.3rem;
+    padding: 0.7rem 0;
+  }
+
+  #countdown ul li div {
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #countdown {
+    margin-top: 1.5rem;
+  }
+
+  #countdown ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 5px;
+  }
+
+  #countdown ul li {
+    width: 70px;
+    height: 70px;
+    margin: 0 0.3rem;
+    padding: 0.4rem 0;
+    font-size: 0.75rem;
+  }
+
+  #countdown ul li div {
+    font-size: 1.6rem;
+    margin-bottom: 0.2rem;
+  }
+}
+
+@media (max-width: 375px) {
+  #countdown ul li {
+    width: 65px;
+    height: 65px;
+    margin: 0 0.25rem;
+    font-size: 0.7rem;
+  }
+
+  #countdown ul li div {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 320px) {
+  #countdown ul {
+    padding: 0 2px;
+  }
+
+  #countdown ul li {
+    width: 55px;
+    height: 60px;
+    margin: 0 0.2rem;
+    padding: 0.3rem 0;
+    font-size: 0.65rem;
+  }
+
+  #countdown ul li div {
+    font-size: 1.3rem;
+    margin-bottom: 0.1rem;
+  }
+}
+
+/* Additional responsive styles for the countdown timer */
+.responsive-countdown {
+  width: 100%;
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+.responsive-countdown ul {
+  flex-wrap: nowrap !important;
+  display: flex !important;
+  flex-direction: row !important;
+  white-space: nowrap;
+  width: 100%;
+  justify-content: center !important;
+}
