@@ -1,4 +1,4 @@
-// Added by Abhishek for testing PR 
+// Added by Abhishek for testing PR
 import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
@@ -55,7 +55,7 @@ function Banner() {
       </style>
       <Navbar />
       <Sidebar />
-      <video src="/assets/background.mp4" loop muted autoPlay style={{
+      <video src="/assets/background_hal.mp4" loop muted autoPlay style={{
         position: 'absolute',
         top: 0,
         left: 0,
