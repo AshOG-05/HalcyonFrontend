@@ -21,7 +21,7 @@ function App() {
     if (!isMobile) {
       const timer = setTimeout(() => {
         setLoading(false);
-      }, 2500);
+      }, 5000); // Increased from 2500ms to 5000ms for better visibility
       return () => clearTimeout(timer);
     }
     // No timer needed for mobile - already set to false
@@ -30,10 +30,43 @@ function App() {
   return (
     <>
       {loading && !isMobile && (
-        <div className="loader-bg">
-          <div className="loader">
-            <img src="/assets/preloader.webp" alt="Preloader" />
-          </div>
+        <div
+          style={{
+            position: 'fixed',
+            zIndex: 99999,
+            background: '#000000',
+            height: '100vh',
+            width: '100vw',
+            top: 0,
+            left: 0,
+            display: 'grid',
+            placeItems: 'center' // CSS Grid's simplest centering technique
+          }}
+        >
+          <img
+            src="/assets/final LOGO.png"
+            alt="Preloader"
+            style={{
+              height: '25vh',
+              objectFit: 'contain',
+              animation: 'glow 3s ease-in-out infinite'
+            }}
+          />
+          <style>
+            {`
+              @keyframes glow {
+                0% {
+                  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+                }
+                50% {
+                  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+                }
+                100% {
+                  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+                }
+              }
+            `}
+          </style>
         </div>
       )}
       <div className="well" id="well">
