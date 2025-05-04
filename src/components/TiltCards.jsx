@@ -55,17 +55,17 @@ function TiltCards() {
     {
       id: 1,
       title: "DJ NIGHT",
-      image: "/assets/DomainImages/music2-removebg-preview.png",
+      image: "/assets/dj.jpg",
     },
     {
       id: 2,
       title: "CHOREOGRAPHY",
-      image: "/assets/DomainImages/dance2-removebg-preview.png",
+      image: "/assets/choreography.jpg",
     },
     {
       id: 3,
       title: "ETHNIC SHOW",
-      image: "/assets/DomainImages/theatre2-removebg-preview.png",
+      image: "/assets/ethnic.jpg",
     },
   ];
 
@@ -81,8 +81,11 @@ function TiltCards() {
                 <div className="tilt-card-inner">
                   <span className="tilt-card-label">{event.title}</span>
                   <div
-                    className="tilt-card-image"
-                    style={{ backgroundImage: `url(${event.image})` }}
+                    className={`tilt-card-image ${event.title === "ETHNIC SHOW" ? "ethnic-show-image" : ""}`}
+                    style={{
+                      backgroundImage: `url(${event.image})`,
+                      ...(event.title === "ETHNIC SHOW" ? { backgroundPosition: 'center bottom' } : {})
+                    }}
                   ></div>
                   {event.title === "DJ NIGHT" && (
                     <a href="/events/music" className="tilt-card-link">
