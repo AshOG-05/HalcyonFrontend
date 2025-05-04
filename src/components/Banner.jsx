@@ -55,7 +55,7 @@ function Banner() {
       </style>
       <Navbar />
       <Sidebar />
-      <video src="/assets/background_hal.mp4" loop muted autoPlay style={{
+      <video src="/assets/background_halcyon.mp4" loop muted autoPlay style={{
         position: 'absolute',
         top: 0,
         left: 0,
