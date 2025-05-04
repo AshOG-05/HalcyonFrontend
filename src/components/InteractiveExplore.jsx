@@ -7,32 +7,32 @@ function InteractiveExplore() {
     {
       id: 1,
       title: "Dance",
-      image: "/assets/astro-guitar.webp",
+      image: "/assets/DomainImages/dance1-removebg-preview.png",
     },
     {
       id: 2,
       title: "Music",
-      image: "/assets/blue-space.webp",
+      image: "/assets/DomainImages/music-removebg-preview.png",
     },
     {
       id: 3,
       title: "Gaming",
-      image: "/assets/goodies-space.webp",
+      image: "/assets/DomainImages/gam-removebg-preview.png",
     },
     {
       id: 4,
       title: "Theatre",
-      image: "/assets/gradient.webp",
+      image: "/assets/DomainImages/theatre3-removebg-preview.png",
     },
     {
       id: 5,
       title: "Fine Arts",
-      image: "/assets/bg_astronaut.webp",
+      image: "/assets/DomainImages/finearts-removebg-preview.png",
     },
     {
       id: 6,
       title: "Literary",
-      image: "/assets/circular.png",
+      image: "/assets/DomainImages/literary-removebg-preview.png",
     },
   ];
 

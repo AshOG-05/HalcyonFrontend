@@ -96,8 +96,10 @@
 .tilt-card-image {
   width: 100%;
   height: 100%;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
+  background-repeat: no-repeat;
+  background-color: #1a1a1a;
   transition: transform 0.5s ease;
   filter: brightness(0.9) contrast(1.1);
 }
@@ -186,6 +188,11 @@
     flex: 0 0 280px;
     margin: 0 auto 2rem;
   }
+
+  .tilt-card-image {
+    background-size: contain;
+    background-position: center;
+  }
 }
 
 @media (max-width: 480px) {
@@ -208,5 +215,10 @@
 
   .tilt-card-animation {
     animation: float 6s ease-in-out infinite;
+  }
+
+  .tilt-card-image {
+    background-size: contain;
+    background-position: center;
   }
 }
