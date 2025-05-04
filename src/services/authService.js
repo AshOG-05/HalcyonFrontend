@@ -1,5 +1,6 @@
 // Authentication service for handling API requests
-import { API_URL, APP_CONFIG } from '../config';
+import { APP_CONFIG } from '../config';
+import { corsProtectedFetch } from '../utils/corsHelper';
 
 // Helper function for making API requests
 const apiRequest = async (url, method, data = null) => {
@@ -14,14 +15,40 @@ const apiRequest = async (url, method, data = null) => {
     options.body = JSON.stringify(data);
   }
 
-  const response = await fetch(`${API_URL}${url}`, options);
-  const responseData = await response.json();
+  try {
+    // Use the corsProtectedFetch utility to handle CORS issues
+    // Remove the leading slash from the URL if it exists
+    const endpoint = url.startsWith('/') ? url.substring(1) : url;
+    console.log(`Making API request to ${endpoint} with method ${method}`);
+    if (data) {
+      console.log('Request data:', data);
+    }
 
-  if (!response.ok) {
-    throw new Error(responseData.error || responseData.message || 'An error occurred');
+    const response = await corsProtectedFetch(endpoint, options);
+
+    // Try to parse the JSON response
+    let responseData;
+    try {
+      responseData = await response.json();
+    } catch (jsonError) {
+      console.error('Failed to parse JSON response:', jsonError);
+      throw new Error(`Failed to parse server response: ${jsonError.message}`);
+    }
+
+    // Log the response for debugging
+    console.log(`Response status: ${response.status}`, responseData);
+
+    if (!response.ok) {
+      const errorMessage = responseData.error || responseData.message || `Server returned ${response.status}`;
+      console.error('API error:', errorMessage);
+      throw new Error(errorMessage);
+    }
+
+    return responseData;
+  } catch (error) {
+    console.error('API request failed:', error);
+    throw error;
   }
-
-  return responseData;
 };
 
 // Login user

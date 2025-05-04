@@ -26,13 +26,11 @@ export const corsProtectedFetch = async (endpoint, options = {}) => {
       }
     });
 
-    if (response.ok) {
-      return response;
-    }
-
-    throw new Error('Default fetch failed');
+    // Even if the response is not ok (e.g., 400, 500), we still want to return it
+    // so the caller can handle the error appropriately
+    return response;
   } catch (error) {
-    console.log('First attempt failed, trying with alternative approach...');
+    console.log('First attempt failed, trying with alternative approach...', error);
 
     // Try a second approach with no-cors mode
     try {
@@ -56,8 +54,9 @@ export const corsProtectedFetch = async (endpoint, options = {}) => {
       console.error('No-cors approach failed:', noCorsError);
     }
 
-    // If all else fails, throw the original error
-    throw error;
+    // If all else fails, throw the original error with more context
+    console.error('All fetch attempts failed:', error);
+    throw new Error(`Failed to fetch from ${ORIGINAL_API_URL}/${endpoint}: ${error.message}`);
   }
 };
 
