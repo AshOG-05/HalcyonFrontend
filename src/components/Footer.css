@@ -69,6 +69,7 @@
 
 .contact-info {
   color: #ccc;
+  white-space: nowrap;
 }
 
 /* Links removed */
@@ -140,13 +141,41 @@
   }
 
   .contact-list li {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
     margin-bottom: 1.2rem;
+    flex-wrap: wrap;
   }
 
   .contact-name {
-    margin-right: 0;
-    margin-bottom: 0.3rem;
+    margin-right: 0.3rem;
     min-width: auto;
+    display: inline-block;
+  }
+
+  .contact-info {
+    display: inline-block;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-title {
+    font-size: 1.8rem;
+  }
+
+  .footer-section-title {
+    font-size: 1.3rem;
+  }
+
+  .contact-list li {
+    font-size: 0.9rem;
+  }
+
+  .socials li {
+    margin: 0 0.8rem;
+  }
+
+  .socials li a {
+    font-size: 1.3rem;
   }
 }
