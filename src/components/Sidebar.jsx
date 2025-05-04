@@ -129,7 +129,7 @@ function Sidebar() {
             <i className="fas fa-calendar-alt"></i>
             <span>Timeline</span>
           </a>
-          <a title="Explore" href="#explore_anchor" onClick={closeSidebar}>
+          <a title="Events" href="#explore_anchor" onClick={closeSidebar}>
             <i className="fas fa-compass"></i>
             <span>Explore</span>
           </a>
@@ -150,7 +150,7 @@ function Sidebar() {
             <span>Sign-in</span>
           </a>
 
-          <a title="FAQ" href="./faqpage" onClick={closeSidebar}>
+          <a title="How to Reach Us" href="#reach_us" onClick={closeSidebar}>
             <i className="fas fa-question"></i>
             <span>FAQ's</span>
           </a>
