@@ -1,7 +1,9 @@
 // Configuration settings for the application
 
 // API URL - pointing to the hosted backend server
-export const API_URL = 'https://halcyonbackend-1.onrender.com/api';
+// Using a CORS proxy to bypass CORS issues
+const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+export const API_URL = CORS_PROXY + 'https://halcyonbackend-1.onrender.com/api';
 
 // Other configuration settings
 export const APP_CONFIG = {
