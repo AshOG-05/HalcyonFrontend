@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { API_URL, APP_CONFIG, EVENT_CATEGORIES } from '../config';
+import { APP_CONFIG, EVENT_CATEGORIES } from '../config';
+import { corsProtectedFetch } from '../utils/corsHelper';
 import './EventForm.css';
 
 function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null }) {
@@ -102,19 +103,19 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
       // Get admin token
       const token = localStorage.getItem(APP_CONFIG.adminTokenName);
 
-      let url, method;
+      let endpoint, method;
       if (isEditing) {
         // Update existing event
-        url = `${API_URL}/admin/event/${eventToEdit._id}`;
+        endpoint = `admin/event/${eventToEdit._id}`;
         method = 'PUT';
       } else {
         // Create new event
-        url = `${API_URL}/event/`;
+        endpoint = 'event/';
         method = 'POST';
       }
 
       // Send request to create or update event
-      const response = await fetch(url, {
+      const response = await corsProtectedFetch(endpoint, {
         method: method,
         headers: {
           'Content-Type': 'application/json',

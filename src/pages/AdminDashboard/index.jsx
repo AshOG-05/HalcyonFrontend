@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { isAdminLoggedIn, adminLogout } from '../../services/authService';
-import { API_URL, EVENT_CATEGORIES } from '../../config';
+import { EVENT_CATEGORIES } from '../../config';
+import { corsProtectedFetch } from '../../utils/corsHelper';
 import EventForm from '../../components/EventForm';
 import './styles.css';
 
@@ -77,7 +78,7 @@ function AdminDashboard() {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('adminCookie');
-      const response = await fetch(`${API_URL}/admin/users`, {
+      const response = await corsProtectedFetch('admin/users', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -100,7 +101,7 @@ function AdminDashboard() {
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch(`${API_URL}/event/`);
+      const response = await corsProtectedFetch('event/');
 
       if (!response.ok) {
         throw new Error('Failed to fetch events');
@@ -111,6 +112,7 @@ function AdminDashboard() {
       setFilteredEvents(data);
       setPdfEvents(data);
     } catch (err) {
+      console.error('Error fetching events:', err);
       setError(err.message);
     }
   };
@@ -181,7 +183,7 @@ function AdminDashboard() {
 
     try {
       const token = localStorage.getItem('adminCookie');
-      const response = await fetch(`${API_URL}/admin/event/${eventId}`, {
+      const response = await corsProtectedFetch(`admin/event/${eventId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -212,7 +214,7 @@ function AdminDashboard() {
       // Log the token for debugging (remove in production)
       console.log('Admin token:', token ? 'Token exists' : 'No token found');
 
-      const response = await fetch(`${API_URL}/admin/registrations`, {
+      const response = await corsProtectedFetch('admin/registrations', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -348,8 +350,8 @@ function AdminDashboard() {
       // Show loading message
       alert(`Generating PDF report for ${eventName}. This may take a few seconds...`);
 
-      // Use fetch to get the PDF as a blob
-      const response = await fetch(`${API_URL}/admin/pdf/${eventId}`, {
+      // Use corsProtectedFetch to get the PDF as a blob
+      const response = await corsProtectedFetch(`admin/pdf/${eventId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
