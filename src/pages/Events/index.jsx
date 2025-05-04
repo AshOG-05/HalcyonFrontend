@@ -98,7 +98,7 @@ function Events() {
               <p className="category-description">
                 {category.description}
               </p>
-              <Link to={`/category/${category.id}`} className="category-details-btn">
+              <Link to={`/events/${category.id}`} className="category-details-btn">
                 View Events
               </Link>
             </div>

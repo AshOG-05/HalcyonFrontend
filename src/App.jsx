@@ -3,8 +3,8 @@ import Navbar from './components/Navbar'
 import Banner from './components/Banner'
 import About from './components/About'
 import Timeline from './components/Timeline'
-import Pronites from './components/Pronites'
-import Sponsors from './components/Sponsors'
+// import Pronites from './components/Pronites'
+// import Sponsors from './components/Sponsors'
 import Footer from './components/Footer'
 import ParticlesComponent from './components/ParticlesComponent'
 import Explore from './components/Explore'
@@ -48,8 +48,10 @@ function App() {
           {/* <ParticlesComponent /> */}
         </div>
         <Explore />
-        <Pronites />
-        <Sponsors />
+        {/* Pronites section commented out until lineup is confirmed */}
+        {/* <Pronites /> */}
+        {/* Sponsors section commented out until sponsors are confirmed */}
+        {/* <Sponsors /> */}
         <Footer />
       </div>
     </>

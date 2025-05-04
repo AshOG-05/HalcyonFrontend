@@ -160,6 +160,16 @@
   color: #fff;
 }
 
+.pdf-btn {
+  border-color: #0088cc;
+  color: #0088cc;
+}
+
+.pdf-btn:hover {
+  background-color: #0088cc;
+  color: #fff;
+}
+
 .event-controls {
   display: flex;
   justify-content: space-between;
@@ -225,8 +235,80 @@
 /* PDF Generation Button */
 .registration-actions {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
   margin-bottom: 1rem;
+}
+
+.pdf-help-text {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #ccc;
+  font-style: italic;
+}
+
+/* PDF Generator Section */
+.pdf-generator-section {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pdf-generator-section h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #ff9800;
+  font-size: 1.1rem;
+}
+
+.pdf-filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Error message styling */
+.error-message {
+  background-color: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  color: #f8d7da;
+  text-align: center;
+}
+
+.error-message i {
+  font-size: 2rem;
+  color: #dc3545;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.error-message p {
+  margin: 0.5rem 0 1.5rem;
+  opacity: 0.8;
+}
+
+.retry-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.retry-btn:hover {
+  background-color: #c82333;
 }
 
 .generate-pdf-btn {
@@ -241,6 +323,7 @@
   align-items: center;
   gap: 0.5rem;
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .generate-pdf-btn i {

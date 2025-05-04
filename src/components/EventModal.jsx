@@ -164,7 +164,7 @@ function EventModal({ eventId, onClose }) {
     if (!isLoggedIn()) {
       // Close the modal and redirect to login page with a return URL
       onClose();
-      navigate(`/RegisterLogin?redirect=/`);
+      navigate(`/RegisterLogin?redirect=/event/${eventId}`);
       return;
     }
 
