@@ -55,17 +55,17 @@ function TiltCards() {
     {
       id: 1,
       title: "DJ NIGHT",
-      image: "/assets/anuvjain.webp",
+      image: "/assets/DomainImages/music2-removebg-preview.png",
     },
     {
       id: 2,
       title: "CHOREOGRAPHY",
-      image: "/assets/Dancer.png",
+      image: "/assets/DomainImages/dance2-removebg-preview.png",
     },
     {
       id: 3,
       title: "ETHNIC SHOW",
-      image: "/assets/gradient.webp",
+      image: "/assets/DomainImages/theatre2-removebg-preview.png",
     },
   ];
 
