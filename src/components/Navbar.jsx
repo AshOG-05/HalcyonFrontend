@@ -34,6 +34,7 @@ function Navbar() {
       <a title="Explore" href="#explore_anchor">Explore</a>
       <a title="Pronites" href="#pronites_anchor">Pronites</a>
       <Link to="/events" title="Events">Events</Link>
+      <a title="Reach Us" href="#reach_us">Reach Us</a>
       <a title="Contact" href="#contact_anchor">Contact</a>
       <a title="Sponsors" href="#sponsors_anchor">Sponsors</a>
       {isLoggedIn ? (
