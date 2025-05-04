@@ -23,11 +23,11 @@ function EventDetail() {
   const fetchEventDetails = async () => {
     try {
       const response = await fetch(`${API_URL}/event/${id}`);
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch event details');
       }
-      
+
       const data = await response.json();
       setEvent(data);
     } catch (err) {
@@ -41,7 +41,7 @@ function EventDetail() {
     // Check if user is logged in
     if (!isLoggedIn()) {
       // Redirect to login page with a return URL
-      navigate(`/RegisterLogin?redirect=/events/${id}`);
+      navigate(`/RegisterLogin?redirect=/event/${id}`);
       return;
     }
 
@@ -60,13 +60,13 @@ function EventDetail() {
           'Authorization': `Bearer ${token}`
         }
       });
-      
+
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.error || 'Failed to register for event');
       }
-      
+
       setRegistrationStatus({
         success: true,
         message: 'You have successfully registered for this event!'
@@ -93,7 +93,7 @@ function EventDetail() {
     return (
       <div className="event-detail-container">
         <div className="error">Error: {error}</div>
-        <button 
+        <button
           className="back-button"
           onClick={() => navigate('/events')}
         >
@@ -107,7 +107,7 @@ function EventDetail() {
     return (
       <div className="event-detail-container">
         <div className="error">Event not found</div>
-        <button 
+        <button
           className="back-button"
           onClick={() => navigate('/events')}
         >
@@ -125,7 +125,7 @@ function EventDetail() {
           <div className="event-meta">
             <div className="event-date-time">
               <i className="fas fa-calendar-alt"></i>
-              <span>{new Date(event.date).toLocaleDateString('en-US', { 
+              <span>{new Date(event.date).toLocaleDateString('en-US', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
@@ -138,13 +138,13 @@ function EventDetail() {
             </div>
           </div>
         </div>
-        
+
         <div className="event-content">
           <div className="event-description-full">
             <h3>About This Event</h3>
             <p>{event.description}</p>
           </div>
-          
+
           {event.rules && (
             <div className="event-rules">
               <h3>Rules</h3>
@@ -155,7 +155,7 @@ function EventDetail() {
               </ul>
             </div>
           )}
-          
+
           {event.prizes && (
             <div className="event-prizes">
               <h3>Prizes</h3>
@@ -166,7 +166,7 @@ function EventDetail() {
               </ul>
             </div>
           )}
-          
+
           {event.coordinators && (
             <div className="event-coordinators">
               <h3>Event Coordinators</h3>
@@ -178,23 +178,23 @@ function EventDetail() {
             </div>
           )}
         </div>
-        
+
         <div className="event-actions">
           {registrationStatus.message && (
             <div className={`registration-message ${registrationStatus.success ? 'success' : 'error'}`}>
               {registrationStatus.message}
             </div>
           )}
-          
-          <button 
+
+          <button
             className="register-button"
             onClick={handleRegister}
             disabled={registering}
           >
             {registering ? 'Registering...' : 'Register for this Event'}
           </button>
-          
-          <button 
+
+          <button
             className="back-button"
             onClick={() => navigate('/events')}
           >

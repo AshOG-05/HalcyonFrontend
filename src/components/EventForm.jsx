@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { API_URL, APP_CONFIG, EVENT_CATEGORIES } from '../config';
 import './EventForm.css';
 
-function EventForm({ onEventAdded, onCancel }) {
+function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null }) {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -19,6 +19,39 @@ function EventForm({ onEventAdded, onCancel }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const isEditing = !!eventToEdit;
+
+  // Populate form when editing an existing event
+  useEffect(() => {
+    if (eventToEdit) {
+      // Format date and time for form inputs
+      const eventDate = new Date(eventToEdit.date);
+      const formattedDate = eventDate.toISOString().split('T')[0];
+      const formattedTime = eventDate.toTimeString().slice(0, 5);
+
+      // Format rules, prizes, and coordinators for text areas
+      const rulesText = eventToEdit.rules ? eventToEdit.rules.join('\n') : '';
+      const prizesText = eventToEdit.prizes ? eventToEdit.prizes.join('\n') : '';
+
+      // Format coordinators for text area
+      const coordinatorsText = eventToEdit.coordinators
+        ? eventToEdit.coordinators.map(c => `${c.name} - ${c.phone}`).join('\n')
+        : '';
+
+      setFormData({
+        name: eventToEdit.name || '',
+        description: eventToEdit.description || '',
+        date: formattedDate,
+        time: formattedTime,
+        venue: eventToEdit.venue || '',
+        rules: rulesText,
+        prizes: prizesText,
+        coordinators: coordinatorsText,
+        day: eventToEdit.day || 1,
+        category: eventToEdit.category || 'other'
+      });
+    }
+  }, [eventToEdit]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,9 +102,20 @@ function EventForm({ onEventAdded, onCancel }) {
       // Get admin token
       const token = localStorage.getItem(APP_CONFIG.adminTokenName);
 
-      // Send request to create event
-      const response = await fetch(`${API_URL}/event/`, {
-        method: 'POST',
+      let url, method;
+      if (isEditing) {
+        // Update existing event
+        url = `${API_URL}/admin/event/${eventToEdit._id}`;
+        method = 'PUT';
+      } else {
+        // Create new event
+        url = `${API_URL}/event/`;
+        method = 'POST';
+      }
+
+      // Send request to create or update event
+      const response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -82,26 +126,32 @@ function EventForm({ onEventAdded, onCancel }) {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to create event');
+        throw new Error(data.error || `Failed to ${isEditing ? 'update' : 'create'} event`);
       }
 
       // Success
       setSuccess(true);
-      setFormData({
-        name: '',
-        description: '',
-        date: '',
-        time: '',
-        venue: '',
-        rules: '',
-        prizes: '',
-        coordinators: '',
-        day: 1,
-        category: 'other'
-      });
+
+      // Reset form if not editing
+      if (!isEditing) {
+        setFormData({
+          name: '',
+          description: '',
+          date: '',
+          time: '',
+          venue: '',
+          rules: '',
+          prizes: '',
+          coordinators: '',
+          day: 1,
+          category: 'other'
+        });
+      }
 
       // Notify parent component
-      if (onEventAdded) {
+      if (isEditing && onEventUpdated) {
+        onEventUpdated(data);
+      } else if (!isEditing && onEventAdded) {
         onEventAdded(data);
       }
 
@@ -122,10 +172,10 @@ function EventForm({ onEventAdded, onCancel }) {
 
   return (
     <div className="event-form-container">
-      <h3>Add New Event</h3>
+      <h3>{isEditing ? 'Edit Event' : 'Add New Event'}</h3>
 
       {error && <div className="event-form-error">{error}</div>}
-      {success && <div className="event-form-success">Event created successfully!</div>}
+      {success && <div className="event-form-success">Event {isEditing ? 'updated' : 'created'} successfully!</div>}
 
       <form onSubmit={handleSubmit} className="event-form">
         <div className="form-group">
@@ -276,7 +326,10 @@ function EventForm({ onEventAdded, onCancel }) {
             className="submit-button"
             disabled={loading}
           >
-            {loading ? 'Creating...' : 'Create Event'}
+            {loading
+              ? (isEditing ? 'Updating...' : 'Creating...')
+              : (isEditing ? 'Update Event' : 'Create Event')
+            }
           </button>
         </div>
       </form>

@@ -5,7 +5,7 @@ import EventModal from '../../components/EventModal';
 import './styles.css';
 
 function CategoryEvents() {
-  const { categoryId } = useParams();
+  const { eventName } = useParams();
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,15 +13,15 @@ function CategoryEvents() {
   const [selectedEventId, setSelectedEventId] = useState(null);
 
   // Get category details
-  const category = EVENT_CATEGORIES.find(cat => cat.id === categoryId) || {
-    id: categoryId || 'unknown',
-    label: categoryId ? categoryId.charAt(0).toUpperCase() + categoryId.slice(1) : 'Unknown Category',
+  const category = EVENT_CATEGORIES.find(cat => cat.id === eventName) || {
+    id: eventName || 'unknown',
+    label: eventName ? eventName.charAt(0).toUpperCase() + eventName.slice(1) : 'Unknown Category',
     icon: 'fas fa-question'
   };
 
   useEffect(() => {
     fetchCategoryEvents();
-  }, [categoryId]);
+  }, [eventName]);
 
   const fetchCategoryEvents = async () => {
     try {
@@ -36,7 +36,7 @@ function CategoryEvents() {
 
       // Filter events by category
       const filteredEvents = data.filter(event =>
-        (event.category || 'other') === categoryId
+        (event.category || 'other') === eventName
       );
 
       setEvents(filteredEvents);
@@ -79,8 +79,8 @@ function CategoryEvents() {
   return (
     <div className="category-events-container">
       <div className="category-header">
-        <Link to="/" className="back-button">
-          <i className="fas fa-arrow-left"></i> Back to Home
+        <Link to="/events" className="back-button">
+          <i className="fas fa-arrow-left"></i> Back to Events
         </Link>
         <h1>
           <i className={category.icon}></i> {category.label} Events
@@ -105,7 +105,7 @@ function CategoryEvents() {
         <div className="no-events-container">
           <i className="fas fa-calendar-times"></i>
           <p>No {category.label.toLowerCase()} events found</p>
-          <Link to="/" className="back-home-button">
+          <Link to="/events" className="back-home-button">
             Explore Other Categories
           </Link>
         </div>
