@@ -68,7 +68,7 @@ function Banner() {
       <div className="heading">
         <h1 className="samarkan" style={{fontFamily:'CustomFont'}}>HALCYON</h1>
         <h1 className="samarkan" style={{fontFamily:'CustomFont'}}>2025</h1>
-        <p>Vivdhta ka utsav sanskrithi ka samrajya</p>
+        <p>Vividhta ka utsav sanskrithi ka samrajya</p>
         <p>16th MAY 2025 - 17th MAY 2025</p>
         {!isLoggedIn ? (
           <div className="register-button">
@@ -123,7 +123,7 @@ function Banner() {
         )}
 
         {/* Countdown timer */}
-        <div id="countdown">
+        <div id="countdown" className="responsive-countdown">
           <ul>
             <li><div id="days">{days}</div>Days</li>
             <li><div id="hours">{hours}</div>Hours</li>
