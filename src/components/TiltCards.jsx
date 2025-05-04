@@ -65,7 +65,7 @@ function TiltCards() {
     {
       id: 3,
       title: "ETHNIC SHOW",
-      image: "/assets/ethnic.jpg",
+      image: "/assets/ethnic_2.jpg",
     },
   ];
 
