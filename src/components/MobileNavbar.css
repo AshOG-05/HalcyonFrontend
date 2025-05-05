@@ -1,0 +1,153 @@
+.mobile-navbar {
+  display: none; /* Hidden by default, will be shown only on mobile */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 65px; /* Increased to accommodate larger SIT logo */
+  background-color: transparent; /* Completely transparent background */
+  z-index: 1000;
+  padding: 0 15px;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: none; /* Ensure no shadow */
+}
+
+/* Completely transparent background overlay */
+.mobile-navbar-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: none; /* Remove blur effect */
+  z-index: -1;
+  border-bottom: none; /* Remove border */
+  background-color: transparent; /* Ensure no background color */
+}
+
+.mobile-navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.mobile-navbar-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+/* Container for both logos */
+.logos-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  padding-right: 5px;
+}
+
+.mobile-menu-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.6rem; /* Reduced from 2rem */
+  cursor: pointer;
+  padding: 8px; /* Reduced from 10px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* Enhanced glow for better visibility against transparent background */
+}
+
+.mobile-menu-btn:hover {
+  color: #ff9800;
+  transform: scale(1.05); /* Reduced from 1.1 */
+  text-shadow: 0 0 12px rgba(255, 152, 0, 0.9); /* Enhanced glow for better visibility against transparent background */
+}
+
+/* General logo container styles */
+.logo-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+
+/* Logo containers with equal spacing */
+.sit-logo-container, .halcyon-logo-container {
+  margin: 0 4px;
+}
+
+/* General logo styles */
+.mobile-navbar-logo {
+  height: 38px; /* Unified height for both logos */
+  max-height: 75%;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); /* Enhanced glow effect for better visibility */
+}
+
+/* SIT logo specific styles */
+.sit-logo {
+  height: 45px; /* Increased size for SIT logo */
+  max-height: 85%;
+}
+
+/* Halcyon logo specific styles */
+.halcyon-logo {
+  height: 38px;
+  max-height: 75%;
+}
+
+/* Show mobile navbar only on mobile devices */
+@media (max-width: 768px) {
+  .mobile-navbar {
+    display: flex;
+  }
+}
+
+/* Further reduce sizes on very small screens */
+@media (max-width: 375px) {
+  .mobile-menu-btn {
+    font-size: 1.4rem;
+    padding: 6px;
+  }
+
+  /* Adjust logo sizes for small screens */
+  .sit-logo {
+    height: 40px;
+    max-height: 80%;
+  }
+
+  .halcyon-logo {
+    height: 32px;
+    max-height: 70%;
+  }
+
+  /* Reduce spacing between logos */
+  .sit-logo-container, .halcyon-logo-container {
+    margin: 0 3px;
+  }
+}
+
+/* Even smaller screens */
+@media (max-width: 320px) {
+  .sit-logo {
+    height: 35px;
+    max-height: 75%;
+  }
+
+  .halcyon-logo {
+    height: 28px;
+    max-height: 65%;
+  }
+
+  /* Further reduce spacing */
+  .sit-logo-container, .halcyon-logo-container {
+    margin: 0 2px;
+  }
+}

@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
+import MobileNavbar from './MobileNavbar';
 import { APP_CONFIG } from '../config';
 import { logout } from '../services/authService';
 import './Banner.css';
@@ -12,6 +13,11 @@ function Banner() {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [sidebarToggle, setSidebarToggle] = useState(0);
+
+  const toggleSidebar = () => {
+    setSidebarToggle(prev => prev + 1);
+  };
 
   useEffect(() => {
     // Check if user is logged in
@@ -54,7 +60,8 @@ function Banner() {
         `}
       </style>
       <Navbar />
-      <Sidebar />
+      <MobileNavbar toggleSidebar={toggleSidebar} />
+      <Sidebar externalToggle={sidebarToggle} />
       <video src="/assets/background_halcyon.mp4" loop muted autoPlay style={{
         position: 'absolute',
         top: 0,

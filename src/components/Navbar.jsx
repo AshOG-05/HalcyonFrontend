@@ -29,6 +29,12 @@ function Navbar() {
 
   return (
     <nav id="nav" style={{ opacity: showNav ? 1 : 0 }}>
+      <img
+        src="/assets/sit_logo-removebg-preview.png"
+        alt="SIT Logo"
+        className="nav-logo sit-logo"
+      />
+
       <a title="About" href="#about_anchor">About</a>
       <a title="Timeline" href="#timeline_anchor">Timeline</a>
       <a title="Explore" href="#explore_anchor">Explore</a>
@@ -37,6 +43,7 @@ function Navbar() {
       <a title="Reach Us" href="#reach_us">Reach Us</a>
       <a title="Contact" href="#contact_anchor">Contact</a>
       <a title="Sponsors" href="#sponsors_anchor">Sponsors</a>
+
       {isLoggedIn ? (
         <a title="Profile" href="./profile/" className="profile show">
           <i className="fas fa-user-astronaut"></i> User
@@ -46,6 +53,12 @@ function Navbar() {
           <i className="fas fa-sign-in-alt"></i> Login
         </Link>
       )}
+
+      <img
+        src="/assets/final LOGO.png"
+        alt="Halcyon 2025 Logo"
+        className="nav-logo halcyon-logo"
+      />
     </nav>
   );
 }

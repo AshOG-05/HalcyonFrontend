@@ -222,6 +222,11 @@ label #btn:hover {
 
 
 
+/* Hide elements on mobile */
+.mobile-hidden {
+  display: none !important;
+}
+
 /* Media Queries */
 @media (max-width: 768px) {
   .sidebar-container {
@@ -238,11 +243,11 @@ label #btn:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   }
 
-  /* Mobile sidebar styles - 70% width */
+  /* Mobile sidebar styles - reduced width */
   .sidebar {
-    width: 70% !important; /* Force 70% width */
-    max-width: 70% !important;
-    min-width: 70% !important;
+    width: 60% !important; /* Reduced from 70% */
+    max-width: 60% !important; /* Reduced from 70% */
+    min-width: 60% !important; /* Reduced from 70% */
     left: -100% !important;
     right: auto !important;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5) !important;
@@ -260,9 +265,9 @@ label #btn:hover {
   }
 
   #check:checked ~ .sidebar {
-    width: 70% !important; /* Force 70% width */
-    max-width: 70% !important;
-    min-width: 70% !important;
+    width: 60% !important; /* Reduced from 70% */
+    max-width: 60% !important; /* Reduced from 70% */
+    min-width: 60% !important; /* Reduced from 70% */
     left: 0 !important;
     right: auto !important;
     transform: none !important;
@@ -325,5 +330,35 @@ label #btn:hover {
     display: flex !important;
     align-items: center !important;
     height: 70px !important;
+  }
+
+  /* Further reduce sidebar width on smaller screens */
+  @media (max-width: 480px) {
+    .sidebar {
+      width: 55% !important;
+      max-width: 55% !important;
+      min-width: 55% !important;
+    }
+
+    #check:checked ~ .sidebar {
+      width: 55% !important;
+      max-width: 55% !important;
+      min-width: 55% !important;
+    }
+  }
+
+  /* Even smaller screens get even narrower sidebar */
+  @media (max-width: 375px) {
+    .sidebar {
+      width: 50% !important;
+      max-width: 50% !important;
+      min-width: 50% !important;
+    }
+
+    #check:checked ~ .sidebar {
+      width: 50% !important;
+      max-width: 50% !important;
+      min-width: 50% !important;
+    }
   }
 }
