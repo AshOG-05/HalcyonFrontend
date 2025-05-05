@@ -2,8 +2,12 @@
 
 // API URL - pointing to the hosted backend server
 // Direct connection to the backend API
+<<<<<<< HEAD
 export const API_URL = 'https://halcyonbackend.onrender.com/api';
 
+=======
+export const API_URL = 'https://halcyonbackend-1.onrender.com/api';
+>>>>>>> d0b68c11ade631014ac77a8b0fd1dff6ff54192b
 // Other configuration settings
 export const APP_CONFIG = {
   appName: 'Halcyon 2025',
@@ -14,13 +18,11 @@ export const APP_CONFIG = {
   adminRedirectPath: '/admin/dashboard',
   teamRedirectPath: '/team/dashboard'
 };
-
 // Festival days configuration
 export const FESTIVAL_DAYS = [
   { id: 1, label: 'Day 1', description: 'Join us for exciting events on day one of Halcyon 2025!' },
   { id: 2, label: 'Day 2', description: 'The fun continues through to the second day with more amazing events!' }
 ];
-
 // Event categories configuration
 export const EVENT_CATEGORIES = [
   { id: 'dance', label: 'Dance', icon: 'fas fa-music' },
