@@ -7,7 +7,7 @@
     backdrop-filter: blur(10px);
     color: white;
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Center the navigation items */
     align-items: center;
     padding: 15px 20px;
     z-index: 1000; /* Increased z-index to ensure navbar appears above other elements */
@@ -23,12 +23,14 @@
   #nav a, #nav a.login-btn, #nav a:visited {
     color: white;
     text-decoration: none;
-    margin: 0 15px;
+    margin: 0 15px; /* Restored original margin */
     font-size: 1rem;
     font-weight: 500;
     transition: color 0.3s ease-in-out, transform 0.3s ease;
     position: relative;
     padding: 5px 0;
+    display: flex;
+    align-items: center;
   }
 
   #nav a::after {
@@ -73,6 +75,23 @@
 
   #nav .login-btn:hover {
     background-color: rgba(255, 152, 0, 0.2);
+  }
+
+  /* Logo Styling */
+  .nav-logo {
+    height: 35px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+    vertical-align: middle;
+  }
+
+  .sit-logo {
+    margin-right: 5px; /* Small margin to position it right next to About */
+  }
+
+  .halcyon-logo {
+    margin-left: 5px; /* Small margin to position it right after User/Login */
   }
 
   /* Responsive Design */
