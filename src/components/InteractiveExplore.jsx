@@ -115,13 +115,22 @@ function InteractiveExplore() {
             data-id={item.id}
             className={`flex-card-container ${activeId === item.id ? 'active' : ''}`}
             style={{
-              backgroundImage: `url(${item.image})`,
+              backgroundImage: isMobile ? 'none' : `url(${item.image})`,
+              backgroundColor: isMobile ? '#111111' : 'transparent',
               ...(isMobile && activeId === item.id ? { height: '15rem' } : {})
             }}
             onMouseEnter={() => !isMobile && setActiveId(item.id)}
             onClick={() => setActiveId(item.id)}
           >
             <div className="card-overlay">
+              {isMobile && <i className={`card-icon ${
+                item.title === 'Dance' ? 'fas fa-music' :
+                item.title === 'Music' ? 'fas fa-guitar' :
+                item.title === 'Gaming' ? 'fas fa-gamepad' :
+                item.title === 'Theatre' ? 'fas fa-theater-masks' :
+                item.title === 'Fine Arts' ? 'fas fa-paint-brush' :
+                'fas fa-book'
+              }`}></i>}
               <h1 className="card-title">{item.title}</h1>
             </div>
             {item.title === 'Dance' ? (

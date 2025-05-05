@@ -1,0 +1,88 @@
+.brochure-download-section {
+  padding: 3rem 0;
+  background: linear-gradient(to bottom, #000000, #111111);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.brochure-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.brochure-content {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.brochure-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.brochure-content p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #cccccc;
+}
+
+.download-button {
+  display: inline-block;
+  background: linear-gradient(45deg, #ff9800, #ff5722);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
+  border: none;
+  cursor: pointer;
+}
+
+.download-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 87, 34, 0.4);
+  background: linear-gradient(45deg, #ff5722, #ff9800);
+}
+
+.download-button i {
+  margin-right: 0.5rem;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .brochure-content h2 {
+    font-size: 2rem;
+  }
+  
+  .brochure-content p {
+    font-size: 1rem;
+  }
+  
+  .download-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .brochure-content h2 {
+    font-size: 1.8rem;
+  }
+  
+  .brochure-download-section {
+    padding: 2rem 0;
+  }
+}

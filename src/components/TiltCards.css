@@ -68,6 +68,7 @@
   border-radius: 8px;
   overflow: hidden;
   transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .tilt-card-outer:hover .tilt-card-inner {
@@ -101,7 +102,7 @@
   background-repeat: no-repeat;
   background-color: #1a1a1a;
   transition: transform 0.5s ease;
-  filter: brightness(0.9) contrast(1.1);
+  filter: brightness(1.1) contrast(1.05);
 }
 
 .tilt-card-inner:hover .tilt-card-image {
