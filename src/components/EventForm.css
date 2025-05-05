@@ -124,6 +124,17 @@
   margin-bottom: 1rem;
 }
 
+.checkbox-group {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin-right: 0.5rem;
+}
+
 @media (max-width: 768px) {
   .form-row {
     flex-direction: column;

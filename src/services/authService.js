@@ -53,7 +53,25 @@ const apiRequest = async (url, method, data = null) => {
 
 // Login user
 export const login = async (email, password) => {
-  return apiRequest('/auth/login', 'POST', { email, password });
+  const data = await apiRequest('/auth/login', 'POST', { email, password });
+
+  // Store user data in localStorage for later use
+  if (data && data.user) {
+    // Store basic user info
+    const userData = {
+      id: data.user.id,
+      name: data.user.name,
+      email: email,  // We know this from the login form
+      role: data.user.role,
+      // Add any other fields you want to store
+    };
+
+    // Save to localStorage
+    localStorage.setItem('userData', JSON.stringify(userData));
+    console.log('User data stored in localStorage:', userData);
+  }
+
+  return data;
 };
 
 // Register user
@@ -64,7 +82,25 @@ export const register = async (userData) => {
     role: 'user' // Force the role to be 'user'
   };
 
-  return apiRequest('/auth/register', 'POST', userDataWithRole);
+  const data = await apiRequest('/auth/register', 'POST', userDataWithRole);
+
+  // Store user data in localStorage for later use
+  if (data && data.user) {
+    // Store basic user info
+    const userInfo = {
+      id: data.user.id,
+      name: data.user.name,
+      email: userData.email,
+      mobile: userData.mobile,
+      role: data.user.role,
+    };
+
+    // Save to localStorage
+    localStorage.setItem('userData', JSON.stringify(userInfo));
+    console.log('User data stored in localStorage after registration:', userInfo);
+  }
+
+  return data;
 };
 
 // Admin login
@@ -126,18 +162,21 @@ export const isTeamLoggedIn = () => {
 // Logout user
 export const logout = () => {
   localStorage.removeItem(APP_CONFIG.tokenName);
+  localStorage.removeItem('userData'); // Also remove the stored user data
   window.location.href = APP_CONFIG.defaultRedirectPath;
 };
 
 // Logout admin
 export const adminLogout = () => {
   localStorage.removeItem(APP_CONFIG.adminTokenName);
+  localStorage.removeItem('userData'); // Also remove the stored user data
   window.location.href = APP_CONFIG.defaultRedirectPath;
 };
 
 // Logout team member
 export const teamLogout = () => {
   localStorage.removeItem(APP_CONFIG.teamTokenName);
+  localStorage.removeItem('userData'); // Also remove the stored user data
   window.location.href = APP_CONFIG.defaultRedirectPath;
 };
 
