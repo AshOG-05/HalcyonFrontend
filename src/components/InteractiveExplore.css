@@ -71,18 +71,18 @@
 }
 
 .flex-card-container.active .card-overlay {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
-  box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.7), inset 0 0 30px rgba(255, 152, 0, 0.3);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.4), inset 0 0 30px rgba(255, 152, 0, 0.3);
 }
 
 .card-overlay {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
   width: 100%;
   height: 100%;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.3);
   transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
   will-change: background, box-shadow;
   position: relative;
@@ -92,8 +92,8 @@
 
 .flex-card-container:hover .card-overlay,
 .flex-card-container.active .card-overlay {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
-  box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.7), inset 0 0 30px rgba(255, 152, 0, 0.3);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.4), inset 0 0 30px rgba(255, 152, 0, 0.3);
 }
 
 .card-title {
@@ -184,38 +184,70 @@
     width: 100%;
     height: 5rem;
     max-width: none;
-    margin: 0.5rem 0;
-    background-size: contain;
-    background-position: center;
+    margin: 0.8rem 0;
     transition: all 0.5s ease;
+    border: 2px solid rgba(255, 152, 0, 0.4);
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1a1a1a, #111111);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
   }
 
   .flex-card-container.active {
     height: 15rem;
-    margin: 1rem 0;
-    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.5);
-    border-color: rgba(255, 152, 0, 0.5);
+    margin: 1.5rem 0;
+    border-width: 2px;
+    border-color: rgba(255, 152, 0, 0.8);
+    box-shadow: 0 8px 20px rgba(255, 152, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+    position: relative;
+    z-index: 2;
+  }
+
+  .flex-card-container.active::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, rgba(255, 152, 0, 0.8), transparent 30%, transparent 70%, rgba(255, 152, 0, 0.8));
+    border-radius: 14px;
+    z-index: -1;
+    animation: borderRotate 4s linear infinite;
+  }
+
+  @keyframes borderRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 
   .card-title {
     transform: rotate(0);
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     font-size: 1.5rem;
     opacity: 0.9;
     position: relative;
     bottom: auto;
     left: auto;
+    text-align: center;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 0.9);
   }
 
   .flex-card-container:hover .card-title,
   .flex-card-container.active .card-title {
-    font-size: 1.8rem;
+    font-size: 2rem;
     margin-bottom: 1rem;
     opacity: 1;
     transform: rotate(0) translateY(0);
     position: relative;
     bottom: auto;
     left: auto;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 152, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8);
   }
 
   /* Make active card 3x larger on mobile */
@@ -223,14 +255,58 @@
     height: 15rem !important;
   }
 
-  /* Ensure blur covers entire card on mobile */
+  /* Style for mobile cards without images */
   .card-overlay {
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
-    box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.7);
+    background: linear-gradient(135deg, rgba(30, 30, 30, 0.7), rgba(10, 10, 10, 0.9));
+    box-shadow: inset 0 0 30px rgba(255, 152, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 0.5rem 0;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  .card-icon {
+    font-size: 1.5rem;
+    color: rgba(255, 152, 0, 0.7);
+    margin: 0.5rem 0;
+    padding-top: 0.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .flex-card-container.active .card-icon {
+    font-size: 2.5rem;
+    color: rgba(255, 152, 0, 0.9);
+    margin: 1rem 0;
+    padding-top: 1rem;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.7; }
   }
 
   .flex-card-container.active .card-overlay {
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.7));
-    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8), inset 0 0 30px rgba(255, 152, 0, 0.3);
+    background: linear-gradient(135deg, rgba(40, 40, 40, 0.7), rgba(10, 10, 10, 0.9));
+    box-shadow: inset 0 0 40px rgba(255, 152, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .flex-card-container.active .card-overlay::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 152, 0, 0.1) 0%, transparent 60%);
+    opacity: 0.5;
+    pointer-events: none;
   }
 }

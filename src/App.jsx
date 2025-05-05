@@ -9,6 +9,7 @@ import Footer from './components/Footer'
 import ParticlesComponent from './components/ParticlesComponent'
 import Explore from './components/Explore'
 import ReachUs from './components/ReachUs'
+import BrochureDownload from './components/BrochureDownload'
 import './App.css'
 
 function App() {
@@ -87,6 +88,7 @@ function App() {
         {/* Sponsors section commented out until sponsors are confirmed */}
         {/* <Sponsors /> */}
         <ReachUs />
+        <BrochureDownload />
         <Footer />
       </div>
     </>
