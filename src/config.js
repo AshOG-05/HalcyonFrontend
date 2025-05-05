@@ -2,12 +2,7 @@
 
 // API URL - pointing to the hosted backend server
 // Direct connection to the backend API
-<<<<<<< HEAD
-export const API_URL = 'https://halcyonbackend.onrender.com/api';
-
-=======
 export const API_URL = 'https://halcyonbackend-1.onrender.com/api';
->>>>>>> d0b68c11ade631014ac77a8b0fd1dff6ff54192b
 // Other configuration settings
 export const APP_CONFIG = {
   appName: 'Halcyon 2025',
