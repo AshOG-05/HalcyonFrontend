@@ -500,6 +500,8 @@ function AdminDashboard() {
                   <th>Venue</th>
                   <th>Category</th>
                   <th>Day</th>
+                  <th>Team Size</th>
+                  <th>Fee (₹)</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -517,6 +519,8 @@ function AdminDashboard() {
                       </span>
                     </td>
                     <td>Day {event.day || 1}</td>
+                    <td>{event.teamSize || 1} {event.isVariableTeamSize ? '(Variable)' : ''}</td>
+                    <td>{event.fees || 0}</td>
                     <td>
                       <button
                         className="action-btn edit-btn"

@@ -58,9 +58,9 @@
   line-height: 1.8;
 }
 
-.event-description-full h3, 
-.event-rules h3, 
-.event-prizes h3, 
+.event-description-full h3,
+.event-rules h3,
+.event-prizes h3,
 .event-coordinators h3 {
   color: #ff9800;
   margin-bottom: 1rem;
@@ -88,6 +88,31 @@
   margin-top: 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 1.5rem;
+}
+
+.event-registration-info {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.registration-fee, .team-size-info {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.1rem;
+}
+
+.registration-fee i, .team-size-info i {
+  color: #ff9800;
+  font-size: 1.2rem;
+  width: 20px;
+  text-align: center;
 }
 
 .register-button {
@@ -167,11 +192,11 @@
   .event-detail-container {
     padding: 2rem 1rem;
   }
-  
+
   .event-title {
     font-size: 2rem;
   }
-  
+
   .event-meta {
     flex-direction: column;
     gap: 0.8rem;

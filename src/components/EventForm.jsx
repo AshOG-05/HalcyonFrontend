@@ -14,7 +14,11 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
     prizes: '',
     coordinators: '',
     day: 1, // Default to Day 1
-    category: 'other' // Default to Other category
+    category: 'other', // Default to Other category
+    teamSizeType: 'individual', // Default to individual (options: individual, duo, team)
+    teamSize: 1, // Default to 1 participant (used for team type)
+    isVariableTeamSize: false, // Default to fixed team size
+    fees: 0 // Default to free event
   });
 
   const [loading, setLoading] = useState(false);
@@ -39,6 +43,14 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
         ? eventToEdit.coordinators.map(c => `${c.name} - ${c.phone}`).join('\n')
         : '';
 
+      // Determine team size type based on the event's team size
+      let teamSizeType = 'individual';
+      if (eventToEdit.teamSize === 2) {
+        teamSizeType = 'duo';
+      } else if (eventToEdit.teamSize >= 3) {
+        teamSizeType = 'team';
+      }
+
       setFormData({
         name: eventToEdit.name || '',
         description: eventToEdit.description || '',
@@ -49,17 +61,41 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
         prizes: prizesText,
         coordinators: coordinatorsText,
         day: eventToEdit.day || 1,
-        category: eventToEdit.category || 'other'
+        category: eventToEdit.category || 'other',
+        teamSizeType: teamSizeType,
+        teamSize: eventToEdit.teamSize >= 3 ? eventToEdit.teamSize : 3, // Default to 3 for team type
+        isVariableTeamSize: eventToEdit.isVariableTeamSize || false,
+        fees: eventToEdit.fees || 0
       });
     }
   }, [eventToEdit]);
 
+  // Update team size when team size type changes
+  useEffect(() => {
+    if (formData.teamSizeType === 'individual') {
+      setFormData(prev => ({ ...prev, teamSize: 1 }));
+    } else if (formData.teamSizeType === 'duo') {
+      setFormData(prev => ({ ...prev, teamSize: 2 }));
+    } else if (formData.teamSizeType === 'team' && formData.teamSize < 3) {
+      setFormData(prev => ({ ...prev, teamSize: 3 }));
+    }
+  }, [formData.teamSizeType]);
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    const { name, value, type, checked } = e.target;
+
+    // Handle checkbox inputs differently
+    if (type === 'checkbox') {
+      setFormData({
+        ...formData,
+        [name]: checked
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -87,6 +123,16 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
           };
         });
 
+      // Determine team size based on teamSizeType
+      let finalTeamSize = 1;
+      if (formData.teamSizeType === 'individual') {
+        finalTeamSize = 1;
+      } else if (formData.teamSizeType === 'duo') {
+        finalTeamSize = 2;
+      } else if (formData.teamSizeType === 'team') {
+        finalTeamSize = parseInt(formData.teamSize);
+      }
+
       // Create event data object
       const eventData = {
         name: formData.name,
@@ -97,7 +143,10 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
         prizes: prizes,
         coordinators: coordinators,
         day: parseInt(formData.day), // Make sure it's a number
-        category: formData.category
+        category: formData.category,
+        teamSize: finalTeamSize, // Use the calculated team size
+        isVariableTeamSize: formData.teamSizeType === 'team' ? formData.isVariableTeamSize : false,
+        fees: parseInt(formData.fees) // Make sure it's a number
       };
 
       // Get admin token
@@ -145,7 +194,11 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
           prizes: '',
           coordinators: '',
           day: 1,
-          category: 'other'
+          category: 'other',
+          teamSizeType: 'individual',
+          teamSize: 3, // Default for team type
+          isVariableTeamSize: false,
+          fees: 0
         });
       }
 
@@ -310,6 +363,67 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
             onChange={handleChange}
             placeholder="Enter coordinators (format: Name - Phone, one per line)"
             rows="3"
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="teamSizeType">Participation Type</label>
+          <select
+            id="teamSizeType"
+            name="teamSizeType"
+            value={formData.teamSizeType}
+            onChange={handleChange}
+            required
+          >
+            <option value="individual">Individual (1 participant)</option>
+            <option value="duo">Duo (2 participants)</option>
+            <option value="team">Team (3+ participants)</option>
+          </select>
+        </div>
+
+        {formData.teamSizeType === 'team' && (
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="teamSize">Team Size</label>
+              <input
+                type="number"
+                id="teamSize"
+                name="teamSize"
+                min="3"
+                max="30"
+                value={formData.teamSize}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  name="isVariableTeamSize"
+                  checked={formData.isVariableTeamSize}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    isVariableTeamSize: e.target.checked
+                  })}
+                />
+                Allow variable team size (up to the maximum)
+              </label>
+            </div>
+          </div>
+        )}
+
+        <div className="form-group">
+          <label htmlFor="fees">Registration Fee (₹)</label>
+          <input
+            type="number"
+            id="fees"
+            name="fees"
+            min="0"
+            value={formData.fees}
+            onChange={handleChange}
+            required
           />
         </div>
 
