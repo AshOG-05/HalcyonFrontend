@@ -207,6 +207,39 @@ function AdminDashboard() {
     }
   };
 
+  // Handle toggle registration status
+  const handleToggleRegistration = async (eventId, eventName, currentStatus) => {
+    try {
+      const token = localStorage.getItem('adminCookie');
+      const response = await corsProtectedFetch(`admin/event/${eventId}/toggle-registration`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to toggle registration status');
+      }
+
+      const data = await response.json();
+
+      // Update the event in the state
+      const updatedEvents = events.map(event =>
+        event._id === eventId
+          ? { ...event, registrationOpen: data.registrationOpen }
+          : event
+      );
+      setEvents(updatedEvents);
+      applyFilters(updatedEvents, categoryFilter, dayFilter);
+
+      alert(data.message);
+    } catch (err) {
+      console.error('Error toggling registration status:', err);
+      alert('Error toggling registration status: ' + err.message);
+    }
+  };
+
   const fetchRegistrations = async () => {
     try {
       const token = localStorage.getItem('adminCookie');
@@ -338,17 +371,36 @@ function AdminDashboard() {
       return;
     }
 
-    // Generate PDF for the selected event
-    await handleGenerateEventPdf(selectedEvent._id, selectedEvent.name);
+    // Generate PDF for the selected event with download option
+    await handleGenerateEventPdf(selectedEvent._id, selectedEvent.name, true);
+  };
+
+  // Preview PDF based on selected event
+  const handlePreviewPdf = async () => {
+    if (pdfEventFilter === 'all') {
+      alert('Please select a specific event to preview a PDF report.');
+      return;
+    }
+
+    // Find the selected event
+    const selectedEvent = events.find(event => event._id === pdfEventFilter);
+
+    if (!selectedEvent) {
+      alert('Invalid event selection. Please try again.');
+      return;
+    }
+
+    // Generate PDF for the selected event without download option
+    await handleGenerateEventPdf(selectedEvent._id, selectedEvent.name, false);
   };
 
   // Generate PDF for a specific event
-  const handleGenerateEventPdf = async (eventId, eventName) => {
+  const handleGenerateEventPdf = async (eventId, eventName, shouldDownload = true) => {
     try {
       const token = localStorage.getItem('adminCookie');
 
       // Show loading message
-      alert(`Generating PDF report for ${eventName}. This may take a few seconds...`);
+      alert(`${shouldDownload ? 'Generating' : 'Previewing'} PDF report for ${eventName}. This may take a few seconds...`);
 
       // Use corsProtectedFetch to get the PDF as a blob
       const response = await corsProtectedFetch(`admin/pdf/${eventId}`, {
@@ -380,12 +432,68 @@ function AdminDashboard() {
         alert('PDF generated successfully! Please allow popups to view it in a new tab.');
       }
 
+      // If download is requested, create a download link
+      if (shouldDownload) {
+        // Create a temporary link element for download
+        const a = document.createElement('a');
+        a.href = url;
+
+        // Set filename
+        const filename = `${eventName.replace(/\s+/g, '_')}_registrations.pdf`;
+        a.download = filename;
+
+        // Append to body, click and remove
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+
+      // Release the URL object after a short delay to ensure download starts
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url);
+      }, 1000);
+    } catch (err) {
+      console.error('Error generating PDF:', err);
+      alert(`Error ${shouldDownload ? 'generating' : 'previewing'} PDF: ${err.message}`);
+    }
+  };
+
+  // Export all registrations to Excel
+  const handleExportToExcel = async () => {
+    try {
+      const token = localStorage.getItem('adminCookie');
+
+      // Show loading message
+      alert('Exporting all registrations to Excel. This may take a few seconds...');
+
+      // Use corsProtectedFetch to get the Excel file as a blob
+      const response = await corsProtectedFetch('admin/excel', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        try {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to export to Excel');
+        } catch (jsonError) {
+          throw new Error('Failed to export to Excel. The server may be experiencing issues.');
+        }
+      }
+
+      // Convert response to blob
+      const blob = await response.blob();
+
+      // Create a URL for the blob
+      const blobUrl = window.URL.createObjectURL(blob);
+
       // Create a temporary link element for download
       const a = document.createElement('a');
-      a.href = url;
+      a.href = blobUrl;
 
       // Set filename
-      const filename = `${eventName.replace(/\s+/g, '_')}_registrations.pdf`;
+      const filename = 'Halcyon_All_Registrations.xlsx';
       a.download = filename;
 
       // Append to body, click and remove
@@ -395,11 +503,13 @@ function AdminDashboard() {
 
       // Release the URL object after a short delay to ensure download starts
       setTimeout(() => {
-        window.URL.revokeObjectURL(url);
+        window.URL.revokeObjectURL(blobUrl);
       }, 1000);
+
+      alert('Excel export completed successfully!');
     } catch (err) {
-      console.error('Error generating PDF:', err);
-      alert(`Error generating PDF: ${err.message}`);
+      console.error('Error exporting to Excel:', err);
+      alert(`Error exporting to Excel: ${err.message}`);
     }
   };
 
@@ -495,13 +605,9 @@ function AdminDashboard() {
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Description</th>
                   <th>Date</th>
-                  <th>Venue</th>
                   <th>Category</th>
                   <th>Day</th>
-                  <th>Team Size</th>
-                  <th>Fee (₹)</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -509,9 +615,7 @@ function AdminDashboard() {
                 {filteredEvents.map(event => (
                   <tr key={event._id}>
                     <td>{event.name}</td>
-                    <td>{event.description.substring(0, 50)}...</td>
                     <td>{new Date(event.date).toLocaleDateString()}</td>
-                    <td>{event.venue}</td>
                     <td>
                       {getCategoryLabel(event.category)}
                       <span className="category-badge" style={{ backgroundColor: getCategoryColor(event.category) }}>
@@ -519,8 +623,6 @@ function AdminDashboard() {
                       </span>
                     </td>
                     <td>Day {event.day || 1}</td>
-                    <td>{event.teamSize || 1} {event.isVariableTeamSize ? '(Variable)' : ''}</td>
-                    <td>{event.fees || 0}</td>
                     <td>
                       <button
                         className="action-btn edit-btn"
@@ -535,11 +637,12 @@ function AdminDashboard() {
                         Delete
                       </button>
                       <button
-                        className="action-btn pdf-btn"
-                        onClick={() => handleGenerateEventPdf(event._id, event.name)}
-                        title="Generate PDF of registrations"
+                        className={`action-btn ${event.registrationOpen ? 'close-btn' : 'open-btn'}`}
+                        onClick={() => handleToggleRegistration(event._id, event.name, event.registrationOpen)}
+                        title={event.registrationOpen ? 'Close Registration' : 'Open Registration'}
                       >
-                        <i className="fas fa-file-pdf"></i> PDF
+                        <i className={`fas ${event.registrationOpen ? 'fa-lock' : 'fa-lock-open'}`}></i>
+                        {event.registrationOpen ? ' Close' : ' Open'} Registration
                       </button>
                     </td>
                   </tr>
@@ -585,12 +688,17 @@ function AdminDashboard() {
                   </select>
                 </div>
 
-                <button className="generate-pdf-btn" onClick={handleGeneratePdf}>
-                  <i className="fas fa-file-pdf"></i> Generate PDF
-                </button>
+                <div className="pdf-buttons">
+                  <button className="preview-pdf-btn" onClick={handlePreviewPdf}>
+                    <i className="fas fa-eye"></i> Preview PDF
+                  </button>
+                  <button className="generate-pdf-btn" onClick={handleGeneratePdf}>
+                    <i className="fas fa-file-pdf"></i> Download PDF
+                  </button>
+                </div>
               </div>
               <div className="pdf-help-text">
-                <i className="fas fa-info-circle"></i> Select a category and event, then click "Generate PDF" to download a registration report.
+                <i className="fas fa-info-circle"></i> Select a category and event, then click "Preview PDF" to view or "Download PDF" to save the registration report.
               </div>
             </div>
 
@@ -658,6 +766,16 @@ const getAllRegistrations = async (req, res) => {
                       ))}
                     </select>
                   </div>
+
+                  <div className="export-controls">
+                    <button
+                      className="export-excel-btn"
+                      onClick={handleExportToExcel}
+                      title="Export all registrations to Excel"
+                    >
+                      <i className="fas fa-file-excel"></i> Export All Registrations to Excel
+                    </button>
+                  </div>
                 </div>
 
                 <div className="event-count">
@@ -702,13 +820,22 @@ const getAllRegistrations = async (req, res) => {
                             </button>
                             <button className="action-btn delete-btn">Cancel</button>
                             {reg.event && (
-                              <button
-                                className="action-btn pdf-btn"
-                                onClick={() => handleGenerateEventPdf(reg.event._id, reg.event.name)}
-                                title="Generate PDF for this event"
-                              >
-                                <i className="fas fa-file-pdf"></i> PDF
-                              </button>
+                              <>
+                                <button
+                                  className="action-btn view-pdf-btn"
+                                  onClick={() => handleGenerateEventPdf(reg.event._id, reg.event.name, false)}
+                                  title="Preview PDF for this event"
+                                >
+                                  <i className="fas fa-eye"></i>
+                                </button>
+                                <button
+                                  className="action-btn pdf-btn"
+                                  onClick={() => handleGenerateEventPdf(reg.event._id, reg.event.name, true)}
+                                  title="Download PDF for this event"
+                                >
+                                  <i className="fas fa-file-pdf"></i>
+                                </button>
+                              </>
                             )}
                           </td>
                         </tr>
