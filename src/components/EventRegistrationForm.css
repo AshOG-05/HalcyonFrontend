@@ -67,6 +67,32 @@
   font-size: 1.1rem;
 }
 
+.registration-closed {
+  text-align: center;
+  padding: 2rem;
+  color: #fff;
+}
+
+.registration-closed-icon {
+  font-size: 3rem;
+  color: #ff9800;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.registration-closed h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #ff9800;
+  border: none;
+}
+
+.registration-closed p {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
 .event-registration-modal h2 {
   margin-bottom: 20px;
   color: #fff;
@@ -111,12 +137,36 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
+.required-fields-note {
+  color: #ff9800 !important;
+  font-style: italic;
+  margin-top: 15px !important;
+  font-weight: 500;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 10px;
+}
+
 .form-section {
   margin-bottom: 25px;
 }
 
 .form-group {
   margin-bottom: 15px;
+}
+
+.highlight-field {
+  background-color: rgba(255, 152, 0, 0.05);
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 3px solid #ff9800;
+}
+
+.field-note {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+  margin-top: 5px !important;
+  margin-bottom: 0 !important;
 }
 
 .form-group label {
@@ -164,6 +214,30 @@
   margin-top: 25px;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.test-razorpay-btn-alt {
+  padding: 14px 30px;
+  border-radius: 8px;
+  border: none;
+  background: #ff9800;
+  color: #000;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.test-razorpay-btn-alt:hover {
+  background: #ffb74d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .auth-button {
@@ -205,6 +279,55 @@
   text-align: center;
 }
 
+.payment-error-message {
+  background: rgba(255, 152, 0, 0.1);
+  border: 1px solid rgba(255, 152, 0, 0.3);
+  color: #ff9800;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.payment-error-message i {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.payment-error-message h3 {
+  color: #ff9800 !important;
+  margin: 10px 0 !important;
+  border: none !important;
+  font-size: 1.3rem !important;
+}
+
+.payment-error-message p {
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+.support-contact {
+  font-weight: bold;
+  margin-top: 15px !important;
+}
+
+.test-razorpay-btn {
+  margin-top: 15px;
+  padding: 10px 15px;
+  background-color: #ff9800;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.test-razorpay-btn:hover {
+  background-color: #ffb74d;
+  transform: translateY(-2px);
+}
+
 .success-message {
   text-align: center;
   padding: 40px 20px;
@@ -227,6 +350,45 @@
   margin-bottom: 30px;
   font-size: 1.2rem;
   color: rgba(255, 255, 255, 0.9);
+}
+
+/* Payment details styles */
+.payment-details {
+  text-align: left;
+  padding: 20px;
+}
+
+.payment-info {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.payment-info p {
+  margin: 10px 0;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.payment-info h4 {
+  margin: 20px 0 10px;
+  color: #ff9800;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 15px;
+}
+
+.json-data {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #fff;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 /* Responsive adjustments */

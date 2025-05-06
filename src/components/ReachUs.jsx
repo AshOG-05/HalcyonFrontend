@@ -44,7 +44,7 @@ function ReachUs() {
         <div className="map-container">
           <div className="map-wrapper">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3885.1876058736247!2d77.11399731482266!3d13.159633990731916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae17bd97edec5b%3A0x1b3e9736e3303e33!2sSiddaganga%20Institute%20of%20Technology%2C%20Tumkur%2C%20Karnataka%20572103!5e0!3m2!1sen!2sin!4v1715000000000!5m2!1sen!2sin"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2944.317382965022!2d77.12718760618048!3d13.326620228979811!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb02e826fb691ef%3A0xe78608813c36f380!2sSiddaganga%20Institute%20Of%20Technology!5e1!3m2!1sen!2sin!4v1746500465906!5m2!1sen!2sin"
               width="100%"
               height="450"
               style={{ border: 0 }}
@@ -56,7 +56,7 @@ function ReachUs() {
           </div>
           <div className="map-actions">
             <a
-              href="https://maps.app.goo.gl/RUsWfGZoyZxEfr2v6"
+              href="https://www.google.com/maps/place/Siddaganga+Institute+Of+Technology/@13.3266202,77.1271876,17z/data=!3m1!4b1!4m6!3m5!1s0x3bb02e826fb691ef:0xe78608813c36f380!8m2!3d13.3266202!4d77.1271876!16s%2Fg%2F11c1z0_4ky"
               target="_blank"
               rel="noopener noreferrer"
               className="view-on-maps-btn"
