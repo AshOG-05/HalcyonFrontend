@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import './Sidebar.css';
 
 function Sidebar({ externalToggle }) {
+  // Initialize sidebar as explicitly closed
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const [touchStart, setTouchStart] = useState(null);
@@ -72,9 +73,15 @@ function Sidebar({ externalToggle }) {
     };
   }, []);
 
+  // Ensure sidebar is closed on initial render
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, []);
+
   // Handle external toggle from MobileNavbar
   useEffect(() => {
-    if (externalToggle !== undefined) {
+    // Only toggle if externalToggle is not null and not undefined
+    if (externalToggle !== null && externalToggle !== undefined) {
       setSidebarOpen(prev => !prev);
     }
   }, [externalToggle]);

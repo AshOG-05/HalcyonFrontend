@@ -13,10 +13,11 @@ function Banner() {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [sidebarToggle, setSidebarToggle] = useState(0);
+  // Initialize with null to prevent triggering the sidebar toggle on first render
+  const [sidebarToggle, setSidebarToggle] = useState(null);
 
   const toggleSidebar = () => {
-    setSidebarToggle(prev => prev + 1);
+    setSidebarToggle(prev => (prev === null ? 1 : prev + 1));
   };
 
   useEffect(() => {

@@ -32,7 +32,7 @@ function Footer() {
                 <span className="contact-info">: 99729 09371</span>
               </li>
               <li>
-                <span className="contact-name">ANKITHA G R</span>
+                <span className="contact-name">ANKITHA G</span>
                 <span className="contact-info">: 93539 91404</span>
               </li>
             </ul>
