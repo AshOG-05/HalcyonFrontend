@@ -32,7 +32,7 @@ function Footer() {
                 <span className="contact-info">: 99729 09371</span>
               </li>
               <li>
-                <span className="contact-name">ANKITHA G R</span>
+                <span className="contact-name">ANKITHA G</span>
                 <span className="contact-info">: 93539 91404</span>
               </li>
             </ul>
@@ -71,8 +71,6 @@ function Footer() {
             <li><a href="#"><i className="fab fa-facebook"></i></a></li>
             <li><a href="mailto:halcyon.sit@gmail.com"><i className="fas fa-envelope"></i></a></li>
             <li><a href="https://www.instagram.com/halcyon_official" target="_blank" rel="noopener noreferrer"><i className="fab fa-instagram"></i></a></li>
-            <li><a href="#"><i className="fab fa-youtube"></i></a></li>
-            <li><a href="#"><i className="fab fa-linkedin"></i></a></li>
           </ul>
         </div>
 

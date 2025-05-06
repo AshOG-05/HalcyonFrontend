@@ -7,8 +7,10 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [paymentError, setPaymentError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [eventName, setEventName] = useState('');
+  const [registrationClosed, setRegistrationClosed] = useState(false);
 
   // User data
   const [userData, setUserData] = useState({
@@ -20,6 +22,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
   // Form data
   const [teamSize, setTeamSize] = useState(1);
   const [teamName, setTeamName] = useState('');
+  const [commonCollegeName, setCommonCollegeName] = useState('');
   const [participants, setParticipants] = useState([
     { name: '', usn: '', mobile: '', email: '', collegeName: '' }
   ]);
@@ -142,6 +145,13 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       console.log('Event details fetched successfully:', data);
       setEventName(data.name || 'Unknown Event');
 
+      // Check if registration is open for this event
+      if (data.registrationOpen === false) {
+        console.log('Registration is closed for this event');
+        setRegistrationClosed(true);
+        return;
+      }
+
       // Set team size options based on event configuration
       if (data.isVariableTeamSize) {
         // If variable team size, provide options from 1 to max team size
@@ -224,6 +234,107 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
     setParticipants(updatedParticipants);
   };
 
+  const initiatePayment = async (eventId) => {
+    try {
+      const token = localStorage.getItem(APP_CONFIG.tokenName);
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
+      // Create payment order
+      const orderResponse = await corsProtectedFetch(`payment/create-order/${eventId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!orderResponse.ok) {
+        const errorData = await orderResponse.json();
+        throw new Error(errorData.error || 'Failed to create payment order');
+      }
+
+      const orderData = await orderResponse.json();
+      console.log('Order data received from backend:', orderData);
+
+      // If it's a free event, proceed with registration
+      if (orderData.freeEvent) {
+        console.log('Free event detected, skipping payment');
+        return { freeEvent: true };
+      }
+
+      // Initialize Razorpay - simplified approach
+      return new Promise((resolve, reject) => {
+        // Load Razorpay dynamically if not available
+        if (typeof window.Razorpay === 'undefined') {
+          const script = document.createElement('script');
+          script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+          script.onload = () => {
+            console.log('Razorpay script loaded dynamically');
+            initializePayment();
+          };
+          script.onerror = () => {
+            console.error('Failed to load Razorpay script dynamically');
+            reject(new Error('Payment gateway failed to load. Please try again later.'));
+          };
+          document.body.appendChild(script);
+        } else {
+          initializePayment();
+        }
+
+        function initializePayment() {
+          const options = {
+            key: orderData.keyId,
+            amount: orderData.amount,
+            currency: orderData.currency,
+            name: "Halcyon 2025",
+            description: "Event Registration Fee",
+            order_id: orderData.orderId,
+            handler: function (response) {
+              console.log('Payment successful, response:', response);
+              resolve({
+                paymentId: response.razorpay_payment_id,
+                orderId: response.razorpay_order_id
+              });
+            },
+            prefill: {
+              name: userData.name || '',
+              email: userData.email || '',
+              contact: userData.mobile || ''
+            },
+            theme: {
+              color: "#3399cc"
+            },
+            modal: {
+              ondismiss: function () {
+                console.log('Payment modal dismissed by user');
+                reject(new Error('Payment cancelled by user'));
+              }
+            }
+          };
+
+          console.log('Opening Razorpay with options:', options);
+
+          try {
+            const razorpay = new window.Razorpay(options);
+            razorpay.on('payment.failed', function (response) {
+              console.error('Payment failed:', response.error);
+              reject(new Error(response.error.description || 'Payment failed'));
+            });
+            razorpay.open();
+          } catch (error) {
+            console.error('Error creating Razorpay instance:', error);
+            reject(new Error('Could not initialize payment gateway. Please try again.'));
+          }
+        }
+      });
+    } catch (err) {
+      console.error('Payment initiation error:', err);
+      throw err;
+    }
+  };
+
   // Form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -234,13 +345,28 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       return;
     }
 
+    // Validate common college name
+    if (!commonCollegeName) {
+      setError('Please enter the college name');
+      return;
+    }
+
     // Validate all participants have required fields
     for (let i = 0; i < participants.length; i++) {
       const participant = participants[i];
-      if (!participant.name || !participant.usn || !participant.mobile ||
-        (i > 0 && (!participant.email || !participant.collegeName))) {
-        setError(`All fields for participant ${i + 1} are required`);
-        return;
+
+      if (i === 0) {
+        // Team leader validation - only check USN as other fields come from userData
+        if (!participant.usn) {
+          setError(`Please fill in USN for team leader`);
+          return;
+        }
+      } else {
+        // Other team members validation - check all fields except collegeName
+        if (!participant.name || !participant.email || !participant.mobile || !participant.usn) {
+          setError(`All fields for participant ${i + 1} are required`);
+          return;
+        }
       }
     }
 
@@ -266,7 +392,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       // Prepare registration data according to backend requirements
       const registrationData = {
         teamLeaderDetails: {
-          collegeName: teamLeader.collegeName,
+          collegeName: commonCollegeName, // Use common college name for team leader
           usn: teamLeader.usn
         },
         teamName: teamSize > 2 ? teamName : null,
@@ -276,9 +402,30 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
           email: member.email,
           mobile: member.mobile,
           usn: member.usn,
-          collegeName: member.collegeName
+          collegeName: commonCollegeName // Use common college name for all team members
         }))
       };
+
+      // Reset payment error state
+      setPaymentError(false);
+
+      try {
+        // Process payment if needed
+        const paymentResult = await initiatePayment(eventId);
+
+        // Add payment details to registration data if payment was processed
+        if (paymentResult && !paymentResult.freeEvent) {
+          registrationData.paymentId = paymentResult.paymentId;
+          registrationData.orderId = paymentResult.orderId;
+        }
+      } catch (paymentErr) {
+        // Check if this is a payment service unavailability error
+        if (paymentErr.message && paymentErr.message.includes('Payment service is not available')) {
+          setPaymentError(true);
+          throw paymentErr; // Re-throw to be caught by the outer catch block
+        }
+        throw paymentErr; // Re-throw other payment errors
+      }
 
       // Log the data being sent to ensure it matches the backend model
       console.log('Team leader details:', {
@@ -286,9 +433,11 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
         name: userData.name,
         email: userData.email,
         mobile: userData.mobile,
-        collegeName: teamLeader.collegeName,
+        collegeName: commonCollegeName,
         usn: teamLeader.usn
       });
+
+
 
       console.log('Sending registration data:', registrationData);
 
@@ -304,7 +453,12 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to register for event');
+        if (errorData.requresPayment) {
+          throw new Error('Payment is required for this event');
+        }
+        throw new Error(errorData.error ||
+          'Failed to register for event'
+        );
       }
 
       const data = await response.json();
@@ -316,7 +470,14 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
         onSuccess(data);
       }
     } catch (err) {
-      setError(err.message || 'An error occurred during registration');
+      if (err.message && err.message.includes('Payment service is not available')) {
+        // Handle payment service unavailability specifically
+        setPaymentError(true);
+        setError(err.message);
+      } else {
+        // Handle other errors
+        setError(err.message || 'An error occurred during registration');
+      }
       console.error('Registration error:', err);
     } finally {
       setSubmitting(false);
@@ -337,6 +498,28 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
     );
   }
 
+  // Render registration closed state
+  if (registrationClosed) {
+    return (
+      <div className="event-registration-overlay">
+        <div className="event-registration-modal">
+          <button className="close-modal" onClick={onClose}>
+            <i className="fas fa-times"></i>
+          </button>
+          <div className="registration-closed">
+            <i className="fas fa-lock registration-closed-icon"></i>
+            <h3>Registration Closed</h3>
+            <p>Registration for {eventName} is currently closed.</p>
+            <p>Please check back later or contact the event organizers for more information.</p>
+            <button className="auth-button" onClick={onClose}>Close</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+
+
   // Render success state
   if (success) {
     return (
@@ -349,7 +532,9 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
             <i className="fas fa-check-circle"></i>
             <h3>Registration Successful!</h3>
             <p>You have successfully registered for {eventName}.</p>
-            <button className="auth-button" onClick={onClose}>Close</button>
+            <div className="form-actions">
+              <button className="auth-button" onClick={onClose}>Close</button>
+            </div>
           </div>
         </div>
       </div>
@@ -366,6 +551,17 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
         <h2>Register for {eventName}</h2>
 
         {error && <div className="error-message">{error}</div>}
+
+        {paymentError && (
+          <div className="payment-error-message">
+            <i className="fas fa-exclamation-triangle"></i>
+            <h3>Payment Service Unavailable</h3>
+            <p>We're experiencing technical difficulties with our payment service. Please try again later or contact support for assistance.</p>
+            <p className="support-contact">Email: support@halcyon2025.com</p>
+
+
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="registration-form">
           <div className="form-section">
@@ -406,6 +602,20 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
           <div className="form-section">
             <h3>Participant Details</h3>
 
+            {/* Common College Name for all participants */}
+            <div className="form-group highlight-field">
+              <label htmlFor="common-college-name">College Name (for all participants) *</label>
+              <input
+                type="text"
+                id="common-college-name"
+                value={commonCollegeName}
+                onChange={(e) => setCommonCollegeName(e.target.value)}
+                required
+                placeholder="Enter college name"
+              />
+              <p className="field-note">All participants will be registered with this college name</p>
+            </div>
+
             {participants.map((participant, index) => (
               <div key={index} className="team-member">
                 <h5>Participant {index + 1} {index === 0 ? '(Team Leader)' : ''}</h5>
@@ -416,6 +626,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                     <p><strong>Name:</strong> {userData.name}</p>
                     <p><strong>Email:</strong> {userData.email}</p>
                     <p><strong>Mobile:</strong> {userData.mobile}</p>
+                    <p className="required-fields-note">Please fill in the USN field below</p>
                   </div>
                 )}
 
@@ -463,7 +674,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                 )}
 
                 {/* USN field for all participants */}
-                <div className="form-group">
+                <div className={`form-group ${index === 0 ? 'highlight-field' : ''}`}>
                   <label htmlFor={`participant-${index}-usn`}>USN/College ID *</label>
                   <input
                     type="text"
@@ -472,19 +683,6 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                     onChange={(e) => handleParticipantChange(index, 'usn', e.target.value)}
                     required
                     placeholder="Enter USN or college ID"
-                  />
-                </div>
-
-                {/* College Name field for all participants */}
-                <div className="form-group">
-                  <label htmlFor={`participant-${index}-college`}>College Name *</label>
-                  <input
-                    type="text"
-                    id={`participant-${index}-college`}
-                    value={participant.collegeName}
-                    onChange={(e) => handleParticipantChange(index, 'collegeName', e.target.value)}
-                    required
-                    placeholder="Enter college name"
                   />
                 </div>
               </div>
@@ -500,6 +698,8 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
             >
               {submitting ? 'Registering...' : 'Register for Event'}
             </button>
+
+
           </div>
         </form>
       </div>
