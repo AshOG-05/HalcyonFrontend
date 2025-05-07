@@ -88,17 +88,17 @@ function TiltCards() {
                     }}
                   ></div>
                   {event.title === "DJ NIGHT" && (
-                    <a href="/events/music" className="tilt-card-link">
+                    <a  className="tilt-card-link">
                       <div className="tilt-card-link-overlay"></div>
                     </a>
                   )}
                   {event.title === "CHOREOGRAPHY" && (
-                    <a href="/events/dance" className="tilt-card-link">
+                    <a  className="tilt-card-link">
                       <div className="tilt-card-link-overlay"></div>
                     </a>
                   )}
                   {event.title === "ETHNIC SHOW" && (
-                    <a href="/events/dance" className="tilt-card-link">
+                    <a  className="tilt-card-link">
                       <div className="tilt-card-link-overlay"></div>
                     </a>
                   )}

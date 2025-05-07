@@ -642,7 +642,9 @@ function AdminDashboard() {
               />
             ) : (
               <div className="event-controls">
-                <button className="add-btn" onClick={handleAddEvent}>Add New Event</button>
+                <button className="add-btn" onClick={handleAddEvent}>
+                  <i className="fas fa-plus"></i> Add New Event
+                </button>
 
                 <div className="filter-controls">
                   <div className="filter-group">
@@ -675,7 +677,7 @@ function AdminDashboard() {
               </div>
             )}
             <div className="event-count">
-              Showing {filteredEvents.length} of {events.length} events
+              <i className="fas fa-info-circle"></i> Showing {filteredEvents.length} of {events.length} events
             </div>
             <table className="dashboard-table">
               <thead>
@@ -730,7 +732,7 @@ function AdminDashboard() {
 
       case 'registrations':
         return (
-          <div className="dashboard-table-container">
+          <div className="dashboard-table-container registrations-tab">
             <h3>Registration Management</h3>
 
             <div className="pdf-generator-section">
@@ -765,21 +767,22 @@ function AdminDashboard() {
                 </div>
 
                 <div className="pdf-buttons">
-                  <button className="preview-pdf-btn" onClick={handlePreviewPdf}>
+                  <button className="preview-pdf-btn" onClick={handlePreviewPdf} title="Preview PDF in browser">
                     <i className="fas fa-eye"></i> Preview PDF
                   </button>
-                  <button className="generate-pdf-btn" onClick={handleGeneratePdf}>
+                  <button className="generate-pdf-btn" onClick={handleGeneratePdf} title="Download PDF to your device">
                     <i className="fas fa-file-pdf"></i> Download PDF
+                  </button>
+                  <button className="export-excel-btn" onClick={handleExportToExcel} title="Export all registrations to Excel">
+                    <i className="fas fa-file-excel"></i> Export to Excel
                   </button>
                 </div>
               </div>
-              <div className="pdf-help-text">
-                <i className="fas fa-info-circle"></i> Select a category and event, then click "Preview PDF" to view or "Download PDF" to save the registration report.
-              </div>
+
             </div>
 
             {error ? (
-              <div className="error-message">
+              <div className="error-message registrations-tab-error">
                 <i className="fas fa-exclamation-triangle"></i>
                 {error.includes("Cannot populate path `participant`") ? (
                   <>
@@ -814,50 +817,6 @@ const getAllRegistrations = async (req, res) => {
               </div>
             ) : (
               <>
-                <div className="filter-controls">
-                  <div className="filter-group">
-                    <label htmlFor="registrationCategoryFilter">Category:</label>
-                    <select
-                      id="registrationCategoryFilter"
-                      value={registrationCategoryFilter}
-                      onChange={handleRegistrationCategoryFilterChange}
-                    >
-                      <option value="all">All Categories</option>
-                      {EVENT_CATEGORIES.map(cat => (
-                        <option key={cat.id} value={cat.id}>{cat.label}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="filter-group">
-                    <label htmlFor="registrationEventFilter">Event:</label>
-                    <select
-                      id="registrationEventFilter"
-                      value={registrationEventFilter}
-                      onChange={handleRegistrationEventFilterChange}
-                    >
-                      <option value="all">All Events</option>
-                      {events.map(event => (
-                        <option key={event._id} value={event._id}>{event.name}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="export-controls">
-                    <button
-                      className="export-excel-btn"
-                      onClick={handleExportToExcel}
-                      title="Export all registrations to Excel"
-                    >
-                      <i className="fas fa-file-excel"></i> Export All Registrations to Excel
-                    </button>
-                  </div>
-                </div>
-
-                <div className="event-count">
-                  Showing {filteredRegistrations.length} of {registrations.length} registrations
-                </div>
-
                 <table className="dashboard-table">
                   <thead>
                     <tr>
@@ -899,7 +858,10 @@ const getAllRegistrations = async (req, res) => {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="6" className="no-data">No registrations found</td>
+                        <td colSpan="6" className="no-data">
+                          <i className="fas fa-exclamation-circle"></i>
+                          No registrations found
+                        </td>
                       </tr>
                     )}
                   </tbody>
@@ -918,7 +880,9 @@ const getAllRegistrations = async (req, res) => {
     <div className="dashboard-container">
       <div className="dashboard-header">
         <h2>Admin Dashboard</h2>
-        <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        <button className="logout-btn" onClick={handleLogout}>
+          <i className="fas fa-sign-out-alt"></i> Logout
+        </button>
       </div>
 
       <div className="dashboard-content">
@@ -927,29 +891,51 @@ const getAllRegistrations = async (req, res) => {
             className={`sidebar-btn ${activeTab === 'users' ? 'active' : ''}`}
             onClick={() => setActiveTab('users')}
           >
-            <i className="fas fa-users"></i> Users
+            <i className="fas fa-users"></i> <span>Users</span>
           </button>
           <button
             className={`sidebar-btn ${activeTab === 'events' ? 'active' : ''}`}
             onClick={() => setActiveTab('events')}
           >
-            <i className="fas fa-calendar-alt"></i> Events
+            <i className="fas fa-calendar-alt"></i> <span>Events</span>
           </button>
           <button
             className={`sidebar-btn ${activeTab === 'registrations' ? 'active' : ''}`}
             onClick={() => setActiveTab('registrations')}
           >
-            <i className="fas fa-clipboard-list"></i> Registrations
+            <i className="fas fa-clipboard-list"></i> <span>Registrations</span>
           </button>
           <button
             className={`sidebar-btn ${activeTab === 'settings' ? 'active' : ''}`}
             onClick={() => setActiveTab('settings')}
           >
-            <i className="fas fa-cog"></i> Settings
+            <i className="fas fa-cog"></i> <span>Settings</span>
           </button>
         </div>
 
         <div className="dashboard-main">
+          {!loading && !error && (
+            <div className="dashboard-stats">
+              <div className="stat-card users">
+                <h4><i className="fas fa-users"></i> Total Users</h4>
+                <div className="stat-value">{users.length}</div>
+                <div className="stat-description">Registered users in the system</div>
+              </div>
+
+              <div className="stat-card events">
+                <h4><i className="fas fa-calendar-alt"></i> Total Events</h4>
+                <div className="stat-value">{events.length}</div>
+                <div className="stat-description">Events created for Halcyon 2025</div>
+              </div>
+
+              <div className="stat-card registrations">
+                <h4><i className="fas fa-clipboard-check"></i> Total Registrations</h4>
+                <div className="stat-value">{registrations.length}</div>
+                <div className="stat-description">Event registrations received</div>
+              </div>
+            </div>
+          )}
+
           {renderContent()}
         </div>
       </div>
