@@ -249,20 +249,25 @@ function TeamDashboard() {
         }))
       };
 
+      // Get team member info from localStorage
+      const teamMemberData = JSON.parse(localStorage.getItem('userData')) || {};
+      const teamMemberName = teamMemberData.name || 'Unknown';
+
       // If the event has a fee, handle payment (for spot registration, we'll assume payment is handled separately)
       if (selectedEvent && selectedEvent.fees > 0) {
         registrationData.paymentStatus = 'completed';
-        registrationData.paymentId = 'SPOT_PAYMENT_' + Date.now();
-        registrationData.orderId = 'SPOT_ORDER_' + Date.now();
+        // Include team member name in payment references for better tracking
+        registrationData.paymentId = `SPOT_PAYMENT_${teamMemberName}_${Date.now()}`;
+        registrationData.orderId = `SPOT_ORDER_${teamMemberName}_${Date.now()}`;
       }
 
-      // Send registration request using the regular registration endpoint
+      // Send registration request using the dedicated spot registration endpoint
       const token = localStorage.getItem('teamCookie');
 
       // Log the data being sent for debugging
       console.log('Sending spot registration data:', registrationData);
 
-      const response = await fetch(`${API_URL}/registration/${spotRegistrationForm.eventId}`, {
+      const response = await fetch(`${API_URL}/registration/spot/${spotRegistrationForm.eventId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -379,6 +384,7 @@ function TeamDashboard() {
                   <th>Team Size</th>
                   <th>Registration Date</th>
                   <th>Status</th>
+                  <th>Registered By</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -388,8 +394,10 @@ function TeamDashboard() {
                     <tr key={reg._id}>
                       <td>{reg.event?.name || 'Unknown Event'}</td>
                       <td>
-                        {reg.teamLeader?.name || 'Unknown'}
-                        {reg.spotRegistration ? ' (Spot Registration)' : ''}
+                        {reg.isSpotRegistration
+                          ? (reg.displayTeamLeader?.name || 'Unknown') + ' (Spot Registration)'
+                          : reg.teamLeader?.name || 'Unknown'
+                        }
                       </td>
                       <td>{reg.teamSize || 1} {reg.teamSize > 1 ? 'members' : 'member'}</td>
                       <td>{new Date(reg.registeredAt).toLocaleDateString()}</td>
@@ -402,9 +410,39 @@ function TeamDashboard() {
                         </span>
                       </td>
                       <td>
+                        {reg.isSpotRegistration && reg.registeredBy ? (
+                          <span className="registered-by">
+                            {reg.registeredBy.name}
+                          </span>
+                        ) : (
+                          <span className="registered-by">
+                            {reg.isSpotRegistration ? 'Unknown Team Member' : 'Self Registration'}
+                          </span>
+                        )}
+                      </td>
+                      <td>
                         <button
                           className="action-btn view-btn"
-                          onClick={() => alert(`Registration details for ${reg.event?.name || 'Unknown Event'}\n\nTeam: ${reg.teamName || 'Individual'}\nTeam Size: ${reg.teamSize || 1}\nCollege: ${reg.teamLeaderDetails?.collegeName || 'Unknown'}`)}
+                          onClick={() => {
+                            // Create a more detailed message for spot registrations
+                            let detailsMessage = `Registration details for ${reg.event?.name || 'Unknown Event'}\n\n`;
+                            detailsMessage += `Team: ${reg.teamName || 'Individual'}\n`;
+                            detailsMessage += `Team Size: ${reg.teamSize || 1}\n`;
+                            detailsMessage += `College: ${reg.teamLeaderDetails?.collegeName || 'Unknown'}\n`;
+
+                            // Add payment details for paid events
+                            if (reg.paymentStatus === 'completed' && reg.paymentId) {
+                              detailsMessage += `\nPayment ID: ${reg.paymentId}\n`;
+                            }
+
+                            // Add spot registration details if applicable
+                            if (reg.isSpotRegistration && reg.registeredBy) {
+                              detailsMessage += `\nSpot Registration by: ${reg.registeredBy.name}\n`;
+                              detailsMessage += `Contact: ${reg.registeredBy.mobile}\n`;
+                            }
+
+                            alert(detailsMessage);
+                          }}
                         >
                           <i className="fas fa-eye"></i> Details
                         </button>
