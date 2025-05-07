@@ -195,13 +195,23 @@ function EventDetail() {
               </div>
             </div>
 
-            <button
-              className="register-button"
-              onClick={handleRegister}
-              disabled={registering || registrationStatus.success}
-            >
-              {registering ? 'Registering...' : 'Register for this Event'}
-            </button>
+            <div className="registration-buttons">
+              <button
+                className="register-button"
+                onClick={handleRegister}
+                disabled={registering || registrationStatus.success}
+              >
+                {registering ? 'Registering...' : 'Register Now'}
+              </button>
+
+              <button
+                className="register-page-button"
+                onClick={() => navigate(`/event/${id}/register`)}
+                disabled={registering || registrationStatus.success}
+              >
+                Go to Registration Page
+              </button>
+            </div>
 
             <button
               className="back-button"

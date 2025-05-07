@@ -8,6 +8,7 @@ import TeamDashboard from './pages/TeamDashboard'
 import Events from './pages/Events'
 import EventDetail from './pages/EventDetail'
 import CategoryEvents from './pages/CategoryEvents'
+import EventRegistrationPage from './components/EventRegistrationPage'
 import TestPage from './TestPage'
 import './index.css'
 
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/events" element={<Events />} />
         <Route path="/events/:eventName" element={<CategoryEvents />} />
         <Route path="/event/:id" element={<EventDetail />} />
+        <Route path="/event/:eventId/register" element={<EventRegistrationPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
