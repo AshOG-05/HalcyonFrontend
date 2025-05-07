@@ -313,7 +313,7 @@ function EventModal({ eventId, onClose }) {
                 <div className="event-registration-info">
                   <div className="registration-fee">
                     <i className="fas fa-ticket-alt"></i>
-                    <span>Registration Fee: {event.fees ? `₹${event.fees}` : 'Free'}</span>
+                    <span>Registration Fee: {event.fees > 0 ? `₹${event.fees}` : 'Free'}</span>
                   </div>
 
                   <div className="team-size-info">
