@@ -115,6 +115,18 @@
   text-align: center;
 }
 
+.registration-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) {
+  .registration-buttons {
+    flex-direction: column;
+  }
+}
+
 .register-button {
   background: #ff9800;
   color: #000;
@@ -125,6 +137,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 1rem;
+  flex: 1;
 }
 
 .register-button:hover {
@@ -134,6 +147,30 @@
 
 .register-button:disabled {
   background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.register-page-button {
+  background: rgba(255, 152, 0, 0.2);
+  color: #ff9800;
+  border: 1px solid #ff9800;
+  padding: 1rem;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  flex: 1;
+}
+
+.register-page-button:hover {
+  background: rgba(255, 152, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.register-page-button:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }

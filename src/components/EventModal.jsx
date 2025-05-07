@@ -313,20 +313,22 @@ function EventModal({ eventId, onClose }) {
                 <div className="event-registration-info">
                   <div className="registration-fee">
                     <i className="fas fa-ticket-alt"></i>
-                    <span>Registration Fee: {event.fees > 0 ? `₹${event.fees}` : 'Free'}</span>
+                    <span>Registration Fee: <strong>{event.registrationFee === 0 ? 'Free' : event.registrationFee ? `₹${event.registrationFee}` : event.fees && parseInt(event.fees) > 0 ? `₹${event.fees}` : 'Free'}</strong></span>
                   </div>
 
                   <div className="team-size-info">
                     <i className="fas fa-users"></i>
                     <span>
-                      {event.teamSize === 1
-                        ? 'Individual Event'
-                        : event.teamSize === 2
-                          ? 'Duo Event (2 participants)'
-                          : `Team Event (${event.isVariableTeamSize
-                            ? `Up to ${event.teamSize} participants`
-                            : `${event.teamSize} participants`})`
-                      }
+                      Team Size: <strong>
+                        {event.teamSize === 1
+                          ? 'Individual Event'
+                          : event.teamSize === 2
+                            ? 'Duo Event (2 participants)'
+                            : `Team Event (${event.isVariableTeamSize
+                              ? `Up to ${event.teamSize} participants`
+                              : `${event.teamSize} participants`})`
+                        }
+                      </strong>
                     </span>
                   </div>
                 </div>

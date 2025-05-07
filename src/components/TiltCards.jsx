@@ -87,21 +87,7 @@ function TiltCards() {
                       ...(event.title === "ETHNIC SHOW" ? { backgroundPosition: 'center bottom' } : {})
                     }}
                   ></div>
-                  {event.title === "DJ NIGHT" && (
-                    <a href="/events/music" className="tilt-card-link">
-                      <div className="tilt-card-link-overlay"></div>
-                    </a>
-                  )}
-                  {event.title === "CHOREOGRAPHY" && (
-                    <a href="/events/dance" className="tilt-card-link">
-                      <div className="tilt-card-link-overlay"></div>
-                    </a>
-                  )}
-                  {event.title === "ETHNIC SHOW" && (
-                    <a href="/events/dance" className="tilt-card-link">
-                      <div className="tilt-card-link-overlay"></div>
-                    </a>
-                  )}
+                  <div className="tilt-card-link-overlay"></div>
                 </div>
               </div>
             </div>

@@ -76,7 +76,7 @@ function AuthPage() {
                 className="auth-link"
                 onClick={() => setActiveTab('forgot')}
               >
-                Forgot Password?
+                <i className="fas fa-question-circle"></i> Forgot Password?
               </button>
             )}
           </div>

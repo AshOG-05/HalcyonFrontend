@@ -41,7 +41,8 @@ function Timeline() {
     "Blind fold Texting",
     "Creative Photography",
     "JAM (Finals)",
-    "Valedictory Function Musical Night"
+    "Valedictory Function", 
+    "Musical Night"
   ];
 
   useEffect(() => {
