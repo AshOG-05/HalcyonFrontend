@@ -1,139 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="/assets/final LOGO.png" type="image/x-icon">
-    <meta name="description" content="Halcyon 2025 is here! Come with us and experience our journey to the India ">
-    <meta property="og:title" content="Halcyon 2025" />
-    <meta property="og:description" content="Halcyon 2025 is here! Come with us and experience our journey to the India" />
-    <meta property="og:url" content="https://halcyonfest.netlify.app/" />
-    <meta property="og:site_name" content="Halcyon Fest" />
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="/assets/final LOGO.png" type="image/x-icon">
+  <meta name="description" content="Halcyon 2025 is here! Come with us and experience our journey to the India ">
+  <meta property="og:title" content="Halcyon 2025" />
+  <meta property="og:description"
+    content="Halcyon 2025 is here! Come with us and experience our journey to the India" />
+  <meta property="og:url" content="https://halcyonfest.netlify.app/" />
+  <meta property="og:site_name" content="Halcyon Fest" />
 
-    <!-- AOS Library -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <!-- SweetAlert2 -->
-    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+  <!-- AOS Library -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
 
-    <title>Halcyon 2025</title>
-    <style type="text/css">
-    .loader-bg {position: fixed;z-index: 99999;background: rgb(10, 10, 10);background: radial-gradient(circle, rgba(30, 30, 30, 1) 0%, rgba(10, 10, 10, 1) 100%);height: 100%;width: 100%;opacity: 1;overflow: hidden;}.loader{position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;}.loader img {height: 40vh;max-width: 90vw;animation: pulse 3s ease-in-out infinite;margin: 0 auto;}
+  <!-- SweetAlert2 -->
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+
+  <title>Halcyon 2025</title>
+  <style type="text/css">
+    /* Global outline removal */
+    *:focus,
+    *:active,
+    *:-moz-focusring,
+    button:focus,
+    a:focus,
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none !important;
+      box-shadow: none !important;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+      -webkit-focus-ring-color: rgba(0, 0, 0, 0) !important;
+    }
+
+    /* Firefox specific */
+    *::-moz-focus-inner {
+      border: 0 !important;
+    }
+
+    /* Specific button styles */
+    .register-button a,
+    .logout-button a,
+    .register-button a:focus,
+    .logout-button a:focus,
+    .register-button a:active,
+    .logout-button a:active {
+      outline: none !important;
+      box-shadow: none !important;
+      border-color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .loader-bg {
+      position: fixed;
+      z-index: 99999;
+      background: rgb(10, 10, 10);
+      background: radial-gradient(circle, rgba(30, 30, 30, 1) 0%, rgba(10, 10, 10, 1) 100%);
+      height: 100%;
+      width: 100%;
+      opacity: 1;
+      overflow: hidden;
+    }
+
+    .loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .loader img {
+      height: 40vh;
+      max-width: 90vw;
+      animation: pulse 3s ease-in-out infinite;
+      margin: 0 auto;
+    }
+
     @keyframes pulse {
       0% {
         transform: scale(1);
         filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
       }
+
       50% {
         transform: scale(1.08);
         filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.8));
       }
+
       100% {
         transform: scale(1);
         filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
       }
     }
+
     /* Hide preloader on mobile devices - !important ensures it's always applied */
     @media (max-width: 768px) {
-      .loader-bg, .loader {display: none !important; visibility: hidden !important; opacity: 0 !important;}
+
+      .loader-bg,
+      .loader {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+      }
     }
   </style>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <!-- Main Styles -->
-    <link rel="stylesheet" href="/styles.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="/styles.css">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3R46NLEBWL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
+    gtag('config', 'G-3R46NLEBWL');
+  </script>
 
 </head>
-  <body>
-    <div id="root"></div>
 
-    <!-- Particles.js -->
-    <script src="/particles.js"></script>
+<body>
+  <div id="root"></div>
 
-    <!-- AOS Library -->
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        AOS.init({
-          offset: 300,
-          duration: 1500
-        });
+  <!-- Particles.js -->
+  <script src="/particles.js"></script>
 
-        // Initialize particles.js
-        if (window.particlesJS) {
-          window.particlesJS('particles-js', {
-            "particles": {
-              "number": {
-                "value": 160,
-                "density": {
-                  "enable": true,
-                  "value_area": 800
-                }
-              },
-              "color": {
-                "value": "#ffffff"
-              },
-              "shape": {
-                "type": "circle",
-                "stroke": {
-                  "width": 0,
-                  "color": "#000000"
-                }
-              },
-              "opacity": {
-                "value": 1,
-                "random": true,
-                "anim": {
-                  "enable": true,
-                  "speed": 1,
-                  "opacity_min": 0,
-                  "sync": false
-                }
-              },
-              "size": {
-                "value": 3,
-                "random": true
-              },
-              "line_linked": {
-                "enable": false
-              },
-              "move": {
+  <!-- AOS Library -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      AOS.init({
+        offset: 300,
+        duration: 1500
+      });
+
+      // Initialize particles.js
+      if (window.particlesJS) {
+        window.particlesJS('particles-js', {
+          "particles": {
+            "number": {
+              "value": 160,
+              "density": {
+                "enable": true,
+                "value_area": 800
+              }
+            },
+            "color": {
+              "value": "#ffffff"
+            },
+            "shape": {
+              "type": "circle",
+              "stroke": {
+                "width": 0,
+                "color": "#000000"
+              }
+            },
+            "opacity": {
+              "value": 1,
+              "random": true,
+              "anim": {
                 "enable": true,
                 "speed": 1,
-                "direction": "none",
-                "random": true,
-                "straight": false,
-                "out_mode": "out",
-                "bounce": false
+                "opacity_min": 0,
+                "sync": false
               }
             },
-            "interactivity": {
-              "detect_on": "canvas",
-              "events": {
-                "onhover": {
-                  "enable": false
-                },
-                "onclick": {
-                  "enable": false
-                },
-                "resize": true
-              }
+            "size": {
+              "value": 3,
+              "random": true
             },
-            "retina_detect": true
-          });
-        }
-      });
-    </script>
+            "line_linked": {
+              "enable": false
+            },
+            "move": {
+              "enable": true,
+              "speed": 1,
+              "direction": "none",
+              "random": true,
+              "straight": false,
+              "out_mode": "out",
+              "bounce": false
+            }
+          },
+          "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+              "onhover": {
+                "enable": false
+              },
+              "onclick": {
+                "enable": false
+              },
+              "resize": true
+            }
+          },
+          "retina_detect": true
+        });
+      }
+    });
+  </script>
 
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
 
-    <script type="module" src="/src/main.jsx"></script>
+  <script type="module" src="/src/main.jsx"></script>
 </body>
+
 </html>

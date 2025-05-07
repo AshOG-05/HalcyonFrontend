@@ -1,14 +1,19 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { EVENT_CATEGORIES } from '../../config';
 import { corsProtectedFetch, ORIGINAL_API_URL } from '../../utils/corsHelper';
 import './styles.css';
 
 function Events() {
+  const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const handleBack = () => {
+    navigate('/');
+  };
 
   useEffect(() => {
     fetchEvents();
@@ -36,6 +41,7 @@ function Events() {
 
         const data = await response.json();
         console.log('Successfully fetched events:', data);
+        console.log('Event data structure:', data.length > 0 ? data[0] : 'No events');
         setEvents(data);
         processCategoryData(data);
       } catch (corsError) {
@@ -94,6 +100,13 @@ function Events() {
     setCategories(categoriesArray);
   };
 
+  // Format registration fee for display
+  const formatRegistrationFee = (fee) => {
+    if (fee === undefined || fee === null) return 'Free';
+    if (fee === 0) return 'Free';
+    return `₹${fee}`;
+  };
+
   // Mock data function for fallback
   const getMockEvents = () => {
     return EVENT_CATEGORIES.map((category, index) => ({
@@ -103,14 +116,24 @@ function Events() {
       date: new Date().toISOString(),
       venue: 'Main Auditorium',
       category: category.id,
-      day: Math.floor(Math.random() * 2) + 1
+      day: Math.floor(Math.random() * 2) + 1,
+      registrationFee: Math.floor(Math.random() * 3) === 0 ? 0 : (Math.floor(Math.random() * 5) + 1) * 100
     }));
   };
 
   if (loading) {
     return (
       <div className="events-container">
-        <div className="loading">Loading events...</div>
+        <button className="back-button" onClick={handleBack}>
+          <i className="fas fa-home"></i> Home
+        </button>
+
+        <div style={{ textAlign: 'center', marginTop: '4rem' }}>
+          <div className="loading">
+            <i className="fas fa-spinner fa-pulse" style={{ marginRight: '10px' }}></i>
+            Loading events...
+          </div>
+        </div>
       </div>
     );
   }
@@ -118,18 +141,36 @@ function Events() {
   if (error) {
     return (
       <div className="events-container">
-        <div className="error">Error: {error}</div>
+        <button className="back-button" onClick={handleBack}>
+          <i className="fas fa-home"></i> Home
+        </button>
+
+        <div style={{ textAlign: 'center', marginTop: '4rem' }}>
+          <div className="error">
+            <i className="fas fa-exclamation-triangle" style={{ marginRight: '10px' }}></i>
+            Error: {error}
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="events-container">
-      <h1 className="events-title">Event Categories</h1>
-      <p className="events-subtitle">Explore events by category at Halcyon 2025</p>
+      <button className="back-button" onClick={handleBack}>
+        <i className="fas fa-home"></i> Home
+      </button>
+
+      <div style={{ textAlign: 'center' }}>
+        <h1 className="events-title">Event Categories</h1>
+        <p className="events-subtitle">Explore events by category at Halcyon 2025</p>
+      </div>
 
       {categories.length === 0 ? (
-        <div className="no-events">No categories found. Check back later!</div>
+        <div className="no-events">
+          <i className="fas fa-info-circle" style={{ marginRight: '10px' }}></i>
+          No categories found. Check back later!
+        </div>
       ) : (
         <div className="events-grid">
           {categories.map(category => (

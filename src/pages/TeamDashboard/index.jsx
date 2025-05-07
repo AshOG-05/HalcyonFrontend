@@ -254,7 +254,7 @@ function TeamDashboard() {
       const teamMemberName = teamMemberData.name || 'Unknown';
 
       // If the event has a fee, handle payment (for spot registration, we'll assume payment is handled separately)
-      if (selectedEvent && selectedEvent.fees > 0) {
+      if (selectedEvent && (selectedEvent.registrationFee > 0 || (selectedEvent.fees && parseInt(selectedEvent.fees) > 0))) {
         registrationData.paymentStatus = 'completed';
         // Include team member name in payment references for better tracking
         registrationData.paymentId = `SPOT_PAYMENT_${teamMemberName}_${Date.now()}`;
@@ -464,10 +464,10 @@ function TeamDashboard() {
           <div className="dashboard-form-container">
             <h3>Spot Registration</h3>
 
-            {selectedEvent && selectedEvent.fees > 0 && (
+            {selectedEvent && (selectedEvent.registrationFee > 0 || (selectedEvent.fees && parseInt(selectedEvent.fees) > 0)) && (
               <div className="event-fee-notice">
                 <i className="fas fa-info-circle"></i>
-                <p>This event has a registration fee of ₹{selectedEvent.fees}. For spot registrations, please collect the payment separately and mark as paid in the system.</p>
+                <p>This event has a registration fee of {selectedEvent.registrationFee ? `₹${selectedEvent.registrationFee}` : `₹${selectedEvent.fees}`}. For spot registrations, please collect the payment separately and mark as paid in the system.</p>
               </div>
             )}
 

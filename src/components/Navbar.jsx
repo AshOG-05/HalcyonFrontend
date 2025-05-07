@@ -45,9 +45,9 @@ function Navbar() {
       <a title="Sponsors" href="#sponsors_anchor">Sponsors</a>
 
       {isLoggedIn ? (
-        <a title="Profile" href="./profile/" className="profile show">
-          <i className="fas fa-user-astronaut"></i> User
-        </a>
+        <Link to="/profile" title="Profile" className="profile show">
+          <i className="fas fa-user-astronaut"></i> Profile
+        </Link>
       ) : (
         <Link to="/RegisterLogin" title="Login" className="login-btn">
           <i className="fas fa-sign-in-alt"></i> Login

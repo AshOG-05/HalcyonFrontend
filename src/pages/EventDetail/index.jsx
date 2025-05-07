@@ -177,7 +177,7 @@ function EventDetail() {
             <div className="event-registration-info">
               <div className="registration-fee">
                 <i className="fas fa-ticket-alt"></i>
-                <span>Registration Fee: {event.fees > 0 ? `₹${event.fees}` : 'Free'}</span>
+                <span>Registration Fee: <strong>{event.registrationFee === 0 ? 'Free' : event.registrationFee ? `₹${event.registrationFee}` : event.fees && parseInt(event.fees) > 0 ? `₹${event.fees}` : 'Free'}</strong></span>
               </div>
 
               <div className="team-size-info">
@@ -195,13 +195,23 @@ function EventDetail() {
               </div>
             </div>
 
-            <button
-              className="register-button"
-              onClick={handleRegister}
-              disabled={registering || registrationStatus.success}
-            >
-              {registering ? 'Registering...' : 'Register for this Event'}
-            </button>
+            <div className="registration-buttons">
+              <button
+                className="register-button"
+                onClick={handleRegister}
+                disabled={registering || registrationStatus.success}
+              >
+                {registering ? 'Registering...' : 'Register Now'}
+              </button>
+
+              <button
+                className="register-page-button"
+                onClick={() => navigate(`/event/${id}/register`)}
+                disabled={registering || registrationStatus.success}
+              >
+                Go to Registration Page
+              </button>
+            </div>
 
             <button
               className="back-button"

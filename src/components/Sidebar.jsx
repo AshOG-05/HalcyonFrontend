@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { isLoggedIn } from '../services/authService';
 import './Sidebar.css';
 
 function Sidebar({ externalToggle }) {
@@ -124,8 +126,8 @@ function Sidebar({ externalToggle }) {
           ref={sidebarRef}
           style={isMobile ?
             screenWidth <= 375 ? { width: '50%', maxWidth: '50%' } :
-            screenWidth <= 480 ? { width: '55%', maxWidth: '55%' } :
-            { width: '60%', maxWidth: '60%' }
+              screenWidth <= 480 ? { width: '55%', maxWidth: '55%' } :
+                { width: '60%', maxWidth: '60%' }
             : {}}>
           <div className="sidebar-header">
             <header>Explore</header>
@@ -138,43 +140,50 @@ function Sidebar({ externalToggle }) {
             </button>
           </div>
           <div className="sidebar-content">
-          <a title="Homepage" href="#top" className="active" onClick={closeSidebar}>
-            <i className="fas fa-rocket"></i>
-            <span>Homepage</span>
-          </a>
-          <a title="About" href="#about_anchor" onClick={closeSidebar}>
-            <i className="fas fa-info-circle"></i>
-            <span>About</span>
-          </a>
-          <a title="Timeline" href="#timeline_anchor" onClick={closeSidebar}>
-            <i className="fas fa-calendar-alt"></i>
-            <span>Timeline</span>
-          </a>
-          <a title="Events" href="#explore_anchor" onClick={closeSidebar}>
-            <i className="fas fa-compass"></i>
-            <span>Events</span>
-          </a>
-          <a title="Pronites" href="#pronites_anchor" onClick={closeSidebar}>
-            <i className="fas fa-music"></i>
-            <span>Pronites</span>
-          </a>
-          <a title="Sponsors" href="#sponsors_anchor" onClick={closeSidebar}>
-            <i className="fas fa-handshake"></i>
-            <span>Sponsors</span>
-          </a>
-          <a title="Contact" href="#contact_anchor" onClick={closeSidebar}>
-            <i className="fas fa-envelope"></i>
-            <span>Contact</span>
-          </a>
-          <a title="Sign-in" href="/RegisterLogin" className="in" onClick={closeSidebar}>
-            <i className="fas fa-user"></i>
-            <span>Sign-in</span>
-          </a>
+            <a title="Homepage" href="#top" className="active" onClick={closeSidebar}>
+              <i className="fas fa-rocket"></i>
+              <span>Homepage</span>
+            </a>
+            <a title="About" href="#about_anchor" onClick={closeSidebar}>
+              <i className="fas fa-info-circle"></i>
+              <span>About</span>
+            </a>
+            <a title="Timeline" href="#timeline_anchor" onClick={closeSidebar}>
+              <i className="fas fa-calendar-alt"></i>
+              <span>Timeline</span>
+            </a>
+            <a title="Events" href="#explore_anchor" onClick={closeSidebar}>
+              <i className="fas fa-compass"></i>
+              <span>Events</span>
+            </a>
+            <a title="Pronites" href="#pronites_anchor" onClick={closeSidebar}>
+              <i className="fas fa-music"></i>
+              <span>Pronites</span>
+            </a>
+            <a title="Sponsors" href="#sponsors_anchor" onClick={closeSidebar}>
+              <i className="fas fa-handshake"></i>
+              <span>Sponsors</span>
+            </a>
+            <a title="Contact" href="#contact_anchor" onClick={closeSidebar}>
+              <i className="fas fa-envelope"></i>
+              <span>Contact</span>
+            </a>
+            {isLoggedIn() ? (
+              <Link to="/profile" className="in" onClick={closeSidebar}>
+                <i className="fas fa-user-astronaut"></i>
+                <span>My Profile</span>
+              </Link>
+            ) : (
+              <Link to="/RegisterLogin" className="in" onClick={closeSidebar}>
+                <i className="fas fa-user"></i>
+                <span>Sign-in</span>
+              </Link>
+            )}
 
-          <a title="How to Reach Us" href="#reach_us" onClick={closeSidebar}>
-            <i className="fas fa-question"></i>
-            <span>FAQ's</span>
-          </a>
+            <a title="How to Reach Us" href="#reach_us" onClick={closeSidebar}>
+              <i className="fas fa-question"></i>
+              <span>FAQ's</span>
+            </a>
           </div>
         </div>
       </div>
