@@ -173,6 +173,8 @@ body {
   transition: all 0.3s ease;
   border-radius: 30px;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  outline: none !important;
+  outline-color: transparent !important;
 }
 
 .register-button a:hover, .logout-button a:hover {
