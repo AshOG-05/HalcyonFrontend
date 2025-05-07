@@ -198,6 +198,19 @@
   box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
 }
 
+.delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: #999;
+  color: #999;
+}
+
+.delete-btn:disabled:hover {
+  background-color: transparent;
+  transform: none;
+  box-shadow: none;
+}
+
 .close-btn {
   border-color: #ff9800;
   color: #ff9800;
