@@ -84,7 +84,7 @@
   color: white;
   font-weight: bold;
   font-size: 1.2rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1rem 0.5rem 1.5rem;
   z-index: 10;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   letter-spacing: 1px;
@@ -114,19 +114,13 @@
   background-position: center bottom !important;
 }
 
-.tilt-card-link {
+.tilt-card-link-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 10;
-  cursor: pointer;
-}
-
-.tilt-card-link-overlay {
-  width: 100%;
-  height: 100%;
 }
 
 /* Responsive adjustments */
