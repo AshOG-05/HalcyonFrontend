@@ -57,7 +57,7 @@ function Login() {
       {error && <div className="auth-error">{error}</div>}
       <form onSubmit={handleSubmit} className="auth-form">
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email"><i className="fas fa-envelope"></i> Email</label>
           <input
             type="email"
             id="email"
@@ -65,11 +65,11 @@ function Login() {
             value={formData.email}
             onChange={handleChange}
             required
-            placeholder="Enter your email"
+            placeholder="Enter your email address"
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password"><i className="fas fa-lock"></i> Password</label>
           <input
             type="password"
             id="password"
@@ -85,7 +85,7 @@ function Login() {
           className="auth-button"
           disabled={loading}
         >
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ? <><i className="fas fa-spinner fa-spin"></i> Logging in...</> : <><i className="fas fa-sign-in-alt"></i> Login</>}
         </button>
       </form>
     </div>

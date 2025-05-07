@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { EVENT_CATEGORIES } from '../../config';
-import { corsProtectedFetch, ORIGINAL_API_URL } from '../../utils/corsHelper';
+import { corsProtectedFetch } from '../../utils/corsHelper';
 import EventModal from '../../components/EventModal';
 import './styles.css';
 
 function CategoryEvents() {
   const { eventName } = useParams();
-  const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -50,6 +49,7 @@ function CategoryEvents() {
 
         const data = await response.json();
         console.log('Successfully fetched events for category:', eventName);
+        console.log('Event data from backend:', data);
 
         // Filter events by category
         const filteredEvents = data.filter(event =>
@@ -105,6 +105,7 @@ function CategoryEvents() {
         '2nd Prize: ₹5,000',
         '3rd Prize: ₹2,000'
       ],
+      registrationFee: Math.floor(Math.random() * 3) === 0 ? 0 : (Math.floor(Math.random() * 5) + 1) * 100,
       coordinators: [
         { name: 'John Doe', phone: '9876543210' },
         { name: 'Jane Smith', phone: '9876543211' }
@@ -139,6 +140,13 @@ function CategoryEvents() {
       minute: '2-digit',
       hour12: true
     });
+  };
+
+  // Format registration fee for display
+  const formatRegistrationFee = (fee) => {
+    if (fee === undefined || fee === null) return 'Free';
+    if (fee === 0) return 'Free';
+    return `₹${fee}`;
   };
 
   return (
@@ -195,6 +203,12 @@ function CategoryEvents() {
                 <div className="event-detail">
                   <i className="fas fa-map-marker-alt"></i>
                   <span>{event.venue}</span>
+                </div>
+                <div className="event-detail">
+                  <i className="fas fa-ticket-alt"></i>
+                  <span>
+                    Registration: <strong>{formatRegistrationFee(event.registrationFee)}</strong>
+                  </span>
                 </div>
               </div>
 
