@@ -458,7 +458,77 @@ function AdminDashboard() {
     }
   };
 
-  // Export all registrations to Excel
+  // Handle user deletion
+  const handleDeleteUser = async (userId, userName) => {
+    // Don't allow deleting admin users
+    if (!userId) {
+      console.error('User ID is required');
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('adminCookie');
+      const response = await corsProtectedFetch(`auth/user/${userId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete user');
+      }
+
+      // Remove the user from the state
+      const updatedUsers = users.filter(user => user._id !== userId);
+      setUsers(updatedUsers);
+
+      // Log success to console instead of showing alert
+      console.log(`User "${userName}" deleted successfully`);
+    } catch (err) {
+      console.error('Error deleting user:', err);
+      // Show error message only for actual errors
+      alert(`Error deleting user: ${err.message}`);
+    }
+  };
+
+  // Handle registration deletion
+  const handleDeleteRegistration = async (registrationId) => {
+    // Find the registration to validate it exists
+    const registration = registrations.find(reg => reg._id === registrationId);
+
+    if (!registration) {
+      console.error('Registration not found');
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('adminCookie');
+      const response = await corsProtectedFetch(`admin/registration/${registrationId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete registration');
+      }
+
+      // Remove the registration from the state
+      const updatedRegistrations = registrations.filter(reg => reg._id !== registrationId);
+      setRegistrations(updatedRegistrations);
+      applyRegistrationFilters(updatedRegistrations, registrationCategoryFilter, registrationEventFilter);
+
+      // Log success to console instead of showing alert
+      console.log(`Registration deleted successfully: ${registrationId}`);
+    } catch (err) {
+      console.error('Error deleting registration:', err);
+      // Only show alert for actual errors
+      alert(`Error deleting registration: ${err.message}`);
+    }
+  };
+
   const handleExportToExcel = async () => {
     try {
       const token = localStorage.getItem('adminCookie');
@@ -543,8 +613,14 @@ function AdminDashboard() {
                     <td>{user.email}</td>
                     <td>{user.role}</td>
                     <td>
-                      <button className="action-btn edit-btn">Edit</button>
-                      <button className="action-btn delete-btn">Delete</button>
+                      <button
+                        className="action-btn delete-btn"
+                        onClick={() => handleDeleteUser(user._id, user.name)}
+                        disabled={user.role === 'admin'} // Prevent deleting admin users
+                        title={user.role === 'admin' ? 'Admin users cannot be deleted' : 'Delete this user'}
+                      >
+                        <i className="fas fa-trash"></i> Delete
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -813,30 +889,11 @@ const getAllRegistrations = async (req, res) => {
                           <td>{new Date(reg.registeredAt || reg.createdAt).toLocaleDateString()}</td>
                           <td>
                             <button
-                              className="action-btn view-btn"
-                              onClick={() => alert(`Team: ${reg.teamName || 'N/A'}\nLeader: ${reg.teamLeader?.name || (reg.participant?.name) || 'Unknown'}\nContact: ${reg.teamLeader?.mobile || (reg.participant?.mobile) || 'N/A'}\nEmail: ${reg.teamLeader?.email || (reg.participant?.email) || 'N/A'}`)}
+                              className="action-btn delete-btn"
+                              onClick={() => handleDeleteRegistration(reg._id)}
                             >
-                              View
+                              <i className="fas fa-trash"></i> Delete
                             </button>
-                            <button className="action-btn delete-btn">Cancel</button>
-                            {reg.event && (
-                              <>
-                                <button
-                                  className="action-btn view-pdf-btn"
-                                  onClick={() => handleGenerateEventPdf(reg.event._id, reg.event.name, false)}
-                                  title="Preview PDF for this event"
-                                >
-                                  <i className="fas fa-eye"></i>
-                                </button>
-                                <button
-                                  className="action-btn pdf-btn"
-                                  onClick={() => handleGenerateEventPdf(reg.event._id, reg.event.name, true)}
-                                  title="Download PDF for this event"
-                                >
-                                  <i className="fas fa-file-pdf"></i>
-                                </button>
-                              </>
-                            )}
                           </td>
                         </tr>
                       ))
