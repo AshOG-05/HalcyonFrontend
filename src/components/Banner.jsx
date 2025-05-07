@@ -52,11 +52,58 @@ function Banner() {
     <div className="banner panel" id="top">
       <style>
         {`
-          .banner .register-button a, .banner .logout-button a {
+          /* Global outline removal */
+          *:focus {
+            outline: none !important;
+            box-shadow: none !important;
+          }
+
+          /* Specific button styles */
+          .banner .register-button a, .banner .logout-button a,
+          .banner .register-button a:focus, .banner .logout-button a:focus,
+          .banner .register-button a:active, .banner .logout-button a:active,
+          .banner .register-button a:-moz-focusring, .banner .logout-button a:-moz-focusring,
+          .banner .register-button a::-moz-focus-inner, .banner .logout-button a::-moz-focus-inner {
             background: transparent !important;
             background-color: transparent !important;
             background-image: none !important;
             box-shadow: none !important;
+            outline: none !important;
+            outline-width: 0 !important;
+            outline-color: transparent !important;
+            -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+            -webkit-focus-ring-color: rgba(0,0,0,0) !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
+          }
+
+          /* Firefox specific */
+          .banner .register-button a::-moz-focus-inner, .banner .logout-button a::-moz-focus-inner {
+            border: 0 !important;
+          }
+
+          /* Override any browser defaults */
+          .banner .register-button a:focus, .banner .logout-button a:focus {
+            border-color: rgba(255, 255, 255, 0.8) !important;
+            outline: none !important;
+            outline-color: transparent !important;
+          }
+
+          /* Ensure no orange outline on any state */
+          .banner .register-button a,
+          .banner .register-button a:hover,
+          .banner .register-button a:focus,
+          .banner .register-button a:active {
+            outline: none !important;
+            outline-color: transparent !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
+            box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            -moz-box-shadow: none !important;
+          }
+
+          .banner .register-button a:hover,
+          .banner .logout-button a:hover {
+            border-color: rgba(255, 255, 255, 0.8) !important;
           }
         `}
       </style>
@@ -97,7 +144,13 @@ function Banner() {
                 display: 'inline-block',
                 boxShadow: 'none',
                 WebkitAppearance: 'none',
-                MozAppearance: 'none'
+                MozAppearance: 'none',
+                outline: 'none',
+                outlineWidth: '0',
+                outlineColor: 'transparent',
+                WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+                WebkitFocusRingColor: 'rgba(0,0,0,0)',
+                outlineOffset: '0'
               }}
             >
               Register !
@@ -122,7 +175,13 @@ function Banner() {
                 display: 'inline-block',
                 boxShadow: 'none',
                 WebkitAppearance: 'none',
-                MozAppearance: 'none'
+                MozAppearance: 'none',
+                outline: 'none',
+                outlineWidth: '0',
+                outlineColor: 'transparent',
+                WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+                WebkitFocusRingColor: 'rgba(0,0,0,0)',
+                outlineOffset: '0'
               }}
             >
               Log Out

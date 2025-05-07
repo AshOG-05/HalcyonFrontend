@@ -10,6 +10,15 @@
   display: inline-block;
   margin: 2rem 0;
   background: none !important;
+  outline: none !important;
+  border: none !important;
+}
+
+/* Explicitly override any orange outline */
+.banner .register-button {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .banner .heading .register-button a, .banner .heading .logout-button a {
@@ -27,6 +36,7 @@
   box-shadow: none !important;
   position: relative;
   z-index: 1;
+  outline: none !important;
 }
 
 /* Remove any background elements */
@@ -57,13 +67,66 @@
 }
 
 /* Override any other styles that might be affecting the button */
-.banner .heading .register-button a {
+.banner .heading .register-button a,
+.banner .heading .logout-button a {
   background-color: transparent !important;
   background-image: none !important;
   background: none !important;
   box-shadow: none !important;
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
+  outline: none !important;
+  outline-width: 0 !important;
+  outline-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+  -webkit-focus-ring-color: rgba(0,0,0,0) !important;
+}
+
+/* Focus states */
+.banner .heading .register-button a:focus,
+.banner .heading .logout-button a:focus,
+.banner .heading .register-button a:active,
+.banner .heading .logout-button a:active,
+.banner .heading .register-button a:-moz-focusring,
+.banner .heading .logout-button a:-moz-focusring {
+  outline: none !important;
+  outline-width: 0 !important;
+  outline-color: transparent !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Additional rules to prevent any orange outline */
+.banner .heading .register-button a,
+.banner .heading .register-button a:focus,
+.banner .heading .register-button a:active,
+.banner .heading .register-button a:hover,
+.banner .heading .register-button a:visited,
+.banner .heading .logout-button a,
+.banner .heading .logout-button a:focus,
+.banner .heading .logout-button a:active,
+.banner .heading .logout-button a:hover,
+.banner .heading .logout-button a:visited {
+  outline: none !important;
+  outline-color: transparent !important;
+  outline-width: 0 !important;
+  outline-offset: 0 !important;
+  -webkit-outline: none !important;
+  -moz-outline: none !important;
+  -webkit-outline-color: transparent !important;
+  -moz-outline-color: transparent !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+}
+
+/* Firefox specific */
+.banner .heading .register-button a::-moz-focus-inner,
+.banner .heading .logout-button a::-moz-focus-inner {
+  border: 0 !important;
 }
 
 .samarkan{
