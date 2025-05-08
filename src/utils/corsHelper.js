@@ -33,12 +33,11 @@ export const corsProtectedFetch = async (endpoint, options = {}) => {
   } catch (error) {
     console.log('First attempt failed, trying with alternative approach...', error);
 
-    // Try a second approach with no-cors mode
-    try {
-      // For GET requests, we can try no-cors mode as a last resort
-      if (!options.method || options.method === 'GET') {
-        console.log('Trying with no-cors mode...');
+    // For GET requests, we can try no-cors mode as a last resort
+    if (!options.method || options.method === 'GET') {
+      console.log('Trying with no-cors mode...');
 
+      try {
         // This will return an opaque response that we can't read
         // But we'll handle that in the calling function with mock data
         const response = await fetch(`${ORIGINAL_API_URL}/${endpoint}`, {
@@ -50,9 +49,9 @@ export const corsProtectedFetch = async (endpoint, options = {}) => {
         // We can't check if it's ok because the response is opaque
         // So we'll just return it and let the caller handle it
         return response;
+      } catch (noCorsError) {
+        console.error('No-cors approach failed:', noCorsError);
       }
-    } catch (noCorsError) {
-      console.error('No-cors approach failed:', noCorsError);
     }
 
     // If all else fails, throw the original error with more context
