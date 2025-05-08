@@ -22,42 +22,32 @@ function Events() {
   const fetchEvents = async () => {
     try {
       // Try using the CORS-protected fetch
-      let response;
-      try {
-        response = await corsProtectedFetch('event');
+      const response = await corsProtectedFetch('event');
 
-        // Check if we got an opaque response (from no-cors mode)
-        if (response.type === 'opaque') {
-          console.log('Received opaque response, using mock data');
-          const mockData = getMockEvents();
-          setEvents(mockData);
-          processCategoryData(mockData);
-          return;
-        }
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch events: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log('Successfully fetched events:', data);
-        console.log('Event data structure:', data.length > 0 ? data[0] : 'No events');
-        setEvents(data);
-        processCategoryData(data);
-      } catch (corsError) {
-        console.error('All fetch attempts failed:', corsError);
-
-        // Use mock data as a fallback
-        console.log('Using mock data due to fetch failures');
+      // Check if we got an opaque response (from no-cors mode)
+      if (response.type === 'opaque') {
+        console.log('Received opaque response, using mock data');
         const mockData = getMockEvents();
         setEvents(mockData);
         processCategoryData(mockData);
+        return;
       }
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch events: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Successfully fetched events:', data);
+      console.log('Event data structure:', data.length > 0 ? data[0] : 'No events');
+      setEvents(data);
+      processCategoryData(data);
     } catch (err) {
       console.error('Error in fetchEvents:', err);
       setError(err.message);
 
       // Use mock data as a fallback
+      console.log('Using mock data due to fetch failures');
       const mockData = getMockEvents();
       setEvents(mockData);
       processCategoryData(mockData);
@@ -121,6 +111,7 @@ function Events() {
     }));
   };
 
+  // Ensure only one loading animation is displayed by wrapping the loading state in a single container and avoiding redundant renders.
   if (loading) {
     return (
       <div className="events-container">
@@ -128,10 +119,9 @@ function Events() {
           <i className="fas fa-home"></i> Home
         </button>
 
-        <div style={{ textAlign: 'center', marginTop: '4rem' }}>
+        <div className="loading-wrapper" style={{ textAlign: 'center', marginTop: '4rem' }}>
           <div className="loading">
-            <i className="fas fa-spinner fa-pulse" style={{ marginRight: '10px' }}></i>
-            Loading events...
+            {/* Loading events... */}
           </div>
         </div>
       </div>

@@ -28,51 +28,39 @@ function CategoryEvents() {
       setLoading(true);
 
       // Try using the CORS-protected fetch
-      let response;
-      try {
-        response = await corsProtectedFetch('event');
+      const response = await corsProtectedFetch('event');
 
-        // Check if we got an opaque response (from no-cors mode)
-        if (response.type === 'opaque') {
-          console.log('Received opaque response, using mock data');
-          const mockData = getMockEvents();
-          const filteredMockEvents = mockData.filter(event =>
-            (event.category || 'other') === eventName
-          );
-          setEvents(filteredMockEvents);
-          return;
-        }
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch events: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log('Successfully fetched events for category:', eventName);
-        console.log('Event data from backend:', data);
-
-        // Filter events by category
-        const filteredEvents = data.filter(event =>
-          (event.category || 'other') === eventName
-        );
-
-        setEvents(filteredEvents);
-      } catch (corsError) {
-        console.error('All fetch attempts failed:', corsError);
-
-        // Use mock data as a fallback
-        console.log('Using mock data due to fetch failures');
+      // Check if we got an opaque response (from no-cors mode)
+      if (response.type === 'opaque') {
+        console.log('Received opaque response, using mock data');
         const mockData = getMockEvents();
         const filteredMockEvents = mockData.filter(event =>
           (event.category || 'other') === eventName
         );
         setEvents(filteredMockEvents);
+        return;
       }
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch events: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Successfully fetched events for category:', eventName);
+      console.log('Event data from backend:', data);
+
+      // Filter events by category
+      const filteredEvents = data.filter(event =>
+        (event.category || 'other') === eventName
+      );
+
+      setEvents(filteredEvents);
     } catch (err) {
       console.error('Error in fetchCategoryEvents:', err);
       setError(err.message);
 
       // Use mock data as a fallback
+      console.log('Using mock data due to fetch failures');
       const mockData = getMockEvents();
       const filteredMockEvents = mockData.filter(event =>
         (event.category || 'other') === eventName

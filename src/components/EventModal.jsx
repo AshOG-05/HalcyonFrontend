@@ -142,43 +142,33 @@ function EventModal({ eventId, onClose }) {
         // Create mock data for mock events
         const mockEvent = createMockEventData(eventId);
         setEvent(mockEvent);
-        setLoading(false);
         return;
       }
 
       // Try using the CORS-protected fetch
-      let response;
-      try {
-        response = await corsProtectedFetch(`event/${eventId}`);
+      const response = await corsProtectedFetch(`event/${eventId}`);
 
-        // Check if we got an opaque response (from no-cors mode)
-        if (response.type === 'opaque') {
-          console.log('Received opaque response, using mock data');
-          const mockEvent = createMockEventData(eventId);
-          setEvent(mockEvent);
-          return;
-        }
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch event details: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log('Event data received:', data);
-        setEvent(data);
-      } catch (corsError) {
-        console.error('All fetch attempts failed:', corsError);
-
-        // Create mock data as fallback
-        console.log('Using mock data due to fetch failures');
+      // Check if we got an opaque response (from no-cors mode)
+      if (response.type === 'opaque') {
+        console.log('Received opaque response, using mock data');
         const mockEvent = createMockEventData(eventId);
         setEvent(mockEvent);
+        return;
       }
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch event details: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Event data received:', data);
+      setEvent(data);
     } catch (err) {
       console.error('Error in fetchEventDetails:', err);
       setError(err.message);
 
       // Use mock data as a fallback
+      console.log('Using mock data due to fetch failures');
       const mockEvent = createMockEventData(eventId);
       setEvent(mockEvent);
     } finally {
