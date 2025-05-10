@@ -89,7 +89,7 @@ function About() {
             </div>
             <div className="feature" data-aos="fade-up" data-aos-delay="300">
               <i className="fas fa-rupee-sign"></i>
-              <h3>₹2.26 Lakh Prize Pool</h3>
+              <h3>₹2.03 Lakh Prize Pool</h3>
               <p>Win big from our massive prize pool across all competitions.</p>
             </div>
           </div>
