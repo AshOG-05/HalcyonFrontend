@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { isTeamLoggedIn, teamLogout } from '../../services/authService';
-import { API_URL } from '../../config';
+import { API_URL, EVENT_CATEGORIES } from '../../config';
 import './styles.css';
 
 function TeamDashboard() {
@@ -9,11 +9,14 @@ function TeamDashboard() {
   const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [filteredEvents, setFilteredEvents] = useState([]);
   const [spotRegistrationForm, setSpotRegistrationForm] = useState({
     eventId: '',
     teamName: '',
     teamSize: 1,
     commonCollegeName: '',
+    paymentMode: '',
     participants: [
       {
         name: '',
@@ -37,6 +40,23 @@ function TeamDashboard() {
     fetchEvents();
     fetchRegistrations();
   }, []);
+
+  // Filter events when category changes
+  useEffect(() => {
+    if (selectedCategory) {
+      const filtered = events.filter(event => event.category === selectedCategory);
+      setFilteredEvents(filtered);
+    } else {
+      setFilteredEvents([]);
+    }
+
+    // Reset event selection when category changes
+    setSpotRegistrationForm(prev => ({
+      ...prev,
+      eventId: ''
+    }));
+    setSelectedEvent(null);
+  }, [selectedCategory, events]);
 
   const fetchEvents = async () => {
     try {
@@ -77,6 +97,12 @@ function TeamDashboard() {
 
   const handleLogout = () => {
     teamLogout();
+  };
+
+  // Handle category selection
+  const handleCategoryChange = (e) => {
+    const category = e.target.value;
+    setSelectedCategory(category);
   };
 
   // Handle event selection and fetch event details
@@ -121,16 +147,65 @@ function TeamDashboard() {
       setSelectedEvent(eventData);
 
       // Set team size options based on event configuration
-      if (eventData.isVariableTeamSize) {
-        // If variable team size, provide options from 1 to max team size
-        const options = Array.from({ length: eventData.teamSize }, (_, i) => i + 1);
-        setTeamSizeOptions(options);
+      let newTeamSize;
+
+      // For team events (3+ participants), always use min and max team sizes
+      if (eventData.teamSize >= 3) {
+        // Get min and max team sizes, ensuring they're properly parsed as integers
+        // Use explicit checks to handle zero values correctly
+        const minSize = eventData.minTeamSize !== undefined && eventData.minTeamSize !== null ?
+          parseInt(eventData.minTeamSize) : (parseInt(eventData.teamSize) || 3);
+
+        const maxSize = eventData.maxTeamSize !== undefined && eventData.maxTeamSize !== null ?
+          parseInt(eventData.maxTeamSize) : (parseInt(eventData.teamSize) || 3);
+
+        console.log('Team event detected with min size:', minSize, 'and max size:', maxSize);
+        console.log('Raw values from backend:', {
+          minTeamSize: eventData.minTeamSize,
+          maxTeamSize: eventData.maxTeamSize,
+          teamSize: eventData.teamSize
+        });
+
+        // Generate options from min to max (not from 1)
+        // Make sure maxSize is greater than or equal to minSize
+        if (maxSize < minSize) {
+          console.error('Error: maxSize is less than minSize', { minSize, maxSize });
+          // Default to just the minSize if there's an issue
+          setTeamSizeOptions([minSize]);
+        } else {
+          // Create an array of options from minSize to maxSize
+          const options = [];
+          for (let i = minSize; i <= maxSize; i++) {
+            options.push(i);
+          }
+          console.log('Generated team size options:', options);
+          setTeamSizeOptions(options);
+        }
+
+        // Set default team size to minimum
+        newTeamSize = minSize;
+
+        // Initialize participants array based on team size
+        const newParticipants = Array.from({ length: newTeamSize }, (_, i) => {
+          return {
+            name: '',
+            email: '',
+            mobile: '',
+            usn: ''
+          };
+        });
+
+        setSpotRegistrationForm(prev => ({
+          ...prev,
+          teamSize: newTeamSize,
+          participants: newParticipants
+        }));
       } else {
         // If fixed team size, only provide the specified team size
         setTeamSizeOptions([eventData.teamSize || 1]);
 
         // Update form with the required team size
-        const newTeamSize = eventData.teamSize || 1;
+        newTeamSize = eventData.teamSize || 1;
 
         // Initialize participants array based on team size
         const newParticipants = Array.from({ length: newTeamSize }, (_, i) => {
@@ -156,6 +231,21 @@ function TeamDashboard() {
   // Handle team size change
   const handleTeamSizeChange = (e) => {
     const newTeamSize = parseInt(e.target.value);
+    console.log('Team size changed to:', newTeamSize);
+
+    // Validate the size is within the available options
+    if (!teamSizeOptions.includes(newTeamSize)) {
+      console.error('Selected team size is not in available options:', newTeamSize, teamSizeOptions);
+      // Use the first available option as fallback
+      const fallbackSize = teamSizeOptions.length > 0 ? teamSizeOptions[0] : 1;
+      console.log('Using fallback size:', fallbackSize);
+
+      setSpotRegistrationForm(prev => ({
+        ...prev,
+        teamSize: fallbackSize
+      }));
+      return;
+    }
 
     // Initialize participants array based on new team size
     const newParticipants = Array.from({ length: newTeamSize }, (_, i) => {
@@ -168,11 +258,23 @@ function TeamDashboard() {
       };
     });
 
-    setSpotRegistrationForm(prev => ({
-      ...prev,
+    console.log('Updated participants array for team size', newTeamSize, ':', newParticipants);
+
+    // If team size is > 2, suggest a default team name if none exists
+    const updatedForm = {
+      ...spotRegistrationForm,
       teamSize: newTeamSize,
       participants: newParticipants
-    }));
+    };
+
+    if (newTeamSize > 2 && !spotRegistrationForm.teamName) {
+      // Get team member info from localStorage for default team name
+      const teamMemberData = JSON.parse(localStorage.getItem('userData')) || {};
+      const teamMemberName = teamMemberData.name || 'Team';
+      updatedForm.teamName = 'Team ' + teamMemberName.split(' ')[0];
+    }
+
+    setSpotRegistrationForm(updatedForm);
   };
 
   // Handle changes to common fields
@@ -213,6 +315,11 @@ function TeamDashboard() {
       // Validate team name for teams with more than 2 members
       if (spotRegistrationForm.teamSize > 2 && !spotRegistrationForm.teamName) {
         throw new Error('Team name is required for teams with more than 2 members');
+      }
+
+      // Validate payment mode for paid events
+      if (selectedEvent && (selectedEvent.registrationFee > 0 || (selectedEvent.fees && parseInt(selectedEvent.fees) > 0)) && !spotRegistrationForm.paymentMode) {
+        throw new Error('Please select a payment mode for this paid event');
       }
 
       // Validate all participants have required fields
@@ -259,6 +366,8 @@ function TeamDashboard() {
         // Include team member name in payment references for better tracking
         registrationData.paymentId = `SPOT_PAYMENT_${teamMemberName}_${Date.now()}`;
         registrationData.orderId = `SPOT_ORDER_${teamMemberName}_${Date.now()}`;
+        // Include payment mode in notes field
+        registrationData.notes = `Payment collected via ${spotRegistrationForm.paymentMode.toUpperCase()} by ${teamMemberName}`;
       }
 
       // Send registration request using the dedicated spot registration endpoint
@@ -287,6 +396,7 @@ function TeamDashboard() {
         teamName: '',
         teamSize: 1,
         commonCollegeName: '',
+        paymentMode: '',
         participants: [
           {
             name: '',
@@ -342,23 +452,30 @@ function TeamDashboard() {
                       <button
                         className="action-btn register-btn"
                         onClick={() => {
-                          // Reset form and set the selected event ID
-                          setSpotRegistrationForm({
-                            eventId: event._id,
-                            teamName: '',
-                            teamSize: 1,
-                            commonCollegeName: '',
-                            participants: [
-                              {
-                                name: '',
-                                email: '',
-                                mobile: '',
-                                usn: ''
-                              }
-                            ]
-                          });
-                          // Trigger event change to fetch event details
-                          handleEventChange({ target: { value: event._id } });
+                          // Reset form and set the selected category first
+                          setSelectedCategory(event.category || 'other');
+
+                          // Set the event ID after a short delay to ensure the filtered events are updated
+                          setTimeout(() => {
+                            setSpotRegistrationForm({
+                              eventId: event._id,
+                              teamName: '',
+                              teamSize: 1,
+                              commonCollegeName: '',
+                              paymentMode: '',
+                              participants: [
+                                {
+                                  name: '',
+                                  email: '',
+                                  mobile: '',
+                                  usn: ''
+                                }
+                              ]
+                            });
+                            // Trigger event change to fetch event details
+                            handleEventChange({ target: { value: event._id } });
+                          }, 100);
+
                           setActiveTab('spot-registration');
                         }}
                       >
@@ -433,6 +550,11 @@ function TeamDashboard() {
                             // Add payment details for paid events
                             if (reg.paymentStatus === 'completed' && reg.paymentId) {
                               detailsMessage += `\nPayment ID: ${reg.paymentId}\n`;
+
+                              // Add payment mode information if available in notes
+                              if (reg.notes && reg.notes.includes('Payment collected via')) {
+                                detailsMessage += `Payment Mode: ${reg.notes.split('Payment collected via ')[1].split(' by')[0]}\n`;
+                              }
                             }
 
                             // Add spot registration details if applicable
@@ -472,24 +594,49 @@ function TeamDashboard() {
             )}
 
             <form onSubmit={handleSpotRegistrationSubmit} className="dashboard-form">
-              {/* Event Selection */}
+              {/* Category Selection */}
               <div className="form-group">
-                <label htmlFor="eventId">Select Event</label>
+                <label htmlFor="category">Select Category</label>
                 <select
-                  id="eventId"
-                  name="eventId"
-                  value={spotRegistrationForm.eventId}
-                  onChange={handleEventChange}
+                  id="category"
+                  name="category"
+                  value={selectedCategory}
+                  onChange={handleCategoryChange}
                   required
                 >
-                  <option value="">-- Select Event --</option>
-                  {events.map(event => (
-                    <option key={event._id} value={event._id}>
-                      {event.name} - {event.category} (Day {event.day || 1})
+                  <option value="">-- Select Category --</option>
+                  {EVENT_CATEGORIES.map(category => (
+                    <option key={category.id} value={category.id}>
+                      {category.label}
                     </option>
                   ))}
                 </select>
               </div>
+
+              {/* Event Selection - Only show if category is selected */}
+              {selectedCategory && (
+                <div className="form-group">
+                  <label htmlFor="eventId">Select Event</label>
+                  <select
+                    id="eventId"
+                    name="eventId"
+                    value={spotRegistrationForm.eventId}
+                    onChange={handleEventChange}
+                    required
+                  >
+                    <option value="">-- Select Event --</option>
+                    {filteredEvents.length > 0 ? (
+                      filteredEvents.map(event => (
+                        <option key={event._id} value={event._id}>
+                          {event.name} (Day {event.day || 1})
+                        </option>
+                      ))
+                    ) : (
+                      <option value="" disabled>No events found in this category</option>
+                    )}
+                  </select>
+                </div>
+              )}
 
               {/* Team Size Selection - Only show if event is selected */}
               {selectedEvent && (
@@ -502,6 +649,8 @@ function TeamDashboard() {
                     onChange={handleTeamSizeChange}
                     required
                     disabled={teamSizeOptions.length === 1} // Disable if only one option
+                    className="team-size-select"
+                    style={{ fontWeight: 'bold', fontSize: '1rem' }}
                   >
                     {teamSizeOptions.map(size => (
                       <option key={size} value={size}>
@@ -511,6 +660,9 @@ function TeamDashboard() {
                   </select>
                   {teamSizeOptions.length === 1 && (
                     <div className="form-hint">This event requires exactly {teamSizeOptions[0]} participant(s).</div>
+                  )}
+                  {teamSizeOptions.length > 1 && (
+                    <div className="form-hint">This event allows {Math.min(...teamSizeOptions)} to {Math.max(...teamSizeOptions)} participants.</div>
                   )}
                 </div>
               )}
@@ -544,6 +696,26 @@ function TeamDashboard() {
                   placeholder="Enter college name (same for all participants)"
                 />
               </div>
+
+              {/* Payment Mode - Only show if event has a fee */}
+              {selectedEvent && (selectedEvent.registrationFee > 0 || (selectedEvent.fees && parseInt(selectedEvent.fees) > 0)) && (
+                <div className="form-group">
+                  <label htmlFor="paymentMode">Mode of Payment *</label>
+                  <select
+                    id="paymentMode"
+                    name="paymentMode"
+                    value={spotRegistrationForm.paymentMode}
+                    onChange={handleCommonFieldChange}
+                    required
+                  >
+                    <option value="">-- Select Payment Mode --</option>
+                    <option value="cash">Cash</option>
+                    <option value="upi">UPI</option>
+                    <option value="card">Card</option>
+                  </select>
+                  <p className="form-hint">Please select how the payment was collected</p>
+                </div>
+              )}
 
               {/* Participant Details */}
               <div className="participants-section">

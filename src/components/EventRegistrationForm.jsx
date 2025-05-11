@@ -143,6 +143,11 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
 
       const data = await response.json();
       console.log('Event details fetched successfully:', data);
+      console.log('Team size details:', {
+        teamSize: data.teamSize,
+        minTeamSize: data.minTeamSize,
+        maxTeamSize: data.maxTeamSize
+      });
       setEventName(data.name || 'Unknown Event');
 
       // Check if registration is open for this event
@@ -153,18 +158,63 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       }
 
       // Set team size options based on event configuration
-      if (data.isVariableTeamSize) {
-        // If variable team size, provide options from 1 to max team size
-        const options = Array.from({ length: data.teamSize }, (_, i) => i + 1);
-        setTeamSizeOptions(options);
+      console.log('Setting team size options with data:', {
+        teamSize: data.teamSize,
+        minTeamSize: data.minTeamSize,
+        maxTeamSize: data.maxTeamSize
+      });
+
+      // For team events (3+ participants), always use min and max team sizes
+      if (data.teamSize >= 3) {
+        // Get min and max team sizes, ensuring they're properly parsed as integers
+        // Use explicit checks to handle zero values correctly
+        const minSize = data.minTeamSize !== undefined && data.minTeamSize !== null ?
+          parseInt(data.minTeamSize) : (parseInt(data.teamSize) || 3);
+
+        const maxSize = data.maxTeamSize !== undefined && data.maxTeamSize !== null ?
+          parseInt(data.maxTeamSize) : (parseInt(data.teamSize) || 3);
+
+        console.log('Team event detected with min size:', minSize, 'and max size:', maxSize);
+        console.log('Raw values from backend:', {
+          minTeamSize: data.minTeamSize,
+          maxTeamSize: data.maxTeamSize,
+          teamSize: data.teamSize
+        });
+
+        // Generate options from min to max (not from 1)
+        // Make sure maxSize is greater than or equal to minSize
+        if (maxSize < minSize) {
+          console.error('Error: maxSize is less than minSize', { minSize, maxSize });
+          // Default to just the minSize if there's an issue
+          setTeamSizeOptions([minSize]);
+        } else {
+          // Create an array of options from minSize to maxSize
+          const options = [];
+          for (let i = minSize; i <= maxSize; i++) {
+            options.push(i);
+          }
+          console.log('Team size options for team event:', options);
+          setTeamSizeOptions(options);
+        }
+        setTeamSize(minSize); // Default to minimum team size
       } else {
-        // If fixed team size, only provide the specified team size
+        // If fixed team size (individual or duo), only provide the specified team size
         setTeamSizeOptions([data.teamSize || 1]);
         setTeamSize(data.teamSize || 1);
+
+        // Log team size options for debugging
+        console.log('Team size options for individual/duo event:', [data.teamSize || 1]);
       }
 
       // Initialize participants array based on team size and current user data
-      const size = data.isVariableTeamSize ? 1 : (data.teamSize || 1);
+      // For team events, use the minimum team size; otherwise use the exact team size
+      const size = data.teamSize >= 3 ?
+        (data.minTeamSize !== undefined && data.minTeamSize !== null ?
+          parseInt(data.minTeamSize) : parseInt(data.teamSize) || 3) :
+        (data.teamSize || 1);
+
+      // Log the selected size for debugging
+      console.log('Initial team size selected:', size);
       const newParticipants = Array.from({ length: size }, (_, i) => {
         // For the first participant (team leader), use the current user data
         if (i === 0) {
@@ -197,6 +247,18 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
   // Handle team size change
   const handleTeamSizeChange = (e) => {
     const size = parseInt(e.target.value);
+    console.log('Team size changed to:', size);
+
+    // Validate the size is within the available options
+    if (!teamSizeOptions.includes(size)) {
+      console.error('Selected team size is not in available options:', size, teamSizeOptions);
+      // Use the first available option as fallback
+      const fallbackSize = teamSizeOptions.length > 0 ? teamSizeOptions[0] : 1;
+      console.log('Using fallback size:', fallbackSize);
+      setTeamSize(fallbackSize);
+      return;
+    }
+
     setTeamSize(size);
 
     // Initialize participants array based on new team size
@@ -221,7 +283,13 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       };
     }
 
+    console.log('Updated participants array for team size', size, ':', newParticipants);
     setParticipants(newParticipants);
+
+    // If team size is > 2, make sure we have a team name field
+    if (size > 2 && !teamName) {
+      setTeamName('Team ' + userData.name?.split(' ')[0] || 'Default');
+    }
   };
 
   // Handle participant field changes
@@ -575,11 +643,22 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                 value={teamSize}
                 onChange={handleTeamSizeChange}
                 required
+                className="team-size-select"
               >
-                {teamSizeOptions.map(size => (
-                  <option key={size} value={size}>{size}</option>
-                ))}
+                {teamSizeOptions.length > 0 ? (
+                  teamSizeOptions.map(size => (
+                    <option key={size} value={size}>{size} {size === 1 ? 'Participant' : 'Participants'}</option>
+                  ))
+                ) : (
+                  <option value="1">1 Participant</option> // Fallback option if no options are available
+                )}
               </select>
+              {teamSizeOptions.length > 1 && (
+                <p className="field-note">Select the number of participants in your team (from {Math.min(...teamSizeOptions)} to {Math.max(...teamSizeOptions)})</p>
+              )}
+              {teamSizeOptions.length === 1 && (
+                <p className="field-note">This event requires exactly {teamSizeOptions[0]} participant(s)</p>
+              )}
             </div>
 
             {/* Team Name (required for teams > 2) */}

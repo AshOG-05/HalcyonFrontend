@@ -187,9 +187,9 @@ function EventDetail() {
                     ? 'Individual Event'
                     : event.teamSize === 2
                       ? 'Duo Event (2 participants)'
-                      : `Team Event (${event.isVariableTeamSize
-                        ? `Up to ${event.teamSize} participants`
-                        : `${event.teamSize} participants`})`
+                      : `Team Event (${event.minTeamSize === event.maxTeamSize
+                        ? `${event.minTeamSize} participants`
+                        : `${event.minTeamSize}-${event.maxTeamSize} participants`})`
                   }
                 </span>
               </div>

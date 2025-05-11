@@ -122,9 +122,28 @@ function AdminDashboard() {
     setShowEventForm(true);
   };
 
-  const handleEditEvent = (event) => {
-    setEventToEdit(event);
-    setShowEventForm(true);
+  const handleEditEvent = async (event) => {
+    try {
+      // Fetch the latest event data from the backend
+      console.log('Fetching latest event data for editing:', event._id);
+      const response = await corsProtectedFetch(`event/${event._id}`);
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch event details');
+      }
+
+      const latestEventData = await response.json();
+      console.log('Latest event data received:', latestEventData);
+
+      // Set the event to edit with the latest data
+      setEventToEdit(latestEventData);
+      setShowEventForm(true);
+    } catch (err) {
+      console.error('Error fetching event details for editing:', err);
+      // Fall back to using the event data we already have
+      setEventToEdit(event);
+      setShowEventForm(true);
+    }
   };
 
   const handleEventAdded = (newEvent) => {
@@ -134,8 +153,12 @@ function AdminDashboard() {
     applyFilters(updatedEvents, categoryFilter, dayFilter);
   };
 
-  const handleEventUpdated = (updatedEvent) => {
-    // Update the event in the events list
+  const handleEventUpdated = async (updatedEvent) => {
+    // Refresh the events data from the backend to ensure we have the latest data
+    console.log('Event updated, refreshing events data');
+    await fetchEvents();
+
+    // Also update the local state for immediate UI update
     const updatedEvents = events.map(event =>
       event._id === updatedEvent._id ? updatedEvent : event
     );

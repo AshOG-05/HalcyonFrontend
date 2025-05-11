@@ -3,7 +3,7 @@
  */
 
 // The original API URL without the CORS proxy
-export const ORIGINAL_API_URL = 'https://halcyonbackend-1.onrender.com/api';
+export const ORIGINAL_API_URL = 'https://halcyonbackend-1.onrender.com/api';  
 // export const ORIGINAL_API_URL = 'http://localhost:4000/api';
 
 /**

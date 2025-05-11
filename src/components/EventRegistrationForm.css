@@ -189,6 +189,25 @@
   transition: all 0.3s ease;
 }
 
+/* Special styling for team size dropdown */
+.team-size-select {
+  font-weight: bold;
+  background: rgba(255, 152, 0, 0.1);
+  border: 1px solid rgba(255, 152, 0, 0.3);
+  color: #fff;
+  padding: 16px 20px;
+  font-size: 1.1rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.team-size-select option {
+  background-color: #222;
+  color: #fff;
+  padding: 10px;
+  font-size: 1rem;
+}
+
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {

@@ -59,6 +59,37 @@
   box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
 }
 
+.event-form input.input-error {
+  border-color: #f44336;
+  background-color: rgba(244, 67, 54, 0.05);
+}
+
+.event-form input.input-error:focus {
+  border-color: #f44336;
+  box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.2);
+}
+
+/* Custom styling for number inputs */
+.event-form input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.event-form input[type="number"]::-webkit-inner-spin-button,
+.event-form input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Add custom number controls */
+.form-group {
+  position: relative;
+}
+
+.form-group.number-input-container {
+  display: flex;
+  align-items: center;
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-end;
@@ -122,6 +153,35 @@
   padding: 1rem;
   border-radius: 4px;
   margin-bottom: 1rem;
+}
+
+.field-note {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-top: 0.25rem;
+}
+
+.team-size-info {
+  background-color: rgba(33, 150, 243, 0.1);
+  border: 1px solid rgba(33, 150, 243, 0.3);
+  border-radius: 4px;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  color: #2196f3;
+}
+
+.team-size-info p {
+  margin: 0 0 0.5rem 0;
+  font-weight: 500;
+}
+
+.team-size-info ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.team-size-info li {
+  margin-bottom: 0.25rem;
 }
 
 .checkbox-group {
