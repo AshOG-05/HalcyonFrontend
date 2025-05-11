@@ -11,7 +11,6 @@ function Timeline() {
     "Inauguration",
     "Face painting",
     "Classical and Folk Dance",
-    "NFS",
     "Classical Vocal Solo",
     "Creative Writing",
     "BGMI",
