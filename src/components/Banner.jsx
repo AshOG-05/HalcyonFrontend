@@ -110,7 +110,7 @@ function Banner() {
       <Navbar />
       <MobileNavbar toggleSidebar={toggleSidebar} />
       <Sidebar externalToggle={sidebarToggle} />
-      <video src="/assets/background_halcyon.mp4" loop muted autoPlay style={{
+      <video src="/assets/Halcyon.mp4" loop muted autoPlay style={{
         position: 'absolute',
         top: 0,
         left: 0,
