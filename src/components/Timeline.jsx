@@ -9,38 +9,40 @@ function Timeline() {
   // Day 1 and Day 2 events from the image
   const day1Events = [
     "Inauguration",
-    "Face painting",
     "Classical and Folk Dance",
-    "Classical Vocal Solo",
-    "Creative Writing",
-    "BGMI",
-    "20Q (Prelims)",
     "Battle of Bands",
-    "Western Solo Dance",
-    "Duet Dance",
-    "Quiz (Prelims)",
+    "Reels Making",
+    "Ludo King",
+    "Face Painting",
+    "BGMI",
     "Street Play",
+    "Western Solo Dance",
+    "Creative Writing",
+    "Collage",
+    "Quiz (Prelims)",
+    "Duet Dance",
+    "20Q (Prelims)",
     "20Q (Finals)",
     "Quiz (Finals)",
-    "Collage",
+    "Classical Vocal Solo",
     "Indian Ethnic Show",
     "Choreography"
   ];
 
   const day2Events = [
-    "Mime",
     "Skit",
     "Spell Bee",
-    "Ludo King",
-    "Jam (Prelims)",
-    "Indo western vocal solo",
-    "Valorant",
     "Sketching",
-    "Duet Singing",
-    "Blind fold Texting",
+    "Free Fire",
+    "Indo western vocal solo",
     "Creative Photography",
     "JAM (Finals)",
-    "Valedictory Function", 
+    "Valorant",
+    "Mime",
+    "Blind fold Texting",
+    "Duet Singing",
+    "Jam (Finals)",
+    "Valedictory Function",
     "Musical Night"
   ];
 
@@ -94,8 +96,8 @@ function Timeline() {
   return (
     <div className="panel timeline" id="timeline_anchor">
       <div className="timeline-header mobile-visible">
-        <h1 className="mobile-visible">
-          <span className="timeline-title-text mobile-visible">TIMELINE</span>
+        <h1 className="section-heading mobile-visible">
+          <span className="section-heading-text mobile-visible">TIMELINE</span>
         </h1>
       </div>
 

@@ -160,10 +160,6 @@ function Sidebar({ externalToggle }) {
               <i className="fas fa-music"></i>
               <span>Pronites</span>
             </a>
-            <a title="Sponsors" href="#sponsors_anchor" onClick={closeSidebar}>
-              <i className="fas fa-handshake"></i>
-              <span>Sponsors</span>
-            </a>
             <a title="Contact" href="#contact_anchor" onClick={closeSidebar}>
               <i className="fas fa-envelope"></i>
               <span>Contact</span>

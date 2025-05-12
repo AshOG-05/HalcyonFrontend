@@ -106,7 +106,9 @@ function InteractiveExplore() {
 
   return (
     <div className="interactive-explore">
-      <h1 className="explore-title">Events</h1>
+      <h1 className="section-heading">
+        <span className="section-heading-text">Events</span>
+      </h1>
 
       <section className="flex-cards-section">
         {itemList.map((item) => (

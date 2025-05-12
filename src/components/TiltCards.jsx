@@ -75,7 +75,9 @@ function TiltCards() {
 
   return (
     <div className="tilt-cards-container">
-      <h1 className="tilt-cards-title">Mega Events</h1>
+      <h1 className="section-heading">
+        <span className="section-heading-text">Mega Events</span>
+      </h1>
 
       <div className="tilt-cards-grid">
         {events.map((event) => (

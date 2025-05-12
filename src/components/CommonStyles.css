@@ -1,0 +1,65 @@
+/* Common styles for section headings */
+.section-heading {
+  text-align: center;
+  font-size: 3.5rem;
+  margin-bottom: 3rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  position: relative;
+  font-weight: 700;
+}
+
+.section-heading-text {
+  position: relative;
+  display: inline-block;
+  animation: fadeInUp 1.2s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+  cursor: default;
+}
+
+.section-heading-text:hover {
+  transform: translateY(-5px) scale(1.02);
+  color: #fff;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 152, 0, 0.3);
+}
+
+/* Animation for section headings */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .section-heading {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-heading-text:hover {
+    transform: translateY(-3px) scale(1.01);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 5px rgba(255, 152, 0, 0.2);
+  }
+}
+
+@media (max-width: 480px) {
+  .section-heading {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 3px;
+  }
+
+  .section-heading-text:hover {
+    transform: translateY(-2px) scale(1.01);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3), 0 0 4px rgba(255, 152, 0, 0.2);
+  }
+}

@@ -3,13 +3,14 @@ import Navbar from './components/Navbar'
 import Banner from './components/Banner'
 import About from './components/About'
 import Timeline from './components/Timeline'
-// import Pronites from './components/Pronites'
+import Pronites from './components/Pronites' // Special Guests component (file name kept as Pronites for consistency)
 // import Sponsors from './components/Sponsors'
 import Footer from './components/Footer'
 import ParticlesComponent from './components/ParticlesComponent'
 import Explore from './components/Explore'
 import ReachUs from './components/ReachUs'
 import BrochureDownload from './components/BrochureDownload'
+import './components/CommonStyles.css'
 import './App.css'
 
 function App() {
@@ -83,8 +84,7 @@ function App() {
           {/* <ParticlesComponent /> */}
         </div>
         <Explore />
-        {/* Pronites section commented out until lineup is confirmed */}
-        {/* <Pronites /> */}
+        <Pronites /> {/* Special Guests component */}
         {/* Sponsors section commented out until sponsors are confirmed */}
         {/* <Sponsors /> */}
         <ReachUs />

@@ -7,15 +7,7 @@
   background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.8));
 }
 
-.tilt-cards-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  text-align: center;
-  color: white;
-  margin-bottom: 3rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
+/* Tilt cards title styling now uses common section-heading class */
 
 .tilt-cards-grid {
   display: grid;
@@ -168,10 +160,7 @@
     height: 280px;
   }
 
-  .tilt-cards-title {
-    font-size: 2rem;
-    margin-bottom: 2.5rem;
-  }
+  /* Tilt cards title styling now uses common section-heading class */
 
   .tilt-cards-grid {
     width: 95%;

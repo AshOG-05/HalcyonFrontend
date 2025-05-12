@@ -27,16 +27,7 @@
   display: inline-block;
 }
 
-.timeline-title-text::after {
-  content: '';
-  position: absolute;
-  bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 3px;
-  background: #ff9800;
-}
+/* Orange underline removed to match other section headings */
 
 /* Timeline Tabs */
 .timeline-tabs {
@@ -222,11 +213,11 @@
     color: white !important;
   }
 
+  /* Timeline title text now uses common section-heading-text class */
   .timeline-title-text {
     display: inline-block !important;
     color: white !important;
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.3) !important;
-    font-size: 2.5rem !important;
     font-weight: bold !important;
     letter-spacing: 3px !important;
     background: none !important;

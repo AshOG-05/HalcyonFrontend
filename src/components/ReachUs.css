@@ -17,16 +17,7 @@
   z-index: 1;
 }
 
-.section-title {
-  font-size: 3rem;
-  text-align: center;
-  margin-bottom: 3rem;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-weight: 700;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}
+/* Section title styling now uses common section-heading class */
 
 .transportation-grid {
   display: grid;
@@ -139,9 +130,7 @@
     grid-template-columns: 1fr;
   }
 
-  .section-title {
-    font-size: 2.5rem;
-  }
+  /* Section title styling now uses common section-heading class */
 
   .transport-card {
     padding: 1.5rem;
@@ -153,9 +142,7 @@
 }
 
 @media (max-width: 480px) {
-  .section-title {
-    font-size: 2rem;
-  }
+  /* Section title styling now uses common section-heading class */
 
   .reach-us-section {
     padding: 3rem 0;

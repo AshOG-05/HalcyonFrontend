@@ -5,7 +5,9 @@ function ReachUs() {
   return (
     <section className="reach-us-section" id="reach_us">
       <div className="container">
-        <h2 className="section-title">How to Reach Us</h2>
+        <h2 className="section-heading">
+          <span className="section-heading-text">How to Reach Us</span>
+        </h2>
 
         <div className="transportation-grid">
           <div className="transport-card">
