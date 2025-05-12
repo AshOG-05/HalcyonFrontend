@@ -194,7 +194,7 @@ function Pronites() { // Component name kept as Pronites for file consistency
   const currentPronite = proniteData[index];
 
   return (
-    <div className="pronites" id="special_guests_anchor">
+    <div className="pronites" id="special_guests">
       {/* Background layers with enhanced transitions */}
       <div
         className="pronites-background"

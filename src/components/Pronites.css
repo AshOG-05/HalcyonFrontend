@@ -126,8 +126,11 @@
   width: 100%;
   margin-bottom: 3rem;
   position: relative;
+  /* Fixed height to prevent position changes between slides */
+  min-height: 550px;
 }
 
+/* Enhanced navigation buttons for desktop */
 .nav-button {
   background: rgba(15, 15, 15, 0.8);
   border: 2px solid rgba(255, 255, 255, 0.3);
@@ -140,11 +143,21 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  z-index: 2;
+  z-index: 10;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 255, 255, 0.1);
-  margin: 0 20px;
-  position: relative;
+  margin: 0;
+  position: absolute;
   overflow: hidden;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.prev-button {
+  left: -30px;
+}
+
+.next-button {
+  right: -30px;
 }
 
 .nav-button::before {
@@ -162,7 +175,7 @@
 .nav-button:hover {
   background: rgba(25, 25, 25, 0.9);
   border-color: #ffffff;
-  transform: scale(1.05);
+  transform: translateY(-50%) scale(1.05);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
@@ -173,7 +186,7 @@
 .nav-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  transform: scale(1);
+  transform: translateY(-50%) scale(1);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
@@ -211,6 +224,9 @@
   min-height: 550px;
   border-left: 3px solid #ffffff;
   touch-action: pan-y; /* Enable horizontal swiping, prevent vertical scrolling conflicts */
+  /* Fixed dimensions to prevent position changes */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Desktop cursor styles */
@@ -457,6 +473,7 @@
   transform: perspective(1000px) rotateY(-5deg);
 }
 
+/* Changed hover border color to orange as requested */
 .pronite-image:hover {
   transform: perspective(1000px) rotateY(0deg) scale(1.03);
   border-color: #ff6b00;
@@ -555,9 +572,26 @@
     width: 340px;
     height: 340px;
   }
+
+  .nav-button {
+    width: 55px;
+    height: 55px;
+  }
+
+  .prev-button {
+    left: -25px;
+  }
+
+  .next-button {
+    right: -25px;
+  }
 }
 
 @media (max-width: 992px) {
+  .pronites-content {
+    min-height: auto;
+  }
+
   .pronite-slide {
     flex-direction: column;
     gap: 3.5rem;
@@ -641,7 +675,18 @@
     padding: 12px 20px;
   }
 
-  /* Orange bars on both sides of headlines removed as requested */
+  .nav-button {
+    width: 50px;
+    height: 50px;
+  }
+
+  .prev-button {
+    left: -20px;
+  }
+
+  .next-button {
+    right: -20px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -660,8 +705,6 @@
     margin-bottom: 2.5rem;
     font-size: 2.5rem;
   }
-
-  /* Orange bars on both sides of headlines removed as requested */
 
   .pronites-subtitle {
     margin-bottom: 3rem;
@@ -688,14 +731,13 @@
     display: none;
   }
 
-  /* Swipe indicator removed as requested */
-
   .pronites-content {
     margin-bottom: 2rem;
     position: relative;
     padding: 0;
     width: 100%;
     max-width: 100%;
+    min-height: auto;
   }
 
   .pronite-dots {
@@ -707,8 +749,6 @@
   .section-heading {
     font-size: 2.2rem;
   }
-
-  /* Orange bars on both sides of headlines already removed */
 
   .pronites-subtitle {
     font-size: 1rem;
@@ -778,21 +818,6 @@
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-  }
-
-  /* Improved navigation buttons for smaller screens */
-  .nav-button {
-    width: 42px;
-    height: 42px;
-    background: rgba(0, 0, 0, 0.75);
-  }
-
-  .prev-button {
-    left: -8px;
-  }
-
-  .next-button {
-    right: -8px;
   }
 
   .pronite-dots {
@@ -875,21 +900,6 @@
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-  }
-
-  /* Improved navigation buttons for smallest screens */
-  .nav-button {
-    width: 38px;
-    height: 38px;
-    background: rgba(0, 0, 0, 0.8);
-  }
-
-  .prev-button {
-    left: -10px;
-  }
-
-  .next-button {
-    right: -10px;
   }
 
   .pronite-dots {
