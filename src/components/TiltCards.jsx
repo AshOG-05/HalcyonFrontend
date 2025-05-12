@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./TiltCards.css";
 
 function TiltCards() {
@@ -56,16 +57,19 @@ function TiltCards() {
       id: 1,
       title: "DJ NIGHT",
       image: "/assets/dj.jpg",
+      link: null, // No redirect for DJ NIGHT
     },
     {
       id: 2,
       title: "CHOREOGRAPHY",
       image: "/assets/choreography.jpg",
+      link: "/events/dance", // Redirect to dance category
     },
     {
       id: 3,
       title: "ETHNIC SHOW",
       image: "/assets/ethnic_2.jpg",
+      link: "/events/theatre", // Redirect to theatre category
     },
   ];
 
@@ -87,7 +91,11 @@ function TiltCards() {
                       ...(event.title === "ETHNIC SHOW" ? { backgroundPosition: 'center bottom' } : {})
                     }}
                   ></div>
-                  <div className="tilt-card-link-overlay"></div>
+                  {event.link ? (
+                    <Link to={event.link} className="tilt-card-link-overlay"></Link>
+                  ) : (
+                    <div className="tilt-card-link-overlay"></div>
+                  )}
                 </div>
               </div>
             </div>

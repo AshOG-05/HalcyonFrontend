@@ -21,7 +21,7 @@ export const FESTIVAL_DAYS = [
 ];
 // Event categories configuration
 export const EVENT_CATEGORIES = [
-  { id: 'dance', label: 'Dance', icon: 'fas fa-music' },
+  { id: 'dance', label: 'Dance', icon: 'fas fa-walking' },
   { id: 'music', label: 'Music', icon: 'fas fa-guitar' },
   { id: 'gaming', label: 'Gaming', icon: 'fas fa-gamepad' },
   { id: 'theatre', label: 'Theatre', icon: 'fas fa-theater-masks' },
