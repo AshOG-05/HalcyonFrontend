@@ -124,7 +124,7 @@ function Banner() {
         <h1 className="samarkan" style={{fontFamily:'CustomFont'}}>HALCYON</h1>
         <h1 className="samarkan" style={{fontFamily:'CustomFont'}}>2025</h1>
         <p>Vividhta ka utsav sanskrithi ka shasan</p>
-        <p>Halcyon has been postponed until further notice.</p>
+        <p>Halcyon has been postponed until further notice due to the current situation across the country.</p>
         {!isLoggedIn ? (
           <div className="register-button">
             <a
