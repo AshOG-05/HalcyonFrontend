@@ -38,7 +38,7 @@ function Navbar() {
       <a title="About" href="#about_anchor">About</a>
       <a title="Timeline" href="#timeline_anchor">Timeline</a>
       <a title="Explore" href="#explore_anchor">Explore</a>
-      <a title="Pronites" href="#pronites_anchor">Pronites</a>
+      <a title="Special Guests" href="#special_guests">Special Guests</a>
       <Link to="/events" title="Events">Events</Link>
       <a title="Reach Us" href="#reach_us">Reach Us</a>
       <a title="Contact" href="#contact_anchor">Contact</a>
@@ -49,8 +49,8 @@ function Navbar() {
           <i className="fas fa-user-astronaut"></i> Profile
         </Link>
       ) : (
-        <Link to="/RegisterLogin" title="Login" className="login-btn">
-          <i className="fas fa-sign-in-alt"></i> Login
+        <Link to="/RegisterLogin" title="Login">
+          Login
         </Link>
       )}
 

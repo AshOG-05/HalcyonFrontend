@@ -12,17 +12,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 15px 15px 0;
+  padding: 5px 15px 15px 0; /* Reduced top padding from 15px to 5px */
   margin-bottom:0;/* Remove all margins */
   background-color: rgba(0, 0, 0, 0.9); /* Darker background to match sidebar */
-  border-bottom: 2px solid rgba(255, 152, 0, 0.3);
+  border: none; /* Remove all borders */
   position: sticky;
   top: 0;
   z-index: 100; /* Higher z-index to ensure it stays on top */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: none; /* Remove box shadow that might create a light effect */
   width: 100%; /* Ensure it spans the full width */
-  backdrop-filter: blur(10px); /* Match sidebar blur effect */
-  height: 70px; /* Fixed height for the header */
+  backdrop-filter: none; /* Remove blur effect that might create a line */
+  height: 100px; /* Further increased height to create more bottom space after Explore (desktop only) */
 }
 
 /* Close Sidebar Button */
@@ -41,7 +41,7 @@
   width: 40px;
   height: 40px;
   margin-right: 10px;
-  margin-top: 18px; /* Move the button down by 5px */
+  margin-top: 8px; /* Reduced from 18px to align with reduced top space */
 }
 
 .close-sidebar-btn:hover {
@@ -73,6 +73,13 @@
   scrollbar-color: rgba(255, 152, 0, 0.5) rgba(0, 0, 0, 0.3); /* Firefox */
 }
 
+/* Remove any potential border between header and content */
+.sidebar-header + .sidebar-content {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
 /* Custom scrollbar for Webkit browsers (Chrome, Safari, Edge) */
 .sidebar::-webkit-scrollbar {
   width: 8px;
@@ -95,9 +102,12 @@
 /* Sidebar Content */
 .sidebar-content {
   padding: 0; /* Remove all padding */
-  margin: 0; /* Remove all margin */
+  margin: 10px 0 0 0; /* Added top margin to create space after Explore (desktop only) */
   display: flex;
   flex-direction: column;
+  border: none; /* Remove any borders */
+  border-top: none; /* Explicitly remove top border */
+  box-shadow: none; /* Remove any box shadow */
 }
 
 .sidebar header {
@@ -107,8 +117,8 @@
   background: transparent;
   user-select: none;
   padding-left: 25px; /* Align with the icons (20px + 5px border) */
-  padding-top: 10px; /* Move text down by 10px */
-  padding-bottom: 7px; /* Add bottom padding of 7px */
+  padding-top: 4px; /* Reduced from 10px to decrease top space */
+  padding-bottom: 40px; /* Keeping the increased bottom space after Explore (desktop only) */
   flex: 1;
   font-weight: 600;
   letter-spacing: 1px;
@@ -116,6 +126,12 @@
   align-items: flex-start; /* Align to the top of the flex container */
   height: 40px; /* Match the height of the close button */
   line-height: 1; /* Reset line height */
+  border: none; /* Remove any borders */
+  border-top: none; /* Explicitly remove top border */
+  border-bottom: none; /* Explicitly remove bottom border */
+  text-decoration: none; /* Remove any text decoration */
+  box-shadow: none; /* Remove any box shadow */
+  margin-bottom: 20px; /* Added margin-bottom for more space after Explore (desktop only) */
 }
 
 .sidebar a {
@@ -231,8 +247,20 @@ label #btn:hover {
   display: none !important;
 }
 
+/* Space after Explore text - only visible on desktop */
+.desktop-only-space {
+  display: inline-block;
+  width: 10px;
+  height: 1px;
+}
+
 /* Media Queries */
 @media (max-width: 768px) {
+  /* Hide the space after Explore on mobile */
+  .desktop-only-space {
+    display: none !important;
+    width: 0 !important;
+  }
   .sidebar-container {
     top: 15px;
     left: 15px;
@@ -322,13 +350,18 @@ label #btn:hover {
     top: 0 !important;
     z-index: 100 !important;
     background-color: rgba(0, 0, 0, 0.9) !important;
-    height: 85px !important; /* Increased height for mobile to accommodate the much lower text */
-    padding-top: 5px !important; /* Add some top padding to the header */
+    box-shadow: none !important; /* Remove box shadow that might create a light effect */
+    height: 85px !important; /* Keep original height for mobile - no extra space after Explore */
+    border: none !important; /* Remove all borders */
+    padding-top: 5px !important; /* Keep original top padding for mobile */
   }
 
   .sidebar-content {
     padding: 0 !important; /* Remove all padding on mobile */
-    margin: 0 !important; /* Remove all margin on mobile */
+    margin: 0 !important; /* Remove all margin on mobile to ensure no space after Explore */
+    border: none !important; /* Remove any borders */
+    border-top: none !important; /* Explicitly remove top border */
+    box-shadow: none !important; /* Remove any box shadow */
   }
 
   .sidebar-header header {
@@ -340,6 +373,12 @@ label #btn:hover {
     align-items: flex-start !important; /* Align to the top of the flex container */
     height: 40px !important; /* Match the height of the close button */
     line-height: 1 !important; /* Reset line height */
+    border: none !important; /* Remove any borders */
+    border-top: none !important; /* Explicitly remove top border */
+    border-bottom: none !important; /* Explicitly remove bottom border */
+    text-decoration: none !important; /* Remove any text decoration */
+    box-shadow: none !important; /* Remove any box shadow */
+    margin-bottom: 0 !important; /* Ensure no bottom margin on mobile */
   }
 
   /* Further reduce sidebar width on smaller screens */

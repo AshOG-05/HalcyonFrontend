@@ -130,7 +130,10 @@ function Sidebar({ externalToggle }) {
                 { width: '60%', maxWidth: '60%' }
             : {}}>
           <div className="sidebar-header">
-            <header>Explore</header>
+            <header style={{ border: 'none', borderBottom: 'none', borderTop: 'none', boxShadow: 'none' }}>
+              Explore
+              <span className="desktop-only-space" style={{ display: 'inline-block', width: '10px' }}></span>
+            </header>
             <button
               className="close-sidebar-btn"
               onClick={toggleSidebar}
@@ -180,7 +183,7 @@ function Sidebar({ externalToggle }) {
               <i className="fas fa-question"></i>
               <span>FAQ's</span>
             </a>
-        
+
           </div>
         </div>
       </div>

@@ -20,7 +20,7 @@
     transform: translateY(0); /* Slide down when visible */
   }
 
-  #nav a, #nav a.login-btn, #nav a:visited {
+  #nav a, #nav a:visited {
     color: white;
     text-decoration: none;
     margin: 0 15px; /* Restored original margin */
@@ -56,26 +56,17 @@
     transform-origin: bottom left;
   }
 
-  #nav .profile, #nav .login-btn {
+  #nav .profile {
     display: flex;
     align-items: center;
     gap: 8px;
   }
 
-  #nav .profile i, #nav .login-btn i {
+  #nav .profile i {
     font-size: 1.2rem;
   }
 
-  #nav .login-btn {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: none;
-    border-radius: 4px;
-    padding: 5px 10px;
-  }
-
-  #nav .login-btn:hover {
-    background-color: rgba(255, 152, 0, 0.2);
-  }
+  /* Login button now uses the same styling as other navigation links */
 
   /* Logo Styling */
   .nav-logo {

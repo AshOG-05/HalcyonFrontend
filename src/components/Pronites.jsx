@@ -20,7 +20,7 @@ function Pronites() { // Component name kept as Pronites for file consistency
   const minSwipeDistance = 50;
 
   // Special guests data with the new images and Instagram information
-  const proniteData = [
+  const specialGuestsData = [
     {
       id: 1,
       name: "DJ RUHI",
@@ -87,8 +87,8 @@ function Pronites() { // Component name kept as Pronites for file consistency
 
   useEffect(() => {
     // Initialize backgrounds
-    setCurrentBackground(proniteData[0].gradient);
-    setNextBackground(proniteData[0].gradient);
+    setCurrentBackground(specialGuestsData[0].gradient);
+    setNextBackground(specialGuestsData[0].gradient);
 
     // Initialize AOS (Animate on Scroll) if available
     if (typeof AOS !== 'undefined') {
@@ -138,13 +138,13 @@ function Pronites() { // Component name kept as Pronites for file consistency
     setIsAnimating(true);
     setBackgroundTransitioning(true);
 
-    const nextIndex = (index + 1) % proniteData.length;
-    setNextBackground(proniteData[nextIndex].gradient);
+    const nextIndex = (index + 1) % specialGuestsData.length;
+    setNextBackground(specialGuestsData[nextIndex].gradient);
 
     // Shorter transition for faster switching
     setTimeout(() => {
       setIndex(nextIndex);
-      setCurrentBackground(proniteData[nextIndex].gradient);
+      setCurrentBackground(specialGuestsData[nextIndex].gradient);
       setBackgroundTransitioning(false);
       setTimeout(() => {
         setIsAnimating(false);
@@ -157,13 +157,13 @@ function Pronites() { // Component name kept as Pronites for file consistency
     setIsAnimating(true);
     setBackgroundTransitioning(true);
 
-    const prevIndex = (index - 1 + proniteData.length) % proniteData.length;
-    setNextBackground(proniteData[prevIndex].gradient);
+    const prevIndex = (index - 1 + specialGuestsData.length) % specialGuestsData.length;
+    setNextBackground(specialGuestsData[prevIndex].gradient);
 
     // Shorter transition for faster switching
     setTimeout(() => {
       setIndex(prevIndex);
-      setCurrentBackground(proniteData[prevIndex].gradient);
+      setCurrentBackground(specialGuestsData[prevIndex].gradient);
       setBackgroundTransitioning(false);
       setTimeout(() => {
         setIsAnimating(false);
@@ -178,12 +178,12 @@ function Pronites() { // Component name kept as Pronites for file consistency
     setIsAnimating(true);
     setBackgroundTransitioning(true);
 
-    setNextBackground(proniteData[i].gradient);
+    setNextBackground(specialGuestsData[i].gradient);
 
     // Shorter transition for faster switching
     setTimeout(() => {
       setIndex(i);
-      setCurrentBackground(proniteData[i].gradient);
+      setCurrentBackground(specialGuestsData[i].gradient);
       setBackgroundTransitioning(false);
       setTimeout(() => {
         setIsAnimating(false);
@@ -191,7 +191,7 @@ function Pronites() { // Component name kept as Pronites for file consistency
     }, 400); // Reduced from 700ms
   };
 
-  const currentPronite = proniteData[index];
+  const currentGuest = specialGuestsData[index];
 
   return (
     <div className="pronites" id="special_guests">
@@ -251,31 +251,31 @@ function Pronites() { // Component name kept as Pronites for file consistency
             data-aos-delay="400"
           >
             <div className="pronite-info">
-              <h2 className="pronite-name">{currentPronite.name}</h2>
+              <h2 className="pronite-name">{currentGuest.name}</h2>
               <div className="pronite-details">
                 <div className="pronite-detail first-detail">
                   <i className="fas fa-calendar-alt"></i>
-                  <span>{currentPronite.date}</span>
+                  <span>{currentGuest.date}</span>
                 </div>
                 <div className="pronite-detail last-detail">
                   <i className="fab fa-instagram"></i>
                   <a
-                    href={currentPronite.instagram}
+                    href={currentGuest.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="instagram-link"
                   >
-                    @{currentPronite.instagram.split('/').pop()}
+                    @{currentGuest.instagram.split('/').pop()}
                   </a>
                 </div>
               </div>
-              <p className="pronite-description">{currentPronite.description}</p>
+              <p className="pronite-description">{currentGuest.description}</p>
             </div>
-            <div className="pronite-image-container" style={currentPronite.id === 2 ? { paddingTop: '30px' } : {}}>
+            <div className="pronite-image-container" style={currentGuest.id === 2 ? { paddingTop: '30px' } : {}}>
               <div
                 className="pronite-image"
                 style={{
-                  backgroundImage: `url(${currentPronite.image})`,
+                  backgroundImage: `url(${currentGuest.image})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat'
@@ -300,7 +300,7 @@ function Pronites() { // Component name kept as Pronites for file consistency
 
         {/* Enhanced navigation dots */}
         <div className="pronite-dots" data-aos="fade-up" data-aos-delay="500">
-          {proniteData.map((guest, i) => (
+          {specialGuestsData.map((guest, i) => (
             <button
               key={i}
               className={`pronite-dot ${i === index ? 'active' : ''}`}
