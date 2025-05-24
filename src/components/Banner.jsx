@@ -28,7 +28,7 @@ function Banner() {
     }
 
     // Countdown Timer
-    const festDay = new Date("MAY 12, 2025 12:00:00").getTime();
+    const festDay = new Date("JUNE 2, 2025 12:00:00").getTime();
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -124,7 +124,7 @@ function Banner() {
         <h1 className="samarkan" style={{fontFamily:'CustomFont'}}>HALCYON</h1>
         <h1 className="samarkan" style={{fontFamily:'CustomFont'}}>2025</h1>
         <p>Vividhta ka utsav sanskrithi ka shasan</p>
-        <p>Halcyon has been postponed until further notice due to the current situation across the country.</p>
+        <p>2nd JUNE 2025 - 3rd JUNE 2025</p>
         {!isLoggedIn ? (
           <div className="register-button">
             <a
