@@ -3,7 +3,7 @@
  */
 
 // The original API URL without the CORS proxy
-export const ORIGINAL_API_URL = 'https://halcyonbackend-1.onrender.com/api';  
+export const ORIGINAL_API_URL = 'https://halcyonbackend-1.onrender.com/api';
 // export const ORIGINAL_API_URL = 'http://localhost:4000/api';
 
 /**
@@ -13,50 +13,66 @@ export const ORIGINAL_API_URL = 'https://halcyonbackend-1.onrender.com/api';
  * @returns {Promise} - The fetch promise
  */
 export const corsProtectedFetch = async (endpoint, options = {}) => {
-  // Try with the default fetch first - WITHOUT credentials
+  const fullUrl = `${ORIGINAL_API_URL}/${endpoint}`;
+
+  console.log(`🌐 Making API request to: ${fullUrl}`);
+  console.log(`📝 Request method: ${options.method || 'GET'}`);
+  console.log(`🔑 Headers:`, options.headers);
+
+  if (options.body) {
+    console.log(`📦 Request body:`, options.body);
+  }
+
   try {
-    console.log(`Attempting to fetch from ${ORIGINAL_API_URL}/${endpoint}`);
-    const response = await fetch(`${ORIGINAL_API_URL}/${endpoint}`, {
+    const response = await fetch(fullUrl, {
       ...options,
       // Don't include credentials to avoid CORS issues with wildcard
       credentials: 'omit',
       mode: 'cors',
       headers: {
-        ...options.headers,
         'Content-Type': 'application/json',
+        ...options.headers,
       }
     });
+
+    console.log(`✅ Response received - Status: ${response.status} (${response.statusText})`);
+    console.log(`📊 Response headers:`, Object.fromEntries(response.headers.entries()));
 
     // Even if the response is not ok (e.g., 400, 500), we still want to return it
     // so the caller can handle the error appropriately
     return response;
   } catch (error) {
-    console.log('First attempt failed, trying with alternative approach...', error);
+    console.error(`❌ Network error for ${fullUrl}:`, {
+      name: error.name,
+      message: error.message,
+      stack: error.stack
+    });
 
     // For GET requests, we can try no-cors mode as a last resort
     if (!options.method || options.method === 'GET') {
-      console.log('Trying with no-cors mode...');
+      console.log('🔄 Trying with no-cors mode as fallback...');
 
       try {
         // This will return an opaque response that we can't read
         // But we'll handle that in the calling function with mock data
-        const response = await fetch(`${ORIGINAL_API_URL}/${endpoint}`, {
+        const response = await fetch(fullUrl, {
           ...options,
           mode: 'no-cors',
           credentials: 'omit',
         });
 
+        console.log('⚠️ No-cors response received (opaque)');
         // We can't check if it's ok because the response is opaque
         // So we'll just return it and let the caller handle it
         return response;
       } catch (noCorsError) {
-        console.error('No-cors approach failed:', noCorsError);
+        console.error('❌ No-cors approach also failed:', noCorsError);
       }
     }
 
     // If all else fails, throw the original error with more context
-    console.error('All fetch attempts failed:', error);
-    throw new Error(`Failed to fetch from ${ORIGINAL_API_URL}/${endpoint}: ${error.message}`);
+    console.error('💥 All fetch attempts failed for:', fullUrl);
+    throw new Error(`Network request failed: ${error.message}. Please check your internet connection and try again.`);
   }
 };
 

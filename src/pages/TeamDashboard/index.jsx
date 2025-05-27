@@ -360,7 +360,7 @@ function TeamDashboard() {
       const teamMemberData = JSON.parse(localStorage.getItem('userData')) || {};
       const teamMemberName = teamMemberData.name || 'Unknown';
 
-      // If the event has a fee, handle payment (for spot registration, we'll assume payment is handled separately)
+      // If the event has a fee, handle payment (for spot registration, payment is collected manually)
       if (selectedEvent && (selectedEvent.registrationFee > 0 || (selectedEvent.fees && parseInt(selectedEvent.fees) > 0))) {
         registrationData.paymentStatus = 'completed';
         // Include team member name in payment references for better tracking
