@@ -71,6 +71,7 @@ function Sponsors() {
 
         <div className="sponsors-content">
           {/* Sponsors content will go here */}
+      
         </div>
 
         <div className="sponsors-cta">

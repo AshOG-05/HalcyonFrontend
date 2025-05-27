@@ -13,8 +13,6 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
   const [eventName, setEventName] = useState('');
   const [eventFee, setEventFee] = useState(0);
   const [registrationClosed, setRegistrationClosed] = useState(false);
-  const [alreadyRegistered, setAlreadyRegistered] = useState(false);
-  const [registrationDetails, setRegistrationDetails] = useState(null);
   const [showPaymentInstructions, setShowPaymentInstructions] = useState(false);
   const [transactionId, setTransactionId] = useState('');
   const [transactionIdValid, setTransactionIdValid] = useState(null);
@@ -34,47 +32,6 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
     { name: '', usn: '', mobile: '', email: '', collegeName: '' }
   ]);
   const [teamSizeOptions, setTeamSizeOptions] = useState([1]);
-
-  // Check if user is already registered for this event
-  const checkExistingRegistration = async () => {
-    try {
-      const token = localStorage.getItem(APP_CONFIG.tokenName);
-      if (!token) {
-        return false;
-      }
-
-      console.log('Checking existing registration for event:', eventId);
-      const response = await corsProtectedFetch(`registration/check/${eventId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Registration check response:', data);
-        
-        if (data.isRegistered) {
-          setAlreadyRegistered(true);
-          setRegistrationDetails(data.registrationDetails || null);
-          return true;
-        }
-      } else if (response.status === 404) {
-        // User is not registered for this event
-        console.log('User is not registered for this event');
-        return false;
-      } else {
-        console.error('Failed to check registration status:', response.status);
-      }
-      
-      return false;
-    } catch (err) {
-      console.error('Error checking existing registration:', err);
-      return false;
-    }
-  };
 
   // Fetch user data from backend
   const fetchUserData = async () => {
@@ -165,9 +122,6 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
 
         // Then fetch event details
         await fetchEventDetails();
-
-        // Finally check if user is already registered
-        await checkExistingRegistration();
 
       } catch (err) {
         console.error('Error in registration form initialization:', err);
@@ -354,6 +308,69 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
     setParticipants(updatedParticipants);
   };
 
+  const initiatePayment = async (eventId) => {
+    try {
+      const token = localStorage.getItem(APP_CONFIG.tokenName);
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
+      // Create payment order
+      const orderResponse = await corsProtectedFetch(`payment/create-order/${eventId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!orderResponse.ok) {
+        const errorData = await orderResponse.json();
+        throw new Error(errorData.error || 'Failed to create payment order');
+      }
+
+      const orderData = await orderResponse.json();
+      console.log('Order data received from backend:', orderData);
+
+      // If it's a free event, proceed with registration
+      if (orderData.freeEvent) {
+        console.log('Free event detected, skipping payment');
+        return { freeEvent: true };
+      }
+
+      // For paid events, redirect to ERP
+      if (orderData.requiresPayment) {
+        console.log('Redirecting to ERP for payment:', orderData);
+
+        // Store order details for later verification
+        localStorage.setItem('pendingPayment', JSON.stringify({
+          orderId: orderData.orderId,
+          amount: orderData.amount,
+          eventName: orderData.eventName,
+          eventId: eventId
+        }));
+
+        // Show payment redirect message
+        alert(`Please complete payment of ₹${orderData.amount} for ${orderData.eventName} on the ERP portal. You will be redirected now.`);
+
+        // Open ERP in a new tab
+        window.open(orderData.redirectUrl, '_blank');
+
+        // Return order details for registration
+        return {
+          orderId: orderData.orderId,
+          amount: orderData.amount,
+          requiresPayment: true,
+          redirected: true
+        };
+      }
+
+    } catch (err) {
+      console.error('Payment initiation error:', err);
+      throw err;
+    }
+  };
+
   // Form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -444,6 +461,32 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       // Reset payment error state
       setPaymentError(false);
 
+      try {
+        // Process payment if needed
+        const paymentResult = await initiatePayment(eventId);
+
+        // Add payment details to registration data if payment was processed
+        if (paymentResult && !paymentResult.freeEvent) {
+          registrationData.paymentId = paymentResult.paymentId || null;
+          registrationData.orderId = paymentResult.orderId;
+
+          // If redirected to ERP, show payment error and don't proceed with registration yet
+          if (paymentResult.redirected) {
+            setPaymentError(true);
+            setError('Please complete payment on the ERP portal and then try registering again.');
+            return;
+          }
+        }
+      } catch (paymentErr) {
+        // Check if this is a payment service unavailability error
+        if (paymentErr.message && paymentErr.message.includes('Payment service is not available')) {
+          setPaymentError(true);
+          throw paymentErr; // Re-throw to be caught by the outer catch block
+        }
+        throw paymentErr; // Re-throw other payment errors
+      }
+
+      // Log the data being sent to ensure it matches the backend model
       console.log('Team leader details:', {
         id: userData.id || 'Not available',
         name: userData.name,
@@ -453,9 +496,11 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
         usn: teamLeader.usn
       });
 
+
+
       console.log('Sending registration data:', registrationData);
 
-      // Send registration request directly (payment processing bypassed)
+      // Send registration request
       const response = await corsProtectedFetch(`registration/${eventId}`, {
         method: 'POST',
         headers: {
@@ -467,13 +512,12 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
 
       if (!response.ok) {
         const errorData = await response.json();
-        // Handle specific error cases
-        if (errorData.error && errorData.error.includes('payment')) {
-          // Don't throw payment errors since payment is bypassed
-          console.log('Payment-related error bypassed:', errorData.error);
-        } else {
-          throw new Error(errorData.error || 'Failed to register for event');
+        if (errorData.requresPayment) {
+          throw new Error('Payment is required for this event');
         }
+        throw new Error(errorData.error ||
+          'Failed to register for event'
+        );
       }
 
       const data = await response.json();
@@ -485,19 +529,10 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
         onSuccess(data);
       }
     } catch (err) {
-      // Handle errors appropriately
       if (err.message && err.message.includes('Payment service is not available')) {
         // Handle payment service unavailability specifically
         setPaymentError(true);
         setError(err.message);
-      } else if (err.message && err.message.toLowerCase().includes('payment')) {
-        // Skip payment-related errors since payment is bypassed
-        console.log('Payment error bypassed:', err.message);
-        // Try to proceed with registration anyway
-        setSuccess(true);
-        if (onSuccess) {
-          onSuccess({ message: 'Registration completed (payment bypassed)' });
-        }
       } else {
         // Handle other errors
         setError(err.message || 'An error occurred during registration');
@@ -568,49 +603,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
     );
   }
 
-  // Render already registered state
-  if (alreadyRegistered) {
-    return (
-      <div className="event-registration-overlay">
-        <div className="event-registration-modal">
-          <button className="close-modal" onClick={onClose}>
-            <i className="fas fa-times"></i>
-          </button>
-          <div className="already-registered">
-            <i className="fas fa-check-circle already-registered-icon"></i>
-            <h3>Already Registered</h3>
-            <p>You have already registered for <strong>{eventName}</strong>.</p>
-            
-            {registrationDetails && (
-              <div className="registration-summary">
-                <h4>Registration Details:</h4>
-                <div className="detail-item">
-                  <strong>Team Name:</strong> {registrationDetails.teamName || 'Individual Registration'}
-                </div>
-                <div className="detail-item">
-                  <strong>Team Size:</strong> {registrationDetails.teamSize || 1} participant(s)
-                </div>
-                <div className="detail-item">
-                  <strong>Registration Date:</strong> {registrationDetails.registrationDate ? 
-                    new Date(registrationDetails.registrationDate).toLocaleDateString() : 'N/A'}
-                </div>
-                {registrationDetails.transactionId && (
-                  <div className="detail-item">
-                    <strong>Transaction ID:</strong> {registrationDetails.transactionId}
-                  </div>
-                )}
-              </div>
-            )}
-            
-            <p className="info-text">
-              If you need to make changes to your registration, please contact the event organizers.
-            </p>
-            <button className="auth-button" onClick={onClose}>Close</button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+
 
   // Render success state
   if (success) {
