@@ -725,26 +725,18 @@ function AdminDashboard() {
                     </td>
                     <td>Day {event.day || 1}</td>
                     <td>
-                      <button
-                        className="action-btn edit-btn"
-                        onClick={() => handleEditEvent(event)}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="action-btn delete-btn"
-                        onClick={() => handleDeleteEvent(event._id)}
-                      >
-                        Delete
-                      </button>
-                      <button
-                        className={`action-btn ${event.registrationOpen ? 'close-btn' : 'open-btn'}`}
-                        onClick={() => handleToggleRegistration(event._id, event.name, event.registrationOpen)}
-                        title={event.registrationOpen ? 'Close Registration' : 'Open Registration'}
-                      >
-                        <i className={`fas ${event.registrationOpen ? 'fa-lock' : 'fa-lock-open'}`}></i>
-                        {event.registrationOpen ? ' Close' : ' Open'} Registration
-                      </button>
+                      <div className="event-actions">
+                        <button className="action-btn edit-btn" onClick={() => handleEditEvent(event)}>Edit</button>
+                        <button className="action-btn delete-btn" onClick={() => handleDeleteEvent(event._id)}>Delete</button>
+                        <button
+                          className={`action-btn ${event.registrationOpen ? 'close-btn' : 'open-btn'}`}
+                          onClick={() => handleToggleRegistration(event._id, event.name, event.registrationOpen)}
+                          title={event.registrationOpen ? 'Close Registration' : 'Open Registration'}
+                        >
+                          <i className={`fas ${event.registrationOpen ? 'fa-lock' : 'fa-lock-open'}`}></i>
+                          {event.registrationOpen ? ' Close' : ' Open'} Registration
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

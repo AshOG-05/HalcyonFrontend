@@ -46,19 +46,19 @@ function ReachUs() {
         <div className="map-container">
           <div className="map-wrapper">
             <iframe
-              src="https://maps.google.com/maps?q=Administrative%20Block,%20Chandana%20Complex,%20Tumakuru,%20Karnataka%20572103&t=&z=17&ie=UTF8&iwloc=&output=embed"
+              src="https://www.google.com/maps?q=13.3400156,77.1004742&z=17&output=embed"
               width="100%"
               height="450"
               style={{ border: 0 }}
               allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Administrative Block, Chandana Complex, Tumakuru, Karnataka"
+              title="Siddaganga Institute of Technology, Tumakuru (Main Gate)"
             ></iframe>
           </div>
           <div className="map-actions">
             <a
-              href="https://www.google.com/maps/search/Administrative+Block,+Chandana+Complex,+Tumakuru,+Karnataka+572103"
+              href="https://maps.app.goo.gl/tHboWExHfCk9mG4s9"
               target="_blank"
               rel="noopener noreferrer"
               className="view-on-maps-btn"

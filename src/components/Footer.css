@@ -52,27 +52,46 @@
 .contact-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .contact-list li {
   margin-bottom: 0.8rem;
-  display: flex;
-  align-items: center;
+  display: block;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .contact-name {
   font-weight: 600;
   color: white;
   margin-right: 0.5rem;
-  min-width: 150px;
+  display: inline;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .contact-info {
   color: #ccc;
-  white-space: nowrap;
+  display: inline;
+  white-space: normal;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0;
+  margin: 0;
 }
 
-/* Links removed */
+/* In case inputs or buttons are used */
+.contact-info input,
+.contact-info button {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
 
 .footer-contact {
   margin-top: 2rem;
@@ -149,7 +168,6 @@
 
   .contact-name {
     margin-right: 0.3rem;
-    min-width: auto;
     display: inline-block;
   }
 
