@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { APP_CONFIG } from '../config';
 import { corsProtectedFetch } from '../utils/corsHelper';
 import PaymentInstructions from './PaymentInstructions';
+import { debugRegistration } from '../utils/registrationDebug';
 import './EventRegistrationForm.css';
 
 function EventRegistrationForm({ eventId, onClose, onSuccess }) {
@@ -55,7 +56,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       if (response.ok) {
         const data = await response.json();
         console.log('Registration check response:', data);
-        
+
         if (data.isRegistered) {
           setAlreadyRegistered(true);
           setRegistrationDetails(data.registrationDetails || null);
@@ -68,7 +69,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       } else {
         console.error('Failed to check registration status:', response.status);
       }
-      
+
       return false;
     } catch (err) {
       console.error('Error checking existing registration:', err);
@@ -454,6 +455,8 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       });
 
       console.log('Sending registration data:', registrationData);
+      console.log('API URL:', `registration/${eventId}`);
+      console.log('Token:', token ? 'Token exists' : 'No token found');
 
       // Send registration request directly (payment processing bypassed)
       const response = await corsProtectedFetch(`registration/${eventId}`, {
@@ -465,19 +468,25 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
         body: JSON.stringify(registrationData)
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('Registration failed with error:', errorData);
+
         // Handle specific error cases
         if (errorData.error && errorData.error.includes('payment')) {
           // Don't throw payment errors since payment is bypassed
           console.log('Payment-related error bypassed:', errorData.error);
         } else {
-          throw new Error(errorData.error || 'Failed to register for event');
+          throw new Error(errorData.error || `Failed to register for event. Status: ${response.status}`);
         }
       }
 
       const data = await response.json();
       console.log('Registration successful:', data);
+      console.log('Registration ID:', data._id || data.id);
       setSuccess(true);
 
       // Call onSuccess callback if provided
@@ -485,6 +494,12 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
         onSuccess(data);
       }
     } catch (err) {
+      console.error('Registration error details:', {
+        message: err.message,
+        stack: err.stack,
+        name: err.name
+      });
+
       // Handle errors appropriately
       if (err.message && err.message.includes('Payment service is not available')) {
         // Handle payment service unavailability specifically
@@ -500,9 +515,8 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
         }
       } else {
         // Handle other errors
-        setError(err.message || 'An error occurred during registration');
+        setError(err.message || 'An error occurred during registration. Please check the console for details.');
       }
-      console.error('Registration error:', err);
     } finally {
       setSubmitting(false);
     }
@@ -580,7 +594,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
             <i className="fas fa-check-circle already-registered-icon"></i>
             <h3>Already Registered</h3>
             <p>You have already registered for <strong>{eventName}</strong>.</p>
-            
+
             {registrationDetails && (
               <div className="registration-summary">
                 <h4>Registration Details:</h4>
@@ -591,7 +605,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                   <strong>Team Size:</strong> {registrationDetails.teamSize || 1} participant(s)
                 </div>
                 <div className="detail-item">
-                  <strong>Registration Date:</strong> {registrationDetails.registrationDate ? 
+                  <strong>Registration Date:</strong> {registrationDetails.registrationDate ?
                     new Date(registrationDetails.registrationDate).toLocaleDateString() : 'N/A'}
                 </div>
                 {registrationDetails.transactionId && (
@@ -601,7 +615,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                 )}
               </div>
             )}
-            
+
             <p className="info-text">
               If you need to make changes to your registration, please contact the event organizers.
             </p>
