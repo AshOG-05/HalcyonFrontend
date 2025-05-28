@@ -35,6 +35,17 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
   ]);
   const [teamSizeOptions, setTeamSizeOptions] = useState([1]);
 
+  // Check if USN belongs to Siddaganga Institute of Technology
+  const isSITStudent = (usn) => {
+    if (!usn || typeof usn !== 'string') return false;
+    return usn.toLowerCase().startsWith('1si');
+  };
+
+  // Check if any team member is from SIT (for payment exemption)
+  const hasAnySITStudent = () => {
+    return participants.some(participant => isSITStudent(participant.usn));
+  };
+
   // Check if user is already registered for this event
   const checkExistingRegistration = async () => {
     try {
@@ -395,8 +406,11 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       return;
     }
 
-    // Validate transaction ID if event has fees
-    if (eventFee > 0) {
+    // Check if any team member is from SIT
+    const hasSITStudent = hasAnySITStudent();
+
+    // Validate transaction ID if event has fees and no SIT students
+    if (eventFee > 0 && !hasSITStudent) {
       if (!transactionId.trim()) {
         setError('Transaction ID is required for paid events. Please complete payment first.');
         return;
@@ -426,7 +440,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       // Prepare registration data according to backend requirements
       const registrationData = {
         teamLeaderDetails: {
-          collegeName: commonCollegeName, // Use common college name for team leader
+          collegeName: commonCollegeName,
           usn: teamLeader.usn
         },
         teamName: teamSize > 2 ? teamName : null,
@@ -436,9 +450,9 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
           email: member.email,
           mobile: member.mobile,
           usn: member.usn,
-          collegeName: commonCollegeName // Use common college name for all team members
+          collegeName: commonCollegeName
         })),
-        transactionId: eventFee > 0 ? transactionId.trim() : null
+        transactionId: (eventFee > 0 && !hasAnySITStudent()) ? transactionId.trim() : null
       };
 
       // Reset payment error state
@@ -804,47 +818,63 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                 {/* Payment section for team leader only */}
                 {index === 0 && eventFee > 0 && (
                   <div className="payment-section">
-                    <div className="payment-info">
-                      <h4><i className="fas fa-credit-card"></i> Payment Required</h4>
-                      <p>Registration Fee: <strong>₹{eventFee}</strong></p>
-                      <p>Complete payment through ERP portal before registration</p>
-                    </div>
+                    {hasAnySITStudent() ? (
+                      <div className="sit-student-notice">
+                        <div className="sit-exemption-info">
+                          <h4><i className="fas fa-graduation-cap"></i> Payment Exemption</h4>
+                          <p className="exemption-message">
+                            <i className="fas fa-check-circle"></i>
+                            <strong>No payment required!</strong>
+                          </p>
+                          <p>As a student of Siddaganga Institute of Technology, you are exempt from the registration fee.</p>
+                          <p className="fee-info">Registration Fee: <span style={{textDecoration: 'line-through'}}>₹{eventFee}</span> <strong style={{color: 'green'}}>FREE</strong></p>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="payment-info">
+                          <h4><i className="fas fa-credit-card"></i> Payment Required</h4>
+                          <p>Registration Fee: <strong>₹{eventFee}</strong></p>
+                          <p>Complete payment through ERP portal before registration</p>
+                        </div>
 
-                    <div className="payment-button-container">
-                      <button
-                        type="button"
-                        className="payment-instructions-button"
-                        onClick={() => setShowPaymentInstructions(true)}
-                      >
-                        <i className="fas fa-info-circle"></i>
-                        How to Pay - View Instructions
-                      </button>
-                    </div>
+                        <div className="payment-button-container">
+                          <button
+                            type="button"
+                            className="payment-instructions-button"
+                            onClick={() => setShowPaymentInstructions(true)}
+                          >
+                            <i className="fas fa-info-circle"></i>
+                            How to Pay - View Instructions
+                          </button>
+                        </div>
 
-                    <div className={`form-group highlight-field ${transactionIdValid === true ? 'valid' : transactionIdValid === false ? 'invalid' : ''}`}>
-                      <label htmlFor="transaction-id">Transaction ID *</label>
-                      <input
-                        type="text"
-                        id="transaction-id"
-                        value={transactionId}
-                        onChange={(e) => handleTransactionIdChange(e.target.value)}
-                        required
-                        placeholder="Ex: JCIT1234567890"
-                        maxLength="14"
-                        className={transactionIdValid === true ? 'valid-input' : transactionIdValid === false ? 'invalid-input' : ''}
-                      />
-                      {transactionIdValid === true && (
-                        <p className="validation-message success">
-                          <i className="fas fa-check-circle"></i> Valid transaction ID format
-                        </p>
-                      )}
-                      {transactionIdValid === false && (
-                        <p className="validation-message error">
-                          <i className="fas fa-exclamation-circle"></i> Invalid format. Must be 4 letters + 10 digits (14 characters total)
-                        </p>
-                      )}
-                      <p className="field-note">Enter the transaction ID you received after completing payment on ERP portal</p>
-                    </div>
+                        <div className={`form-group highlight-field ${transactionIdValid === true ? 'valid' : transactionIdValid === false ? 'invalid' : ''}`}>
+                          <label htmlFor="transaction-id">Transaction ID *</label>
+                          <input
+                            type="text"
+                            id="transaction-id"
+                            value={transactionId}
+                            onChange={(e) => handleTransactionIdChange(e.target.value)}
+                            required
+                            placeholder="Ex: JCIT1234567890"
+                            maxLength="14"
+                            className={transactionIdValid === true ? 'valid-input' : transactionIdValid === false ? 'invalid-input' : ''}
+                          />
+                          {transactionIdValid === true && (
+                            <p className="validation-message success">
+                              <i className="fas fa-check-circle"></i> Valid transaction ID format
+                            </p>
+                          )}
+                          {transactionIdValid === false && (
+                            <p className="validation-message error">
+                              <i className="fas fa-exclamation-circle"></i> Invalid format. Must be 4 letters + 10 digits (14 characters total)
+                            </p>
+                          )}
+                          <p className="field-note">Enter the transaction ID you received after completing payment on ERP portal</p>
+                        </div>
+                      </>
+                    )}
                   </div>
                 )}
               </div>
