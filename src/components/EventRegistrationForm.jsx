@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { APP_CONFIG } from '../config';
 import { corsProtectedFetch } from '../utils/corsHelper';
 import PaymentInstructions from './PaymentInstructions';
-import { debugRegistration } from '../utils/registrationDebug';
 import './EventRegistrationForm.css';
 
 function EventRegistrationForm({ eventId, onClose, onSuccess }) {
@@ -455,8 +454,6 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       });
 
       console.log('Sending registration data:', registrationData);
-      console.log('API URL:', `registration/${eventId}`);
-      console.log('Token:', token ? 'Token exists' : 'No token found');
 
       // Send registration request directly (payment processing bypassed)
       const response = await corsProtectedFetch(`registration/${eventId}`, {
@@ -468,25 +465,33 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
         body: JSON.stringify(registrationData)
       });
 
-      console.log('Response status:', response.status);
-      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
       if (!response.ok) {
         const errorData = await response.json();
         console.error('Registration failed with error:', errorData);
 
         // Handle specific error cases
-        if (errorData.error && errorData.error.includes('payment')) {
+        if (response.status === 409 && errorData.alreadyRegistered) {
+          // Handle duplicate registration
+          console.log('Duplicate registration detected:', errorData);
+          setAlreadyRegistered(true);
+          setRegistrationDetails({
+            registrationDate: errorData.registrationDate,
+            registrationId: errorData.registrationId,
+            teamName: 'Previously registered',
+            teamSize: 1
+          });
+          setError('You have already registered for this event. Duplicate registrations are not allowed.');
+          return;
+        } else if (errorData.error && errorData.error.includes('payment')) {
           // Don't throw payment errors since payment is bypassed
           console.log('Payment-related error bypassed:', errorData.error);
         } else {
-          throw new Error(errorData.error || `Failed to register for event. Status: ${response.status}`);
+          throw new Error(errorData.error || errorData.message || 'Failed to register for event');
         }
       }
 
       const data = await response.json();
       console.log('Registration successful:', data);
-      console.log('Registration ID:', data._id || data.id);
       setSuccess(true);
 
       // Call onSuccess callback if provided
@@ -494,12 +499,6 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
         onSuccess(data);
       }
     } catch (err) {
-      console.error('Registration error details:', {
-        message: err.message,
-        stack: err.stack,
-        name: err.name
-      });
-
       // Handle errors appropriately
       if (err.message && err.message.includes('Payment service is not available')) {
         // Handle payment service unavailability specifically
@@ -515,8 +514,9 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
         }
       } else {
         // Handle other errors
-        setError(err.message || 'An error occurred during registration. Please check the console for details.');
+        setError(err.message || 'An error occurred during registration');
       }
+      console.error('Registration error:', err);
     } finally {
       setSubmitting(false);
     }
