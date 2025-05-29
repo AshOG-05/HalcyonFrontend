@@ -14,255 +14,322 @@ function Profile() {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    // Check if user is logged in
     if (!isLoggedIn()) {
-      navigate("/RegisterLogin")
-      return
+      navigate('/RegisterLogin');
+      return;
     }
 
+    // Fetch user data and registrations
     const fetchData = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
-        await fetchUserData()
-        await fetchRegistrations()
+        await fetchUserData();
+        await fetchRegistrations();
       } catch (err) {
-        console.error("Error fetching data:", err)
-        setError("Failed to load profile data. Please try again later.")
+        console.error('Error fetching data:', err);
+        setError('Failed to load profile data. Please try again later.');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchData()
-  }, [navigate])
+    fetchData();
+  }, [navigate]);
 
   const fetchUserData = async () => {
     try {
-      const token = localStorage.getItem(APP_CONFIG.tokenName)
-      const response = await corsProtectedFetch("auth/me", {
+      const token = localStorage.getItem(APP_CONFIG.tokenName);
+      const response = await corsProtectedFetch('auth/me', {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+          'Authorization': `Bearer ${token}`
+        }
+      });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch user data")
+        throw new Error('Failed to fetch user data');
       }
 
-      const data = await response.json()
-      setUserData(data)
+      const data = await response.json();
+      setUserData(data);
     } catch (err) {
-      console.error("Error fetching user data:", err)
-      setError("Failed to fetch user data")
+      console.error('Error fetching user data:', err);
+      setError(err.message);
     }
-  }
+  };
 
   const fetchRegistrations = async () => {
     try {
-      const token = localStorage.getItem(APP_CONFIG.tokenName)
-      const response = await corsProtectedFetch("registration/me", {
+      const token = localStorage.getItem(APP_CONFIG.tokenName);
+      const response = await corsProtectedFetch('registration/me', {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+          'Authorization': `Bearer ${token}`
+        }
+      });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch registrations")
+        throw new Error('Failed to fetch registrations');
       }
 
-      const data = await response.json()
-      setRegistrations(data)
+      const data = await response.json();
+      setRegistrations(data);
     } catch (err) {
-      console.error("Error fetching registrations:", err)
-      setError("Failed to fetch registrations")
+      console.error('Error fetching registrations:', err);
+      setError(err.message);
     }
-  }
-
-  const formatDate = (dateString) => {
-    if (!dateString) return "N/A"
-    const date = new Date(dateString)
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-  }
-
-  const getCategoryLabel = (categoryId) => {
-    const category = EVENT_CATEGORIES.find((cat) => cat.id === categoryId)
-    return category ? category.label : categoryId
-  }
-
-  const handleViewEvent = (eventId) => {
-    navigate("/events", { state: { scrollToEvent: eventId } })
-  }
+  };
 
   const handleLogout = () => {
-    logout()
-    navigate("/")
-  }
+    logout();
+    navigate('/');
+  };
 
-  if (loading) {
-    return (
-      <div className="profile-container">
-        <div className="loading-state">
+  // Format date for display
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  // Get category label from category ID
+  const getCategoryLabel = (categoryId) => {
+    const category = EVENT_CATEGORIES.find(cat => cat.id === categoryId);
+    return category ? category.label : categoryId;
+  };
+
+  // Get category icon from category ID
+  const getCategoryIcon = (categoryId) => {
+    const category = EVENT_CATEGORIES.find(cat => cat.id === categoryId);
+    return category ? category.icon : 'fas fa-question';
+  };
+
+  // Get category color based on category ID
+  const getCategoryColor = (categoryId) => {
+    const colors = {
+      'dance': '#ff9800',
+      'music': '#e91e63',
+      'gaming': '#2196f3',
+      'theatre': '#9c27b0',
+      'finearts': '#4caf50',
+      'literary': '#3f51b5',
+      'other': '#607d8b'
+    };
+    return colors[categoryId] || colors.other;
+  };
+
+  const renderContent = () => {
+    if (loading) {
+      return (
+        <div className="loading-container">
           <div className="loading-spinner"></div>
-          <p className="loading-text">Loading your profile...</p>
+          <p>Loading your profile data...</p>
         </div>
-      </div>
-    )
-  }
+      );
+    }
 
-  if (error) {
-    return (
-      <div className="profile-container">
-        <div className="error-state">
-          <div className="error-icon">⚠️</div>
-          <p className="error-text">{error}</p>
-          <button className="retry-btn" onClick={() => window.location.reload()}>
+    if (error) {
+      return (
+        <div className="error-container">
+          <i className="fas fa-exclamation-triangle"></i>
+          <p>{error}</p>
+          <button onClick={() => window.location.reload()} className="retry-button">
             Try Again
           </button>
         </div>
-      </div>
-    )
-  }
+      );
+    }
 
-  return (
-    <div className="profile-container">
-      <div className="profile-content">
-        {/* Header */}
-        <div className="profile-header">
-          <h1 className="profile-title">Profile</h1>
-          <button className="logout-button" onClick={handleLogout}>
-            <LogOut size={16} />
-            Logout
-          </button>
-        </div>
-
-        <div className="tabs-container">
-          {/* Tabs */}
-          <div className="tabs-list">
-            <button
-              className="tabs-trigger"
-              data-state={activeTab === "registrations" ? "active" : "inactive"}
-              onClick={() => setActiveTab("registrations")}
-            >
-              My Events ({registrations.length})
-            </button>
-            <button
-              className="tabs-trigger"
-              data-state={activeTab === "account" ? "active" : "inactive"}
-              onClick={() => setActiveTab("account")}
-            >
-              Account
-            </button>
-          </div>
-
-          {/* Tab Content */}
-          {activeTab === "registrations" && (
-            <div className="profile-card">
-              <div className="card-header">
-                <h2 className="card-title">
-                  <Calendar size={20} />
-                  My Registered Events
-                </h2>
+    switch (activeTab) {
+      case 'dashboard':
+        return (
+          <div className="dashboard-overview">
+            <div className="dashboard-stats">
+              <div className="stat-card registrations">
+                <h4><i className="fas fa-clipboard-list"></i> My Registrations</h4>
+                <div className="stat-value">{registrations.length}</div>
+                <div className="stat-description">Events you've registered for</div>
               </div>
-              <div className="card-content">
-                {registrations.length === 0 ? (
-                  <div className="empty-state">
-                    <Calendar size={64} />
-                    <p>No events registered yet</p>
-                    <button className="explore-events-btn" onClick={() => navigate("/events")}>
-                      Explore Events
-                    </button>
-                  </div>
-                ) : (
-                  <div>
-                    {registrations.map((reg) => (
-                      <div key={reg._id} className="event-card">
-                        <div className="event-header">
-                          <div>
-                            <h3 className="event-title">{reg.event?.name || "Unknown Event"}</h3>
-                            {reg.event?.category && (
-                              <span className={`category-badge ${reg.event.category}`}>
-                                {getCategoryLabel(reg.event.category)}
-                              </span>
-                            )}
-                          </div>
-                          <button
-                            className="view-event-btn"
-                            onClick={() => handleViewEvent(reg.event?._id || "")}
-                            disabled={!reg.event?._id}
-                          >
-                            <Eye size={16} />
-                            View Event
-                          </button>
-                        </div>
-
-                        <div className="event-details">
-                          <div className="event-detail">
-                            <Calendar size={16} />
-                            <span>{reg.event ? formatDate(reg.event.date) : "TBA"}</span>
-                          </div>
-                          <div className="event-detail">
-                            <MapPin size={16} />
-                            <span>{reg.event?.venue || "TBA"}</span>
-                          </div>
-                          <div className="event-detail">
-                            <Users size={16} />
-                            <span>
-                              {reg.teamSize} {reg.teamSize > 1 ? "members" : "member"}
-                            </span>
-                          </div>
-                        </div>
-
-                        <p className="registration-date">Registered on {formatDate(reg.registeredAt)}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
+              
+              <div className="stat-card upcoming">
+                <h4><i className="fas fa-calendar-alt"></i> Upcoming Events</h4>
+                <div className="stat-value">
+                  {registrations.filter(reg => 
+                    reg.event && new Date(reg.event.date) > new Date()
+                  ).length}
+                </div>
+                <div className="stat-description">Events happening soon</div>
               </div>
             </div>
-          )}
 
-          {activeTab === "account" && (
-            <div className="profile-card">
-              <div className="card-header">
-                <h2 className="card-title">
-                  <User size={20} />
-                  Account Information
-                </h2>
+            <div className="quick-actions">
+              <h3>Quick Actions</h3>
+              <div className="action-buttons">
+                <button onClick={() => navigate('/events')} className="action-btn">
+                  <i className="fas fa-compass"></i> Explore Events
+                </button>
+                <button onClick={() => setActiveTab('registrations')} className="action-btn">
+                  <i className="fas fa-clipboard-list"></i> View My Registrations
+                </button>
+                <button onClick={() => setActiveTab('account')} className="action-btn">
+                  <i className="fas fa-user-cog"></i> Account Settings
+                </button>
               </div>
-              <div className="card-content">
-                <div className="account-info">
-                  <div className="user-avatar">{userData?.name?.charAt(0)?.toUpperCase() || "U"}</div>
-                  <div className="user-details">
-                    <div className="user-field">
-                      <span className="field-label">Name</span>
-                      <span className="field-value">{userData?.name || "N/A"}</span>
-                    </div>
-                    <div className="user-field">
-                      <span className="field-label">Email</span>
-                      <span className="field-value">{userData?.email || "N/A"}</span>
-                    </div>
-                    <div className="user-field">
-                      <span className="field-label">Mobile</span>
-                      <span className="field-value">{userData?.mobile || "N/A"}</span>
-                    </div>
-                    <div className="user-field">
-                      <span className="field-label">Account Type</span>
-                      <span className="account-type-badge">{userData?.role || "user"}</span>
-                    </div>
-                  </div>
+            </div>
+          </div>
+        );
+
+      case 'registrations':
+        return (
+          <div className="dashboard-table-container">
+            <h3>My Event Registrations</h3>
+            {registrations.length === 0 ? (
+              <div className="no-registrations">
+                <i className="fas fa-calendar-times"></i>
+                <p>You haven't registered for any events yet.</p>
+                <button onClick={() => navigate('/events')} className="explore-btn">
+                  Explore Events
+                </button>
+              </div>
+            ) : (
+              <table className="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>Event</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Venue</th>
+                    <th>Team Size</th>
+                    <th>Registration Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {registrations.map(reg => (
+                    <tr key={reg._id}>
+                      <td>{reg.event?.name || 'Unknown Event'}</td>
+                      <td>
+                        {reg.event ? (
+                          <div className="category-cell">
+                            <span className="category-badge" style={{ backgroundColor: getCategoryColor(reg.event.category) }}>
+                              <i className={getCategoryIcon(reg.event.category)}></i>
+                            </span>
+                            {getCategoryLabel(reg.event.category)}
+                          </div>
+                        ) : 'Unknown'}
+                      </td>
+                      <td>{reg.event ? formatDate(reg.event.date) : 'N/A'}</td>
+                      <td>{reg.event?.venue || 'TBA'}</td>
+                      <td>{reg.teamSize || 1} {reg.teamSize > 1 ? 'members' : 'member'}</td>
+                      <td>{formatDate(reg.registeredAt)}</td>
+                      <td>
+                        <span className={`status-badge ${reg.paymentStatus}`}>
+                          {reg.paymentStatus === 'completed' ? 'Paid' :
+                            reg.paymentStatus === 'not_required' ? 'Free Event' :
+                              reg.paymentStatus === 'pending' ? 'Payment Pending' :
+                                reg.paymentStatus === 'failed' ? 'Payment Failed' : 'Unknown'}
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          className="action-btn view-btn"
+                          onClick={() => navigate(`/event/${reg.event?._id}`)}
+                        >
+                          <i className="fas fa-eye"></i> View Event
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        );
+
+      case 'account':
+        return (
+          <div className="account-settings-container">
+            <h3>Account Information</h3>
+            <div className="user-info-card">
+              <div className="user-avatar">
+                <i className="fas fa-user-astronaut"></i>
+              </div>
+              <div className="user-details">
+                <div className="user-detail">
+                  <span className="detail-label">Name:</span>
+                  <span className="detail-value">{userData?.name || 'N/A'}</span>
+                </div>
+                <div className="user-detail">
+                  <span className="detail-label">Email:</span>
+                  <span className="detail-value">{userData?.email || 'N/A'}</span>
+                </div>
+                <div className="user-detail">
+                  <span className="detail-label">Mobile:</span>
+                  <span className="detail-value">{userData?.mobile || 'N/A'}</span>
+                </div>
+                <div className="user-detail">
+                  <span className="detail-label">Account Type:</span>
+                  <span className="detail-value account-type">{userData?.role || 'user'}</span>
                 </div>
               </div>
             </div>
-          )}
+            
+            <div className="account-actions">
+              <button className="action-btn danger-btn" onClick={handleLogout}>
+                <i className="fas fa-sign-out-alt"></i> Logout
+              </button>
+            </div>
+          </div>
+        );
+
+      default:
+        return <div>Select a tab to view content</div>;
+    }
+  };
+
+  return (
+    <div className="dashboard-container user-profile">
+      <div className="dashboard-header">
+        <h2>User Profile</h2>
+        <button className="logout-btn" onClick={handleLogout}>
+          <i className="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+
+      <div className="dashboard-content">
+        <div className="dashboard-sidebar">
+          <button
+            className={`sidebar-btn ${activeTab === 'dashboard' ? 'active' : ''}`}
+            onClick={() => setActiveTab('dashboard')}
+          >
+            <i className="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+          </button>
+          <button
+            className={`sidebar-btn ${activeTab === 'registrations' ? 'active' : ''}`}
+            onClick={() => setActiveTab('registrations')}
+          >
+            <i className="fas fa-clipboard-list"></i> <span>My Registrations</span>
+          </button>
+          <button
+            className={`sidebar-btn ${activeTab === 'account' ? 'active' : ''}`}
+            onClick={() => setActiveTab('account')}
+          >
+            <i className="fas fa-user-cog"></i> <span>Account Settings</span>
+          </button>
+        </div>
+
+        <div className="dashboard-main">
+          {renderContent()}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Profile
+export default Profile;
