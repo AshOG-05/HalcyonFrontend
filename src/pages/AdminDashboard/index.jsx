@@ -292,6 +292,11 @@ function AdminDashboard() {
     setEventToEdit(null);
   };
 
+  const handleEditEvent = (event) => {
+    setEventToEdit(event);
+    setShowEventForm(true);
+  };
+
   const handleDeleteEvent = async (eventId) => {
     if (!window.confirm('Are you sure you want to delete this event? This action cannot be undone.')) {
       return;
@@ -419,7 +424,7 @@ function AdminDashboard() {
     setFilteredRegistrations(processedData);
   } catch (err) {
     console.error('Error fetching registrations:', err);
-    
+
     // Only set error for actual network/server errors, not 404
     if (!err.message.includes('404')) {
       setError(err.message);
@@ -841,49 +846,70 @@ function AdminDashboard() {
             <div className="event-count">
               <i className="fas fa-info-circle"></i> Showing {filteredEvents.length} of {events.length} events
             </div>
-            <table className="dashboard-table">
+            <table className="dashboard-table events-table">
               <thead>
                 <tr>
-                  <th>Name</th>
+                  <th>Event Name</th>
                   <th>Date</th>
                   <th>Category</th>
                   <th>Day</th>
+                  <th>Registration</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredEvents.map(event => (
                   <tr key={event._id}>
-                    <td>{event.name}</td>
-                    <td>{new Date(event.date).toLocaleDateString()}</td>
                     <td>
-                      {getCategoryLabel(event.category)}
-                      <span className="category-badge" style={{ backgroundColor: getCategoryColor(event.category) }}>
-                        <i className={getCategoryIcon(event.category)}></i>
+                      <div className="event-name-cell">
+                        <span className="event-title">{event.name}</span>
+                        <span className="event-venue">{event.venue || 'TBA'}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span className="event-date">{new Date(event.date).toLocaleDateString()}</span>
+                    </td>
+                    <td>
+                      <div className="category-cell">
+                        <span className="category-badge" style={{ backgroundColor: getCategoryColor(event.category) }}>
+                          <i className={getCategoryIcon(event.category)}></i>
+                          {getCategoryLabel(event.category)}
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      <span className="day-badge">Day {event.day || 1}</span>
+                    </td>
+                    <td>
+                      <span className={`registration-status ${event.registrationOpen ? 'open' : 'closed'}`}>
+                        <i className={`fas ${event.registrationOpen ? 'fa-unlock' : 'fa-lock'}`}></i>
+                        {event.registrationOpen ? 'Open' : 'Closed'}
                       </span>
                     </td>
-                    <td>Day {event.day || 1}</td>
                     <td>
-                      <button
-                        className="action-btn edit-btn"
-                        onClick={() => handleEditEvent(event)}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="action-btn delete-btn"
-                        onClick={() => handleDeleteEvent(event._id)}
-                      >
-                        Delete
-                      </button>
-                      <button
-                        className={`action-btn ${event.registrationOpen ? 'close-btn' : 'open-btn'}`}
-                        onClick={() => handleToggleRegistration(event._id, event.name, event.registrationOpen)}
-                        title={event.registrationOpen ? 'Close Registration' : 'Open Registration'}
-                      >
-                        <i className={`fas ${event.registrationOpen ? 'fa-lock' : 'fa-lock-open'}`}></i>
-                        {event.registrationOpen ? ' Close' : ' Open'} Registration
-                      </button>
+                      <div className="action-buttons-row">
+                        <button
+                          className="action-btn-mini edit-btn"
+                          onClick={() => handleEditEvent(event)}
+                          title="Edit Event"
+                        >
+                          <i className="fas fa-edit"></i>
+                        </button>
+                        <button
+                          className="action-btn-mini delete-btn"
+                          onClick={() => handleDeleteEvent(event._id)}
+                          title="Delete Event"
+                        >
+                          <i className="fas fa-trash"></i>
+                        </button>
+                        <button
+                          className={`action-btn-mini ${event.registrationOpen ? 'close-btn' : 'open-btn'}`}
+                          onClick={() => handleToggleRegistration(event._id, event.name, event.registrationOpen)}
+                          title={event.registrationOpen ? 'Close Registration' : 'Open Registration'}
+                        >
+                          <i className={`fas ${event.registrationOpen ? 'fa-lock' : 'fa-lock-open'}`}></i>
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

@@ -149,35 +149,65 @@ function Profile() {
       case 'dashboard':
         return (
           <div className="dashboard-overview">
-            <div className="dashboard-stats">
-              <div className="stat-card registrations">
-                <h4><i className="fas fa-clipboard-list"></i> My Registrations</h4>
-                <div className="stat-value">{registrations.length}</div>
-                <div className="stat-description">Events you've registered for</div>
-              </div>
-              
-              <div className="stat-card upcoming">
-                <h4><i className="fas fa-calendar-alt"></i> Upcoming Events</h4>
-                <div className="stat-value">
-                  {registrations.filter(reg => 
-                    reg.event && new Date(reg.event.date) > new Date()
-                  ).length}
+            <div className="welcome-section">
+              <h3>Welcome back, {userData?.name?.split(' ')[0] || 'User'}!</h3>
+              <p>Manage your event registrations and account settings</p>
+            </div>
+
+            <div className="stats-grid">
+              <div className="stat-card">
+                <div className="stat-icon">
+                  <i className="fas fa-clipboard-list"></i>
                 </div>
-                <div className="stat-description">Events happening soon</div>
+                <div className="stat-content">
+                  <div className="stat-value">{registrations.length}</div>
+                  <div className="stat-label">Total Registrations</div>
+                </div>
+              </div>
+
+              <div className="stat-card">
+                <div className="stat-icon upcoming">
+                  <i className="fas fa-calendar-alt"></i>
+                </div>
+                <div className="stat-content">
+                  <div className="stat-value">
+                    {registrations.filter(reg =>
+                      reg.event && new Date(reg.event.date) > new Date()
+                    ).length}
+                  </div>
+                  <div className="stat-label">Upcoming Events</div>
+                </div>
+              </div>
+
+              <div className="stat-card">
+                <div className="stat-icon paid">
+                  <i className="fas fa-check-circle"></i>
+                </div>
+                <div className="stat-content">
+                  <div className="stat-value">
+                    {registrations.filter(reg =>
+                      reg.paymentStatus === 'completed' || reg.paymentStatus === 'not_required'
+                    ).length}
+                  </div>
+                  <div className="stat-label">Paid/Free Events</div>
+                </div>
               </div>
             </div>
 
             <div className="quick-actions">
-              <h3>Quick Actions</h3>
-              <div className="action-buttons">
-                <button onClick={() => navigate('/events')} className="action-btn">
-                  <i className="fas fa-compass"></i> Explore Events
+              <h4>Quick Actions</h4>
+              <div className="action-grid">
+                <button onClick={() => navigate('/events')} className="action-card">
+                  <i className="fas fa-compass"></i>
+                  <span>Explore Events</span>
                 </button>
-                <button onClick={() => setActiveTab('registrations')} className="action-btn">
-                  <i className="fas fa-clipboard-list"></i> View My Registrations
+                <button onClick={() => setActiveTab('registrations')} className="action-card">
+                  <i className="fas fa-clipboard-list"></i>
+                  <span>My Registrations</span>
                 </button>
-                <button onClick={() => setActiveTab('account')} className="action-btn">
-                  <i className="fas fa-user-cog"></i> Account Settings
+                <button onClick={() => setActiveTab('account')} className="action-card">
+                  <i className="fas fa-user-cog"></i>
+                  <span>Account Settings</span>
                 </button>
               </div>
             </div>
@@ -186,68 +216,85 @@ function Profile() {
 
       case 'registrations':
         return (
-          <div className="dashboard-table-container">
-            <h3>My Event Registrations</h3>
+          <div className="registrations-container">
+            <div className="registrations-header">
+              <h3>My Event Registrations</h3>
+              <div className="registrations-count">
+                {registrations.length} {registrations.length === 1 ? 'Event' : 'Events'}
+              </div>
+            </div>
+
             {registrations.length === 0 ? (
               <div className="no-registrations">
-                <i className="fas fa-calendar-times"></i>
-                <p>You haven't registered for any events yet.</p>
-                <button onClick={() => navigate('/events')} className="explore-btn">
-                  Explore Events
-                </button>
+                <div className="empty-state">
+                  <i className="fas fa-calendar-times"></i>
+                  <h4>No Registrations Yet</h4>
+                  <p>You haven't registered for any events yet.</p>
+                  <button onClick={() => navigate('/events')} className="explore-btn">
+                    <i className="fas fa-search"></i>
+                    Explore Events
+                  </button>
+                </div>
               </div>
             ) : (
-              <table className="dashboard-table">
-                <thead>
-                  <tr>
-                    <th>Event</th>
-                    <th>Category</th>
-                    <th>Date</th>
-                    <th>Venue</th>
-                    <th>Team Size</th>
-                    <th>Registration Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {registrations.map(reg => (
-                    <tr key={reg._id}>
-                      <td>{reg.event?.name || 'Unknown Event'}</td>
-                      <td>
-                        {reg.event ? (
-                          <div className="category-cell">
-                            <span className="category-badge" style={{ backgroundColor: getCategoryColor(reg.event.category) }}>
-                              <i className={getCategoryIcon(reg.event.category)}></i>
-                            </span>
-                            {getCategoryLabel(reg.event.category)}
-                          </div>
-                        ) : 'Unknown'}
-                      </td>
-                      <td>{reg.event ? formatDate(reg.event.date) : 'N/A'}</td>
-                      <td>{reg.event?.venue || 'TBA'}</td>
-                      <td>{reg.teamSize || 1} {reg.teamSize > 1 ? 'members' : 'member'}</td>
-                      <td>{formatDate(reg.registeredAt)}</td>
-                      <td>
+              <div className="registrations-grid">
+                {registrations.map(reg => (
+                  <div key={reg._id} className="registration-card">
+                    <div className="card-header">
+                      <div className="event-info">
+                        <h4 className="event-name">{reg.event?.name || 'Unknown Event'}</h4>
+                        <div className="event-meta">
+                          <span className="category-tag" style={{ backgroundColor: getCategoryColor(reg.event?.category) }}>
+                            <i className={getCategoryIcon(reg.event?.category)}></i>
+                            {getCategoryLabel(reg.event?.category)}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="payment-status">
                         <span className={`status-badge ${reg.paymentStatus}`}>
                           {reg.paymentStatus === 'completed' ? 'Paid' :
-                            reg.paymentStatus === 'not_required' ? 'Free Event' :
-                              reg.paymentStatus === 'pending' ? 'Payment Pending' :
-                                reg.paymentStatus === 'failed' ? 'Payment Failed' : 'Unknown'}
+                            reg.paymentStatus === 'not_required' ? 'Free' :
+                              reg.paymentStatus === 'pending' ? 'Pending' :
+                                reg.paymentStatus === 'failed' ? 'Failed' :
+                                  reg.paymentStatus === 'pay_on_event_day' ? 'Pay on Day' :
+                                    reg.paymentStatus === 'payment_required' ? 'Payment Required' : 'Unknown'}
                         </span>
-                      </td>
-                      <td>
-                        <button
-                          className="action-btn view-btn"
-                          onClick={() => navigate(`/event/${reg.event?._id}`)}
-                        >
-                          <i className="fas fa-eye"></i> View Event
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                      </div>
+                    </div>
+
+                    <div className="card-body">
+                      <div className="event-details">
+                        <div className="detail-row">
+                          <i className="fas fa-calendar"></i>
+                          <span>{reg.event ? formatDate(reg.event.date) : 'N/A'}</span>
+                        </div>
+                        <div className="detail-row">
+                          <i className="fas fa-map-marker-alt"></i>
+                          <span>{reg.event?.venue || 'TBA'}</span>
+                        </div>
+                        <div className="detail-row">
+                          <i className="fas fa-users"></i>
+                          <span>{reg.teamSize || 1} {reg.teamSize > 1 ? 'members' : 'member'}</span>
+                        </div>
+                        <div className="detail-row">
+                          <i className="fas fa-clock"></i>
+                          <span>Registered {formatDate(reg.registeredAt)}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="card-footer">
+                      <button
+                        className="view-event-btn"
+                        onClick={() => navigate(`/event/${reg.event?._id}`)}
+                      >
+                        <i className="fas fa-eye"></i>
+                        View Event
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         );
@@ -279,7 +326,7 @@ function Profile() {
                 </div>
               </div>
             </div>
-            
+
             <div className="account-actions">
               <button className="action-btn danger-btn" onClick={handleLogout}>
                 <i className="fas fa-sign-out-alt"></i> Logout

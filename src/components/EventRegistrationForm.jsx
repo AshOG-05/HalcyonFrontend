@@ -12,12 +12,11 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
   const [success, setSuccess] = useState(false);
   const [eventName, setEventName] = useState('');
   const [eventFee, setEventFee] = useState(0);
+  const [eventCategory, setEventCategory] = useState('');
   const [registrationClosed, setRegistrationClosed] = useState(false);
   const [alreadyRegistered, setAlreadyRegistered] = useState(false);
   const [registrationDetails, setRegistrationDetails] = useState(null);
   const [showPaymentInstructions, setShowPaymentInstructions] = useState(false);
-  const [transactionId, setTransactionId] = useState('');
-  const [transactionIdValid, setTransactionIdValid] = useState(null);
 
   // User data
   const [userData, setUserData] = useState({
@@ -44,6 +43,48 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
   // Check if any team member is from SIT (for payment exemption)
   const hasAnySITStudent = () => {
     return participants.some(participant => isSITStudent(participant.usn));
+  };
+
+  // Check if team is from the same college (SIT)
+  const isFromSameCollege = () => {
+    return hasAnySITStudent();
+  };
+
+  // Check if event is a gaming event
+  const isGamingEvent = () => {
+    return eventCategory === 'gaming';
+  };
+
+  // Determine payment requirement based on college affiliation and event type
+  const getPaymentRequirement = () => {
+    const fromSameCollege = isFromSameCollege();
+    const isGaming = isGamingEvent();
+
+    if (!fromSameCollege) {
+      // Other college students: always pay on event day
+      return {
+        type: 'pay_on_event_day',
+        message: 'Payment will be collected on the event day.',
+        showTransactionField: false,
+        exemptFromFee: false
+      };
+    } else if (fromSameCollege && isGaming) {
+      // Same college + gaming events: show payment notification
+      return {
+        type: 'payment_notification',
+        message: 'Payment is required for gaming events.',
+        showTransactionField: false,
+        exemptFromFee: false
+      };
+    } else {
+      // Same college + non-gaming events: current SIT exemption logic
+      return {
+        type: 'sit_exemption',
+        message: 'As a student of Siddaganga Institute of Technology, you are exempt from the registration fee.',
+        showTransactionField: false,
+        exemptFromFee: true
+      };
+    }
   };
 
   // Check if user is already registered for this event
@@ -212,6 +253,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       });
       setEventName(data.name || 'Unknown Event');
       setEventFee(data.fees || 0);
+      setEventCategory(data.category || 'other');
 
       // Check if registration is open for this event
       if (data.registrationOpen === false) {
@@ -406,23 +448,8 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       return;
     }
 
-    // Check if any team member is from SIT
-    const hasSITStudent = hasAnySITStudent();
-
-    // Validate transaction ID if event has fees and no SIT students
-    if (eventFee > 0 && !hasSITStudent) {
-      if (!transactionId.trim()) {
-        setError('Transaction ID is required for paid events. Please complete payment first.');
-        return;
-      }
-
-      // Validate transaction ID format: 4 letters + 10 digits (total 14 characters)
-      const transactionIdRegex = /^[A-Za-z]{4}\d{10}$/;
-      if (!transactionIdRegex.test(transactionId.trim())) {
-        setError('Invalid Transaction ID format. It should be 4 letters followed by 10 digits (e.g., JCIT1234567890)');
-        return;
-      }
-    }
+    // No transaction ID validation needed for the new payment logic
+    // Payment will be handled based on college affiliation and event type
 
     setError('');
     setSubmitting(true);
@@ -452,7 +479,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
           usn: member.usn,
           collegeName: commonCollegeName
         })),
-        transactionId: (eventFee > 0 && !hasAnySITStudent()) ? transactionId.trim() : null
+        transactionId: null // No transaction ID required for new payment logic
       };
 
       // Reset payment error state
@@ -533,21 +560,6 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       console.error('Registration error:', err);
     } finally {
       setSubmitting(false);
-    }
-  };
-
-  // Handle transaction ID change with validation
-  const handleTransactionIdChange = (value) => {
-    const upperValue = value.toUpperCase();
-    setTransactionId(upperValue);
-
-    if (upperValue.length === 0) {
-      setTransactionIdValid(null);
-    } else if (upperValue.length === 14) {
-      const transactionIdRegex = /^[A-Za-z]{4}\d{10}$/;
-      setTransactionIdValid(transactionIdRegex.test(upperValue));
-    } else {
-      setTransactionIdValid(false);
     }
   };
 
@@ -818,63 +830,43 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                 {/* Payment section for team leader only */}
                 {index === 0 && eventFee > 0 && (
                   <div className="payment-section">
-                    {hasAnySITStudent() ? (
-                      <div className="sit-student-notice">
-                        <div className="sit-exemption-info">
-                          <h4><i className="fas fa-graduation-cap"></i> Payment Exemption</h4>
-                          <p className="exemption-message">
-                            <i className="fas fa-check-circle"></i>
-                            <strong>No payment required!</strong>
-                          </p>
-                          <p>As a student of Siddaganga Institute of Technology, you are exempt from the registration fee.</p>
-                          <p className="fee-info">Registration Fee: <span style={{textDecoration: 'line-through'}}>₹{eventFee}</span> <strong style={{color: 'green'}}>FREE</strong></p>
-                        </div>
-                      </div>
-                    ) : (
-                      <>
-                        <div className="payment-info">
-                          <h4><i className="fas fa-credit-card"></i> Payment Required</h4>
-                          <p>Registration Fee: <strong>₹{eventFee}</strong></p>
-                          <p>Complete payment through ERP portal before registration</p>
-                        </div>
+                    {(() => {
+                      const paymentReq = getPaymentRequirement();
 
-                        <div className="payment-button-container">
-                          <button
-                            type="button"
-                            className="payment-instructions-button"
-                            onClick={() => setShowPaymentInstructions(true)}
-                          >
-                            <i className="fas fa-info-circle"></i>
-                            How to Pay - View Instructions
-                          </button>
-                        </div>
-
-                        <div className={`form-group highlight-field ${transactionIdValid === true ? 'valid' : transactionIdValid === false ? 'invalid' : ''}`}>
-                          <label htmlFor="transaction-id">Transaction ID *</label>
-                          <input
-                            type="text"
-                            id="transaction-id"
-                            value={transactionId}
-                            onChange={(e) => handleTransactionIdChange(e.target.value)}
-                            required
-                            placeholder="Ex: JCIT1234567890"
-                            maxLength="14"
-                            className={transactionIdValid === true ? 'valid-input' : transactionIdValid === false ? 'invalid-input' : ''}
-                          />
-                          {transactionIdValid === true && (
-                            <p className="validation-message success">
-                              <i className="fas fa-check-circle"></i> Valid transaction ID format
-                            </p>
-                          )}
-                          {transactionIdValid === false && (
-                            <p className="validation-message error">
-                              <i className="fas fa-exclamation-circle"></i> Invalid format. Must be 4 letters + 10 digits (14 characters total)
-                            </p>
-                          )}
-                          <p className="field-note">Enter the transaction ID you received after completing payment on ERP portal</p>
-                        </div>
-                      </>
-                    )}
+                      if (paymentReq.type === 'sit_exemption') {
+                        return (
+                          <div className="sit-student-notice">
+                            <div className="sit-exemption-info">
+                              <h4><i className="fas fa-graduation-cap"></i> Payment Exemption</h4>
+                              <p className="exemption-message">
+                                <i className="fas fa-check-circle"></i>
+                                <strong>No payment required!</strong>
+                              </p>
+                              <p>{paymentReq.message}</p>
+                              <p className="fee-info">Registration Fee: <span style={{textDecoration: 'line-through'}}>₹{eventFee}</span> <strong style={{color: 'green'}}>FREE</strong></p>
+                            </div>
+                          </div>
+                        );
+                      } else if (paymentReq.type === 'pay_on_event_day') {
+                        return (
+                          <div className="payment-info">
+                            <h4><i className="fas fa-calendar-day"></i> Payment on Event Day</h4>
+                            <p>Registration Fee: <strong>₹{eventFee}</strong></p>
+                            <p>{paymentReq.message}</p>
+                            <p className="info-note">Please bring the exact amount on the day of the event.</p>
+                          </div>
+                        );
+                      } else if (paymentReq.type === 'payment_notification') {
+                        return (
+                          <div className="payment-notification">
+                            <h4><i className="fas fa-exclamation-triangle"></i> Payment Required</h4>
+                            <p>Registration Fee: <strong>₹{eventFee}</strong></p>
+                            <p>{paymentReq.message}</p>
+                            <p className="notification-note">Students from the same college are required to pay for gaming events.</p>
+                          </div>
+                        );
+                      }
+                    })()}
                   </div>
                 )}
               </div>

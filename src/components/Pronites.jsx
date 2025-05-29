@@ -25,7 +25,7 @@ function Pronites() { // Component name kept as Pronites for file consistency
       id: 1,
       name: "DJ RUHI",
       date: "3nd June 2025",
-      image: "/assets/dj1.jpg",
+      image: "/assets/ruhi.jpg",
       alt: "DJ Ruhi",
       gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/dj1.jpg')",
       description: "DJ Ruhi, an international DJ & producer, brings high-energy, creative electronic and dance sets to Halcyon 2025.",

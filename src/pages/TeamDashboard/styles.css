@@ -104,6 +104,18 @@
   border: 1px solid rgba(244, 67, 54, 0.4);
 }
 
+.status-badge.pay_on_event_day {
+  background-color: rgba(156, 39, 176, 0.2);
+  color: #9c27b0;
+  border: 1px solid rgba(156, 39, 176, 0.4);
+}
+
+.status-badge.payment_required {
+  background-color: rgba(255, 87, 34, 0.2);
+  color: #ff5722;
+  border: 1px solid rgba(255, 87, 34, 0.4);
+}
+
 /* Form styles for spot registration */
 .dashboard-form-container {
   background-color: rgba(30, 30, 30, 0.6);

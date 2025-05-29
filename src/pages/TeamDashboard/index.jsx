@@ -523,7 +523,9 @@ function TeamDashboard() {
                           {reg.paymentStatus === 'completed' ? 'Paid' :
                             reg.paymentStatus === 'not_required' ? 'Free Event' :
                               reg.paymentStatus === 'pending' ? 'Payment Pending' :
-                                reg.paymentStatus === 'failed' ? 'Payment Failed' : 'Unknown'}
+                                reg.paymentStatus === 'failed' ? 'Payment Failed' :
+                                  reg.paymentStatus === 'pay_on_event_day' ? 'Pay on Event Day' :
+                                    reg.paymentStatus === 'payment_required' ? 'Payment Required' : 'Unknown'}
                         </span>
                       </td>
                       <td>
