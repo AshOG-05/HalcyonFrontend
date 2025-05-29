@@ -1,22 +1,26 @@
 import { useState, useEffect } from 'react';
 import { isTeamLoggedIn, teamLogout } from '../../services/authService';
-import { API_URL, EVENT_CATEGORIES } from '../../config';
+import { corsProtectedFetch } from '../../utils/corsHelper';
 import './styles.css';
 
 function TeamDashboard() {
-  const [activeTab, setActiveTab] = useState('events');
+  const [activeTab, setActiveTab] = useState('usn-check');
   const [events, setEvents] = useState([]);
   const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [filteredEvents, setFilteredEvents] = useState([]);
+
+  // USN Check functionality
+  const [usnInput, setUsnInput] = useState('');
+  const [usnCheckResult, setUsnCheckResult] = useState(null);
+  const [usnLoading, setUsnLoading] = useState(false);
+
+  // Spot Registration functionality
   const [spotRegistrationForm, setSpotRegistrationForm] = useState({
     eventId: '',
     teamName: '',
     teamSize: 1,
     commonCollegeName: '',
-    paymentMode: '',
     participants: [
       {
         name: '',
@@ -27,7 +31,6 @@ function TeamDashboard() {
     ]
   });
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [teamSizeOptions, setTeamSizeOptions] = useState([1]);
 
   useEffect(() => {
     // Check if team member is logged in
@@ -60,12 +63,10 @@ function TeamDashboard() {
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch(`${API_URL}/event`);
-
+      const response = await corsProtectedFetch('event');
       if (!response.ok) {
         throw new Error('Failed to fetch events');
       }
-
       const data = await response.json();
       setEvents(data);
     } catch (err) {
@@ -78,7 +79,7 @@ function TeamDashboard() {
   const fetchRegistrations = async () => {
     try {
       const token = localStorage.getItem('teamCookie');
-      const response = await fetch(`${API_URL}/registration/me`, {
+      const response = await corsProtectedFetch('registration/me', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -92,6 +93,35 @@ function TeamDashboard() {
       setRegistrations(data);
     } catch (err) {
       setError(err.message);
+    }
+  };
+
+  // USN Check function
+  const checkUSNPaymentStatus = async () => {
+    if (!usnInput.trim()) {
+      alert('Please enter a USN');
+      return;
+    }
+
+    setUsnLoading(true);
+    setUsnCheckResult(null);
+
+    try {
+      // Check if USN starts with '1si' (SIT college)
+      const isSITStudent = usnInput.toLowerCase().startsWith('1si');
+
+      setUsnCheckResult({
+        usn: usnInput,
+        paymentRequired: !isSITStudent,
+        college: isSITStudent ? 'Siddaganga Institute of Technology' : 'Other College',
+        message: isSITStudent
+          ? 'No payment required - SIT student'
+          : 'Payment required on event day - External student'
+      });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setUsnLoading(false);
     }
   };
 
@@ -376,7 +406,7 @@ function TeamDashboard() {
       // Log the data being sent for debugging
       console.log('Sending spot registration data:', registrationData);
 
-      const response = await fetch(`${API_URL}/registration/spot/${spotRegistrationForm.eventId}`, {
+      const response = await corsProtectedFetch(`registration/spot/${spotRegistrationForm.eventId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -426,64 +456,101 @@ function TeamDashboard() {
     }
 
     switch (activeTab) {
+      case 'usn-check':
+        return (
+          <div className="usn-check-container">
+            <h3>🔍 USN Payment Status Check</h3>
+            <div className="usn-check-form">
+              <div className="form-group">
+                <label htmlFor="usnInput">Enter USN:</label>
+                <input
+                  type="text"
+                  id="usnInput"
+                  value={usnInput}
+                  onChange={(e) => setUsnInput(e.target.value.toUpperCase())}
+                  placeholder="e.g., 1SI21CS001"
+                  className="usn-input"
+                />
+                <button
+                  onClick={checkUSNPaymentStatus}
+                  disabled={usnLoading}
+                  className="check-btn"
+                >
+                  {usnLoading ? 'Checking...' : 'Check Payment Status'}
+                </button>
+              </div>
+
+              {usnCheckResult && (
+                <div className="usn-result">
+                  <h4>Payment Status Result</h4>
+                  <div className="result-card">
+                    <div className="result-item">
+                      <strong>USN:</strong> {usnCheckResult.usn}
+                    </div>
+                    <div className="result-item">
+                      <strong>College:</strong> {usnCheckResult.college}
+                    </div>
+                    <div className="result-item">
+                      <strong>Payment Status:</strong>
+                      <span className={`payment-status ${usnCheckResult.paymentRequired ? 'required' : 'not-required'}`}>
+                        {usnCheckResult.paymentRequired ? '💳 Payment Required' : '✅ No Payment Required'}
+                      </span>
+                    </div>
+                    <div className="result-message">
+                      {usnCheckResult.message}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+
       case 'events':
         return (
           <div className="dashboard-table-container">
-            <h3>Managed Events</h3>
+            <h3>📅 Available Events</h3>
             <table className="dashboard-table">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Description</th>
+                  <th>Event Name</th>
                   <th>Date</th>
                   <th>Venue</th>
+                  <th>Amount</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {events.map(event => (
-                  <tr key={event._id}>
-                    <td>{event.name}</td>
-                    <td>{event.description}</td>
-                    <td>{new Date(event.date).toLocaleDateString()}</td>
-                    <td>{event.venue}</td>
-                    <td>
-                      <button className="action-btn view-btn">View Details</button>
-                      <button
-                        className="action-btn register-btn"
-                        onClick={() => {
-                          // Reset form and set the selected category first
-                          setSelectedCategory(event.category || 'other');
-
-                          // Set the event ID after a short delay to ensure the filtered events are updated
-                          setTimeout(() => {
-                            setSpotRegistrationForm({
-                              eventId: event._id,
-                              teamName: '',
-                              teamSize: 1,
-                              commonCollegeName: '',
-                              paymentMode: '',
-                              participants: [
-                                {
-                                  name: '',
-                                  email: '',
-                                  mobile: '',
-                                  usn: ''
-                                }
-                              ]
-                            });
-                            // Trigger event change to fetch event details
-                            handleEventChange({ target: { value: event._id } });
-                          }, 100);
-
-                          setActiveTab('spot-registration');
-                        }}
-                      >
-                        <i className="fas fa-user-plus"></i> Register Participant
-                      </button>
-                    </td>
+                {events.length > 0 ? (
+                  events.map(event => (
+                    <tr key={event._id}>
+                      <td>{event.name}</td>
+                      <td>{new Date(event.date).toLocaleDateString()}</td>
+                      <td>{event.venue}</td>
+                      <td>₹{event.fees}</td>
+                      <td>
+                        <button
+                          className="action-btn register-btn"
+                          onClick={() => {
+                            setSelectedEvent(event);
+                            setActiveTab('spot-registration');
+                            setSpotRegistrationForm(prev => ({
+                              ...prev,
+                              eventId: event._id
+                            }));
+                          }}
+                          disabled={!event.registrationOpen}
+                        >
+                          <i className="fas fa-user-plus"></i> Register Participant
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="no-data">No events found</td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
@@ -492,94 +559,86 @@ function TeamDashboard() {
       case 'registrations':
         return (
           <div className="dashboard-table-container">
-            <h3>Event Registrations</h3>
-            <table className="dashboard-table">
-              <thead>
-                <tr>
-                  <th>Event</th>
-                  <th>Team Leader</th>
-                  <th>Team Size</th>
-                  <th>Registration Date</th>
-                  <th>Status</th>
-                  <th>Registered By</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {registrations.length > 0 ? (
-                  registrations.map(reg => (
-                    <tr key={reg._id}>
-                      <td>{reg.event?.name || 'Unknown Event'}</td>
-                      <td>
-                        {reg.isSpotRegistration
-                          ? (reg.displayTeamLeader?.name || 'Unknown') + ' (Spot Registration)'
-                          : reg.teamLeader?.name || 'Unknown'
-                        }
-                      </td>
-                      <td>{reg.teamSize || 1} {reg.teamSize > 1 ? 'members' : 'member'}</td>
-                      <td>{new Date(reg.registeredAt).toLocaleDateString()}</td>
-                      <td>
-                        <span className={`status-badge ${reg.paymentStatus}`}>
-                          {reg.paymentStatus === 'completed' ? 'Paid' :
-                            reg.paymentStatus === 'not_required' ? 'Free Event' :
-                              reg.paymentStatus === 'pending' ? 'Payment Pending' :
-                                reg.paymentStatus === 'failed' ? 'Payment Failed' :
-                                  reg.paymentStatus === 'pay_on_event_day' ? 'Pay on Event Day' :
-                                    reg.paymentStatus === 'payment_required' ? 'Payment Required' : 'Unknown'}
+            <h3>📋 Team Registrations</h3>
+            <div className="registrations-summary">
+              <p>Total Registrations: <strong>{registrations.length}</strong></p>
+            </div>
+
+            {registrations.length > 0 ? (
+              registrations.map(reg => (
+                <div key={reg._id} className="registration-card">
+                  <div className="registration-header">
+                    <h4>{reg.event?.name || 'Unknown Event'}</h4>
+                    <span className={`status-badge ${reg.paymentStatus}`}>
+                      {reg.paymentStatus === 'completed' ? 'Paid' :
+                        reg.paymentStatus === 'not_required' ? 'No Req' :
+                          reg.paymentStatus === 'pending' ? 'Payment Pending' :
+                            reg.paymentStatus === 'failed' ? 'Payment Failed' :
+                              reg.paymentStatus === 'pay_on_event_day' ? 'Pay on Event Day' :
+                                'Payment Required'}
+                    </span>
+                  </div>
+
+                  <div className="registration-details">
+                    <div className="detail-row">
+                      <strong>Team Leader:</strong> {reg.teamLeaderDetails?.usn || 'Unknown'} - {reg.isSpotRegistration ? (reg.displayTeamLeader?.name || 'Unknown') : reg.teamLeader?.name || 'Unknown'}
+                    </div>
+                    <div className="detail-row">
+                      <strong>Team Size:</strong> {reg.teamSize || 1} participant{reg.teamSize > 1 ? 's' : ''}
+                    </div>
+                    <div className="detail-row">
+                      <strong>College:</strong> {reg.teamLeaderDetails?.collegeName || 'Unknown'}
+                    </div>
+                    <div className="detail-row">
+                      <strong>Registration Date:</strong> {new Date(reg.registeredAt).toLocaleDateString()}
+                    </div>
+                    <div className="detail-row">
+                      <strong>Registered By:</strong> {reg.isSpotRegistration ? 'Team Member' : 'Self Registration'}
+                    </div>
+                  </div>
+
+                  {/* Show payment status for each participant */}
+                  <div className="participants-payment-status">
+                    <h5>Payment Status by Participant:</h5>
+                    <div className="participant-payment-list">
+                      {/* Team Leader */}
+                      <div className="participant-payment-item">
+                        <span className="participant-name">
+                          {reg.isSpotRegistration ? (reg.displayTeamLeader?.name || 'Unknown') : reg.teamLeader?.name || 'Unknown'} (Leader)
                         </span>
-                      </td>
-                      <td>
-                        {reg.isSpotRegistration && reg.registeredBy ? (
-                          <span className="registered-by">
-                            {reg.registeredBy.name}
+                        <span className="participant-usn">
+                          {reg.teamLeaderDetails?.usn || 'Unknown USN'}
+                        </span>
+                        <span className={`participant-payment-status ${
+                          reg.teamLeaderDetails?.usn?.toLowerCase().startsWith('1si') ? 'no-payment' : 'payment-required'
+                        }`}>
+                          {reg.teamLeaderDetails?.usn?.toLowerCase().startsWith('1si') ? 'No Req' : 'Payment Req'}
+                        </span>
+                      </div>
+
+                      {/* Team Members */}
+                      {reg.teamMembers && reg.teamMembers.map((member, index) => (
+                        <div key={index} className="participant-payment-item">
+                          <span className="participant-name">
+                            {member.name || 'Unknown'}
                           </span>
-                        ) : (
-                          <span className="registered-by">
-                            {reg.isSpotRegistration ? 'Unknown Team Member' : 'Self Registration'}
+                          <span className="participant-usn">
+                            {member.usn || 'Unknown USN'}
                           </span>
-                        )}
-                      </td>
-                      <td>
-                        <button
-                          className="action-btn view-btn"
-                          onClick={() => {
-                            // Create a more detailed message for spot registrations
-                            let detailsMessage = `Registration details for ${reg.event?.name || 'Unknown Event'}\n\n`;
-                            detailsMessage += `Team: ${reg.teamName || 'Individual'}\n`;
-                            detailsMessage += `Team Size: ${reg.teamSize || 1}\n`;
-                            detailsMessage += `College: ${reg.teamLeaderDetails?.collegeName || 'Unknown'}\n`;
-
-                            // Add payment details for paid events
-                            if (reg.paymentStatus === 'completed' && reg.paymentId) {
-                              detailsMessage += `\nPayment ID: ${reg.paymentId}\n`;
-
-                              // Add payment mode information if available in notes
-                              if (reg.notes && reg.notes.includes('Payment collected via')) {
-                                detailsMessage += `Payment Mode: ${reg.notes.split('Payment collected via ')[1].split(' by')[0]}\n`;
-                              }
-                            }
-
-                            // Add spot registration details if applicable
-                            if (reg.isSpotRegistration && reg.registeredBy) {
-                              detailsMessage += `\nSpot Registration by: ${reg.registeredBy.name}\n`;
-                              detailsMessage += `Contact: ${reg.registeredBy.mobile}\n`;
-                            }
-
-                            alert(detailsMessage);
-                          }}
-                        >
-                          <i className="fas fa-eye"></i> Details
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="6" className="no-data">No registrations found</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                          <span className={`participant-payment-status ${
+                            member.usn?.toLowerCase().startsWith('1si') ? 'no-payment' : 'payment-required'
+                          }`}>
+                            {member.usn?.toLowerCase().startsWith('1si') ? 'No Req' : 'Payment Req'}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="no-data">No registrations found</div>
+            )}
           </div>
         );
 
@@ -803,10 +862,16 @@ function TeamDashboard() {
       <div className="dashboard-content">
         <div className="dashboard-sidebar">
           <button
+            className={`sidebar-btn ${activeTab === 'usn-check' ? 'active' : ''}`}
+            onClick={() => setActiveTab('usn-check')}
+          >
+            <i className="fas fa-search"></i> USN Check
+          </button>
+          <button
             className={`sidebar-btn ${activeTab === 'events' ? 'active' : ''}`}
             onClick={() => setActiveTab('events')}
           >
-            <i className="fas fa-calendar-alt"></i> Managed Events
+            <i className="fas fa-calendar-alt"></i> Events
           </button>
           <button
             className={`sidebar-btn ${activeTab === 'registrations' ? 'active' : ''}`}
@@ -819,12 +884,6 @@ function TeamDashboard() {
             onClick={() => setActiveTab('spot-registration')}
           >
             <i className="fas fa-user-plus"></i> Spot Registration
-          </button>
-          <button
-            className={`sidebar-btn ${activeTab === 'settings' ? 'active' : ''}`}
-            onClick={() => setActiveTab('settings')}
-          >
-            <i className="fas fa-cog"></i> Settings
           </button>
         </div>
 

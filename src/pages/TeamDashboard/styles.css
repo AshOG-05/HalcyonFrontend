@@ -362,3 +362,256 @@
     margin-bottom: 1rem;
   }
 }
+
+/* USN Check Styles */
+.usn-check-container {
+  background-color: rgba(30, 30, 30, 0.6);
+  border-radius: 15px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.usn-check-container h3 {
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  margin-bottom: 2rem;
+}
+
+.usn-check-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.usn-input {
+  padding: 1rem 1.2rem;
+  border-radius: 30px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.usn-input:focus {
+  outline: none;
+  border-color: white;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.check-btn {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.check-btn:hover:not(:disabled) {
+  background-color: white;
+  color: black;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.4);
+}
+
+.check-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.usn-result {
+  margin-top: 2rem;
+}
+
+.usn-result h4 {
+  color: white;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.result-card {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.result-item:last-child {
+  border-bottom: none;
+}
+
+.payment-status.required {
+  background-color: rgba(255, 87, 34, 0.2);
+  color: #ff5722;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-weight: 600;
+  border: 1px solid rgba(255, 87, 34, 0.4);
+}
+
+.payment-status.not-required {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-weight: 600;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+}
+
+.result-message {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: rgba(33, 150, 243, 0.1);
+  border-radius: 10px;
+  color: #2196f3;
+  font-weight: 500;
+  text-align: center;
+  border: 1px solid rgba(33, 150, 243, 0.2);
+}
+
+/* Registration Cards */
+.registrations-summary {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.registrations-summary p {
+  color: white;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.registration-card {
+  background-color: rgba(30, 30, 30, 0.6);
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.registration-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.registration-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.registration-header h4 {
+  color: white;
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.registration-details {
+  margin-bottom: 1.5rem;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.participants-payment-status {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.participants-payment-status h5 {
+  color: white;
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.participant-payment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.participant-payment-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.8rem;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.participant-name {
+  color: white;
+  font-weight: 500;
+}
+
+.participant-usn {
+  color: rgba(255, 255, 255, 0.7);
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.participant-payment-status.no-payment {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+  padding: 0.3rem 0.6rem;
+  border-radius: 15px;
+  font-weight: 600;
+  text-align: center;
+  font-size: 0.8rem;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+}
+
+.participant-payment-status.payment-required {
+  background-color: rgba(255, 87, 34, 0.2);
+  color: #ff5722;
+  padding: 0.3rem 0.6rem;
+  border-radius: 15px;
+  font-weight: 600;
+  text-align: center;
+  font-size: 0.8rem;
+  border: 1px solid rgba(255, 87, 34, 0.4);
+}

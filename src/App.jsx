@@ -10,8 +10,12 @@ import ParticlesComponent from './components/ParticlesComponent'
 import Explore from './components/Explore'
 import ReachUs from './components/ReachUs'
 import BrochureDownload from './components/BrochureDownload'
+import HealthCheck from './components/HealthCheck'
 import './components/CommonStyles.css'
 import './App.css'
+
+// Import debug helper (will auto-run in development)
+import './utils/debugHelper'
 
 function App() {
   // Initialize loading state based on device type
@@ -31,6 +35,7 @@ function App() {
 
   return (
     <>
+      <HealthCheck />
       {loading && !isMobile && (
         <div
           style={{

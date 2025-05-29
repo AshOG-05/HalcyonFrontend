@@ -11,6 +11,9 @@ export const ORIGINAL_API_URL = isProduction
   : 'http://localhost:4000/api';                 // Development backend
 
 console.log('🔗 CORS Helper - API URL:', ORIGINAL_API_URL);
+console.log('🌍 Environment:', isProduction ? 'Production' : 'Development');
+console.log('🌐 Current hostname:', window.location.hostname);
+console.log('🔗 Current origin:', window.location.origin);
 
 /**
  * Custom fetch function that attempts to use different CORS approaches
@@ -92,6 +95,79 @@ export const corsProtectedFetch = async (endpoint, options = {}) => {
 };
 
 /**
+ * Enhanced fetch function with retry mechanism
+ * @param {string} endpoint - The API endpoint to fetch (without the base URL)
+ * @param {object} options - Fetch options
+ * @param {number} maxRetries - Maximum number of retries
+ * @returns {Promise} - The fetch promise
+ */
+export const fetchWithRetry = async (endpoint, options = {}, maxRetries = 3) => {
+  let lastError;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      console.log(`🔄 Attempt ${attempt}/${maxRetries} for ${endpoint}`);
+      const response = await corsProtectedFetch(endpoint, options);
+
+      // If we get a response, return it (even if it's an error response)
+      if (response) {
+        console.log(`✅ Success on attempt ${attempt} for ${endpoint}`);
+        return response;
+      }
+    } catch (error) {
+      lastError = error;
+      console.warn(`⚠️ Attempt ${attempt} failed for ${endpoint}:`, error.message);
+
+      // If this is the last attempt, don't wait
+      if (attempt < maxRetries) {
+        // Wait before retrying (exponential backoff)
+        const waitTime = Math.pow(2, attempt - 1) * 1000; // 1s, 2s, 4s
+        console.log(`⏳ Waiting ${waitTime}ms before retry...`);
+        await new Promise(resolve => setTimeout(resolve, waitTime));
+      }
+    }
+  }
+
+  // If all retries failed, throw the last error
+  throw lastError;
+};
+
+/**
+ * Check if the backend is healthy
+ * @returns {Promise<boolean>} - True if backend is healthy
+ */
+export const checkBackendHealth = async () => {
+  try {
+    const baseUrl = isProduction
+      ? 'https://halcyonbackend-1.onrender.com'
+      : 'http://localhost:4000';
+
+    console.log('🏥 Checking backend health at:', `${baseUrl}/health`);
+
+    const response = await fetch(`${baseUrl}/health`, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('✅ Backend health check passed:', data);
+      return true;
+    } else {
+      console.warn('⚠️ Backend health check failed with status:', response.status);
+      return false;
+    }
+  } catch (error) {
+    console.error('❌ Backend health check error:', error);
+    return false;
+  }
+};
+
+/**
  * Alternative approach using no-cors mode (for GET requests only)
  * Note: This will return an opaque response that you cannot read
  * @param {string} endpoint - The API endpoint to fetch (without the base URL)
@@ -109,6 +185,8 @@ export const noCorsModeFetch = (endpoint) => {
 
 export default {
   corsProtectedFetch,
+  fetchWithRetry,
+  checkBackendHealth,
   noCorsModeFetch,
   ORIGINAL_API_URL
 };
