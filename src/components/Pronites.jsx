@@ -24,7 +24,7 @@ function Pronites() { // Component name kept as Pronites for file consistency
     {
       id: 1,
       name: "DJ RUHI",
-      date: "17th May 2025",
+      date: "2th May 2025",
       image: "/assets/dj1.jpg",
       alt: "DJ Ruhi",
       gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/dj1.jpg')",
@@ -33,10 +33,10 @@ function Pronites() { // Component name kept as Pronites for file consistency
     },
     {
       id: 2,
-      name: "MKSHFT",
-      date: "17th May 2025",
+      name: "Yamuna Srinidhi",
+      date: "1th May 2025",
       image: "/assets/dj2.jpg",
-      alt: "MKSHFT",
+      alt: "Yamuna Srinidhi",
       gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/dj2.jpg')",
       description: "Experience an electrifying night with MKSHFT, a dynamic DJ and music producer known for igniting the scene with his electrifying beats and infectious Afro house and melodic house rhythms.",
       icon: "fas fa-music",
@@ -45,7 +45,7 @@ function Pronites() { // Component name kept as Pronites for file consistency
     {
       id: 3,
       name: "DHARMENDRA",
-      date: "17th May 2025",
+      date: "2th May 2025",
       image: "/assets/blogger.jpg",
       alt: "Dharmendra",
       gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/blogger.jpg')",

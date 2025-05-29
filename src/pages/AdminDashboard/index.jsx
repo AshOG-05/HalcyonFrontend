@@ -64,6 +64,14 @@ function AdminDashboard() {
       return
     }
 
+    // Check if we have the correct admin token
+    const token = localStorage.getItem(APP_CONFIG.adminTokenName)
+    if (!token) {
+      console.error("No admin token found")
+      setError("Admin authentication required. Please login as admin.")
+      return
+    }
+
     // Fetch data with error handling
     const fetchData = async () => {
       setLoading(true)
@@ -73,7 +81,16 @@ function AdminDashboard() {
         await fetchRegistrations()
       } catch (err) {
         console.error("Error fetching data:", err)
-        setError("Failed to load dashboard data. Please try again later.")
+        if (err.message.includes("401") || err.message.includes("Invalid token")) {
+          setError("Authentication failed. Please login as admin again.")
+          // Clear invalid token
+          localStorage.removeItem(APP_CONFIG.adminTokenName)
+          setTimeout(() => {
+            window.location.href = "/RegisterLogin"
+          }, 2000)
+        } else {
+          setError("Failed to load dashboard data. Please try again later.")
+        }
       } finally {
         setLoading(false)
       }
@@ -84,7 +101,7 @@ function AdminDashboard() {
 
   const fetchUsers = async () => {
     try {
-      const token = localStorage.getItem("adminCookie")
+      const token = localStorage.getItem(APP_CONFIG.adminTokenName)
       const response = await corsProtectedFetch("admin/users", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -210,7 +227,7 @@ function AdminDashboard() {
     }
 
     try {
-      const token = localStorage.getItem("adminCookie")
+      const token = localStorage.getItem(APP_CONFIG.adminTokenName)
       const response = await corsProtectedFetch(`admin/event/${eventId}`, {
         method: "DELETE",
         headers: {
@@ -238,7 +255,7 @@ function AdminDashboard() {
   // Handle toggle registration status
   const handleToggleRegistration = async (eventId, eventName, currentStatus) => {
     try {
-      const token = localStorage.getItem("adminCookie")
+      const token = localStorage.getItem(APP_CONFIG.adminTokenName)
       const response = await corsProtectedFetch(`admin/event/${eventId}/toggle-registration`, {
         method: "PATCH",
         headers: {
@@ -268,7 +285,7 @@ function AdminDashboard() {
 
   const fetchRegistrations = async () => {
     try {
-      const token = localStorage.getItem("adminCookie")
+      const token = localStorage.getItem(APP_CONFIG.adminTokenName)
 
       // Log the token for debugging (remove in production)
       console.log("Admin token:", token ? "Token exists" : "No token found")
@@ -423,7 +440,7 @@ function AdminDashboard() {
   // Generate PDF for a specific event
   const handleGenerateEventPdf = async (eventId, eventName, shouldDownload = true) => {
     try {
-      const token = localStorage.getItem("adminCookie")
+      const token = localStorage.getItem(APP_CONFIG.adminTokenName)
 
       // Show loading message
       alert(
@@ -493,7 +510,7 @@ function AdminDashboard() {
       setUserRegistrationsError("")
       setSelectedUser({ _id: userId, name: userName })
 
-      const token = localStorage.getItem("adminCookie")
+      const token = localStorage.getItem(APP_CONFIG.adminTokenName)
 
       // First, get all registrations and filter by user
       const response = await corsProtectedFetch("admin/registrations", {
@@ -543,7 +560,7 @@ function AdminDashboard() {
     }
 
     try {
-      const token = localStorage.getItem("adminCookie")
+      const token = localStorage.getItem(APP_CONFIG.adminTokenName)
       const response = await corsProtectedFetch(`auth/user/${userId}`, {
         method: "DELETE",
         headers: {
@@ -579,7 +596,7 @@ function AdminDashboard() {
     }
 
     try {
-      const token = localStorage.getItem("adminCookie")
+      const token = localStorage.getItem(APP_CONFIG.adminTokenName)
       const response = await corsProtectedFetch(`admin/registration/${registrationId}`, {
         method: "DELETE",
         headers: {
@@ -607,7 +624,7 @@ function AdminDashboard() {
 
   const handleExportToExcel = async () => {
     try {
-      const token = localStorage.getItem("adminCookie")
+      const token = localStorage.getItem(APP_CONFIG.adminTokenName)
 
       // Show loading message
       alert("Exporting all registrations to Excel. This may take a few seconds...")
