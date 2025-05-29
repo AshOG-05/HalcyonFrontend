@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { isAdminLoggedIn, adminLogout } from "../../services/authService"
-import { EVENT_CATEGORIES } from "../../config"
+import { EVENT_CATEGORIES, APP_CONFIG } from "../../config"
 import { corsProtectedFetch } from "../../utils/corsHelper"
 import EventForm from "../../components/EventForm"
 import "./styles.css"
