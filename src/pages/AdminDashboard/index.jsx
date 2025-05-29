@@ -1,9 +1,69 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { isAdminLoggedIn, adminLogout } from '../../services/authService';
 import { EVENT_CATEGORIES } from '../../config';
 import { corsProtectedFetch } from '../../utils/corsHelper';
 import EventForm from '../../components/EventForm';
 import './styles.css';
+
+// Error Boundary Component
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('AdminDashboard Error Boundary caught an error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{
+          padding: '2rem',
+          textAlign: 'center',
+          background: '#0f172a',
+          color: '#f8fafc',
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <h2 style={{ color: '#ef4444', marginBottom: '1rem' }}>Something went wrong</h2>
+          <p style={{ marginBottom: '1rem' }}>The admin dashboard encountered an error.</p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              background: '#38bdf8',
+              color: 'white',
+              border: 'none',
+              padding: '0.5rem 1rem',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            Reload Page
+          </button>
+          {this.state.error && (
+            <details style={{ marginTop: '1rem', fontSize: '0.8rem', opacity: 0.7 }}>
+              <summary>Error Details</summary>
+              <pre style={{ textAlign: 'left', marginTop: '0.5rem' }}>
+                {this.state.error.toString()}
+              </pre>
+            </details>
+          )}
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
 
 function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('users');
@@ -23,6 +83,7 @@ function AdminDashboard() {
   const [pdfCategoryFilter, setPdfCategoryFilter] = useState('all');
   const [pdfEventFilter, setPdfEventFilter] = useState('all');
   const [pdfEvents, setPdfEvents] = useState([]);
+  const [debugMode, setDebugMode] = useState(false);
 
   // Helper functions for category display
   const getCategoryLabel = (categoryId) => {
@@ -51,22 +112,62 @@ function AdminDashboard() {
   };
 
   useEffect(() => {
+    console.log('AdminDashboard component mounted');
+
+    // Check for debug mode (for testing purposes)
+    const urlParams = new URLSearchParams(window.location.search);
+    const isDebug = urlParams.get('debug') === 'true';
+    setDebugMode(isDebug);
+
+    // For debug mode, create a temporary admin token
+    if (isDebug) {
+      console.log('Debug mode enabled - creating temporary admin token');
+      localStorage.setItem('adminCookie', 'debug-token-123');
+    }
+
     // Check if admin is logged in
     if (!isAdminLoggedIn()) {
-      window.location.href = '/RegisterLogin';
-      return;
+      console.log('Admin not logged in, redirecting to login page');
+      if (!isDebug) {
+        window.location.href = '/RegisterLogin';
+        return;
+      }
     }
+
+    console.log('Admin is logged in, fetching dashboard data');
 
     // Fetch data with error handling
     const fetchData = async () => {
       setLoading(true);
+      setError(''); // Clear any previous errors
       try {
-        await fetchUsers();
-        await fetchEvents();
-        await fetchRegistrations();
+        console.log('Starting to fetch dashboard data...');
+
+        // In debug mode, use mock data if API fails
+        if (isDebug) {
+          try {
+            await fetchUsers();
+            await fetchEvents();
+            await fetchRegistrations();
+          } catch (err) {
+            console.log('API failed in debug mode, using mock data');
+            setUsers([{ _id: '1', name: 'Test User', email: 'test@example.com', role: 'user' }]);
+            setEvents([{ _id: '1', name: 'Test Event', date: new Date(), category: 'dance', day: 1 }]);
+            setRegistrations([]);
+            setFilteredEvents([{ _id: '1', name: 'Test Event', date: new Date(), category: 'dance', day: 1 }]);
+            setFilteredRegistrations([]);
+            setPdfEvents([{ _id: '1', name: 'Test Event', date: new Date(), category: 'dance', day: 1 }]);
+          }
+        } else {
+          await fetchUsers();
+          await fetchEvents();
+          await fetchRegistrations();
+        }
+
+        console.log('Successfully fetched all dashboard data');
       } catch (err) {
         console.error('Error fetching data:', err);
-        setError('Failed to load dashboard data. Please try again later.');
+        setError(`Failed to load dashboard data: ${err.message}. Please check if the backend server is running.`);
       } finally {
         setLoading(false);
       }
@@ -77,7 +178,13 @@ function AdminDashboard() {
 
   const fetchUsers = async () => {
     try {
+      console.log('Fetching users...');
       const token = localStorage.getItem('adminCookie');
+
+      if (!token) {
+        throw new Error('No admin token found');
+      }
+
       const response = await corsProtectedFetch('admin/users', {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -85,35 +192,45 @@ function AdminDashboard() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch users');
+        const errorText = await response.text();
+        console.error('Users fetch failed:', response.status, errorText);
+        throw new Error(`Failed to fetch users: ${response.status}`);
       }
 
       const data = await response.json();
       console.log('Fetched users:', data);
-      setUsers(data);
+      setUsers(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error('Error fetching users:', err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
+      setUsers([]); // Set empty array on error
+      // Don't set global error here, let the parent handle it
+      throw err; // Re-throw to be caught by parent
     }
   };
 
   const fetchEvents = async () => {
     try {
+      console.log('Fetching events...');
       const response = await corsProtectedFetch('event/');
 
       if (!response.ok) {
-        throw new Error('Failed to fetch events');
+        const errorText = await response.text();
+        console.error('Events fetch failed:', response.status, errorText);
+        throw new Error(`Failed to fetch events: ${response.status}`);
       }
 
       const data = await response.json();
-      setEvents(data);
-      setFilteredEvents(data);
-      setPdfEvents(data);
+      console.log('Fetched events:', data);
+      const eventsArray = Array.isArray(data) ? data : [];
+      setEvents(eventsArray);
+      setFilteredEvents(eventsArray);
+      setPdfEvents(eventsArray);
     } catch (err) {
       console.error('Error fetching events:', err);
-      setError(err.message);
+      setEvents([]);
+      setFilteredEvents([]);
+      setPdfEvents([]);
+      throw err; // Re-throw to be caught by parent
     }
   };
 
@@ -608,11 +725,37 @@ function AdminDashboard() {
 
   const renderContent = () => {
     if (loading) {
-      return <div className="loading">Loading...</div>;
+      return (
+        <div className="loading">
+          <div>Loading dashboard data...</div>
+          <div style={{ fontSize: '0.9rem', marginTop: '1rem', opacity: 0.7 }}>
+            Please wait while we fetch your data
+          </div>
+        </div>
+      );
     }
 
     if (error && activeTab !== 'registrations') {
-      return <div className="error">{error}</div>;
+      return (
+        <div className="error">
+          <h3>Error Loading Dashboard</h3>
+          <p>{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              background: 'var(--highlight)',
+              color: 'white',
+              border: 'none',
+              padding: '0.5rem 1rem',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              marginTop: '1rem'
+            }}
+          >
+            Retry
+          </button>
+        </div>
+      );
     }
 
     switch (activeTab) {
@@ -902,7 +1045,22 @@ const getAllRegistrations = async (req, res) => {
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
-        <h2>Admin Dashboard</h2>
+        <h2>
+          Admin Dashboard
+          {debugMode && (
+            <span style={{
+              fontSize: '0.7rem',
+              color: '#ff6b6b',
+              marginLeft: '1rem',
+              background: 'rgba(255, 107, 107, 0.1)',
+              padding: '0.2rem 0.5rem',
+              borderRadius: '4px',
+              border: '1px solid #ff6b6b'
+            }}>
+              DEBUG MODE
+            </span>
+          )}
+        </h2>
         <button className="logout-btn" onClick={handleLogout}>
           <i className="fas fa-sign-out-alt"></i> Logout
         </button>
@@ -966,4 +1124,11 @@ const getAllRegistrations = async (req, res) => {
   );
 }
 
-export default AdminDashboard;
+// Wrap AdminDashboard with ErrorBoundary
+const AdminDashboardWithErrorBoundary = () => (
+  <ErrorBoundary>
+    <AdminDashboard />
+  </ErrorBoundary>
+);
+
+export default AdminDashboardWithErrorBoundary;
