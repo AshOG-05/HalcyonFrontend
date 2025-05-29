@@ -24,7 +24,7 @@ function Pronites() { // Component name kept as Pronites for file consistency
     {
       id: 1,
       name: "DJ RUHI",
-      date: "2th May 2025",
+      date: "2nd May 2025",
       image: "/assets/dj1.jpg",
       alt: "DJ Ruhi",
       gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/dj1.jpg')",
@@ -34,18 +34,18 @@ function Pronites() { // Component name kept as Pronites for file consistency
     {
       id: 2,
       name: "Yamuna Srinidhi",
-      date: "1th May 2025",
-      image: "/assets/dj2.jpg",
+      date: "1st May 2025",
+      image: "/assets/YamunaSrinidhi.webp",
       alt: "Yamuna Srinidhi",
-      gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/dj2.jpg')",
-      description: "Experience an electrifying night with MKSHFT, a dynamic DJ and music producer known for igniting the scene with his electrifying beats and infectious Afro house and melodic house rhythms.",
+      gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/YamunaSrinidhi.webp')",
+      description: "Renowned Kannada Bharatanatyam dancer, choreographer, and actor.",
       icon: "fas fa-music",
-      instagram: "https://www.instagram.com/mkshftofficial"
+      instagram: "https://www.instagram.com/yamuna_srinidhi_"
     },
     {
       id: 3,
       name: "DHARMENDRA",
-      date: "2th May 2025",
+      date: "2nd May 2025",
       image: "/assets/blogger.jpg",
       alt: "Dharmendra",
       gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/blogger.jpg')",
