@@ -2,11 +2,15 @@
  * Utility functions to help with CORS issues
  */
 
+// Automatically detect environment and set API URL
+const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+
 // The original API URL without the CORS proxy
-// For production: use the hosted backend
-// export const ORIGINAL_API_URL = 'https://halcyonbackend-1.onrender.com/api';
-// For development: use local backend
-export const ORIGINAL_API_URL = 'http://localhost:4000/api';
+export const ORIGINAL_API_URL = isProduction
+  ? 'https://halcyonbackend-1.onrender.com/api'  // Production backend
+  : 'http://localhost:4000/api';                 // Development backend
+
+console.log('🔗 CORS Helper - API URL:', ORIGINAL_API_URL);
 
 /**
  * Custom fetch function that attempts to use different CORS approaches
@@ -74,7 +78,16 @@ export const corsProtectedFetch = async (endpoint, options = {}) => {
 
     // If all else fails, throw the original error with more context
     console.error('💥 All fetch attempts failed for:', fullUrl);
-    throw new Error(`Network request failed: ${error.message}. Please check your internet connection and try again.`);
+    console.error('🌍 Current environment:', isProduction ? 'Production' : 'Development');
+    console.error('🔗 Backend URL being used:', ORIGINAL_API_URL);
+    console.error('🌐 Frontend URL:', window.location.origin);
+
+    // Provide environment-specific error messages
+    const environmentInfo = isProduction
+      ? 'Production environment - check if backend server is running on Render'
+      : 'Development environment - check if backend server is running on localhost:4000';
+
+    throw new Error(`Network request failed: ${error.message}. ${environmentInfo}. Please check your internet connection and try again.`);
   }
 };
 

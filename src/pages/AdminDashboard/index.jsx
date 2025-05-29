@@ -199,11 +199,31 @@ function AdminDashboard() {
 
       const data = await response.json();
       console.log('Fetched users:', data);
-      setUsers(Array.isArray(data) ? data : []);
+
+      // Handle the response structure: { users: [...], pagination: {...} }
+      if (data && data.users && Array.isArray(data.users)) {
+        setUsers(data.users);
+        console.log(`Loaded ${data.users.length} users`);
+      } else if (Array.isArray(data)) {
+        // Fallback for direct array response
+        setUsers(data);
+      } else {
+        console.warn('Unexpected users response format:', data);
+        setUsers([]);
+      }
     } catch (err) {
       console.error('Error fetching users:', err);
       setUsers([]); // Set empty array on error
-      // Don't set global error here, let the parent handle it
+
+      // Provide specific error messages for common issues
+      if (err.message.includes('401') || err.message.includes('Invalid token')) {
+        console.error('Authentication failed - admin token may be invalid or expired');
+        // Clear invalid token
+        localStorage.removeItem('adminCookie');
+      } else if (err.message.includes('403')) {
+        console.error('Access denied - user may not have admin privileges');
+      }
+
       throw err; // Re-throw to be caught by parent
     }
   };

@@ -10,7 +10,6 @@ import ParticlesComponent from './components/ParticlesComponent'
 import Explore from './components/Explore'
 import ReachUs from './components/ReachUs'
 import BrochureDownload from './components/BrochureDownload'
-import TestConnection from './TestConnection'
 import './components/CommonStyles.css'
 import './App.css'
 
@@ -79,7 +78,6 @@ function App() {
           </button>
         </a>
         <Banner />
-        <TestConnection />
         <div className="content">
           <About />
           <Timeline />
