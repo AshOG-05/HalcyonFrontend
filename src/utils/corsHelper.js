@@ -3,7 +3,9 @@
  */
 
 // The original API URL without the CORS proxy
+// For production: use the hosted backend
 // export const ORIGINAL_API_URL = 'https://halcyonbackend-1.onrender.com/api';
+// For development: use local backend
 export const ORIGINAL_API_URL = 'http://localhost:4000/api';
 
 /**
@@ -26,8 +28,8 @@ export const corsProtectedFetch = async (endpoint, options = {}) => {
   try {
     const response = await fetch(fullUrl, {
       ...options,
-      // Don't include credentials to avoid CORS issues with wildcard
-      credentials: 'omit',
+      // Include credentials since backend is configured to accept them
+      credentials: 'include',
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +60,7 @@ export const corsProtectedFetch = async (endpoint, options = {}) => {
         const response = await fetch(fullUrl, {
           ...options,
           mode: 'no-cors',
-          credentials: 'omit',
+          credentials: 'include',
         });
 
         console.log('⚠️ No-cors response received (opaque)');
@@ -85,7 +87,7 @@ export const corsProtectedFetch = async (endpoint, options = {}) => {
 export const noCorsModeFetch = (endpoint) => {
   return fetch(`${ORIGINAL_API_URL}/${endpoint}`, {
     mode: 'no-cors',
-    credentials: 'omit',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     }
