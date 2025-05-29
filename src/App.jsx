@@ -10,7 +10,7 @@ import ParticlesComponent from './components/ParticlesComponent'
 import Explore from './components/Explore'
 import ReachUs from './components/ReachUs'
 import BrochureDownload from './components/BrochureDownload'
-import HealthCheck from './components/HealthCheck'
+
 import './components/CommonStyles.css'
 import './App.css'
 
@@ -35,7 +35,6 @@ function App() {
 
   return (
     <>
-      <HealthCheck />
       {loading && !isMobile && (
         <div
           style={{
