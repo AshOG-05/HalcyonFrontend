@@ -25,6 +25,11 @@ function AdminDashboard() {
   const [pdfCategoryFilter, setPdfCategoryFilter] = useState("all")
   const [pdfEventFilter, setPdfEventFilter] = useState("all")
   const [pdfEvents, setPdfEvents] = useState([])
+  const [selectedUser, setSelectedUser] = useState(null)
+  const [userRegistrations, setUserRegistrations] = useState([])
+  const [showUserRegistrations, setShowUserRegistrations] = useState(false)
+  const [userRegistrationsLoading, setUserRegistrationsLoading] = useState(false)
+  const [userRegistrationsError, setUserRegistrationsError] = useState("")
 
   // Helper functions for category display
   const getCategoryLabel = (categoryId) => {
@@ -481,6 +486,54 @@ function AdminDashboard() {
     }
   }
 
+  // Fetch registrations for a specific user
+  const fetchUserRegistrations = async (userId, userName) => {
+    try {
+      setUserRegistrationsLoading(true)
+      setUserRegistrationsError("")
+      setSelectedUser({ _id: userId, name: userName })
+
+      const token = localStorage.getItem("adminCookie")
+
+      // First, get all registrations and filter by user
+      const response = await corsProtectedFetch("admin/registrations", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        const errorText = await response.text()
+        throw new Error(`Failed to fetch registrations: ${response.status} ${errorText}`)
+      }
+
+      const allRegistrations = await response.json()
+
+      // Filter registrations for the specific user
+      const userSpecificRegistrations = allRegistrations.filter(reg =>
+        reg.teamLeader?._id === userId || reg.spotRegistration?._id === userId
+      )
+
+      setUserRegistrations(userSpecificRegistrations)
+      setShowUserRegistrations(true)
+
+    } catch (err) {
+      console.error("Error fetching user registrations:", err)
+      setUserRegistrationsError(err.message)
+    } finally {
+      setUserRegistrationsLoading(false)
+    }
+  }
+
+  // Handle closing user registrations modal
+  const handleCloseUserRegistrations = () => {
+    setShowUserRegistrations(false)
+    setSelectedUser(null)
+    setUserRegistrations([])
+    setUserRegistrationsError("")
+  }
+
   // Handle user deletion
   const handleDeleteUser = async (userId, userName) => {
     // Don't allow deleting admin users
@@ -636,14 +689,23 @@ function AdminDashboard() {
                     <td>{user.email}</td>
                     <td>{user.role}</td>
                     <td>
-                      <button
-                        className="action-btn delete-btn"
-                        onClick={() => handleDeleteUser(user._id, user.name)}
-                        disabled={user.role === "admin"} // Prevent deleting admin users
-                        title={user.role === "admin" ? "Admin users cannot be deleted" : "Delete this user"}
-                      >
-                        <i className="fas fa-trash"></i> Delete
-                      </button>
+                      <div className="user-actions">
+                        <button
+                          className="action-btn view-btn"
+                          onClick={() => fetchUserRegistrations(user._id, user.name)}
+                          title="View user registrations"
+                        >
+                          <i className="fas fa-eye"></i> View Registrations
+                        </button>
+                        <button
+                          className="action-btn delete-btn"
+                          onClick={() => handleDeleteUser(user._id, user.name)}
+                          disabled={user.role === "admin"} // Prevent deleting admin users
+                          title={user.role === "admin" ? "Admin users cannot be deleted" : "Delete this user"}
+                        >
+                          <i className="fas fa-trash"></i> Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -974,6 +1036,91 @@ const getAllRegistrations = async (req, res) => {
           {renderContent()}
         </div>
       </div>
+
+      {/* User Registrations Modal */}
+      {showUserRegistrations && (
+        <div className="modal-overlay" onClick={handleCloseUserRegistrations}>
+          <div className="modal-content user-registrations-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>
+                <i className="fas fa-user"></i>
+                Registrations for {selectedUser?.name}
+              </h3>
+              <button className="modal-close-btn" onClick={handleCloseUserRegistrations}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div className="modal-body">
+              {userRegistrationsLoading ? (
+                <div className="loading-message">
+                  <i className="fas fa-spinner fa-spin"></i> Loading registrations...
+                </div>
+              ) : userRegistrationsError ? (
+                <div className="error-message">
+                  <i className="fas fa-exclamation-triangle"></i>
+                  <p>Failed to fetch registrations: {userRegistrationsError}</p>
+                  <button
+                    className="retry-btn"
+                    onClick={() => fetchUserRegistrations(selectedUser?._id, selectedUser?.name)}
+                  >
+                    <i className="fas fa-sync"></i> Retry
+                  </button>
+                </div>
+              ) : userRegistrations.length === 0 ? (
+                <div className="no-data">
+                  <i className="fas fa-info-circle"></i>
+                  <p>This user has no registrations yet.</p>
+                </div>
+              ) : (
+                <div className="user-registrations-table">
+                  <table className="dashboard-table">
+                    <thead>
+                      <tr>
+                        <th>Event</th>
+                        <th>Team Name</th>
+                        <th>Category</th>
+                        <th>Transaction ID</th>
+                        <th>Registration Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {userRegistrations.map((reg) => (
+                        <tr key={reg._id}>
+                          <td>{reg.event?.name || "Unknown"}</td>
+                          <td>{reg.teamName || "N/A"}</td>
+                          <td>
+                            {reg.event ? (
+                              <>
+                                {getCategoryLabel(reg.event.category)}
+                                <span
+                                  className="category-badge"
+                                  style={{ backgroundColor: getCategoryColor(reg.event.category) }}
+                                >
+                                  <i className={getCategoryIcon(reg.event.category)}></i>
+                                </span>
+                              </>
+                            ) : (
+                              "Unknown"
+                            )}
+                          </td>
+                          <td>
+                            {reg.teamLeader?.transactionId ||
+                              reg.participant?.transactionId ||
+                              reg.transactionId ||
+                              "N/A"}
+                          </td>
+                          <td>{new Date(reg.registeredAt || reg.createdAt).toLocaleDateString()}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

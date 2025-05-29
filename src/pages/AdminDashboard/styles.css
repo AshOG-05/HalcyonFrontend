@@ -498,6 +498,22 @@
 }
 
 /* Ensure buttons stay in horizontal line */
+.user-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.view-btn {
+  border-color: var(--info-color);
+  color: var(--info-color);
+}
+
+.view-btn:hover {
+  background-color: var(--info-color);
+  color: var(--text-primary);
+}
 .event-actions {
   display: flex !important;
   flex-direction: row !important;
@@ -837,18 +853,18 @@
   .event-controls {
     padding: 0.5rem 0.5rem 0.3rem 0.5rem;
   }
-  
+
   /* Responsive action buttons */
   .action-btn {
     padding: 0.2rem 0.3rem;
     font-size: 0.7rem;
     gap: 2px;
   }
-  
+
   .action-btn i {
     font-size: 0.7rem;
   }
-  
+
   .event-actions {
     gap: 0.1rem;
   }
@@ -956,7 +972,7 @@
   .dashboard-stats {
     grid-template-columns: 1fr;
   }
-  
+
   /* Mobile action buttons - extra compact */
   .action-btn {
     padding: 0.15rem 0.25rem;
@@ -964,12 +980,201 @@
     gap: 1px;
     margin-right: 0.1rem;
   }
-  
+
   .action-btn i {
     font-size: 0.65rem;
   }
-  
+
   .event-actions {
     gap: 0.05rem;
+  }
+
+  .user-actions {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .user-actions .action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-content {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-color);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-registrations-modal {
+  width: 800px;
+  max-width: 90vw;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--primary-dark);
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-header h3 i {
+  color: var(--info-color);
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.modal-close-btn:hover {
+  color: var(--text-primary);
+  background-color: var(--hover-bg);
+}
+
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.loading-message {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.loading-message i {
+  color: var(--info-color);
+}
+
+.error-message {
+  text-align: center;
+  padding: 2rem;
+  color: var(--danger-color);
+}
+
+.error-message i {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.error-message p {
+  margin: 1rem 0;
+  color: var(--text-secondary);
+}
+
+.retry-btn {
+  background-color: var(--info-color);
+  border: none;
+  color: var(--text-primary);
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.retry-btn:hover {
+  background-color: var(--highlight-dark);
+  transform: translateY(-1px);
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+}
+
+.no-data i {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  display: block;
+  color: var(--info-color);
+}
+
+.user-registrations-table {
+  overflow-x: auto;
+}
+
+.user-registrations-table .dashboard-table {
+  margin-top: 0;
+}
+
+/* Mobile modal adjustments */
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 0.5rem;
+  }
+
+  .user-registrations-modal {
+    width: 100%;
+    max-width: 100%;
+    height: 90vh;
+  }
+
+  .modal-header {
+    padding: 1rem;
+  }
+
+  .modal-header h3 {
+    font-size: 1rem;
+  }
+
+  .modal-body {
+    padding: 1rem;
+  }
+
+  .user-registrations-table .dashboard-table th,
+  .user-registrations-table .dashboard-table td {
+    padding: 0.4rem 0.3rem;
+    font-size: 0.8rem;
   }
 }
