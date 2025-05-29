@@ -239,30 +239,6 @@ function AdminDashboard() {
     setShowEventForm(true);
   };
 
-  const handleEditEvent = async (event) => {
-    try {
-      // Fetch the latest event data from the backend
-      console.log('Fetching latest event data for editing:', event._id);
-      const response = await corsProtectedFetch(`event/${event._id}`);
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch event details');
-      }
-
-      const latestEventData = await response.json();
-      console.log('Latest event data received:', latestEventData);
-
-      // Set the event to edit with the latest data
-      setEventToEdit(latestEventData);
-      setShowEventForm(true);
-    } catch (err) {
-      console.error('Error fetching event details for editing:', err);
-      // Fall back to using the event data we already have
-      setEventToEdit(event);
-      setShowEventForm(true);
-    }
-  };
-
   const handleEventAdded = (newEvent) => {
     // Add the new event to the events list
     const updatedEvents = [...events, newEvent];
@@ -381,58 +357,78 @@ function AdminDashboard() {
   };
 
   const fetchRegistrations = async () => {
-    try {
-      const token = localStorage.getItem('adminCookie');
+  try {
+    const token = localStorage.getItem('adminCookie');
 
-      // Log the token for debugging (remove in production)
-      console.log('Admin token:', token ? 'Token exists' : 'No token found');
+    // Log the token for debugging (remove in production)
+    console.log('Admin token:', token ? 'Token exists' : 'No token found');
 
-      const response = await corsProtectedFetch('admin/registrations', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      console.log('Registration response status:', response.status);
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Error response:', errorText);
-        throw new Error(`Failed to fetch registrations: ${response.status} ${errorText}`);
+    const response = await corsProtectedFetch('admin/registrations', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
       }
+    });
 
-      const data = await response.json();
-      console.log('Fetched registrations:', data);
+    console.log('Registration response status:', response.status);
 
-      // Process the data to ensure it matches the expected structure
-      const processedData = data.map(reg => {
-        // Create a new object with default values
-        const processedReg = { ...reg };
-
-        // Handle the case where teamLeader might be null but participant exists
-        if (!processedReg.teamLeader && processedReg.participant) {
-          processedReg.teamLeader = processedReg.participant;
-        }
-
-        // Handle the case where neither exists (provide defaults)
-        if (!processedReg.teamLeader) {
-          processedReg.teamLeader = { name: 'Unknown', email: 'N/A', mobile: 'N/A' };
-        }
-
-        return processedReg;
-      });
-
-      setRegistrations(processedData);
-      setFilteredRegistrations(processedData);
-    } catch (err) {
-      console.error('Error fetching registrations:', err);
-      setError(err.message);
-
-      // Set empty arrays to prevent undefined errors
+    // Handle 404 as empty registrations (not an error)
+    if (response.status === 404) {
+      console.log('No registrations found (404) - setting empty array');
       setRegistrations([]);
       setFilteredRegistrations([]);
+      return; // Exit early, don't throw error
     }
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Error response:', errorText);
+      throw new Error(`Failed to fetch registrations: ${response.status} ${errorText}`);
+    }
+
+    const data = await response.json();
+    console.log('Fetched registrations:', data);
+
+    // Handle case where backend returns empty array or null
+    if (!data || data.length === 0) {
+      console.log('No registrations data received - setting empty array');
+      setRegistrations([]);
+      setFilteredRegistrations([]);
+      return;
+    }
+
+    // Process the data to ensure it matches the expected structure
+    const processedData = data.map(reg => {
+      // Create a new object with default values
+      const processedReg = { ...reg };
+
+      // Handle the case where teamLeader might be null but participant exists
+      if (!processedReg.teamLeader && processedReg.participant) {
+        processedReg.teamLeader = processedReg.participant;
+      }
+
+      // Handle the case where neither exists (provide defaults)
+      if (!processedReg.teamLeader) {
+        processedReg.teamLeader = { name: 'Unknown', email: 'N/A', mobile: 'N/A' };
+      }
+
+      return processedReg;
+    });
+
+    setRegistrations(processedData);
+    setFilteredRegistrations(processedData);
+  } catch (err) {
+    console.error('Error fetching registrations:', err);
+    
+    // Only set error for actual network/server errors, not 404
+    if (!err.message.includes('404')) {
+      setError(err.message);
+    }
+
+    // Set empty arrays to prevent undefined errors
+    setRegistrations([]);
+    setFilteredRegistrations([]);
+  }
   };
 
   const handleRegistrationCategoryFilterChange = (e) => {

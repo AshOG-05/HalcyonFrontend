@@ -24,7 +24,7 @@ function Pronites() { // Component name kept as Pronites for file consistency
     {
       id: 1,
       name: "DJ RUHI",
-      date: "2nd June 2025",
+      date: "3nd June 2025",
       image: "/assets/dj1.jpg",
       alt: "DJ Ruhi",
       gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/dj1.jpg')",
@@ -34,7 +34,7 @@ function Pronites() { // Component name kept as Pronites for file consistency
     {
       id: 2,
       name: "Yamuna Srinidhi",
-      date: "1st June 2025",
+      date: "2nd June 2025",
       image: "/assets/YamunaSrinidhi.webp",
       alt: "Yamuna Srinidhi",
       gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/YamunaSrinidhi.webp')",
