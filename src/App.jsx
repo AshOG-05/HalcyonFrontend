@@ -14,9 +14,6 @@ import BrochureDownload from './components/BrochureDownload'
 import './components/CommonStyles.css'
 import './App.css'
 
-// Import debug helper (will auto-run in development)
-import './utils/debugHelper'
-
 function App() {
   // Initialize loading state based on device type
   const isMobile = window.matchMedia("(max-width: 768px)").matches;

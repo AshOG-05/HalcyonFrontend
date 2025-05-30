@@ -1,14 +1,15 @@
 // Authentication service for handling API requests
 import { APP_CONFIG } from '../config';
-import { corsProtectedFetch } from '../utils/corsHelper';
+import { ORIGINAL_API_URL } from '../utils/corsHelper';
 
-// Helper function for making API requests
+// Helper function for making API requests (simplified for auth)
 const apiRequest = async (url, method, data = null) => {
   const options = {
     method,
     headers: {
       'Content-Type': 'application/json'
-    }
+    },
+    credentials: 'include' // Include credentials for CORS
   };
 
   if (data) {
@@ -16,37 +17,49 @@ const apiRequest = async (url, method, data = null) => {
   }
 
   try {
-    // Use the corsProtectedFetch utility to handle CORS issues
-    // Remove the leading slash from the URL if it exists
+    // Build the full URL - ORIGINAL_API_URL already includes /api
     const endpoint = url.startsWith('/') ? url.substring(1) : url;
-    console.log(`Making API request to ${endpoint} with method ${method}`);
+    const fullUrl = `${ORIGINAL_API_URL}/${endpoint}`;
+
+    console.log(`🔐 Making auth API request to ${fullUrl} with method ${method}`);
     if (data) {
-      console.log('Request data:', data);
+      console.log('🔐 Request data:', data);
     }
 
-    const response = await corsProtectedFetch(endpoint, options);
+    const response = await fetch(fullUrl, options);
 
     // Try to parse the JSON response
     let responseData;
     try {
       responseData = await response.json();
     } catch (jsonError) {
-      console.error('Failed to parse JSON response:', jsonError);
+      console.error('❌ Failed to parse JSON response:', jsonError);
       throw new Error(`Failed to parse server response: ${jsonError.message}`);
     }
 
     // Log the response for debugging
-    console.log(`Response status: ${response.status}`, responseData);
+    console.log(`🔐 Response status: ${response.status}`, responseData);
 
     if (!response.ok) {
       const errorMessage = responseData.error || responseData.message || `Server returned ${response.status}`;
-      console.error('API error:', errorMessage);
+      console.error('❌ API error:', errorMessage);
       throw new Error(errorMessage);
     }
 
     return responseData;
   } catch (error) {
-    console.error('API request failed:', error);
+    console.error('❌ API request failed:', error);
+
+    // If it's a network error, provide a more helpful message
+    if (error.name === 'TypeError' && (error.message.includes('fetch') || error.message.includes('Failed to fetch'))) {
+      const isProduction = !fullUrl.includes('localhost');
+      const environmentInfo = isProduction
+        ? 'Production backend (Render)'
+        : 'Local development backend';
+
+      throw new Error(`Network error: Unable to connect to ${environmentInfo} at ${fullUrl}. Please check if the backend server is running and your internet connection.`);
+    }
+
     throw error;
   }
 };

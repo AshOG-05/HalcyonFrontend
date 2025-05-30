@@ -3,7 +3,9 @@
  */
 
 // Automatically detect environment and set API URL
-const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+const isProduction = window.location.hostname !== 'localhost' &&
+                    window.location.hostname !== '127.0.0.1' &&
+                    !window.location.hostname.includes('localhost');
 
 // The original API URL without the CORS proxy
 export const ORIGINAL_API_URL = isProduction

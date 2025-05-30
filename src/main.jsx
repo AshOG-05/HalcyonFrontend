@@ -12,6 +12,7 @@ import CategoryEvents from './pages/CategoryEvents'
 import EventRegistrationPage from './components/EventRegistrationPage'
 import TestPage from './TestPage'
 import TestAdminDashboard from './TestAdminDashboard'
+import ErrorBoundary from './components/ErrorBoundary'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -22,7 +23,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/RegisterLogin" element={<AuthPage />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/test" element={<TestAdminDashboard />} />
-        <Route path="/team/dashboard" element={<TeamDashboard />} />
+        <Route path="/team/dashboard" element={
+          <ErrorBoundary componentName="Team Dashboard">
+            <TeamDashboard />
+          </ErrorBoundary>
+        } />
         <Route path="/profile" element={<Profile />} />
         <Route path="/events" element={<Events />} />
         <Route path="/events/:eventName" element={<CategoryEvents />} />
