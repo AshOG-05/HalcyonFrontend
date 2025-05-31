@@ -889,6 +889,44 @@ function AdminDashboard() {
                 ))}
               </tbody>
             </table>
+
+            {/* Mobile Cards Layout for Users */}
+            <div className="mobile-cards-container">
+              {users.map(user => (
+                <div key={user._id} className="mobile-card">
+                  <div className="mobile-card-header">
+                    <div>
+                      <h4 className="mobile-card-title">{user.name}</h4>
+                      <p className="mobile-card-subtitle">{user.email}</p>
+                    </div>
+                    <div className="mobile-card-actions">
+                      <button
+                        className="action-btn-mini delete-btn"
+                        onClick={() => handleDeleteUser(user._id, user.name)}
+                        disabled={user.role === 'admin'}
+                        title={user.role === 'admin' ? 'Admin users cannot be deleted' : 'Delete this user'}
+                      >
+                        <i className="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mobile-card-body">
+                    <div className="mobile-card-row">
+                      <span className="mobile-card-label">Role:</span>
+                      <span className="mobile-card-value">
+                        <span className={`role-badge ${user.role}`}>{user.role}</span>
+                      </span>
+                    </div>
+                    {user.createdAt && (
+                      <div className="mobile-card-row">
+                        <span className="mobile-card-label">Joined:</span>
+                        <span className="mobile-card-value">{new Date(user.createdAt).toLocaleDateString()}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         );
 
@@ -1011,6 +1049,73 @@ function AdminDashboard() {
                 ))}
               </tbody>
             </table>
+
+            {/* Mobile Cards Layout */}
+            <div className="mobile-cards-container">
+              {filteredEvents.map(event => (
+                <div key={event._id} className="mobile-card">
+                  <div className="mobile-card-header">
+                    <div>
+                      <h4 className="mobile-card-title">{event.name}</h4>
+                      <p className="mobile-card-subtitle">{event.venue || 'TBA'}</p>
+                    </div>
+                    <div className="mobile-card-actions">
+                      <button
+                        className="action-btn-mini edit-btn"
+                        onClick={() => handleEditEvent(event)}
+                        title="Edit Event"
+                      >
+                        <i className="fas fa-edit"></i>
+                      </button>
+                      <button
+                        className="action-btn-mini delete-btn"
+                        onClick={() => handleDeleteEvent(event._id)}
+                        title="Delete Event"
+                      >
+                        <i className="fas fa-trash"></i>
+                      </button>
+                      <button
+                        className={`action-btn-mini ${event.registrationOpen ? 'close-btn' : 'open-btn'}`}
+                        onClick={() => handleToggleRegistration(event._id, event.name, event.registrationOpen)}
+                        title={event.registrationOpen ? 'Close Registration' : 'Open Registration'}
+                      >
+                        <i className={`fas ${event.registrationOpen ? 'fa-lock' : 'fa-lock-open'}`}></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mobile-card-body">
+                    <div className="mobile-card-row">
+                      <span className="mobile-card-label">Date:</span>
+                      <span className="mobile-card-value">{new Date(event.date).toLocaleDateString()}</span>
+                    </div>
+                    <div className="mobile-card-row">
+                      <span className="mobile-card-label">Category:</span>
+                      <span className="mobile-card-value">
+                        <span className="category-badge" style={{ backgroundColor: getCategoryColor(event.category) }}>
+                          <i className={getCategoryIcon(event.category)}></i>
+                          {getCategoryLabel(event.category)}
+                        </span>
+                      </span>
+                    </div>
+                    <div className="mobile-card-row">
+                      <span className="mobile-card-label">Day:</span>
+                      <span className="mobile-card-value">
+                        <span className="day-badge">Day {event.day || 1}</span>
+                      </span>
+                    </div>
+                    <div className="mobile-card-row">
+                      <span className="mobile-card-label">Registration:</span>
+                      <span className="mobile-card-value">
+                        <span className={`registration-status ${event.registrationOpen ? 'open' : 'closed'}`}>
+                          <i className={`fas ${event.registrationOpen ? 'fa-unlock' : 'fa-lock'}`}></i>
+                          {event.registrationOpen ? 'Open' : 'Closed'}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         );
 
@@ -1252,6 +1357,88 @@ const getAllRegistrations = async (req, res) => {
                     )}
                   </tbody>
                 </table>
+
+                {/* Mobile Cards Layout for Registrations */}
+                <div className="mobile-cards-container">
+                  {filteredRegistrations.length > 0 ? (
+                    filteredRegistrations.map(reg => (
+                      <div key={reg._id} className="mobile-card">
+                        <div className="mobile-card-header">
+                          <div>
+                            <h4 className="mobile-card-title">{reg.teamLeader?.name || (reg.participant?.name) || 'Unknown'}</h4>
+                            <p className="mobile-card-subtitle">{reg.teamName || 'N/A'}</p>
+                          </div>
+                          <div className="mobile-card-actions">
+                            <button
+                              className="action-btn-mini view-btn"
+                              onClick={() => handleViewRegistration(reg)}
+                              title="View Details"
+                            >
+                              <i className="fas fa-eye"></i>
+                            </button>
+                            <button
+                              className="action-btn-mini delete-btn"
+                              onClick={() => handleDeleteRegistration(reg._id)}
+                              title="Delete Registration"
+                            >
+                              <i className="fas fa-trash"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <div className="mobile-card-body">
+                          <div className="mobile-card-row">
+                            <span className="mobile-card-label">Event:</span>
+                            <span className="mobile-card-value">{reg.event?.name || 'Unknown'}</span>
+                          </div>
+                          <div className="mobile-card-row">
+                            <span className="mobile-card-label">Category:</span>
+                            <span className="mobile-card-value">
+                              {reg.event ? (
+                                <span className="category-badge" style={{ backgroundColor: getCategoryColor(reg.event.category) }}>
+                                  <i className={getCategoryIcon(reg.event.category)}></i>
+                                  {getCategoryLabel(reg.event.category)}
+                                </span>
+                              ) : 'Unknown'}
+                            </span>
+                          </div>
+                          {reg.event?.date && (
+                            <div className="mobile-card-row">
+                              <span className="mobile-card-label">Date:</span>
+                              <span className="mobile-card-value">{new Date(reg.event.date).toLocaleDateString()}</span>
+                            </div>
+                          )}
+                          {reg.registeredAt && (
+                            <div className="mobile-card-row">
+                              <span className="mobile-card-label">Registered:</span>
+                              <span className="mobile-card-value">{new Date(reg.registeredAt).toLocaleDateString()}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="mobile-card no-data-card">
+                      <div className="mobile-card-body">
+                        <div className="no-data">
+                          <i className="fas fa-exclamation-circle"></i>
+                          {registrations.length === 0
+                            ? "No registrations found"
+                            : (searchTerm || filterCategory || filterEvent)
+                              ? "No registrations match your search criteria"
+                              : "No registrations found"
+                          }
+                          {(searchTerm || filterCategory || filterEvent) && (
+                            <div className="no-data-suggestion">
+                              <button onClick={clearFilters} className="clear-filters-link">
+                                Clear filters to see all registrations
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </>
             )}
           </div>

@@ -111,7 +111,6 @@ function Events() {
     }));
   };
 
-  // Ensure only one loading animation is displayed by wrapping the loading state in a single container and avoiding redundant renders.
   if (loading) {
     return (
       <div className="events-container">
@@ -119,10 +118,9 @@ function Events() {
           <i className="fas fa-home"></i> Home
         </button>
 
-        <div className="loading-wrapper" style={{ textAlign: 'center', marginTop: '4rem' }}>
-          <div className="loading">
-            {/* Loading events... */}
-          </div>
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading event categories...</p>
         </div>
       </div>
     );

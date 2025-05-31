@@ -561,30 +561,34 @@ html {
 
 
 
-/* Back button styling */
+/* Navigation buttons container */
+.navigation-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+}
+
+/* Back button styling - static at top */
 .back-button {
-  position: fixed;
-  top: 25px;
-  left: 25px;
+  position: static;
   background: rgba(0, 0, 0, 0.3);
   color: rgba(255, 255, 255, 0.8);
   border: none;
-  padding: 6px 10px;
+  padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 400;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
-  z-index: 10;
+  gap: 6px;
   border: 1px solid rgba(255, 152, 0, 0.15);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(5px);
   letter-spacing: 0.3px;
   opacity: 0.8;
-  min-width: 0;
-  width: auto;
   transition: all 0.3s ease;
 }
 
@@ -662,6 +666,17 @@ html {
     min-height: 55px;
     border-radius: 10px;
     box-shadow: 0 6px 20px rgba(255, 152, 0, 0.25);
+  }
+
+  /* Navigation buttons responsive */
+  .navigation-buttons {
+    padding: 0 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .back-button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
   }
 }
 
@@ -882,6 +897,12 @@ html {
     font-size: 0.95rem;
   }
 
+  /* Navigation buttons for smaller screens */
+  .navigation-buttons {
+    padding: 0 0.3rem;
+    margin-bottom: 1.2rem;
+  }
+
   .registration-message {
     padding: 12px;
     font-size: 0.9rem;
@@ -943,6 +964,12 @@ html {
     font-size: 0.9rem;
   }
 
+  /* Navigation buttons for very small screens */
+  .navigation-buttons {
+    padding: 0 0.2rem;
+    margin-bottom: 1rem;
+  }
+
   /* Fixed back button (for error states) - keep small */
   .back-button:not(.event-actions .back-button) {
     padding: 5px 8px;
@@ -990,6 +1017,12 @@ html {
   .register-button, .event-actions .back-button {
     padding: 8px 12px;
     font-size: 0.85rem;
+  }
+
+  /* Navigation buttons for extra small screens */
+  .navigation-buttons {
+    padding: 0;
+    margin-bottom: 0.8rem;
   }
 }
 

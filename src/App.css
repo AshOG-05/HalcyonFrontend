@@ -17,59 +17,7 @@
   z-index: -1;
 }
 
-/* Ensure the preloader works correctly */
-.loader-bg {
-  position: fixed;
-  z-index: 99999;
-  background: rgb(10, 10, 10);
-  background: radial-gradient(circle, rgba(30, 30, 30, 1) 0%, rgba(10, 10, 10, 1) 100%);
-  height: 100%;
-  width: 100%;
-  opacity: 1;
-  overflow: hidden;
-}
-
-.loader {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.loader img {
-  height: 40vh; /* Increased size even more */
-  max-width: 90vw; /* Ensure it doesn't overflow on small screens */
-  animation: pulse 3s ease-in-out infinite;
-  margin: 0 auto; /* Center horizontally */
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
-  }
-  50% {
-    transform: scale(1.08);
-    filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.8));
-  }
-  100% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
-  }
-}
-
-/* Hide preloader on mobile devices */
-@media (max-width: 768px) {
-  .loader-bg,
-  .loader {
-    display: none !important;
-  }
-}
+/* Preloader is now handled in App.jsx - no duplicate styles needed */
 
 /* Ensure the well container is properly styled */
 .well {

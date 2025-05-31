@@ -1649,21 +1649,91 @@
 
   .dashboard-table-container {
     padding: 1rem;
-    overflow-x: auto;
+    overflow: visible;
+  }
+
+  /* Hide table and show mobile cards instead */
+  .dashboard-table {
+    display: none;
+  }
+
+  /* Mobile card layout for table data */
+  .mobile-cards-container {
+    display: block;
+    gap: 1rem;
+  }
+
+  .mobile-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px var(--shadow-color);
+  }
+
+  .mobile-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .mobile-card-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+    margin: 0;
+    flex: 1;
+  }
+
+  .mobile-card-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0.25rem 0 0 0;
+  }
+
+  .mobile-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .mobile-card-body {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .mobile-card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0;
+  }
+
+  .mobile-card-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .mobile-card-value {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    text-align: right;
+    flex: 1;
+    margin-left: 1rem;
+  }
+
+  /* Desktop: show table, hide mobile cards */
+  .mobile-cards-container {
+    display: none;
   }
 
   .dashboard-table {
-    min-width: 650px;
-  }
-
-  .dashboard-table th,
-  .dashboard-table td {
-    padding: 0.8rem;
-  }
-
-  /* Events table responsive */
-  .events-table {
-    min-width: 800px;
+    display: table;
   }
 
   .events-table th,
@@ -1676,7 +1746,7 @@
   }
 
   .event-title {
-    font-size: 0.3rem;
+    font-size: 0.9rem;
   }
 
   .event-venue {
@@ -1826,6 +1896,446 @@
 
   .registrations-summary p {
     font-size: 0.9rem;
+  }
+}
+
+/* Additional mobile responsiveness for smaller screens */
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 0;
+  }
+
+  .dashboard-header {
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .dashboard-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .logout-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .dashboard-sidebar {
+    padding: 0.25rem 0;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .sidebar-btn {
+    padding: 0.6rem 0.8rem;
+    margin: 0.1rem;
+    font-size: 0.8rem;
+    min-width: calc(50% - 0.2rem);
+    text-align: center;
+  }
+
+  .sidebar-btn span {
+    display: none;
+  }
+
+  .sidebar-btn i {
+    margin-right: 0;
+  }
+
+  .dashboard-main {
+    padding: 0.75rem;
+  }
+
+  .dashboard-stats {
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-card h4 {
+    font-size: 0.85rem;
+  }
+
+  .stat-card .stat-value {
+    font-size: 1.8rem;
+  }
+
+  .stat-card .stat-description {
+    font-size: 0.8rem;
+  }
+
+  .dashboard-table-container {
+    padding: 0.75rem;
+    margin: 0 -0.75rem;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    overflow: visible;
+  }
+
+  /* Ensure mobile cards are shown, tables hidden */
+  .dashboard-table {
+    display: none;
+  }
+
+  .mobile-cards-container {
+    display: block;
+  }
+
+  .mobile-card {
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .mobile-card-title {
+    font-size: 0.9rem;
+  }
+
+  .mobile-card-label,
+  .mobile-card-value {
+    font-size: 0.8rem;
+  }
+
+  .event-name-cell {
+    min-width: 140px;
+  }
+
+  .event-title {
+    font-size: 0.8rem;
+    line-height: 1.2;
+  }
+
+  .event-venue {
+    font-size: 0.7rem;
+  }
+
+  .category-badge {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  .day-badge {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+  }
+
+  .registration-status {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .action-btn-mini {
+    width: 28px;
+    height: 28px;
+    font-size: 0.7rem;
+  }
+
+  .action-buttons-row {
+    gap: 0.25rem;
+    flex-wrap: wrap;
+  }
+
+  .search-filter-container {
+    padding: 0.75rem;
+    margin: 0 -0.75rem 1rem -0.75rem;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .search-input {
+    font-size: 0.85rem;
+    padding: 8px 10px 8px 35px;
+  }
+
+  .search-icon {
+    left: 10px;
+    font-size: 0.85rem;
+  }
+
+  .filter-select {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
+
+  .clear-filters-btn {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+
+  .event-controls {
+    gap: 1rem;
+  }
+
+  .add-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .pdf-buttons {
+    gap: 0.5rem;
+  }
+
+  .preview-pdf-btn, .generate-pdf-btn, .export-excel-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .registration-modal {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .modal-header {
+    padding: 1rem;
+  }
+
+  .modal-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .modal-body {
+    padding: 1rem;
+    max-height: calc(100vh - 120px);
+  }
+
+  .registration-info-grid {
+    gap: 1rem;
+  }
+
+  .info-section {
+    padding: 1rem;
+  }
+
+  .info-section h4 {
+    font-size: 0.9rem;
+  }
+
+  .info-row .label {
+    font-size: 0.8rem;
+    min-width: 80px;
+  }
+
+  .info-row .value {
+    font-size: 0.8rem;
+  }
+
+  .team-member-card {
+    padding: 0.75rem;
+  }
+
+  .team-member-card h5 {
+    font-size: 0.85rem;
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 360px) {
+  .dashboard-header {
+    padding: 0.5rem;
+  }
+
+  .dashboard-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .sidebar-btn {
+    padding: 0.5rem 0.6rem;
+    font-size: 0.75rem;
+    min-width: calc(50% - 0.1rem);
+  }
+
+  .dashboard-main {
+    padding: 0.5rem;
+  }
+
+  .stat-card {
+    padding: 0.75rem;
+  }
+
+  .stat-card h4 {
+    font-size: 0.8rem;
+  }
+
+  .stat-card .stat-value {
+    font-size: 1.6rem;
+  }
+
+  .dashboard-table-container {
+    padding: 0.5rem;
+    margin: 0 -0.5rem;
+    overflow: visible;
+  }
+
+  /* Ensure mobile cards are shown, tables hidden */
+  .dashboard-table {
+    display: none;
+  }
+
+  .mobile-cards-container {
+    display: block;
+  }
+
+  .mobile-card {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .mobile-card-title {
+    font-size: 0.85rem;
+  }
+
+  .mobile-card-label,
+  .mobile-card-value {
+    font-size: 0.75rem;
+  }
+
+  .event-name-cell {
+    min-width: 120px;
+  }
+
+  .event-title {
+    font-size: 0.75rem;
+  }
+
+  .event-venue {
+    font-size: 0.65rem;
+  }
+
+  .action-btn-mini {
+    width: 24px;
+    height: 24px;
+    font-size: 0.65rem;
+  }
+
+  .search-filter-container {
+    padding: 0.5rem;
+    margin: 0 -0.5rem 1rem -0.5rem;
+  }
+
+  .search-input {
+    font-size: 0.8rem;
+    padding: 6px 8px 6px 30px;
+  }
+
+  .search-icon {
+    left: 8px;
+    font-size: 0.8rem;
+  }
+
+  .filter-select {
+    font-size: 0.8rem;
+    padding: 5px 8px;
+  }
+
+  .add-btn {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .preview-pdf-btn, .generate-pdf-btn, .export-excel-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.75rem;
+  }
+
+  .modal-header {
+    padding: 0.75rem;
+  }
+
+  .modal-header h3 {
+    font-size: 1rem;
+  }
+
+  .modal-body {
+    padding: 0.75rem;
+  }
+
+  .info-section {
+    padding: 0.75rem;
+  }
+
+  .info-section h4 {
+    font-size: 0.85rem;
+  }
+
+  .info-row .label {
+    font-size: 0.75rem;
+    min-width: 70px;
+  }
+
+  .info-row .value {
+    font-size: 0.75rem;
+  }
+}
+
+/* Landscape orientation improvements for mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .dashboard-header {
+    padding: 0.75rem 1rem;
+  }
+
+  .dashboard-sidebar {
+    padding: 0.25rem 0;
+  }
+
+  .sidebar-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .dashboard-main {
+    padding: 0.75rem;
+  }
+
+  .dashboard-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .registration-modal {
+    width: 95vw;
+    height: 95vh;
+  }
+
+  .modal-body {
+    max-height: calc(95vh - 100px);
+  }
+}
+
+/* Touch-friendly improvements */
+@media (max-width: 768px) {
+  .action-btn-mini,
+  .sidebar-btn,
+  .logout-btn,
+  .add-btn,
+  .preview-pdf-btn,
+  .generate-pdf-btn,
+  .export-excel-btn,
+  .clear-filters-btn {
+    min-height: 44px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .modal-body {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent horizontal scrolling */
+  .dashboard-table-container {
+    overflow-x: hidden;
+  }
+
+  body {
+    overflow-x: hidden;
   }
 }
 

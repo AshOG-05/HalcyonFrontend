@@ -53,7 +53,19 @@ html {
   margin-bottom: 3rem;
   padding-top: 2rem;
   position: relative;
-  z-index: 1;
+  z-index: 5;
+}
+
+.navigation-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  margin-bottom: 2rem;
+  text-align: left;
+  position: relative;
+  z-index: 10;
+  isolation: isolate;
+  padding-bottom: 1rem;
 }
 
 .category-header h1 {
@@ -115,12 +127,12 @@ html {
   gap: 0.5rem;
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
-  padding: 7px 14px;
+  padding: 8px 16px;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   margin-bottom: 2rem;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 400;
   border: 1px solid rgba(255, 152, 0, 0.15);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
@@ -128,7 +140,7 @@ html {
   letter-spacing: 0.3px;
   opacity: 0.8;
   position: relative;
-  z-index: 1;
+  z-index: 10;
 }
 
 .back-button:hover {
@@ -152,7 +164,7 @@ html {
   gap: 2rem;
   margin-top: 2rem;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .event-card {
@@ -398,5 +410,16 @@ html {
 
   .events-grid {
     grid-template-columns: 1fr;
+  }
+
+  .navigation-buttons {
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: flex-start;
+  }
+
+  .back-button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
   }
 }

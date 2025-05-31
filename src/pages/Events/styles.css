@@ -37,6 +37,8 @@ html {
   text-align: center;
   font-size: 3.5rem;
   margin-bottom: 0.5rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
   color: white;
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
   position: relative;
@@ -332,31 +334,27 @@ html {
   font-weight: 500;
 }
 
-/* Back button styling */
+/* Back button styling - static at top */
 .back-button {
-  position: fixed;
-  top: 25px;
-  left: 25px;
+  position: static;
   background: rgba(0, 0, 0, 0.3);
   color: rgba(255, 255, 255, 0.8);
   border: none;
-  padding: 6px 10px;
+  padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 400;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
-
-  z-index: 10;
+  gap: 6px;
   border: 1px solid rgba(255, 152, 0, 0.15);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(5px);
   letter-spacing: 0.3px;
   opacity: 0.8;
-  min-width: 0;
-  width: auto;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
 }
 
 .back-button:hover {
@@ -377,14 +375,61 @@ html {
   margin-right: 1px;
 }
 
+/* Loading and Error States */
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.loading-spinner {
+  border: 3px solid rgba(30, 30, 30, 0.5);
+  border-radius: 50%;
+  border-top: 3px solid #ff9800;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-container p,
+.error-container p {
+  color: #ddd;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  max-width: 500px;
+}
+
+.error-container i {
+  font-size: 2.5rem;
+  color: #ff9800;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .events-container {
-    padding: 3rem 1rem;
+    padding: 2rem 1rem;
   }
 
   .events-title {
     font-size: 2rem;
+    margin-top: 1.5rem;
+    padding-top: 0.5rem;
   }
 
   .events-grid {
@@ -393,9 +438,8 @@ html {
   }
 
   .back-button {
-    top: 15px;
-    left: 15px;
-    padding: 5px 8px;
-    font-size: 0.75rem;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    margin-bottom: 1.5rem;
   }
 }

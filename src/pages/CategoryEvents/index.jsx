@@ -144,9 +144,14 @@ function CategoryEvents() {
   return (
     <div className="category-events-container">
       <div className="category-header">
-        <Link to="/events" className="back-button">
-          <i className="fas fa-arrow-left"></i> Back to Events
-        </Link>
+        <div className="navigation-buttons">
+          <Link to="/" className="back-button home-button">
+            <i className="fas fa-home"></i> Home
+          </Link>
+          <Link to="/events" className="back-button">
+            <i className="fas fa-arrow-left"></i> Back to Events
+          </Link>
+        </div>
         <h1>
           <i className={category.icon}></i> {category.label} Events
         </h1>

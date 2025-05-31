@@ -132,6 +132,14 @@ function EventDetail() {
         />
       ) : (
         <div className="event-detail-content">
+          <div className="navigation-buttons">
+            <button
+              className="back-button"
+              onClick={() => navigate('/events')}
+            >
+              <i className="fas fa-arrow-left"></i> Back to Events
+            </button>
+          </div>
           <div className="event-detail-card">
           <div className="event-header">
             <h1 className="event-title">{event.name}</h1>
@@ -244,13 +252,6 @@ function EventDetail() {
                 )}
               </button>
             </div>
-
-            <button
-              className="back-button"
-              onClick={() => navigate('/events')}
-            >
-              <i className="fas fa-arrow-left"></i> Back to Events
-            </button>
           </div>
           </div>
         </div>
