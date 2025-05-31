@@ -38,6 +38,16 @@ function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
                 <div className="step-number">2</div>
                 <div className="step-content">
                   <h4>Complete Payment</h4>
+                  <div className="qr-code-section">
+                    <img
+                      src="/assets/qrcode.jpeg"
+                      alt="Payment QR Code"
+                      className="payment-qr-code"
+                    />
+                    <p className="qr-instruction">
+                      <strong>Scan this QR code for quick payment procedure</strong>
+                    </p>
+                  </div>
                   <p>Step 1: Select External option in the user type section</p>
                   <p>Step 2: Select External option in the user type section</p>
                   <p>Step 3: Go to Fee Head and Select HALCYON option</p>

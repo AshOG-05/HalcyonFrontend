@@ -197,6 +197,40 @@
   letter-spacing: 0.5px;
 }
 
+/* QR Code Section Styles */
+.qr-code-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px 0;
+  padding: 20px;
+  background: rgba(255, 152, 0, 0.05);
+  border: 1px solid rgba(255, 152, 0, 0.2);
+  border-radius: 8px;
+}
+
+.payment-qr-code {
+  width: 150px;
+  height: 150px;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 152, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.payment-qr-code:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.3);
+}
+
+.qr-instruction {
+  margin-top: 10px;
+  text-align: center;
+  color: #ff9800 !important;
+  font-size: 1rem !important;
+  text-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+}
+
 .important-notes {
   background: rgba(15, 15, 25, 0.4);
   padding: 25px;
@@ -396,7 +430,7 @@
 .erp-access-section h3 {
   color: #ff9800;
   margin-bottom: 1rem;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -406,42 +440,42 @@
 .erp-access-section p {
   color: #ddd;
   margin-bottom: 1.5rem;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
 }
 
 .erp-button-main {
   background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
   color: #000;
   border: none;
-  padding: 18px 40px;
-  border-radius: 35px;
-  font-size: 1.2rem;
-  font-weight: 700;
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  min-width: 250px;
+  gap: 10px;
+  min-width: 200px;
   justify-content: center;
-  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .erp-button-main:hover {
   background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(255, 152, 0, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
 }
 
 .erp-button-main i {
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .erp-note {
   margin-top: 1rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #bbb;
   font-style: italic;
   display: flex;
@@ -548,5 +582,20 @@
     padding: 12px 20px;
     font-size: 1rem;
     min-width: 160px;
+  }
+
+  /* Mobile QR Code Styles */
+  .qr-code-section {
+    padding: 15px;
+    margin: 10px 0;
+  }
+
+  .payment-qr-code {
+    width: 120px;
+    height: 120px;
+  }
+
+  .qr-instruction {
+    font-size: 0.9rem !important;
   }
 }
