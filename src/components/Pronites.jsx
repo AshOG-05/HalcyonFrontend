@@ -25,14 +25,25 @@ function Pronites() { // Component name kept as Pronites for file consistency
       id: 1,
       name: "DJ RUHI",
       date: "3nd June 2025",
-      image: "/assets/ruhi.jpg",
+      image: "/assets/dj1.jpg",
       alt: "DJ Ruhi",
       gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/dj1.jpg')",
       description: "DJ Ruhi, an international DJ & producer, brings high-energy, creative electronic and dance sets to Halcyon 2025.",
       instagram: "https://www.instagram.com/djruhi"
     },
-    {
+     {
       id: 2,
+      name: "DJ EVE",
+      date: "3rd June 2025",
+      image: "/assets/ruhi.jpg",
+      alt: "DJ Eve",
+      gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/djeve.jpg')",
+      description: "DJ Eve brings electrifying beats and mesmerizing performances, creating an unforgettable musical journey that will light up Halcyon 2025.",
+      icon: "fas fa-music",
+      instagram: "https://www.instagram.com/djeve"
+    },
+    {
+      id: 3,
       name: "Yamuna Srinidhi",
       date: "2nd June 2025",
       image: "/assets/YamunaSrinidhi.webp",
@@ -43,7 +54,7 @@ function Pronites() { // Component name kept as Pronites for file consistency
       instagram: "https://www.instagram.com/yamuna_srinidhi_"
     },
     {
-      id: 3,
+      id: 4,
       name: "DHARMENDRA",
       date: "2nd June 2025",
       image: "/assets/blogger.jpg",
@@ -52,18 +63,8 @@ function Pronites() { // Component name kept as Pronites for file consistency
       description: "Dharmendra Kumar Arenahalli, a Mysuru-born civil engineer turned historian, shares Karnataka’s heritage through his Kannada platform ‘Mysoorina Kathegalu’, reviving interest in local history.",
       icon: "fas fa-laptop",
       instagram: "https://www.instagram.com/dharmendra5294"
-    },
-    {
-      id: 4,
-      name: "DJ EVE",
-      date: "3rd June 2025",
-      image: "/assets/djeve.jpg",
-      alt: "DJ Eve",
-      gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/djeve.jpg')",
-      description: "DJ Eve brings electrifying beats and mesmerizing performances, creating an unforgettable musical journey that will light up Halcyon 2025.",
-      icon: "fas fa-music",
-      instagram: "https://www.instagram.com/djeve"
     }
+   
   ];
 
   // Handle touch start event
