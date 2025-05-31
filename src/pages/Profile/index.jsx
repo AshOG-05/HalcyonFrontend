@@ -178,20 +178,6 @@ function Profile() {
                   <div className="stat-label">Upcoming Events</div>
                 </div>
               </div>
-
-              <div className="stat-card">
-                <div className="stat-icon paid">
-                  <i className="fas fa-check-circle"></i>
-                </div>
-                <div className="stat-content">
-                  <div className="stat-value">
-                    {registrations.filter(reg =>
-                      reg.paymentStatus === 'completed' || reg.paymentStatus === 'not_required'
-                    ).length}
-                  </div>
-                  <div className="stat-label">Paid/Free Events</div>
-                </div>
-              </div>
             </div>
 
             <div className="quick-actions">
