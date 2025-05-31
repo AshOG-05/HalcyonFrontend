@@ -42,7 +42,7 @@ function Navbar() {
       <Link to="/events" title="Events">Events</Link>
       <a title="Reach Us" href="#reach_us">Reach Us</a>
       <a title="Contact" href="#contact_anchor">Contact</a>
-      <a title="Sponsors" href="#sponsors_anchor">Sponsors</a>
+     
 
       {isLoggedIn ? (
         <Link to="/profile" title="Profile" className="profile show">
