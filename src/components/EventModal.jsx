@@ -179,7 +179,7 @@ function EventModal({ eventId, onClose }) {
   const handleRegister = () => {
     // Check if user is logged in
     if (!isLoggedIn()) {
-      // Close the modal and redirect to login page with a return URL
+      // Close the modal and redirect to login page with a return URL to the EventDetail page (black theme)
       onClose();
       navigate(`/RegisterLogin?redirect=/event/${eventId}`);
       return;

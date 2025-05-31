@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { EVENT_CATEGORIES } from '../../config';
 import { corsProtectedFetch } from '../../utils/corsHelper';
-import EventModal from '../../components/EventModal';
 import './styles.css';
 
 function CategoryEvents() {
   const { eventName } = useParams();
+  const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [selectedEventId, setSelectedEventId] = useState(null);
 
   // Get category details
   const category = EVENT_CATEGORIES.find(cat => cat.id === eventName) || {
@@ -102,11 +101,8 @@ function CategoryEvents() {
   };
 
   const handleEventClick = (eventId) => {
-    setSelectedEventId(eventId);
-  };
-
-  const closeEventModal = () => {
-    setSelectedEventId(null);
+    // Navigate directly to the event detail page instead of opening a modal
+    navigate(`/event/${eventId}`);
   };
 
   // Format date for display
@@ -225,13 +221,7 @@ function CategoryEvents() {
         </div>
       )}
 
-      {/* Event Modal */}
-      {selectedEventId && (
-        <EventModal
-          eventId={selectedEventId}
-          onClose={closeEventModal}
-        />
-      )}
+
     </div>
   );
 }

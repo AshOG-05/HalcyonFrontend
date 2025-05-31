@@ -39,7 +39,7 @@ function EventRegistrationPage() {
 
     // Check if user is logged in
     if (!isLoggedIn()) {
-      navigate(`/RegisterLogin?redirect=/event/${eventId}`);
+      navigate(`/RegisterLogin?redirect=/event/${eventId}/register`);
       return;
     }
 

@@ -17,6 +17,8 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
   const [alreadyRegistered, setAlreadyRegistered] = useState(false);
   const [registrationDetails, setRegistrationDetails] = useState(null);
   const [showPaymentInstructions, setShowPaymentInstructions] = useState(false);
+  const [transactionId, setTransactionId] = useState('');
+  const [transactionIdValid, setTransactionIdValid] = useState(null);
 
   // User data
   const [userData, setUserData] = useState({
@@ -61,19 +63,19 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
     const isGaming = isGamingEvent();
 
     if (!fromSameCollege) {
-      // Other college students: always pay on event day
+      // Other college students: require online payment via ERP
       return {
-        type: 'pay_on_event_day',
-        message: 'Payment will be collected on the event day.',
-        showTransactionField: false,
+        type: 'online_payment_required',
+        message: 'Online payment is required via ERP portal before registration.',
+        showTransactionField: true,
         exemptFromFee: false
       };
     } else if (fromSameCollege && isGaming) {
-      // Same college + gaming events: show payment notification
+      // Same college + gaming events: require online payment via ERP
       return {
-        type: 'payment_notification',
-        message: 'Payment is required for gaming events.',
-        showTransactionField: false,
+        type: 'online_payment_required',
+        message: 'Online payment is required for gaming events via ERP portal.',
+        showTransactionField: true,
         exemptFromFee: false
       };
     } else {
@@ -407,6 +409,21 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
     setParticipants(updatedParticipants);
   };
 
+  // Handle transaction ID change with validation
+  const handleTransactionIdChange = (value) => {
+    const upperValue = value.toUpperCase();
+    setTransactionId(upperValue);
+
+    if (upperValue.length === 0) {
+      setTransactionIdValid(null);
+    } else if (upperValue.length === 14) {
+      const transactionIdRegex = /^[A-Za-z]{4}\d{10}$/;
+      setTransactionIdValid(transactionIdRegex.test(upperValue));
+    } else {
+      setTransactionIdValid(false);
+    }
+  };
+
   // Form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -448,8 +465,21 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       return;
     }
 
-    // No transaction ID validation needed for the new payment logic
-    // Payment will be handled based on college affiliation and event type
+    // Validate transaction ID if payment is required
+    const paymentReq = getPaymentRequirement();
+    if (eventFee > 0 && paymentReq.showTransactionField) {
+      if (!transactionId.trim()) {
+        setError('Transaction ID is required for paid events. Please complete payment first.');
+        return;
+      }
+
+      // Validate transaction ID format: 4 letters + 10 digits (total 14 characters)
+      const transactionIdRegex = /^[A-Za-z]{4}\d{10}$/;
+      if (!transactionIdRegex.test(transactionId.trim())) {
+        setError('Invalid Transaction ID format. It should be 4 letters followed by 10 digits (e.g., JCIT1234567890)');
+        return;
+      }
+    }
 
     setError('');
     setSubmitting(true);
@@ -479,7 +509,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
           usn: member.usn,
           collegeName: commonCollegeName
         })),
-        transactionId: null // No transaction ID required for new payment logic
+        transactionId: paymentReq.showTransactionField ? transactionId.trim() : null
       };
 
       // Reset payment error state
@@ -847,22 +877,77 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                             </div>
                           </div>
                         );
-                      } else if (paymentReq.type === 'pay_on_event_day') {
+                      } else if (paymentReq.type === 'online_payment_required') {
                         return (
-                          <div className="payment-info">
-                            <h4><i className="fas fa-calendar-day"></i> Payment on Event Day</h4>
+                          <div className="payment-required">
+                            <h4><i className="fas fa-credit-card"></i> Online Payment Required</h4>
                             <p>Registration Fee: <strong>₹{eventFee}</strong></p>
                             <p>{paymentReq.message}</p>
-                            <p className="info-note">Please bring the exact amount on the day of the event.</p>
+
+                            <div className="payment-steps">
+                              <div className="step">
+                                <span className="step-number">1</span>
+                                <span>Complete payment on ERP portal</span>
+                                <button
+                                  type="button"
+                                  className="payment-instructions-button"
+                                  onClick={() => setShowPaymentInstructions(true)}
+                                >
+                                  <i className="fas fa-info-circle"></i>
+                                  View Payment Instructions
+                                </button>
+                              </div>
+                              <div className="step">
+                                <span className="step-number">2</span>
+                                <span>Enter your Transaction ID below</span>
+                              </div>
+                            </div>
+
+                            <div className="transaction-form">
+                              <div className="form-group">
+                                <label htmlFor="transaction-id">Transaction ID *</label>
+                                <input
+                                  type="text"
+                                  id="transaction-id"
+                                  value={transactionId}
+                                  onChange={(e) => handleTransactionIdChange(e.target.value)}
+                                  placeholder="Ex: JCIT1234567890"
+                                  maxLength="14"
+                                  className={transactionIdValid === true ? 'valid-input' : transactionIdValid === false ? 'invalid-input' : ''}
+                                  required
+                                />
+                                {transactionIdValid === true && (
+                                  <p className="validation-message success">
+                                    <i className="fas fa-check-circle"></i> Valid transaction ID format
+                                  </p>
+                                )}
+                                {transactionIdValid === false && (
+                                  <p className="validation-message error">
+                                    <i className="fas fa-exclamation-circle"></i> Invalid format. Must be 4 letters + 10 digits (14 characters total)
+                                  </p>
+                                )}
+                                <p className="field-note">
+                                  Enter the transaction ID you received after completing payment on ERP portal
+                                </p>
+                              </div>
+                            </div>
                           </div>
                         );
-                      } else if (paymentReq.type === 'payment_notification') {
+                      } else {
+                        // Default case for any other paid events
                         return (
-                          <div className="payment-notification">
-                            <h4><i className="fas fa-exclamation-triangle"></i> Payment Required</h4>
+                          <div className="payment-info">
+                            <h4><i className="fas fa-credit-card"></i> Payment Required</h4>
                             <p>Registration Fee: <strong>₹{eventFee}</strong></p>
-                            <p>{paymentReq.message}</p>
-                            <p className="notification-note">Students from the same college are required to pay for gaming events.</p>
+                            <p>Payment is required for this event.</p>
+                            <button
+                              type="button"
+                              className="payment-instructions-button"
+                              onClick={() => setShowPaymentInstructions(true)}
+                            >
+                              <i className="fas fa-info-circle"></i>
+                              View Payment Instructions
+                            </button>
                           </div>
                         );
                       }

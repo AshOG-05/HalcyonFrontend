@@ -52,6 +52,17 @@ function Pronites() { // Component name kept as Pronites for file consistency
       description: "Dharmendra Kumar Arenahalli, a Mysuru-born civil engineer turned historian, shares Karnataka’s heritage through his Kannada platform ‘Mysoorina Kathegalu’, reviving interest in local history.",
       icon: "fas fa-laptop",
       instagram: "https://www.instagram.com/dharmendra5294"
+    },
+    {
+      id: 4,
+      name: "DJ EVE",
+      date: "3rd June 2025",
+      image: "/assets/djeve.jpg",
+      alt: "DJ Eve",
+      gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/djeve.jpg')",
+      description: "DJ Eve brings electrifying beats and mesmerizing performances, creating an unforgettable musical journey that will light up Halcyon 2025.",
+      icon: "fas fa-music",
+      instagram: "https://www.instagram.com/djeve"
     }
   ];
 

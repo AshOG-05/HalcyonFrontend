@@ -42,7 +42,7 @@ function EventDetail() {
   const handleRegister = () => {
     // Check if user is logged in
     if (!isLoggedIn()) {
-      // Redirect to login page with a return URL
+      // Redirect to login page with a return URL back to this EventDetail page (black theme)
       navigate(`/RegisterLogin?redirect=/event/${id}`);
       return;
     }
@@ -100,6 +100,30 @@ function EventDetail() {
 
   return (
     <div className="event-detail-container">
+      {/* Background elements */}
+      <div className="event-detail-bg">
+        {/* Stars background */}
+        <div className="stars-container">
+          {[...Array(100)].map((_, i) => (
+            <div
+              key={i}
+              className="star"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${2 + Math.random() * 2}s`
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Gradient shapes */}
+        <div className="gradient-shape shape-1"></div>
+        <div className="gradient-shape shape-2"></div>
+        <div className="gradient-shape shape-3"></div>
+      </div>
+
       {showRegistrationForm ? (
         <EventRegistrationForm
           eventId={id}
@@ -107,7 +131,8 @@ function EventDetail() {
           onSuccess={handleRegistrationSuccess}
         />
       ) : (
-        <div className="event-detail-card">
+        <div className="event-detail-content">
+          <div className="event-detail-card">
           <div className="event-header">
             <h1 className="event-title">{event.name}</h1>
             <div className="event-meta">
@@ -197,19 +222,26 @@ function EventDetail() {
 
             <div className="registration-buttons">
               <button
-                className="register-button"
+                className={`register-button ${registrationStatus.success ? 'success' : ''}`}
                 onClick={handleRegister}
                 disabled={registering || registrationStatus.success}
               >
-                {registering ? 'Registering...' : 'Register Now'}
-              </button>
-
-              <button
-                className="register-page-button"
-                onClick={() => navigate(`/event/${id}/register`)}
-                disabled={registering || registrationStatus.success}
-              >
-                Go to Registration Page
+                {registering ? (
+                  <>
+                    <i className="fas fa-spinner fa-spin"></i>
+                    Registering...
+                  </>
+                ) : registrationStatus.success ? (
+                  <>
+                    <i className="fas fa-check"></i>
+                    Registered Successfully!
+                  </>
+                ) : (
+                  <>
+                    <i className="fas fa-user-plus"></i>
+                    Register Now
+                  </>
+                )}
               </button>
             </div>
 
@@ -217,8 +249,9 @@ function EventDetail() {
               className="back-button"
               onClick={() => navigate('/events')}
             >
-              Back to Events
+              <i className="fas fa-arrow-left"></i> Back to Events
             </button>
+          </div>
           </div>
         </div>
       )}

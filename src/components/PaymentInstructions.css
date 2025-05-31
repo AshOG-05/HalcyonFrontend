@@ -283,10 +283,82 @@
   border-bottom-right-radius: 15px;
 }
 
-.erp-button {
-  background: rgba(20, 20, 35, 0.6);
+.transaction-form {
+  background: rgba(15, 15, 25, 0.4);
+  padding: 25px;
+  border-radius: 8px;
+  border: 1px solid rgba(30, 30, 50, 0.4);
+  margin: 25px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.transaction-form .form-group {
+  margin-bottom: 15px;
+}
+
+.transaction-form label {
+  display: block;
   color: #ff9800;
-  border: 1px solid rgba(255, 152, 0, 0.4);
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.transaction-form input {
+  width: 100%;
+  padding: 12px 15px;
+  background: rgba(20, 20, 35, 0.6);
+  border: 1px solid rgba(255, 152, 0, 0.3);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.transaction-form input:focus {
+  outline: none;
+  border-color: #ff9800;
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.2);
+}
+
+.transaction-form input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.transaction-form input.valid-input {
+  border-color: #4caf50;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.2);
+}
+
+.transaction-form input.invalid-input {
+  border-color: #f44336;
+  box-shadow: 0 0 10px rgba(244, 67, 54, 0.2);
+}
+
+.validation-message {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.validation-message.success {
+  color: #4caf50;
+}
+
+.validation-message.error {
+  color: #f44336;
+}
+
+.validation-message i {
+  font-size: 1rem;
+}
+
+.erp-button {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  color: #000;
+  border: none;
   padding: 15px 30px;
   border-radius: 30px;
   font-size: 1.1rem;
@@ -296,18 +368,19 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  min-width: 180px;
+  min-width: 200px;
   justify-content: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
 }
 
 .erp-button:hover {
-  background: rgba(255, 152, 0, 0.2);
-  border-color: #ff9800;
-  color: #ff9800;
+  background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
   transform: translateY(-2px);
-  box-shadow: 0 0 20px rgba(255, 152, 0, 0.4);
+  box-shadow: 0 6px 15px rgba(255, 152, 0, 0.4);
+}
+
+.erp-button i {
+  font-size: 1.1rem;
 }
 
 .back-button {
@@ -334,6 +407,13 @@
   color: #fff;
   transform: translateY(-2px);
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.back-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 /* Mobile responsiveness */
@@ -377,5 +457,25 @@
   .back-button {
     width: 100%;
     min-width: auto;
+  }
+
+  .transaction-form {
+    padding: 20px;
+  }
+
+  .transaction-form input {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+  }
+
+  .validation-message {
+    font-size: 0.85rem;
+  }
+
+  .erp-button,
+  .back-button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    min-width: 160px;
   }
 }
