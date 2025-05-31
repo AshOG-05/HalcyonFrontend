@@ -169,11 +169,23 @@
   color: #4caf50;
 }
 
-.register-btn:hover {
+.register-btn:hover:not(:disabled) {
   background-color: #4caf50;
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+.register-btn:disabled {
+  border-color: #666;
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.register-btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
 }
 
 /* Status badges */
@@ -221,6 +233,18 @@
   background-color: rgba(255, 87, 34, 0.2);
   color: #ff5722;
   border: 1px solid rgba(255, 87, 34, 0.4);
+}
+
+.status-badge.open {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+}
+
+.status-badge.closed {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+  border: 1px solid rgba(244, 67, 54, 0.4);
 }
 
 /* Form styles for spot registration */

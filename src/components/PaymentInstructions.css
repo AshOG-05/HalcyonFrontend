@@ -383,6 +383,77 @@
   font-size: 1.1rem;
 }
 
+/* ERP Access Section */
+.erp-access-section {
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.1), rgba(245, 124, 0, 0.1));
+  border: 2px solid rgba(255, 152, 0, 0.3);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.erp-access-section h3 {
+  color: #ff9800;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.erp-access-section p {
+  color: #ddd;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.erp-button-main {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  color: #000;
+  border: none;
+  padding: 18px 40px;
+  border-radius: 35px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 250px;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.erp-button-main:hover {
+  background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 152, 0, 0.5);
+}
+
+.erp-button-main i {
+  font-size: 1.2rem;
+}
+
+.erp-note {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #bbb;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.erp-note i {
+  color: #ff9800;
+}
+
 .back-button {
   background: rgba(20, 20, 35, 0.6);
   color: #ddd;

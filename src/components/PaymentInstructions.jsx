@@ -1,25 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './PaymentInstructions.css';
 
 function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
-  const [transactionId, setTransactionId] = useState('');
-  const [transactionIdValid, setTransactionIdValid] = useState(null);
-
-  // Handle transaction ID change with validation
-  const handleTransactionIdChange = (value) => {
-    const upperValue = value.toUpperCase();
-    setTransactionId(upperValue);
-
-    if (upperValue.length === 0) {
-      setTransactionIdValid(null);
-    } else if (upperValue.length === 14) {
-      const transactionIdRegex = /^[A-Za-z]{4}\d{10}$/;
-      setTransactionIdValid(transactionIdRegex.test(upperValue));
-    } else {
-      setTransactionIdValid(false);
-    }
-  };
-
   const handleProceedToERP = () => {
     // Open ERP portal in a new tab
     window.open('http://erp.sit.ac.in/', '_blank');
@@ -47,7 +29,7 @@ function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
                 <div className="step-number">1</div>
                 <div className="step-content">
                   <h4>Access ERP Portal</h4>
-                  <p>Click the "Proceed to ERP Portal" button below to access the official payment gateway.</p>
+                  <p>Click the "Go to ERP Portal" button below to access the official payment gateway.</p>
                   <p><strong>Portal URL:</strong> http://erp.sit.ac.in/</p>
                 </div>
               </div>
@@ -56,8 +38,12 @@ function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
                 <div className="step-number">2</div>
                 <div className="step-content">
                   <h4>Complete Payment</h4>
-                  <p>From the user drop down select external and in external and then enter your details and in the fee head select HALCYON and form the fee type select the event name you want to participate and pay <strong>₹{eventFee}</strong>.</p>
-                  <p>Ensure you have your payment details ready (card/UPI/net banking).</p>
+                  <p>Step 1: Select External option in the user type section</p>
+                  <p>Step 2: Select External option in the user type section</p>
+                  <p>Step 3: Go to Fee Head and Select HALCYON option</p>
+                  <p>Step 4: Go to Fee Type and Select your choice of event </p>
+                  <p>Step 5: Your FEE amount will be visible click confirm to proceed for payment</p>
+                  <p>Step 6: Select your choice of Payment Method enter the details and make the payment.</p>
                 </div>
               </div>
 
@@ -66,46 +52,33 @@ function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
                 <div className="step-content">
                   <h4>Get Transaction ID</h4>
                   <p>After successful payment, you will receive a <strong>Transaction ID</strong>.</p>
-                  <p>This ID should be in the format: <strong>4 letters + 10 digits</strong> (e.g., JCIT1234567890)</p>
+                  <p>This ID should be exactly <strong>14 alphanumeric characters</strong> (e.g., JCIT1234567890, ABC123DEF45678)</p>
                 </div>
               </div>
 
               <div className="step">
                 <div className="step-number">4</div>
                 <div className="step-content">
-                  <h4>Enter Transaction ID</h4>
-                  <p>Return to this page and enter your Transaction ID in the field below to complete your registration.</p>
+                  <h4>Complete Registration</h4>
+                  <p>Return to the registration form and enter your Transaction ID in the designated field to complete your registration.</p>
+                  <p>The transaction ID field will be available in the main registration form.</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="transaction-form">
-            <div className="form-group">
-              <label htmlFor="transaction-id">Transaction ID (Enter after payment completion)</label>
-              <input
-                type="text"
-                id="transaction-id"
-                value={transactionId}
-                onChange={(e) => handleTransactionIdChange(e.target.value)}
-                placeholder="Ex: JCIT1234567890"
-                maxLength="14"
-                className={transactionIdValid === true ? 'valid-input' : transactionIdValid === false ? 'invalid-input' : ''}
-              />
-              {transactionIdValid === true && (
-                <p className="validation-message success">
-                  <i className="fas fa-check-circle"></i> Valid transaction ID format
-                </p>
-              )}
-              {transactionIdValid === false && (
-                <p className="validation-message error">
-                  <i className="fas fa-exclamation-circle"></i> Invalid format. Must be 4 letters + 10 digits (14 characters total)
-                </p>
-              )}
-              <p style={{ color: '#ddd', fontSize: '0.9rem', marginTop: '8px' }}>
-                Enter the transaction ID you received after completing payment on ERP portal
-              </p>
-            </div>
+          {/* ERP Portal Access Section */}
+          <div className="erp-access-section">
+            <h3><i className="fas fa-external-link-alt"></i> Access Payment Portal</h3>
+            <p>Click the button below to proceed to the ERP portal for payment:</p>
+            <button className="erp-button-main" onClick={handleProceedToERP}>
+              <i className="fas fa-external-link-alt"></i>
+              Go to ERP Portal
+            </button>
+            <p className="erp-note">
+              <i className="fas fa-info-circle"></i>
+              The ERP portal will open in a new tab. Complete your payment there and return to the registration form to enter your transaction ID.
+            </p>
           </div>
 
           <div className="important-notes">
@@ -127,10 +100,6 @@ function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
         </div>
 
         <div className="payment-actions">
-          <button className="erp-button" onClick={handleProceedToERP}>
-            <i className="fas fa-external-link-alt"></i>
-            Proceed to ERP Portal
-          </button>
           <button className="back-button" onClick={onClose}>
             <i className="fas fa-arrow-left"></i>
             Back to Registration

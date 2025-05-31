@@ -52,10 +52,10 @@ const handleSubmit = async (e) => {
         return;
       }
       
-      // Validate transaction ID format: 4 letters + 10 digits (total 14 characters)
-      const transactionIdRegex = /^[A-Za-z]{4}\d{10}$/;
+      // Validate transaction ID format: 14 alphanumeric characters
+      const transactionIdRegex = /^[A-Za-z0-9]{14}$/;
       if (!transactionIdRegex.test(transactionId.trim())) {
-        setError('Invalid Transaction ID format. It should be 4 letters followed by 10 digits (e.g., JCIT1234567890)');
+        setError('Invalid Transaction ID format. It should be exactly 14 alphanumeric characters (e.g., JCIT1234567890, ABC123DEF45678)');
         return;
       }
     }

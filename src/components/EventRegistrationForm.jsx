@@ -417,7 +417,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
     if (upperValue.length === 0) {
       setTransactionIdValid(null);
     } else if (upperValue.length === 14) {
-      const transactionIdRegex = /^[A-Za-z]{4}\d{10}$/;
+      const transactionIdRegex = /^[A-Za-z0-9]{14}$/;
       setTransactionIdValid(transactionIdRegex.test(upperValue));
     } else {
       setTransactionIdValid(false);
@@ -473,10 +473,10 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
         return;
       }
 
-      // Validate transaction ID format: 4 letters + 10 digits (total 14 characters)
-      const transactionIdRegex = /^[A-Za-z]{4}\d{10}$/;
+      // Validate transaction ID format: 14 alphanumeric characters
+      const transactionIdRegex = /^[A-Za-z0-9]{14}$/;
       if (!transactionIdRegex.test(transactionId.trim())) {
-        setError('Invalid Transaction ID format. It should be 4 letters followed by 10 digits (e.g., JCIT1234567890)');
+        setError('Invalid Transaction ID format. It should be exactly 14 alphanumeric characters (e.g., JCIT1234567890, ABC123DEF45678)');
         return;
       }
     }
@@ -911,7 +911,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                                   id="transaction-id"
                                   value={transactionId}
                                   onChange={(e) => handleTransactionIdChange(e.target.value)}
-                                  placeholder="Ex: JCIT1234567890"
+                                  placeholder="Ex: JCIT1234567890 or ABC123DEF45678"
                                   maxLength="14"
                                   className={transactionIdValid === true ? 'valid-input' : transactionIdValid === false ? 'invalid-input' : ''}
                                   required
@@ -923,7 +923,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                                 )}
                                 {transactionIdValid === false && (
                                   <p className="validation-message error">
-                                    <i className="fas fa-exclamation-circle"></i> Invalid format. Must be 4 letters + 10 digits (14 characters total)
+                                    <i className="fas fa-exclamation-circle"></i> Invalid format. Must be exactly 14 alphanumeric characters
                                   </p>
                                 )}
                                 <p className="field-note">

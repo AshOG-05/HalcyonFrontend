@@ -84,6 +84,8 @@ function AdminDashboard() {
   const [pdfEventFilter, setPdfEventFilter] = useState('all');
   const [pdfEvents, setPdfEvents] = useState([]);
   const [debugMode, setDebugMode] = useState(false);
+  const [showRegistrationModal, setShowRegistrationModal] = useState(false);
+  const [selectedRegistration, setSelectedRegistration] = useState(null);
 
   // Helper functions for category display
   const getCategoryLabel = (categoryId) => {
@@ -515,6 +517,17 @@ function AdminDashboard() {
 
   const handleLogout = () => {
     adminLogout();
+  };
+
+  // Handle viewing registration details
+  const handleViewRegistration = (registration) => {
+    setSelectedRegistration(registration);
+    setShowRegistrationModal(true);
+  };
+
+  const handleCloseRegistrationModal = () => {
+    setShowRegistrationModal(false);
+    setSelectedRegistration(null);
   };
 
   // Generate PDF based on selected event
@@ -1032,7 +1045,6 @@ const getAllRegistrations = async (req, res) => {
                       <th>Team Name</th>
                       <th>Event</th>
                       <th>Category</th>
-                      <th>Registration Date</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -1053,20 +1065,29 @@ const getAllRegistrations = async (req, res) => {
                               </>
                             ) : 'Unknown'}
                           </td>
-                          <td>{new Date(reg.registeredAt || reg.createdAt).toLocaleDateString()}</td>
                           <td>
-                            <button
-                              className="action-btn delete-btn"
-                              onClick={() => handleDeleteRegistration(reg._id)}
-                            >
-                              <i className="fas fa-trash"></i> Delete
-                            </button>
+                            <div className="action-buttons-row">
+                              <button
+                                className="action-btn view-btn"
+                                onClick={() => handleViewRegistration(reg)}
+                                title="View Details"
+                              >
+                                <i className="fas fa-eye"></i> View
+                              </button>
+                              <button
+                                className="action-btn delete-btn"
+                                onClick={() => handleDeleteRegistration(reg._id)}
+                                title="Delete Registration"
+                              >
+                                <i className="fas fa-trash"></i> Delete
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="6" className="no-data">
+                        <td colSpan="5" className="no-data">
                           <i className="fas fa-exclamation-circle"></i>
                           No registrations found
                         </td>
@@ -1082,6 +1103,184 @@ const getAllRegistrations = async (req, res) => {
       default:
         return <div>Select a tab to view content</div>;
     }
+  };
+
+  // Registration Detail Modal Component
+  const RegistrationDetailModal = () => {
+    if (!showRegistrationModal || !selectedRegistration) return null;
+
+    const reg = selectedRegistration;
+    const isPaidEvent = reg.event?.fees > 0;
+
+    return (
+      <div className="modal-overlay" onClick={handleCloseRegistrationModal}>
+        <div className="modal-content registration-modal" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-header">
+            <h3>Registration Details</h3>
+            <button className="modal-close-btn" onClick={handleCloseRegistrationModal}>
+              <i className="fas fa-times"></i>
+            </button>
+          </div>
+
+          <div className="modal-body">
+            <div className="registration-info-grid">
+              {/* Event Information */}
+              <div className="info-section">
+                <h4><i className="fas fa-calendar-alt"></i> Event Information</h4>
+                <div className="info-row">
+                  <span className="label">Event Name:</span>
+                  <span className="value">{reg.event?.name || 'Unknown'}</span>
+                </div>
+                <div className="info-row">
+                  <span className="label">Category:</span>
+                  <span className="value">{getCategoryLabel(reg.event?.category)}</span>
+                </div>
+                <div className="info-row">
+                  <span className="label">Event Day:</span>
+                  <span className="value">Day {reg.event?.day || 1}</span>
+                </div>
+                <div className="info-row">
+                  <span className="label">Venue:</span>
+                  <span className="value">{reg.event?.venue || 'TBA'}</span>
+                </div>
+                <div className="info-row">
+                  <span className="label">Event Date:</span>
+                  <span className="value">
+                    {reg.event?.date ? new Date(reg.event.date).toLocaleDateString('en-US', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    }) : 'TBA'}
+                  </span>
+                </div>
+                {isPaidEvent && (
+                  <div className="info-row">
+                    <span className="label">Event Fees:</span>
+                    <span className="value">₹{reg.event.fees}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Team Information */}
+              <div className="info-section">
+                <h4><i className="fas fa-users"></i> Team Information</h4>
+                <div className="info-row">
+                  <span className="label">Team Name:</span>
+                  <span className="value">{reg.teamName || 'N/A'}</span>
+                </div>
+                <div className="info-row">
+                  <span className="label">Team Size:</span>
+                  <span className="value">{reg.teamSize || 1} participant{(reg.teamSize || 1) > 1 ? 's' : ''}</span>
+                </div>
+                <div className="info-row">
+                  <span className="label">Registration Date:</span>
+                  <span className="value">{new Date(reg.registeredAt || reg.createdAt).toLocaleDateString()}</span>
+                </div>
+              </div>
+
+              {/* Team Leader Information */}
+              <div className="info-section">
+                <h4><i className="fas fa-user-tie"></i> Team Leader</h4>
+                <div className="info-row">
+                  <span className="label">Name:</span>
+                  <span className="value">{reg.teamLeader?.name || (reg.participant?.name) || 'Unknown'}</span>
+                </div>
+                <div className="info-row">
+                  <span className="label">Email:</span>
+                  <span className="value">{reg.teamLeader?.email || (reg.participant?.email) || 'N/A'}</span>
+                </div>
+                <div className="info-row">
+                  <span className="label">Mobile:</span>
+                  <span className="value">{reg.teamLeader?.mobile || (reg.participant?.mobile) || 'N/A'}</span>
+                </div>
+                <div className="info-row">
+                  <span className="label">USN:</span>
+                  <span className="value">{reg.teamLeaderDetails?.usn || 'N/A'}</span>
+                </div>
+                <div className="info-row">
+                  <span className="label">College:</span>
+                  <span className="value">{reg.teamLeaderDetails?.collegeName || 'N/A'}</span>
+                </div>
+              </div>
+
+              {/* Team Members Information */}
+              {reg.teamMembers && reg.teamMembers.length > 0 && (
+                <div className="info-section team-members-section">
+                  <h4><i className="fas fa-users"></i> Team Members</h4>
+                  {reg.teamMembers.map((member, index) => (
+                    <div key={index} className="team-member-card">
+                      <h5>Member {index + 1}</h5>
+                      <div className="info-row">
+                        <span className="label">Name:</span>
+                        <span className="value">{member.name || 'N/A'}</span>
+                      </div>
+                      <div className="info-row">
+                        <span className="label">USN:</span>
+                        <span className="value">{member.usn || 'N/A'}</span>
+                      </div>
+                      <div className="info-row">
+                        <span className="label">Email:</span>
+                        <span className="value">{member.email || 'N/A'}</span>
+                      </div>
+                      <div className="info-row">
+                        <span className="label">Mobile:</span>
+                        <span className="value">{member.mobile || 'N/A'}</span>
+                      </div>
+                      <div className="info-row">
+                        <span className="label">College:</span>
+                        <span className="value">{member.collegeName || 'N/A'}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Payment Information */}
+              {isPaidEvent && (
+                <div className="info-section payment-section">
+                  <h4><i className="fas fa-credit-card"></i> Payment Information</h4>
+                  <div className="info-row">
+                    <span className="label">Payment Status:</span>
+                    <span className={`value payment-status ${reg.paymentStatus || 'pending'}`}>
+                      {(reg.paymentStatus || 'pending').replace('_', ' ').toUpperCase()}
+                    </span>
+                  </div>
+                  {reg.transactionId && (
+                    <div className="info-row">
+                      <span className="label">Transaction ID:</span>
+                      <span className="value transaction-id">{reg.transactionId}</span>
+                    </div>
+                  )}
+                  {reg.paymentId && (
+                    <div className="info-row">
+                      <span className="label">Payment ID:</span>
+                      <span className="value">{reg.paymentId}</span>
+                    </div>
+                  )}
+                  {reg.orderId && (
+                    <div className="info-row">
+                      <span className="label">Order ID:</span>
+                      <span className="value">{reg.orderId}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Additional Information */}
+              {reg.notes && (
+                <div className="info-section">
+                  <h4><i className="fas fa-sticky-note"></i> Notes</h4>
+                  <div className="info-row">
+                    <span className="value notes">{reg.notes}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -1162,6 +1361,9 @@ const getAllRegistrations = async (req, res) => {
           {renderContent()}
         </div>
       </div>
+
+      {/* Registration Detail Modal */}
+      <RegistrationDetailModal />
     </div>
   );
 }

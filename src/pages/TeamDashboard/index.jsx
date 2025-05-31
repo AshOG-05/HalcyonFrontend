@@ -525,6 +525,7 @@ function TeamDashboard() {
                   <th>Date</th>
                   <th>Venue</th>
                   <th>Amount</th>
+                  <th>Registration</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -537,9 +538,18 @@ function TeamDashboard() {
                       <td>{event.venue}</td>
                       <td>₹{event.fees}</td>
                       <td>
+                        <span className={`status-badge ${event.registrationOpen ? 'open' : 'closed'}`}>
+                          {event.registrationOpen ? 'Open' : 'Closed'}
+                        </span>
+                      </td>
+                      <td>
                         <button
                           className="action-btn register-btn"
                           onClick={async () => {
+                            console.log("Register button clicked for event:", event.name);
+                            console.log("Event registration status:", event.registrationOpen);
+                            console.log("Full event data:", event);
+
                             try {
                               // Set the category first
                               setSelectedCategory(event.category || "")
@@ -551,12 +561,16 @@ function TeamDashboard() {
                               const filtered = events.filter((e) => e.category === (event.category || ""))
                               setFilteredEvents(filtered)
 
+                              console.log("Fetching event details from:", `${ORIGINAL_API_URL}/event/${event._id}`);
+
                               // Fetch detailed event data
                               const response = await fetch(`${ORIGINAL_API_URL}/event/${event._id}`)
                               if (!response.ok) {
                                 throw new Error("Failed to fetch event details")
                               }
                               const eventData = await response.json()
+
+                              console.log("Fetched event data:", eventData);
 
                               // Set team size options based on event configuration
                               let newTeamSize = 1
@@ -607,23 +621,26 @@ function TeamDashboard() {
                                 participants: newParticipants,
                               })
 
+                              console.log("Switching to spot registration tab");
                               // Switch to spot registration tab
                               setActiveTab("spot-registration")
                             } catch (err) {
                               console.error("Error setting up spot registration:", err)
-                              setError("Failed to load event details for registration")
+                              setError("Failed to load event details for registration: " + err.message)
                             }
                           }}
                           disabled={!event.registrationOpen}
+                          title={!event.registrationOpen ? "Registration is closed for this event" : "Click to register participants for this event"}
                         >
-                          <i className="fas fa-user-plus"></i> Register Participant
+                          <i className={`fas ${event.registrationOpen ? 'fa-user-plus' : 'fa-lock'}`}></i>
+                          {event.registrationOpen ? 'Register Participant' : 'Registration Closed'}
                         </button>
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="5" className="no-data">
+                    <td colSpan="6" className="no-data">
                       No events found
                     </td>
                   </tr>

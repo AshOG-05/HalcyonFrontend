@@ -235,7 +235,6 @@
 
 .sidebar-btn:hover i {
   color: var(--highlight);
-  transform: translateX(3px);
 }
 
 .sidebar-btn:hover::before {
@@ -275,13 +274,11 @@
   padding: 1.5rem;
   box-shadow: 0 8px 20px var(--shadow-color);
   border: 1px solid var(--border-color);
-  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
 }
 
 .stat-card:hover {
-  transform: translateY(-5px);
   box-shadow: 0 12px 25px var(--shadow-color);
   border-color: rgba(56, 189, 248, 0.3);
 }
@@ -296,7 +293,6 @@
   background-position: 100% 0;
   background-size: 300% 300%;
   opacity: 0.05;
-  transition: all 0.6s ease;
   z-index: 0;
 }
 
@@ -324,7 +320,6 @@
   left: 0;
   width: 4px;
   height: 100%;
-  transition: all 0.3s ease;
 }
 
 .stat-card.users::after {
@@ -398,7 +393,6 @@
   border-radius: 12px;
   padding: 1.8rem;
   box-shadow: 0 10px 30px var(--shadow-color);
-  transition: all 0.3s ease;
   border: 1px solid var(--border-color);
   margin-bottom: 2rem;
   position: relative;
@@ -480,7 +474,6 @@
 }
 
 .dashboard-table tr {
-  transition: all 0.3s ease;
   background-color: rgba(15, 23, 42, 0.6);
 }
 
@@ -502,15 +495,11 @@
 
 .dashboard-table tr:hover {
   background-color: rgba(56, 189, 248, 0.08);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 /* Registration tab specific styles */
 .registrations-tab .dashboard-table tr:hover {
   background-color: transparent;
-  transform: none;
-  box-shadow: none;
 }
 
 /* Improved layout for registration tab */
@@ -702,7 +691,6 @@
 
 .events-table tr {
   background-color: rgba(30, 41, 59, 0.6);
-  transition: all 0.2s ease;
 }
 
 .events-table tr:nth-child(even) {
@@ -711,8 +699,6 @@
 
 .events-table tr:hover {
   background-color: rgba(30, 41, 59, 0.8);
-  transform: none;
-  box-shadow: none;
 }
 
 /* Event Name Cell */
@@ -725,8 +711,8 @@
 .event-title {
   font-weight: 500;
   color: #f8fafc;
-  font-size: 0.85rem;
-  line-height: 0.9;
+  font-size: 0.25rem;
+  line-height: 0.8;
 }
 
 .event-venue {
@@ -1134,7 +1120,6 @@
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.9rem;
-  transition: all 0.3s ease;
   min-width: 180px;
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2338bdf8'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
@@ -1167,7 +1152,6 @@
   width: 0;
   height: 1px;
   background: var(--gradient-1);
-  transition: all 0.3s ease;
   opacity: 0;
 }
 
@@ -1229,7 +1213,6 @@
   margin-bottom: 2rem;
   border: 1px solid var(--border-color);
   box-shadow: 0 10px 30px var(--shadow-color);
-  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
 }
@@ -1468,7 +1451,6 @@
   font-size: 1.2rem;
   color: var(--text-primary);
   padding: 5rem 0;
-  animation: pulse 2s infinite;
   position: relative;
 }
 
@@ -1481,7 +1463,6 @@
   border-radius: 50%;
   border-top-color: var(--highlight);
   border-right-color: var(--purple-color);
-  animation: spin 1s ease-in-out infinite;
   margin-bottom: 30px;
 }
 
@@ -1496,23 +1477,7 @@
   font-weight: 500;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-@keyframes pulse {
-  0% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.6;
-  }
-}
 
 .error {
   background-color: rgba(15, 23, 42, 0.7);
@@ -1590,7 +1555,6 @@
 }
 
 .category-badge:hover {
-  transform: scale(1.2);
   box-shadow: 0 4px 12px var(--shadow-color);
 }
 
@@ -1638,7 +1602,6 @@
 
   .dashboard-header h2::after {
     left: 50%;
-    transform: translateX(-50%);
   }
 
   .logout-btn {
@@ -1713,7 +1676,7 @@
   }
 
   .event-title {
-    font-size: 0.875rem;
+    font-size: 0.3rem;
   }
 
   .event-venue {
@@ -1780,4 +1743,246 @@
   .dashboard-stats {
     grid-template-columns: 1fr;
   }
+
+  /* Modal responsive styles */
+  .registration-modal {
+    width: 95vw;
+    margin: 1rem;
+  }
+
+  .modal-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+  }
+
+  .registration-info-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .info-row .label {
+    min-width: auto;
+  }
+
+  .info-row .value {
+    text-align: left;
+  }
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-color);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.registration-modal {
+  width: 800px;
+  max-width: 90vw;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border-color);
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(139, 92, 246, 0.1));
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.modal-close-btn:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.modal-body {
+  padding: 2rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.registration-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.info-section {
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.info-section h4 {
+  margin: 0 0 1rem 0;
+  color: var(--highlight);
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.info-section h4 i {
+  font-size: 0.9rem;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.info-row .label {
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  min-width: 120px;
+  flex-shrink: 0;
+}
+
+.info-row .value {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  text-align: right;
+  word-break: break-word;
+}
+
+.info-row .value.notes {
+  text-align: left;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.transaction-id {
+  font-family: 'Courier New', monospace;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  color: var(--highlight) !important;
+  font-weight: 600;
+}
+
+.payment-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.payment-status.completed {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.payment-status.pending {
+  background: rgba(251, 191, 36, 0.1);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+.payment-status.failed {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.payment-status.not_required,
+.payment-status.pay_on_event_day {
+  background: rgba(148, 163, 184, 0.1);
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.team-members-section {
+  grid-column: 1 / -1;
+}
+
+.team-member-card {
+  background: rgba(30, 41, 59, 0.3);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(71, 85, 105, 0.2);
+}
+
+.team-member-card:last-child {
+  margin-bottom: 0;
+}
+
+.team-member-card h5 {
+  margin: 0 0 0.75rem 0;
+  color: var(--highlight);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(71, 85, 105, 0.2);
+  padding-bottom: 0.5rem;
+}
+
+.payment-section {
+  grid-column: 1 / -1;
 }
