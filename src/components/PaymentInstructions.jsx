@@ -56,7 +56,7 @@ function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
                 <div className="step-number">2</div>
                 <div className="step-content">
                   <h4>Complete Payment</h4>
-                  <p>Follow the instructions on the ERP portal to complete your payment of <strong>₹{eventFee}</strong>.</p>
+                  <p>From the user drop down select external and in external and then enter your details and in the fee head select HALCYON and form the fee type select the event name you want to participate and pay <strong>₹{eventFee}</strong>.</p>
                   <p>Ensure you have your payment details ready (card/UPI/net banking).</p>
                 </div>
               </div>
