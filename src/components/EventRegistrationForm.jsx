@@ -66,7 +66,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       // Other college students: require online payment via ERP
       return {
         type: 'online_payment_required',
-        message: 'One payment per team is required via ERP portal before registration. Only the team leader needs to complete the payment.',
+        message: 'One payment per team is required via ERP portal before registration. Only the team leader needs to complete the payment. Other teammates do not need to pay.',
         showTransactionField: true,
         exemptFromFee: false
       };
@@ -74,7 +74,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       // Same college + gaming events: require online payment via ERP
       return {
         type: 'online_payment_required',
-        message: 'One payment per team is required for gaming events via ERP portal. Only the team leader needs to complete the payment.',
+        message: 'One payment per team is required for gaming events via ERP portal. Only the team leader needs to complete the payment. Other teammates do not need to pay.',
         showTransactionField: true,
         exemptFromFee: false
       };
@@ -82,7 +82,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       // Same college + non-gaming events: current SIT exemption logic
       return {
         type: 'sit_exemption',
-        message: 'As students of Siddaganga Institute of Technology, your team is exempt from the registration fee.',
+        message: 'As students of Siddaganga Institute of Technology, your team is exempt from the registration fee for non-gaming events.',
         showTransactionField: false,
         exemptFromFee: true
       };
@@ -393,9 +393,9 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
     console.log('Updated participants array for team size', size, ':', newParticipants);
     setParticipants(newParticipants);
 
-    // If team size is > 2, make sure we have a team name field
-    if (size > 2 && !teamName) {
-      setTeamName('Team ' + userData.name?.split(' ')[0] || 'Default');
+    // If team size is > 1, make sure we have a team name field
+    if (size > 1 && !teamName) {
+      setTeamName('Team ' + (userData.name?.split(' ')[0] || 'Default'));
     }
   };
 
@@ -459,9 +459,9 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       }
     }
 
-    // Validate team name if team size > 2
-    if (teamSize > 2 && !teamName) {
-      setError('Team name is required for teams with more than 2 members');
+    // Validate team name if team size > 1
+    if (teamSize > 1 && !teamName.trim()) {
+      setError('Team name is required for team events');
       return;
     }
 
@@ -500,7 +500,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
           collegeName: commonCollegeName,
           usn: teamLeader.usn
         },
-        teamName: teamSize > 2 ? teamName : null,
+        teamName: teamSize > 1 ? teamName.trim() : null,
         teamSize: teamSize,
         teamMembers: teamMembers.map(member => ({
           name: member.name,
@@ -753,8 +753,8 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
               )}
             </div>
 
-            {/* Team Name (required for teams > 2) */}
-            {teamSize > 2 && (
+            {/* Team Name (required for teams > 1) */}
+            {teamSize > 1 && (
               <div className="form-group">
                 <label htmlFor="teamName">Team Name *</label>
                 <input
@@ -765,6 +765,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                   required
                   placeholder="Enter your team name"
                 />
+                <p className="field-note">Choose a unique name for your team</p>
               </div>
             )}
           </div>

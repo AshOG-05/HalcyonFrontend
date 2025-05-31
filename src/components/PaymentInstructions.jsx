@@ -96,9 +96,16 @@ function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
             <h3><i className="fas fa-exclamation-triangle"></i> Important Notes</h3>
             <ul>
               <li><strong>One payment per team:</strong> Only the team leader needs to complete the payment on the ERP portal.</li>
-              <li><strong>Keep your Transaction Refernce Number safe</strong> - you'll need it to complete team registration.</li>
+              <li><strong>Payment covers entire team:</strong> This single payment covers registration for all team members - no other teammates need to pay.</li>
+              <li><strong>USN-based payment rules:</strong>
+                <ul>
+                  <li><strong>SIT students (USN starting with '1si'):</strong> Registration fees are waived for all events except gaming events</li>
+                  <li><strong>Other college students:</strong> Pay for all events</li>
+                  <li><strong>Team payment:</strong> If all team members are from SIT, only gaming events require payment</li>
+                </ul>
+              </li>
+              <li><strong>Keep your Transaction Reference Number safe</strong> - you'll need it to complete team registration.</li>
               <li><strong>Team payment is mandatory</strong> for paid events. Registration will not be confirmed without valid payment.</li>
-              <li><strong>All team members covered:</strong> This single payment covers registration for all team members.</li>
               <li><strong>Contact event coordinators</strong> if you face any payment issues.</li>
             </ul>
           </div>

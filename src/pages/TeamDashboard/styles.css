@@ -652,12 +652,18 @@
 
   .dashboard-table {
     min-width: 650px;
+    display: none; /* Hide table on mobile */
   }
 
   .dashboard-table th,
   .dashboard-table td {
     padding: 0.8rem;
     font-size: 0.9rem;
+  }
+
+  /* Show mobile cards on mobile */
+  .mobile-cards-container {
+    display: block;
   }
 
   .dashboard-form-container {
@@ -1030,6 +1036,11 @@
   border: 1px solid rgba(33, 150, 243, 0.2);
 }
 
+/* Mobile Cards Container */
+.mobile-cards-container {
+  display: none;
+}
+
 /* Registration Cards */
 .registrations-summary {
   margin-bottom: 2rem;
@@ -1096,6 +1107,47 @@
   border-radius: 10px;
   padding: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.registration-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.registration-actions .action-btn {
+  width: 100%;
+  max-width: 200px;
+}
+
+/* Transaction ID field styling */
+.transaction-id-group {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.transaction-id-input {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  padding: 0.75rem;
+  border-radius: 6px;
+  width: 100%;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.transaction-id-input:focus {
+  border-color: var(--highlight);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+  outline: none;
+}
+
+.transaction-id-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .participants-payment-status h5 {

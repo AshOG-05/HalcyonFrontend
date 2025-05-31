@@ -80,9 +80,6 @@ function AdminDashboard() {
   const [dayFilter, setDayFilter] = useState('all');
   const [registrationCategoryFilter, setRegistrationCategoryFilter] = useState('all');
   const [registrationEventFilter, setRegistrationEventFilter] = useState('all');
-  const [pdfCategoryFilter, setPdfCategoryFilter] = useState('all');
-  const [pdfEventFilter, setPdfEventFilter] = useState('all');
-  const [pdfEvents, setPdfEvents] = useState([]);
   const [debugMode, setDebugMode] = useState(false);
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const [selectedRegistration, setSelectedRegistration] = useState(null);
@@ -91,6 +88,9 @@ function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
   const [filterEvent, setFilterEvent] = useState("");
+
+  // Enhanced search and filter states for events
+  const [eventSearchTerm, setEventSearchTerm] = useState("");
 
   // Helper functions for category display
   const getCategoryLabel = (categoryId) => {
@@ -163,7 +163,6 @@ function AdminDashboard() {
             setRegistrations([]);
             setFilteredEvents([{ _id: '1', name: 'Test Event', date: new Date(), category: 'dance', day: 1 }]);
             setFilteredRegistrations([]);
-            setPdfEvents([{ _id: '1', name: 'Test Event', date: new Date(), category: 'dance', day: 1 }]);
           }
         } else {
           await fetchUsers();
@@ -187,11 +186,14 @@ function AdminDashboard() {
   useEffect(() => {
     let filtered = [...registrations];
 
-    // Apply search filter (team leader name)
+    // Apply search filter (team name or team leader name)
     if (searchTerm.trim()) {
       filtered = filtered.filter((reg) => {
         const teamLeaderName = reg.teamLeader?.name || reg.participant?.name || "";
-        return teamLeaderName.toLowerCase().includes(searchTerm.toLowerCase());
+        const teamName = reg.teamName || "";
+
+        return teamLeaderName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+               teamName.toLowerCase().includes(searchTerm.toLowerCase());
       });
     }
 
@@ -213,6 +215,11 @@ function AdminDashboard() {
 
     setFilteredRegistrations(filtered);
   }, [registrations, searchTerm, filterCategory, filterEvent]);
+
+  // Enhanced filter logic for events
+  useEffect(() => {
+    applyFilters(events, categoryFilter, dayFilter, eventSearchTerm);
+  }, [events, categoryFilter, dayFilter, eventSearchTerm]);
 
   const fetchUsers = async () => {
     try {
@@ -282,12 +289,10 @@ function AdminDashboard() {
       const eventsArray = Array.isArray(data) ? data : [];
       setEvents(eventsArray);
       setFilteredEvents(eventsArray);
-      setPdfEvents(eventsArray);
     } catch (err) {
       console.error('Error fetching events:', err);
       setEvents([]);
       setFilteredEvents([]);
-      setPdfEvents([]);
       throw err; // Re-throw to be caught by parent
     }
   };
@@ -329,8 +334,16 @@ function AdminDashboard() {
     applyFilters(events, categoryFilter, day);
   };
 
-  const applyFilters = (eventsList, category, day) => {
+  const applyFilters = (eventsList, category, day, searchTerm = eventSearchTerm) => {
     let filtered = [...eventsList];
+
+    // Apply search filter (event name)
+    if (searchTerm && searchTerm.trim()) {
+      filtered = filtered.filter(event =>
+        event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (event.venue && event.venue.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
+    }
 
     // Apply category filter
     if (category !== 'all') {
@@ -506,25 +519,7 @@ function AdminDashboard() {
     applyRegistrationFilters(registrations, registrationCategoryFilter, eventId);
   };
 
-  const handlePdfCategoryFilterChange = (e) => {
-    const category = e.target.value;
-    setPdfCategoryFilter(category);
 
-    // Filter events by category
-    if (category === 'all') {
-      setPdfEvents(events);
-    } else {
-      const filteredEvents = events.filter(event => (event.category || 'other') === category);
-      setPdfEvents(filteredEvents);
-    }
-    // Reset event selection when category changes
-    setPdfEventFilter('all');
-  };
-
-  const handlePdfEventFilterChange = (e) => {
-    const eventId = e.target.value;
-    setPdfEventFilter(eventId);
-  };
 
   const applyRegistrationFilters = (registrationsList, category, eventId) => {
     let filtered = [...registrationsList];
@@ -566,7 +561,7 @@ function AdminDashboard() {
     setSelectedRegistration(null);
   };
 
-  // Enhanced search and filter handlers
+  // Enhanced search and filter handlers for registrations
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -587,21 +582,33 @@ function AdminDashboard() {
     setFilterEvent("");
   };
 
+  // Enhanced search and filter handlers for events
+  const handleEventSearchChange = (e) => {
+    setEventSearchTerm(e.target.value);
+  };
+
+  const clearEventFilters = () => {
+    setEventSearchTerm("");
+    setCategoryFilter("all");
+    setDayFilter("all");
+    applyFilters(events, "all", "all", "");
+  };
+
   // Get unique events for the selected category
   const getEventsForCategory = () => {
     if (!filterCategory || filterCategory === 'all') return events;
     return events.filter(event => (event.category || 'other') === filterCategory);
   };
 
-  // Generate PDF based on selected event
+  // Generate PDF based on current filters
   const handleGeneratePdf = async () => {
-    if (pdfEventFilter === 'all') {
+    if (!filterEvent) {
       alert('Please select a specific event to generate a PDF report.');
       return;
     }
 
     // Find the selected event
-    const selectedEvent = events.find(event => event._id === pdfEventFilter);
+    const selectedEvent = events.find(event => event._id === filterEvent);
 
     if (!selectedEvent) {
       alert('Invalid event selection. Please try again.');
@@ -612,15 +619,15 @@ function AdminDashboard() {
     await handleGenerateEventPdf(selectedEvent._id, selectedEvent.name, true);
   };
 
-  // Preview PDF based on selected event
+  // Preview PDF based on current filters
   const handlePreviewPdf = async () => {
-    if (pdfEventFilter === 'all') {
+    if (!filterEvent) {
       alert('Please select a specific event to preview a PDF report.');
       return;
     }
 
     // Find the selected event
-    const selectedEvent = events.find(event => event._id === pdfEventFilter);
+    const selectedEvent = events.find(event => event._id === filterEvent);
 
     if (!selectedEvent) {
       alert('Invalid event selection. Please try again.');
@@ -946,39 +953,81 @@ function AdminDashboard() {
                 <button className="add-btn" onClick={handleAddEvent}>
                   <i className="fas fa-plus"></i> Add New Event
                 </button>
-
-                <div className="filter-controls">
-                  <div className="filter-group">
-                    <label htmlFor="categoryFilter">Category:</label>
-                    <select
-                      id="categoryFilter"
-                      value={categoryFilter}
-                      onChange={handleCategoryFilterChange}
-                    >
-                      <option value="all">All Categories</option>
-                      {EVENT_CATEGORIES.map(cat => (
-                        <option key={cat.id} value={cat.id}>{cat.label}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="filter-group">
-                    <label htmlFor="dayFilter">Day:</label>
-                    <select
-                      id="dayFilter"
-                      value={dayFilter}
-                      onChange={handleDayFilterChange}
-                    >
-                      <option value="all">All Days</option>
-                      <option value="1">Day 1</option>
-                      <option value="2">Day 2</option>
-                    </select>
-                  </div>
-                </div>
               </div>
             )}
+
+            {/* Enhanced Search and Filter Controls for Events */}
+            <div className="search-filter-container">
+              <div className="search-bar">
+                <div className="search-input-wrapper">
+                  <i className="fas fa-search search-icon"></i>
+                  <input
+                    type="text"
+                    placeholder="Search by event name or venue..."
+                    value={eventSearchTerm}
+                    onChange={handleEventSearchChange}
+                    className="search-input"
+                  />
+                  {eventSearchTerm && (
+                    <button
+                      className="clear-search-btn"
+                      onClick={() => setEventSearchTerm("")}
+                      title="Clear search"
+                    >
+                      <i className="fas fa-times"></i>
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div className="filter-controls">
+                <div className="filter-group">
+                  <label htmlFor="eventCategoryFilter">Category:</label>
+                  <select
+                    id="eventCategoryFilter"
+                    value={categoryFilter}
+                    onChange={handleCategoryFilterChange}
+                    className="filter-select"
+                  >
+                    <option value="all">All Categories</option>
+                    {EVENT_CATEGORIES.map(cat => (
+                      <option key={cat.id} value={cat.id}>{cat.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="filter-group">
+                  <label htmlFor="eventDayFilter">Day:</label>
+                  <select
+                    id="eventDayFilter"
+                    value={dayFilter}
+                    onChange={handleDayFilterChange}
+                    className="filter-select"
+                  >
+                    <option value="all">All Days</option>
+                    <option value="1">Day 1</option>
+                    <option value="2">Day 2</option>
+                  </select>
+                </div>
+
+                {(eventSearchTerm || categoryFilter !== 'all' || dayFilter !== 'all') && (
+                  <button
+                    className="clear-filters-btn"
+                    onClick={clearEventFilters}
+                    title="Clear all filters"
+                  >
+                    <i className="fas fa-times-circle"></i>
+                    Clear Filters
+                  </button>
+                )}
+              </div>
+            </div>
+
             <div className="event-count">
               <i className="fas fa-info-circle"></i> Showing {filteredEvents.length} of {events.length} events
+              {(eventSearchTerm || categoryFilter !== 'all' || dayFilter !== 'all') && (
+                <span className="filter-indicator"> (filtered)</span>
+              )}
             </div>
             <table className="dashboard-table events-table">
               <thead>
@@ -992,36 +1041,96 @@ function AdminDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {filteredEvents.map(event => (
-                  <tr key={event._id}>
-                    <td>
-                      <div className="event-name-cell">
-                        <span className="event-title">{event.name}</span>
-                        <span className="event-venue">{event.venue || 'TBA'}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <span className="event-date">{new Date(event.date).toLocaleDateString()}</span>
-                    </td>
-                    <td>
-                      <div className="category-cell">
-                        <span className="category-badge" style={{ backgroundColor: getCategoryColor(event.category) }}>
-                          <i className={getCategoryIcon(event.category)}></i>
-                          {getCategoryLabel(event.category)}
+                {filteredEvents.length > 0 ? (
+                  filteredEvents.map(event => (
+                    <tr key={event._id}>
+                      <td>
+                        <div className="event-name-cell">
+                          <span className="event-title">{event.name}</span>
+                          <span className="event-venue">{event.venue || 'TBA'}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <span className="event-date">{new Date(event.date).toLocaleDateString()}</span>
+                      </td>
+                      <td>
+                        <div className="category-cell">
+                          <span className="category-badge" style={{ backgroundColor: getCategoryColor(event.category) }}>
+                            <i className={getCategoryIcon(event.category)}></i>
+                            {getCategoryLabel(event.category)}
+                          </span>
+                        </div>
+                      </td>
+                      <td>
+                        <span className="day-badge">Day {event.day || 1}</span>
+                      </td>
+                      <td>
+                        <span className={`registration-status ${event.registrationOpen ? 'open' : 'closed'}`}>
+                          <i className={`fas ${event.registrationOpen ? 'fa-unlock' : 'fa-lock'}`}></i>
+                          {event.registrationOpen ? 'Open' : 'Closed'}
                         </span>
+                      </td>
+                      <td>
+                        <div className="action-buttons-row">
+                          <button
+                            className="action-btn-mini edit-btn"
+                            onClick={() => handleEditEvent(event)}
+                            title="Edit Event"
+                          >
+                            <i className="fas fa-edit"></i>
+                          </button>
+                          <button
+                            className="action-btn-mini delete-btn"
+                            onClick={() => handleDeleteEvent(event._id)}
+                            title="Delete Event"
+                          >
+                            <i className="fas fa-trash"></i>
+                          </button>
+                          <button
+                            className={`action-btn-mini ${event.registrationOpen ? 'close-btn' : 'open-btn'}`}
+                            onClick={() => handleToggleRegistration(event._id, event.name, event.registrationOpen)}
+                            title={event.registrationOpen ? 'Close Registration' : 'Open Registration'}
+                          >
+                            <i className={`fas ${event.registrationOpen ? 'fa-lock' : 'fa-lock-open'}`}></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="no-data">
+                      <i className="fas fa-exclamation-circle"></i>
+                      {events.length === 0
+                        ? "No events found"
+                        : (eventSearchTerm || categoryFilter !== 'all' || dayFilter !== 'all')
+                          ? "No events match your search criteria"
+                          : "No events found"
+                      }
+                      {(eventSearchTerm || categoryFilter !== 'all' || dayFilter !== 'all') && (
+                        <div className="no-data-suggestion">
+                          <button onClick={clearEventFilters} className="clear-filters-link">
+                            Clear filters to see all events
+                          </button>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+
+            {/* Mobile Cards Layout */}
+            <div className="mobile-cards-container">
+              {filteredEvents.length > 0 ? (
+                filteredEvents.map(event => (
+                  <div key={event._id} className="mobile-card">
+                    <div className="mobile-card-header">
+                      <div>
+                        <h4 className="mobile-card-title">{event.name}</h4>
+                        <p className="mobile-card-subtitle">{event.venue || 'TBA'}</p>
                       </div>
-                    </td>
-                    <td>
-                      <span className="day-badge">Day {event.day || 1}</span>
-                    </td>
-                    <td>
-                      <span className={`registration-status ${event.registrationOpen ? 'open' : 'closed'}`}>
-                        <i className={`fas ${event.registrationOpen ? 'fa-unlock' : 'fa-lock'}`}></i>
-                        {event.registrationOpen ? 'Open' : 'Closed'}
-                      </span>
-                    </td>
-                    <td>
-                      <div className="action-buttons-row">
+                      <div className="mobile-card-actions">
                         <button
                           className="action-btn-mini edit-btn"
                           onClick={() => handleEditEvent(event)}
@@ -1044,77 +1153,61 @@ function AdminDashboard() {
                           <i className={`fas ${event.registrationOpen ? 'fa-lock' : 'fa-lock-open'}`}></i>
                         </button>
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            {/* Mobile Cards Layout */}
-            <div className="mobile-cards-container">
-              {filteredEvents.map(event => (
-                <div key={event._id} className="mobile-card">
-                  <div className="mobile-card-header">
-                    <div>
-                      <h4 className="mobile-card-title">{event.name}</h4>
-                      <p className="mobile-card-subtitle">{event.venue || 'TBA'}</p>
                     </div>
-                    <div className="mobile-card-actions">
-                      <button
-                        className="action-btn-mini edit-btn"
-                        onClick={() => handleEditEvent(event)}
-                        title="Edit Event"
-                      >
-                        <i className="fas fa-edit"></i>
-                      </button>
-                      <button
-                        className="action-btn-mini delete-btn"
-                        onClick={() => handleDeleteEvent(event._id)}
-                        title="Delete Event"
-                      >
-                        <i className="fas fa-trash"></i>
-                      </button>
-                      <button
-                        className={`action-btn-mini ${event.registrationOpen ? 'close-btn' : 'open-btn'}`}
-                        onClick={() => handleToggleRegistration(event._id, event.name, event.registrationOpen)}
-                        title={event.registrationOpen ? 'Close Registration' : 'Open Registration'}
-                      >
-                        <i className={`fas ${event.registrationOpen ? 'fa-lock' : 'fa-lock-open'}`}></i>
-                      </button>
+                    <div className="mobile-card-body">
+                      <div className="mobile-card-row">
+                        <span className="mobile-card-label">Date:</span>
+                        <span className="mobile-card-value">{new Date(event.date).toLocaleDateString()}</span>
+                      </div>
+                      <div className="mobile-card-row">
+                        <span className="mobile-card-label">Category:</span>
+                        <span className="mobile-card-value">
+                          <span className="category-badge" style={{ backgroundColor: getCategoryColor(event.category) }}>
+                            <i className={getCategoryIcon(event.category)}></i>
+                            {getCategoryLabel(event.category)}
+                          </span>
+                        </span>
+                      </div>
+                      <div className="mobile-card-row">
+                        <span className="mobile-card-label">Day:</span>
+                        <span className="mobile-card-value">
+                          <span className="day-badge">Day {event.day || 1}</span>
+                        </span>
+                      </div>
+                      <div className="mobile-card-row">
+                        <span className="mobile-card-label">Registration:</span>
+                        <span className="mobile-card-value">
+                          <span className={`registration-status ${event.registrationOpen ? 'open' : 'closed'}`}>
+                            <i className={`fas ${event.registrationOpen ? 'fa-unlock' : 'fa-lock'}`}></i>
+                            {event.registrationOpen ? 'Open' : 'Closed'}
+                          </span>
+                        </span>
+                      </div>
                     </div>
                   </div>
+                ))
+              ) : (
+                <div className="mobile-card no-data-card">
                   <div className="mobile-card-body">
-                    <div className="mobile-card-row">
-                      <span className="mobile-card-label">Date:</span>
-                      <span className="mobile-card-value">{new Date(event.date).toLocaleDateString()}</span>
-                    </div>
-                    <div className="mobile-card-row">
-                      <span className="mobile-card-label">Category:</span>
-                      <span className="mobile-card-value">
-                        <span className="category-badge" style={{ backgroundColor: getCategoryColor(event.category) }}>
-                          <i className={getCategoryIcon(event.category)}></i>
-                          {getCategoryLabel(event.category)}
-                        </span>
-                      </span>
-                    </div>
-                    <div className="mobile-card-row">
-                      <span className="mobile-card-label">Day:</span>
-                      <span className="mobile-card-value">
-                        <span className="day-badge">Day {event.day || 1}</span>
-                      </span>
-                    </div>
-                    <div className="mobile-card-row">
-                      <span className="mobile-card-label">Registration:</span>
-                      <span className="mobile-card-value">
-                        <span className={`registration-status ${event.registrationOpen ? 'open' : 'closed'}`}>
-                          <i className={`fas ${event.registrationOpen ? 'fa-unlock' : 'fa-lock'}`}></i>
-                          {event.registrationOpen ? 'Open' : 'Closed'}
-                        </span>
-                      </span>
+                    <div className="no-data">
+                      <i className="fas fa-exclamation-circle"></i>
+                      {events.length === 0
+                        ? "No events found"
+                        : (eventSearchTerm || categoryFilter !== 'all' || dayFilter !== 'all')
+                          ? "No events match your search criteria"
+                          : "No events found"
+                      }
+                      {(eventSearchTerm || categoryFilter !== 'all' || dayFilter !== 'all') && (
+                        <div className="no-data-suggestion">
+                          <button onClick={clearEventFilters} className="clear-filters-link">
+                            Clear filters to see all events
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         );
@@ -1124,51 +1217,7 @@ function AdminDashboard() {
           <div className="dashboard-table-container registrations-tab">
             <h3>Registration Management</h3>
 
-            <div className="pdf-generator-section">
-              <h4>Generate Registration PDF</h4>
-              <div className="pdf-filter-controls">
-                <div className="filter-group">
-                  <label htmlFor="pdfCategoryFilter">Category:</label>
-                  <select
-                    id="pdfCategoryFilter"
-                    value={pdfCategoryFilter}
-                    onChange={handlePdfCategoryFilterChange}
-                  >
-                    <option value="all">All Categories</option>
-                    {EVENT_CATEGORIES.map(cat => (
-                      <option key={cat.id} value={cat.id}>{cat.label}</option>
-                    ))}
-                  </select>
-                </div>
 
-                <div className="filter-group">
-                  <label htmlFor="pdfEventFilter">Event:</label>
-                  <select
-                    id="pdfEventFilter"
-                    value={pdfEventFilter}
-                    onChange={handlePdfEventFilterChange}
-                  >
-                    <option value="all">Select an Event</option>
-                    {pdfEvents.map(event => (
-                      <option key={event._id} value={event._id}>{event.name}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="pdf-buttons">
-                  <button className="preview-pdf-btn" onClick={handlePreviewPdf} title="Preview PDF in browser">
-                    <i className="fas fa-eye"></i> Preview PDF
-                  </button>
-                  <button className="generate-pdf-btn" onClick={handleGeneratePdf} title="Download PDF to your device">
-                    <i className="fas fa-file-pdf"></i> Download PDF
-                  </button>
-                  <button className="export-excel-btn" onClick={handleExportToExcel} title="Export all registrations to Excel">
-                    <i className="fas fa-file-excel"></i> Export to Excel
-                  </button>
-                </div>
-              </div>
-
-            </div>
 
             {/* Enhanced Search and Filter Controls */}
             <div className="search-filter-container">
@@ -1177,7 +1226,7 @@ function AdminDashboard() {
                   <i className="fas fa-search search-icon"></i>
                   <input
                     type="text"
-                    placeholder="Search by team leader name..."
+                    placeholder="Search by team name or team leader name..."
                     value={searchTerm}
                     onChange={handleSearchChange}
                     className="search-input"
@@ -1240,6 +1289,36 @@ function AdminDashboard() {
                     Clear Filters
                   </button>
                 )}
+
+                {/* PDF Generation and Export Buttons */}
+                <div className="export-buttons">
+                  <button
+                    className="export-excel-btn"
+                    onClick={handleExportToExcel}
+                    title="Export filtered registrations to Excel"
+                  >
+                    <i className="fas fa-file-excel"></i> Export to Excel
+                  </button>
+
+                  {filterEvent && (
+                    <>
+                      <button
+                        className="preview-pdf-btn"
+                        onClick={handlePreviewPdf}
+                        title="Preview PDF for selected event"
+                      >
+                        <i className="fas fa-eye"></i> Preview PDF
+                      </button>
+                      <button
+                        className="generate-pdf-btn"
+                        onClick={handleGeneratePdf}
+                        title="Download PDF for selected event"
+                      >
+                        <i className="fas fa-file-pdf"></i> Download PDF
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -1250,6 +1329,12 @@ function AdminDashboard() {
                   <span className="filter-indicator"> (filtered)</span>
                 )}
               </p>
+              {filterEvent && (
+                <p className="pdf-info">
+                  <i className="fas fa-info-circle"></i>
+                  PDF generation available for selected event: <strong>{events.find(e => e._id === filterEvent)?.name}</strong>
+                </p>
+              )}
             </div>
 
             {error ? (
@@ -1670,12 +1755,6 @@ const getAllRegistrations = async (req, res) => {
             onClick={() => setActiveTab('registrations')}
           >
             <i className="fas fa-clipboard-list"></i> <span>Registrations</span>
-          </button>
-          <button
-            className={`sidebar-btn ${activeTab === 'settings' ? 'active' : ''}`}
-            onClick={() => setActiveTab('settings')}
-          >
-            <i className="fas fa-cog"></i> <span>Settings</span>
           </button>
         </div>
 
