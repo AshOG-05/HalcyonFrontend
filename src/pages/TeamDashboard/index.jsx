@@ -3,22 +3,8 @@
 import { useState, useEffect } from "react"
 import { isTeamLoggedIn, teamLogout } from "../../services/authService"
 import { corsProtectedFetch, ORIGINAL_API_URL } from "../../utils/corsHelper"
+import { EVENT_CATEGORIES } from "../../config"
 import "./styles.css"
-
-// Event categories for spot registration
-const EVENT_CATEGORIES = [
-  { id: "technical", label: "Technical Events" },
-  { id: "cultural", label: "Cultural Events" },
-  { id: "sports", label: "Sports Events" },
-  { id: "gaming", label: "Gaming Events" },
-  { id: "literary", label: "Literary Events" },
-  { id: "art", label: "Art & Craft Events" },
-  { id: "dance", label: "Dance Events" },
-  { id: "music", label: "Music Events" },
-  { id: "drama", label: "Drama Events" },
-  { id: "photography", label: "Photography Events" },
-  { id: "other", label: "Other Events" },
-]
 
 function TeamDashboard() {
   const [activeTab, setActiveTab] = useState("events")
@@ -35,6 +21,10 @@ function TeamDashboard() {
 
   // Team size options state - THIS WAS MISSING
   const [teamSizeOptions, setTeamSizeOptions] = useState([1])
+
+  // Modal states for registration details
+  const [showRegistrationModal, setShowRegistrationModal] = useState(false)
+  const [selectedRegistration, setSelectedRegistration] = useState(null)
 
   // Spot Registration functionality
   const [spotRegistrationForm, setSpotRegistrationForm] = useState({
@@ -171,6 +161,41 @@ function TeamDashboard() {
 
   const handleLogout = () => {
     teamLogout()
+  }
+
+  // Handle viewing registration details
+  const handleViewRegistration = (registration) => {
+    setSelectedRegistration(registration)
+    setShowRegistrationModal(true)
+  }
+
+  const handleCloseRegistrationModal = () => {
+    setShowRegistrationModal(false)
+    setSelectedRegistration(null)
+  }
+
+  // Helper function to determine if payment is required based on USN and event category
+  const isPaymentRequired = (usn, eventCategory) => {
+    if (!usn) return true // If no USN, assume payment required
+
+    const isSITStudent = usn.toLowerCase().startsWith("1si")
+
+    if (isSITStudent) {
+      // SIT students only pay for sports events
+      return eventCategory === "sports"
+    } else {
+      // Non-SIT students pay for all events
+      return true
+    }
+  }
+
+  // Helper function to check if any participant requires payment
+  const isAnyPaymentRequired = () => {
+    if (!selectedEvent || !spotRegistrationForm.participants.length) return false
+
+    return spotRegistrationForm.participants.some(participant =>
+      isPaymentRequired(participant.usn, selectedEvent.category)
+    )
   }
 
   // Handle category selection
@@ -398,13 +423,9 @@ function TeamDashboard() {
         throw new Error("Team name is required for teams with more than 2 members")
       }
 
-      // Validate payment mode for paid events
-      if (
-        selectedEvent &&
-        (selectedEvent.registrationFee > 0 || (selectedEvent.fees && Number.parseInt(selectedEvent.fees) > 0)) &&
-        !spotRegistrationForm.paymentMode
-      ) {
-        throw new Error("Please select a payment mode for this paid event")
+      // Validate payment mode if any participant requires payment
+      if (selectedEvent && isAnyPaymentRequired() && !spotRegistrationForm.paymentMode) {
+        throw new Error("Please select a payment mode as some participants require payment")
       }
 
       // Validate all participants have required fields
@@ -445,17 +466,24 @@ function TeamDashboard() {
       const teamMemberData = JSON.parse(localStorage.getItem("userData")) || {}
       const teamMemberName = teamMemberData.name || "Unknown"
 
-      // If the event has a fee, handle payment (for spot registration, payment is collected manually)
-      if (
-        selectedEvent &&
-        (selectedEvent.registrationFee > 0 || (selectedEvent.fees && Number.parseInt(selectedEvent.fees) > 0))
-      ) {
+      // Handle payment based on participant requirements
+      if (selectedEvent && isAnyPaymentRequired()) {
         registrationData.paymentStatus = "completed"
         // Include team member name in payment references for better tracking
         registrationData.paymentId = `SPOT_PAYMENT_${teamMemberName}_${Date.now()}`
         registrationData.orderId = `SPOT_ORDER_${teamMemberName}_${Date.now()}`
-        // Include payment mode in notes field
-        registrationData.notes = `Payment collected via ${spotRegistrationForm.paymentMode.toUpperCase()} by ${teamMemberName}`
+
+        // Create detailed payment notes
+        const paymentDetails = spotRegistrationForm.participants.map((participant, index) => {
+          const requiresPayment = isPaymentRequired(participant.usn, selectedEvent.category)
+          return `${participant.name || `Participant ${index + 1}`} (${participant.usn}): ${requiresPayment ? 'Payment Required' : 'No Payment Required'}`
+        }).join('; ')
+
+        registrationData.notes = `Payment collected via ${spotRegistrationForm.paymentMode.toUpperCase()} by ${teamMemberName}. Details: ${paymentDetails}`
+      } else {
+        // No payment required for any participant
+        registrationData.paymentStatus = "not_required"
+        registrationData.notes = `No payment required for any participant. Registered by ${teamMemberName}`
       }
 
       // Send registration request using the dedicated spot registration endpoint
@@ -660,93 +688,63 @@ function TeamDashboard() {
               </p>
             </div>
 
-            {registrations.length > 0 ? (
-              registrations.map((reg) => (
-                <div key={reg._id} className="registration-card">
-                  <div className="registration-header">
-                    <h4>{reg.event?.name || "Unknown Event"}</h4>
-                    <span className={`status-badge ${reg.paymentStatus}`}>
-                      {reg.paymentStatus === "completed"
-                        ? "Paid"
-                        : reg.paymentStatus === "not_required"
-                          ? "No Req"
-                          : reg.paymentStatus === "pending"
-                            ? "Payment Pending"
-                            : reg.paymentStatus === "failed"
-                              ? "Payment Failed"
-                              : reg.paymentStatus === "pay_on_event_day"
-                                ? "Pay on Event Day"
-                                : "Payment Required"}
-                    </span>
-                  </div>
-
-                  <div className="registration-details">
-                    <div className="detail-row">
-                      <strong>Team Leader:</strong> {reg.teamLeaderDetails?.usn || "Unknown"} -{" "}
-                      {reg.isSpotRegistration
-                        ? reg.displayTeamLeader?.name || "Unknown"
-                        : reg.teamLeader?.name || "Unknown"}
-                    </div>
-                    <div className="detail-row">
-                      <strong>Team Size:</strong> {reg.teamSize || 1} participant{reg.teamSize > 1 ? "s" : ""}
-                    </div>
-                    <div className="detail-row">
-                      <strong>College:</strong> {reg.teamLeaderDetails?.collegeName || "Unknown"}
-                    </div>
-                    <div className="detail-row">
-                      <strong>Registration Date:</strong> {new Date(reg.registeredAt).toLocaleDateString()}
-                    </div>
-                    <div className="detail-row">
-                      <strong>Registered By:</strong> {reg.isSpotRegistration ? "Team Member" : "Self Registration"}
-                    </div>
-                  </div>
-
-                  {/* Show payment status for each participant */}
-                  <div className="participants-payment-status">
-                    <h5>Payment Status by Participant:</h5>
-                    <div className="participant-payment-list">
-                      {/* Team Leader */}
-                      <div className="participant-payment-item">
-                        <span className="participant-name">
-                          {reg.isSpotRegistration
-                            ? reg.displayTeamLeader?.name || "Unknown"
-                            : reg.teamLeader?.name || "Unknown"}{" "}
-                          (Leader)
+            <table className="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Team Leader</th>
+                  <th>Team Name</th>
+                  <th>Event</th>
+                  <th>Payment Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {registrations.length > 0 ? (
+                  registrations.map((reg) => (
+                    <tr key={reg._id}>
+                      <td>
+                        {reg.isSpotRegistration
+                          ? reg.displayTeamLeader?.name || "Unknown"
+                          : reg.teamLeader?.name || "Unknown"}
+                      </td>
+                      <td>{reg.teamName || "N/A"}</td>
+                      <td>{reg.event?.name || "Unknown Event"}</td>
+                      <td>
+                        <span className={`status-badge ${reg.paymentStatus}`}>
+                          {reg.paymentStatus === "completed"
+                            ? "Paid"
+                            : reg.paymentStatus === "not_required"
+                              ? "No Req"
+                              : reg.paymentStatus === "pending"
+                                ? "Payment Pending"
+                                : reg.paymentStatus === "failed"
+                                  ? "Payment Failed"
+                                  : reg.paymentStatus === "pay_on_event_day"
+                                    ? "Pay on Event Day"
+                                    : "Payment Required"}
                         </span>
-                        <span className="participant-usn">{reg.teamLeaderDetails?.usn || "Unknown USN"}</span>
-                        <span
-                          className={`participant-payment-status ${
-                            reg.teamLeaderDetails?.usn?.toLowerCase().startsWith("1si")
-                              ? "no-payment"
-                              : "payment-required"
-                          }`}
+                      </td>
+                      <td>
+                        <button
+                          className="action-btn view-btn"
+                          onClick={() => handleViewRegistration(reg)}
+                          title="View Details"
                         >
-                          {reg.teamLeaderDetails?.usn?.toLowerCase().startsWith("1si") ? "No Req" : "Payment Req"}
-                        </span>
-                      </div>
-
-                      {/* Team Members */}
-                      {reg.teamMembers &&
-                        reg.teamMembers.map((member, index) => (
-                          <div key={index} className="participant-payment-item">
-                            <span className="participant-name">{member.name || "Unknown"}</span>
-                            <span className="participant-usn">{member.usn || "Unknown USN"}</span>
-                            <span
-                              className={`participant-payment-status ${
-                                member.usn?.toLowerCase().startsWith("1si") ? "no-payment" : "payment-required"
-                              }`}
-                            >
-                              {member.usn?.toLowerCase().startsWith("1si") ? "No Req" : "Payment Req"}
-                            </span>
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="no-data">No registrations found</div>
-            )}
+                          <i className="fas fa-eye"></i> View
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="no-data">
+                      <i className="fas fa-exclamation-circle"></i>
+                      No registrations found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         )
 
@@ -755,18 +753,27 @@ function TeamDashboard() {
           <div className="dashboard-form-container">
             <h3>Spot Registration</h3>
 
-            {selectedEvent &&
-              (selectedEvent.registrationFee > 0 ||
-                (selectedEvent.fees && Number.parseInt(selectedEvent.fees) > 0)) && (
-                <div className="event-fee-notice">
-                  <i className="fas fa-info-circle"></i>
+            {selectedEvent && (
+              <div className="event-fee-notice">
+                <i className="fas fa-info-circle"></i>
+                <div>
                   <p>
-                    This event has a registration fee of{" "}
-                    {selectedEvent.registrationFee ? `₹${selectedEvent.registrationFee}` : `₹${selectedEvent.fees}`}.
-                    For spot registrations, please collect the payment separately and mark as paid in the system.
+                    <strong>Event Fee:</strong> ₹{selectedEvent.fees || selectedEvent.registrationFee || 0}
+                  </p>
+                  <p>
+                    <strong>Payment Policy:</strong>
+                  </p>
+                  <ul>
+                    <li><strong>SIT Students (USN starting with 1si):</strong> {selectedEvent.category === "sports" ? "Payment required" : "No payment required"}</li>
+                    <li><strong>External Students:</strong> Payment required for all events</li>
+                  </ul>
+                  <p className="form-hint">
+                    Payment requirements will be automatically calculated based on participant USNs.
+                    For spot registrations, collect payment from participants who require it.
                   </p>
                 </div>
-              )}
+              </div>
+            )}
 
             <form onSubmit={handleSpotRegistrationSubmit} className="dashboard-form">
               {/* Category Selection */}
@@ -870,27 +877,7 @@ function TeamDashboard() {
                 />
               </div>
 
-              {/* Payment Mode - Only show if event has a fee */}
-              {selectedEvent &&
-                (selectedEvent.registrationFee > 0 ||
-                  (selectedEvent.fees && Number.parseInt(selectedEvent.fees) > 0)) && (
-                  <div className="form-group">
-                    <label htmlFor="paymentMode">Mode of Payment *</label>
-                    <select
-                      id="paymentMode"
-                      name="paymentMode"
-                      value={spotRegistrationForm.paymentMode}
-                      onChange={handleCommonFieldChange}
-                      required
-                    >
-                      <option value="">-- Select Payment Mode --</option>
-                      <option value="cash">Cash</option>
-                      <option value="upi">UPI</option>
-                      <option value="card">Card</option>
-                    </select>
-                    <p className="form-hint">Please select how the payment was collected</p>
-                  </div>
-                )}
+
 
               {/* Participant Details */}
               <div className="participants-section">
@@ -953,6 +940,51 @@ function TeamDashboard() {
                   </div>
                 ))}
               </div>
+
+              {/* Payment Mode - Show if any participant requires payment */}
+              {selectedEvent && isAnyPaymentRequired() && (
+                <div className="form-group">
+                  <label htmlFor="paymentMode">Mode of Payment *</label>
+                  <select
+                    id="paymentMode"
+                    name="paymentMode"
+                    value={spotRegistrationForm.paymentMode}
+                    onChange={handleCommonFieldChange}
+                    required
+                  >
+                    <option value="">-- Select Payment Mode --</option>
+                    <option value="cash">Cash</option>
+                    <option value="upi">UPI</option>
+                    <option value="card">Card</option>
+                  </select>
+                  <div className="payment-info">
+                    <p className="form-hint">Please select how the payment was collected</p>
+                    <div className="payment-breakdown">
+                      <h5>Payment Requirements:</h5>
+                      {spotRegistrationForm.participants.map((participant, index) => (
+                        <div key={index} className="participant-payment-info">
+                          <span className="participant-name">
+                            {participant.name || `Participant ${index + 1}`}
+                            {index === 0 && " (Leader)"}:
+                          </span>
+                          <span className={`payment-status ${
+                            isPaymentRequired(participant.usn, selectedEvent.category)
+                              ? "payment-required"
+                              : "no-payment"
+                          }`}>
+                            {isPaymentRequired(participant.usn, selectedEvent.category)
+                              ? "Payment Required"
+                              : "No Payment Required"}
+                          </span>
+                          {participant.usn && (
+                            <span className="usn-info">({participant.usn})</span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <button type="submit" className="submit-btn">
                 <i className="fas fa-user-plus"></i> Complete Registration
@@ -1059,6 +1091,172 @@ function TeamDashboard() {
 
         <div className="dashboard-main">{renderContent()}</div>
       </div>
+
+      {/* Registration Detail Modal */}
+      {showRegistrationModal && selectedRegistration && (
+        <div className="modal-overlay" onClick={handleCloseRegistrationModal}>
+          <div className="modal-content registration-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Registration Details</h3>
+              <button className="modal-close-btn" onClick={handleCloseRegistrationModal}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div className="modal-body">
+              <div className="registration-info-grid">
+                {/* Event Information */}
+                <div className="info-section">
+                  <h4><i className="fas fa-calendar-alt"></i> Event Information</h4>
+                  <div className="info-row">
+                    <span className="label">Event Name:</span>
+                    <span className="value">{selectedRegistration.event?.name || 'Unknown'}</span>
+                  </div>
+                  <div className="info-row">
+                    <span className="label">Event Date:</span>
+                    <span className="value">{selectedRegistration.event?.date ? new Date(selectedRegistration.event.date).toLocaleDateString() : 'TBA'}</span>
+                  </div>
+                  <div className="info-row">
+                    <span className="label">Venue:</span>
+                    <span className="value">{selectedRegistration.event?.venue || 'TBA'}</span>
+                  </div>
+                  <div className="info-row">
+                    <span className="label">Event Fee:</span>
+                    <span className="value">₹{selectedRegistration.event?.fees || 0}</span>
+                  </div>
+                </div>
+
+                {/* Team Information */}
+                <div className="info-section">
+                  <h4><i className="fas fa-users"></i> Team Information</h4>
+                  <div className="info-row">
+                    <span className="label">Team Name:</span>
+                    <span className="value">{selectedRegistration.teamName || 'N/A'}</span>
+                  </div>
+                  <div className="info-row">
+                    <span className="label">Team Size:</span>
+                    <span className="value">{selectedRegistration.teamSize || 1} participant{selectedRegistration.teamSize > 1 ? 's' : ''}</span>
+                  </div>
+                  <div className="info-row">
+                    <span className="label">College:</span>
+                    <span className="value">{selectedRegistration.teamLeaderDetails?.collegeName || 'Unknown'}</span>
+                  </div>
+                  <div className="info-row">
+                    <span className="label">Registration Date:</span>
+                    <span className="value">{new Date(selectedRegistration.registeredAt).toLocaleDateString()}</span>
+                  </div>
+                  <div className="info-row">
+                    <span className="label">Registered By:</span>
+                    <span className="value">{selectedRegistration.isSpotRegistration ? 'Team Member' : 'Self Registration'}</span>
+                  </div>
+                </div>
+
+                {/* Payment Information */}
+                <div className="info-section">
+                  <h4><i className="fas fa-credit-card"></i> Payment Information</h4>
+                  <div className="info-row">
+                    <span className="label">Payment Status:</span>
+                    <span className={`value status-badge ${selectedRegistration.paymentStatus}`}>
+                      {selectedRegistration.paymentStatus === "completed"
+                        ? "Paid"
+                        : selectedRegistration.paymentStatus === "not_required"
+                          ? "No Payment Required"
+                          : selectedRegistration.paymentStatus === "pending"
+                            ? "Payment Pending"
+                            : selectedRegistration.paymentStatus === "failed"
+                              ? "Payment Failed"
+                              : selectedRegistration.paymentStatus === "pay_on_event_day"
+                                ? "Pay on Event Day"
+                                : "Payment Required"}
+                    </span>
+                  </div>
+                  {selectedRegistration.transactionId && (
+                    <div className="info-row">
+                      <span className="label">Transaction ID:</span>
+                      <span className="value">{selectedRegistration.transactionId}</span>
+                    </div>
+                  )}
+                  {selectedRegistration.notes && (
+                    <div className="info-row">
+                      <span className="label">Notes:</span>
+                      <span className="value">{selectedRegistration.notes}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Participants Information */}
+                <div className="info-section participants-section">
+                  <h4><i className="fas fa-user-friends"></i> Participants</h4>
+
+                  {/* Team Leader */}
+                  <div className="participant-card">
+                    <h5>Team Leader</h5>
+                    <div className="participant-details">
+                      <div className="info-row">
+                        <span className="label">Name:</span>
+                        <span className="value">
+                          {selectedRegistration.isSpotRegistration
+                            ? selectedRegistration.displayTeamLeader?.name || "Unknown"
+                            : selectedRegistration.teamLeader?.name || "Unknown"}
+                        </span>
+                      </div>
+                      <div className="info-row">
+                        <span className="label">USN:</span>
+                        <span className="value">{selectedRegistration.teamLeaderDetails?.usn || "Unknown USN"}</span>
+                      </div>
+                      <div className="info-row">
+                        <span className="label">Payment Required:</span>
+                        <span className={`value ${
+                          selectedRegistration.teamLeaderDetails?.usn?.toLowerCase().startsWith("1si")
+                            ? "no-payment"
+                            : "payment-required"
+                        }`}>
+                          {selectedRegistration.teamLeaderDetails?.usn?.toLowerCase().startsWith("1si") ? "No" : "Yes"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Team Members */}
+                  {selectedRegistration.teamMembers && selectedRegistration.teamMembers.length > 0 && (
+                    selectedRegistration.teamMembers.map((member, index) => (
+                      <div key={index} className="participant-card">
+                        <h5>Participant {index + 2}</h5>
+                        <div className="participant-details">
+                          <div className="info-row">
+                            <span className="label">Name:</span>
+                            <span className="value">{member.name || "Unknown"}</span>
+                          </div>
+                          <div className="info-row">
+                            <span className="label">Email:</span>
+                            <span className="value">{member.email || "Unknown"}</span>
+                          </div>
+                          <div className="info-row">
+                            <span className="label">Mobile:</span>
+                            <span className="value">{member.mobile || "Unknown"}</span>
+                          </div>
+                          <div className="info-row">
+                            <span className="label">USN:</span>
+                            <span className="value">{member.usn || "Unknown USN"}</span>
+                          </div>
+                          <div className="info-row">
+                            <span className="label">Payment Required:</span>
+                            <span className={`value ${
+                              member.usn?.toLowerCase().startsWith("1si") ? "no-payment" : "payment-required"
+                            }`}>
+                              {member.usn?.toLowerCase().startsWith("1si") ? "No" : "Yes"}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
