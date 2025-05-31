@@ -25,7 +25,7 @@ function Footer() {
               </li>
             </ul>
 
-            <h4 className="footer-section-title" style={{ marginTop: '2rem' }}>Registration</h4>
+            <h4 className="footer-section-title mobile-section-spacing">Registration</h4>
             <ul className="contact-list">
               <li>
                 <span className="contact-name">TARUN N</span>
@@ -56,7 +56,7 @@ function Footer() {
               </li>
             </ul>
 
-            <h4 className="footer-section-title" style={{ marginTop: '2rem' }}>Digital Design</h4>
+            <h4 className="footer-section-title mobile-section-spacing">Digital Design</h4>
             <ul className="contact-list">
               <li>
                 <span className="contact-name">AAKASH AGADI</span>

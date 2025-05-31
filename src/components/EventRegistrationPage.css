@@ -533,12 +533,29 @@
 
 /* Responsive styles */
 @media (max-width: 768px) {
+  .event-registration-page {
+    padding: 60px 15px 30px;
+  }
+
+  .event-registration-header {
+    margin-bottom: 30px;
+  }
+
   .event-registration-header h1 {
     font-size: 2.2rem;
+    margin-bottom: 15px;
+  }
+
+  .event-registration-header p {
+    font-size: 1rem;
+    margin: 15px auto 0;
+    padding: 0 10px;
   }
 
   .event-registration-card {
     padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
   }
 
   .astronaut {
@@ -551,9 +568,174 @@
 
   .event-details {
     grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .event-detail-item {
+    padding: 15px;
+    text-align: center;
+  }
+
+  .event-detail-item h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+
+  .event-detail-item p {
+    font-size: 0.9rem;
   }
 
   .registration-actions {
     flex-direction: column;
+    gap: 15px;
+    margin-top: 25px;
+  }
+
+  .submit-button, .back-button {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
+
+  .loading-spinner {
+    padding: 40px 20px;
+  }
+
+  .loading-spinner i {
+    font-size: 2rem;
+  }
+
+  .error-message {
+    padding: 30px 15px;
+  }
+
+  .registration-success {
+    padding: 30px 15px;
+    text-align: center;
+  }
+
+  .registration-success h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+
+  .registration-success p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .event-registration-page {
+    padding: 50px 10px 20px;
+  }
+
+  .event-registration-header h1 {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+
+  .event-registration-header p {
+    font-size: 0.9rem;
+    padding: 0 5px;
+  }
+
+  .event-registration-card {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .event-detail-item {
+    padding: 12px;
+  }
+
+  .event-detail-item h3 {
+    font-size: 1rem;
+  }
+
+  .event-detail-item p {
+    font-size: 0.85rem;
+  }
+
+  .submit-button, .back-button {
+    padding: 12px 16px;
+    font-size: 0.95rem;
+  }
+
+  .registration-success h3 {
+    font-size: 1.3rem;
+  }
+
+  .registration-success p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .event-registration-page {
+    padding: 45px 8px 15px;
+  }
+
+  .event-registration-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .event-registration-card {
+    padding: 12px;
+  }
+
+  .event-detail-item {
+    padding: 10px;
+  }
+
+  .submit-button, .back-button {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile touch improvements */
+@media (max-width: 768px) {
+  /* Touch-friendly interactions */
+  .submit-button,
+  .back-button {
+    min-height: 44px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Smooth scrolling */
+  .event-registration-page {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Prevent text selection on touch */
+  .event-registration-header h1,
+  .event-detail-item h3 {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Better spacing for touch interactions */
+  .event-detail-item {
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Improve readability on mobile */
+  .event-registration-header p,
+  .event-detail-item p {
+    line-height: 1.6;
+  }
+
+  /* Better button spacing */
+  .registration-actions {
+    gap: 16px;
   }
 }

@@ -87,6 +87,11 @@ function AdminDashboard() {
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const [selectedRegistration, setSelectedRegistration] = useState(null);
 
+  // Enhanced search and filter states for registrations
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterCategory, setFilterCategory] = useState("");
+  const [filterEvent, setFilterEvent] = useState("");
+
   // Helper functions for category display
   const getCategoryLabel = (categoryId) => {
     const category = EVENT_CATEGORIES.find(cat => cat.id === (categoryId || 'other'));
@@ -177,6 +182,37 @@ function AdminDashboard() {
 
     fetchData();
   }, []);
+
+  // Enhanced filter logic for registrations
+  useEffect(() => {
+    let filtered = [...registrations];
+
+    // Apply search filter (team leader name)
+    if (searchTerm.trim()) {
+      filtered = filtered.filter((reg) => {
+        const teamLeaderName = reg.teamLeader?.name || reg.participant?.name || "";
+        return teamLeaderName.toLowerCase().includes(searchTerm.toLowerCase());
+      });
+    }
+
+    // Apply category filter
+    if (filterCategory && filterCategory !== 'all') {
+      filtered = filtered.filter((reg) => {
+        if (!reg.event) return false;
+        return (reg.event.category || 'other') === filterCategory;
+      });
+    }
+
+    // Apply event filter
+    if (filterEvent && filterEvent !== 'all') {
+      filtered = filtered.filter((reg) => {
+        if (!reg.event) return false;
+        return reg.event._id === filterEvent;
+      });
+    }
+
+    setFilteredRegistrations(filtered);
+  }, [registrations, searchTerm, filterCategory, filterEvent]);
 
   const fetchUsers = async () => {
     try {
@@ -528,6 +564,33 @@ function AdminDashboard() {
   const handleCloseRegistrationModal = () => {
     setShowRegistrationModal(false);
     setSelectedRegistration(null);
+  };
+
+  // Enhanced search and filter handlers
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleCategoryFilterChangeEnhanced = (e) => {
+    setFilterCategory(e.target.value);
+    // Reset event filter when category changes
+    setFilterEvent("");
+  };
+
+  const handleEventFilterChangeEnhanced = (e) => {
+    setFilterEvent(e.target.value);
+  };
+
+  const clearFilters = () => {
+    setSearchTerm("");
+    setFilterCategory("");
+    setFilterEvent("");
+  };
+
+  // Get unique events for the selected category
+  const getEventsForCategory = () => {
+    if (!filterCategory || filterCategory === 'all') return events;
+    return events.filter(event => (event.category || 'other') === filterCategory);
   };
 
   // Generate PDF based on selected event
@@ -1002,6 +1065,88 @@ function AdminDashboard() {
 
             </div>
 
+            {/* Enhanced Search and Filter Controls */}
+            <div className="search-filter-container">
+              <div className="search-bar">
+                <div className="search-input-wrapper">
+                  <i className="fas fa-search search-icon"></i>
+                  <input
+                    type="text"
+                    placeholder="Search by team leader name..."
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    className="search-input"
+                  />
+                  {searchTerm && (
+                    <button
+                      className="clear-search-btn"
+                      onClick={() => setSearchTerm("")}
+                      title="Clear search"
+                    >
+                      <i className="fas fa-times"></i>
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div className="filter-controls">
+                <div className="filter-group">
+                  <label htmlFor="categoryFilter">Category:</label>
+                  <select
+                    id="categoryFilter"
+                    value={filterCategory}
+                    onChange={handleCategoryFilterChangeEnhanced}
+                    className="filter-select"
+                  >
+                    <option value="">All Categories</option>
+                    {EVENT_CATEGORIES.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="filter-group">
+                  <label htmlFor="eventFilter">Event:</label>
+                  <select
+                    id="eventFilter"
+                    value={filterEvent}
+                    onChange={handleEventFilterChangeEnhanced}
+                    className="filter-select"
+                    disabled={!filterCategory}
+                  >
+                    <option value="">All Events</option>
+                    {getEventsForCategory().map((event) => (
+                      <option key={event._id} value={event._id}>
+                        {event.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {(searchTerm || filterCategory || filterEvent) && (
+                  <button
+                    className="clear-filters-btn"
+                    onClick={clearFilters}
+                    title="Clear all filters"
+                  >
+                    <i className="fas fa-times-circle"></i>
+                    Clear Filters
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div className="registrations-summary">
+              <p>
+                Showing <strong>{filteredRegistrations.length}</strong> of <strong>{registrations.length}</strong> registrations
+                {(searchTerm || filterCategory || filterEvent) && (
+                  <span className="filter-indicator"> (filtered)</span>
+                )}
+              </p>
+            </div>
+
             {error ? (
               <div className="error-message registrations-tab-error">
                 <i className="fas fa-exclamation-triangle"></i>
@@ -1089,7 +1234,19 @@ const getAllRegistrations = async (req, res) => {
                       <tr>
                         <td colSpan="5" className="no-data">
                           <i className="fas fa-exclamation-circle"></i>
-                          No registrations found
+                          {registrations.length === 0
+                            ? "No registrations found"
+                            : (searchTerm || filterCategory || filterEvent)
+                              ? "No registrations match your search criteria"
+                              : "No registrations found"
+                          }
+                          {(searchTerm || filterCategory || filterEvent) && (
+                            <div className="no-data-suggestion">
+                              <button onClick={clearFilters} className="clear-filters-link">
+                                Clear filters to see all registrations
+                              </button>
+                            </div>
+                          )}
                         </td>
                       </tr>
                     )}

@@ -56,7 +56,7 @@
 }
 
 .contact-list li {
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.3rem;
   display: block;
   background: none !important;
   border: none !important;
@@ -148,21 +148,47 @@
   color: #ccc;
 }
 
+/* Mobile section spacing class */
+.mobile-section-spacing {
+  margin-top: 2rem;
+}
+
 /* Media Queries */
 @media (max-width: 768px) {
+  .footer {
+    padding: 2rem 0;
+  }
+
+  .footer-content {
+    padding: 0 1rem;
+  }
+
+  .footer-title {
+    margin-bottom: 1rem;
+  }
+
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
   }
 
   .footer-section {
     text-align: center;
   }
 
+  .footer-section-title {
+    margin-bottom: 1rem;
+  }
+
+  .mobile-section-spacing {
+    margin-top: 1.2rem;
+  }
+
   .contact-list li {
     flex-direction: row;
     justify-content: center;
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.4rem;
     flex-wrap: wrap;
   }
 
@@ -174,19 +200,55 @@
   .contact-info {
     display: inline-block;
   }
+
+  .footer-contact {
+    margin-top: 1.5rem;
+  }
+
+  .socials {
+    margin-top: 1.5rem;
+  }
+
+  .footer-bottom {
+    margin-top: 1.5rem;
+  }
 }
 
 @media (max-width: 480px) {
+  .footer {
+    padding: 1.5rem 0;
+  }
+
   .footer-title {
     font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .footer-grid {
+    gap: 1rem;
+    margin-bottom: 1rem;
   }
 
   .footer-section-title {
     font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .mobile-section-spacing {
+    margin-top: 0.8rem;
   }
 
   .contact-list li {
     font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .footer-contact {
+    margin-top: 1rem;
+  }
+
+  .socials {
+    margin-top: 1rem;
   }
 
   .socials li {
@@ -195,5 +257,25 @@
 
   .socials li a {
     font-size: 1.3rem;
+  }
+
+  .footer-bottom {
+    margin-top: 1rem;
+    padding-top: 0.8rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .contact-list li {
+    margin-bottom: 0.2rem;
+    font-size: 0.85rem;
+  }
+
+  .footer-section-title {
+    margin-bottom: 0.6rem;
+  }
+
+  .mobile-section-spacing {
+    margin-top: 0.6rem;
   }
 }

@@ -16,9 +16,10 @@ function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
 
         <div className="payment-header">
           <i className="fas fa-credit-card payment-icon"></i>
-          <h2>Payment Instructions</h2>
+          <h2>Team Payment Instructions</h2>
           <p className="event-details">Event: <strong>{eventName}</strong></p>
-          <p className="fee-details">Registration Fee: <strong>₹{eventFee}</strong></p>
+          <p className="fee-details">Team Registration Fee: <strong>₹{eventFee}</strong></p>
+
         </div>
 
         <div className="instructions-content">
@@ -94,9 +95,10 @@ function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
           <div className="important-notes">
             <h3><i className="fas fa-exclamation-triangle"></i> Important Notes</h3>
             <ul>
-              <li><strong>Complete payment on the ERP portal before proceeding with registration.</strong></li>
-              <li><strong>Keep your Transaction Refernce Number safe</strong> - you'll need it to complete registration.</li>
-              <li><strong>Payment is mandatory</strong> for paid events. Registration will not be confirmed without valid payment.</li>
+              <li><strong>One payment per team:</strong> Only the team leader needs to complete the payment on the ERP portal.</li>
+              <li><strong>Keep your Transaction Refernce Number safe</strong> - you'll need it to complete team registration.</li>
+              <li><strong>Team payment is mandatory</strong> for paid events. Registration will not be confirmed without valid payment.</li>
+              <li><strong>All team members covered:</strong> This single payment covers registration for all team members.</li>
               <li><strong>Contact event coordinators</strong> if you face any payment issues.</li>
             </ul>
           </div>

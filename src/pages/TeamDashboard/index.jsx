@@ -13,6 +13,12 @@ function TeamDashboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
 
+  // Search and filter states for registrations
+  const [searchTerm, setSearchTerm] = useState("")
+  const [filterCategory, setFilterCategory] = useState("")
+  const [filterEvent, setFilterEvent] = useState("")
+  const [filteredRegistrations, setFilteredRegistrations] = useState([])
+
   // USN Check functionality
   // Remove these lines:
   // const [usnInput, setUsnInput] = useState("")
@@ -94,6 +100,33 @@ function TeamDashboard() {
     }
   }, [selectedCategory, events])
 
+  // Filter registrations based on search term and filters
+  useEffect(() => {
+    let filtered = [...registrations]
+
+    // Apply search filter (team leader name)
+    if (searchTerm.trim()) {
+      filtered = filtered.filter((reg) => {
+        const teamLeaderName = reg.isSpotRegistration
+          ? reg.displayTeamLeader?.name || ""
+          : reg.teamLeader?.name || ""
+        return teamLeaderName.toLowerCase().includes(searchTerm.toLowerCase())
+      })
+    }
+
+    // Apply category filter
+    if (filterCategory) {
+      filtered = filtered.filter((reg) => reg.event?.category === filterCategory)
+    }
+
+    // Apply event filter
+    if (filterEvent) {
+      filtered = filtered.filter((reg) => reg.event?._id === filterEvent)
+    }
+
+    setFilteredRegistrations(filtered)
+  }, [registrations, searchTerm, filterCategory, filterEvent])
+
   const fetchEvents = async () => {
     try {
       const response = await corsProtectedFetch("event")
@@ -172,6 +205,33 @@ function TeamDashboard() {
   const handleCloseRegistrationModal = () => {
     setShowRegistrationModal(false)
     setSelectedRegistration(null)
+  }
+
+  // Handle search and filter changes
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value)
+  }
+
+  const handleCategoryFilterChange = (e) => {
+    setFilterCategory(e.target.value)
+    // Reset event filter when category changes
+    setFilterEvent("")
+  }
+
+  const handleEventFilterChange = (e) => {
+    setFilterEvent(e.target.value)
+  }
+
+  const clearFilters = () => {
+    setSearchTerm("")
+    setFilterCategory("")
+    setFilterEvent("")
+  }
+
+  // Get unique events for the selected category
+  const getEventsForCategory = () => {
+    if (!filterCategory) return events
+    return events.filter(event => event.category === filterCategory)
   }
 
   // Helper function to determine if payment is required based on USN and event category
@@ -682,9 +742,86 @@ function TeamDashboard() {
         return (
           <div className="dashboard-table-container">
             <h3>📋 Team Registrations</h3>
+
+            {/* Search and Filter Controls */}
+            <div className="search-filter-container">
+              <div className="search-bar">
+                <div className="search-input-wrapper">
+                  <i className="fas fa-search search-icon"></i>
+                  <input
+                    type="text"
+                    placeholder="Search by team leader name..."
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    className="search-input"
+                  />
+                  {searchTerm && (
+                    <button
+                      className="clear-search-btn"
+                      onClick={() => setSearchTerm("")}
+                      title="Clear search"
+                    >
+                      <i className="fas fa-times"></i>
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div className="filter-controls">
+                <div className="filter-group">
+                  <label htmlFor="categoryFilter">Category:</label>
+                  <select
+                    id="categoryFilter"
+                    value={filterCategory}
+                    onChange={handleCategoryFilterChange}
+                    className="filter-select"
+                  >
+                    <option value="">All Categories</option>
+                    {EVENT_CATEGORIES.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="filter-group">
+                  <label htmlFor="eventFilter">Event:</label>
+                  <select
+                    id="eventFilter"
+                    value={filterEvent}
+                    onChange={handleEventFilterChange}
+                    className="filter-select"
+                    disabled={!filterCategory}
+                  >
+                    <option value="">All Events</option>
+                    {getEventsForCategory().map((event) => (
+                      <option key={event._id} value={event._id}>
+                        {event.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {(searchTerm || filterCategory || filterEvent) && (
+                  <button
+                    className="clear-filters-btn"
+                    onClick={clearFilters}
+                    title="Clear all filters"
+                  >
+                    <i className="fas fa-times-circle"></i>
+                    Clear Filters
+                  </button>
+                )}
+              </div>
+            </div>
+
             <div className="registrations-summary">
               <p>
-                Total Registrations: <strong>{registrations.length}</strong>
+                Showing <strong>{filteredRegistrations.length}</strong> of <strong>{registrations.length}</strong> registrations
+                {(searchTerm || filterCategory || filterEvent) && (
+                  <span className="filter-indicator"> (filtered)</span>
+                )}
               </p>
             </div>
 
@@ -699,8 +836,8 @@ function TeamDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {registrations.length > 0 ? (
-                  registrations.map((reg) => (
+                {filteredRegistrations.length > 0 ? (
+                  filteredRegistrations.map((reg) => (
                     <tr key={reg._id}>
                       <td>
                         {reg.isSpotRegistration
@@ -739,7 +876,19 @@ function TeamDashboard() {
                   <tr>
                     <td colSpan="5" className="no-data">
                       <i className="fas fa-exclamation-circle"></i>
-                      No registrations found
+                      {registrations.length === 0
+                        ? "No registrations found"
+                        : (searchTerm || filterCategory || filterEvent)
+                          ? "No registrations match your search criteria"
+                          : "No registrations found"
+                      }
+                      {(searchTerm || filterCategory || filterEvent) && (
+                        <div className="no-data-suggestion">
+                          <button onClick={clearFilters} className="clear-filters-link">
+                            Clear filters to see all registrations
+                          </button>
+                        </div>
+                      )}
                     </td>
                   </tr>
                 )}
@@ -769,7 +918,7 @@ function TeamDashboard() {
                   </ul>
                   <p className="form-hint">
                     Payment requirements will be automatically calculated based on participant USNs.
-                    For spot registrations, collect payment from participants who require it.
+                    For spot registrations, collect one payment per team if any team member requires payment.
                   </p>
                 </div>
               </div>

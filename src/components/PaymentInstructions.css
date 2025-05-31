@@ -105,6 +105,22 @@
   letter-spacing: 0.5px;
 }
 
+.team-payment-note {
+  background: rgba(255, 152, 0, 0.1);
+  border: 1px solid rgba(255, 152, 0, 0.3);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 15px 0;
+  color: #ff9800;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.team-payment-note i {
+  margin-right: 8px;
+  color: #ff9800;
+}
+
 .instructions-content {
   padding: 30px;
   color: #ddd;
@@ -524,15 +540,23 @@
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .payment-instructions-overlay {
-    padding: 10px;
+    padding: 0;
+    align-items: flex-start;
   }
 
   .payment-instructions-modal {
-    max-height: 95vh;
+    width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
   }
 
   .payment-header {
     padding: 30px 20px 20px;
+    flex-shrink: 0;
   }
 
   .payment-header h2 {
@@ -541,6 +565,11 @@
 
   .instructions-content {
     padding: 20px;
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 100px; /* Space for fixed bottom button */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scroll-behavior: smooth;
   }
 
   .step {
@@ -554,8 +583,16 @@
   }
 
   .payment-actions {
-    flex-direction: column;
-    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to bottom, rgba(10, 10, 20, 0.95), rgba(10, 10, 20, 1));
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px 20px 20px;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
   }
 
   .erp-button,
@@ -597,5 +634,58 @@
 
   .qr-instruction {
     font-size: 0.9rem !important;
+  }
+}
+
+/* Additional mobile styles for smaller screens */
+@media (max-width: 480px) {
+  .payment-header {
+    padding: 20px 15px 15px;
+  }
+
+  .payment-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .instructions-content {
+    padding: 15px;
+    padding-bottom: 90px; /* Adjusted for smaller button */
+  }
+
+  .payment-actions {
+    padding: 12px 15px 15px;
+  }
+
+  .back-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .step {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .payment-header {
+    padding: 15px 10px 10px;
+  }
+
+  .payment-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .instructions-content {
+    padding: 10px;
+    padding-bottom: 85px;
+  }
+
+  .payment-actions {
+    padding: 10px 12px 12px;
+  }
+
+  .back-button {
+    padding: 8px 16px;
+    font-size: 0.85rem;
   }
 }

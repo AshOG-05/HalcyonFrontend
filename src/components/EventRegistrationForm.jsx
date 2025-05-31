@@ -66,7 +66,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       // Other college students: require online payment via ERP
       return {
         type: 'online_payment_required',
-        message: 'Online payment is required via ERP portal before registration.',
+        message: 'One payment per team is required via ERP portal before registration. Only the team leader needs to complete the payment.',
         showTransactionField: true,
         exemptFromFee: false
       };
@@ -74,7 +74,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       // Same college + gaming events: require online payment via ERP
       return {
         type: 'online_payment_required',
-        message: 'Online payment is required for gaming events via ERP portal.',
+        message: 'One payment per team is required for gaming events via ERP portal. Only the team leader needs to complete the payment.',
         showTransactionField: true,
         exemptFromFee: false
       };
@@ -82,7 +82,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       // Same college + non-gaming events: current SIT exemption logic
       return {
         type: 'sit_exemption',
-        message: 'As a student of Siddaganga Institute of Technology, you are exempt from the registration fee.',
+        message: 'As students of Siddaganga Institute of Technology, your team is exempt from the registration fee.',
         showTransactionField: false,
         exemptFromFee: true
       };
@@ -469,7 +469,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
     const paymentReq = getPaymentRequirement();
     if (eventFee > 0 && paymentReq.showTransactionField) {
       if (!transactionId.trim()) {
-        setError('Transaction Refernce Number is required for paid events. Please complete payment first.');
+        setError('Transaction Refernce Number is required for paid events. Please complete team payment first.');
         return;
       }
 
@@ -857,105 +857,110 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                   />
                 </div>
 
-                {/* Payment section for team leader only */}
-                {index === 0 && eventFee > 0 && (
-                  <div className="payment-section">
-                    {(() => {
-                      const paymentReq = getPaymentRequirement();
 
-                      if (paymentReq.type === 'sit_exemption') {
-                        return (
-                          <div className="sit-student-notice">
-                            <div className="sit-exemption-info">
-                              <h4><i className="fas fa-graduation-cap"></i> Payment Exemption</h4>
-                              <p className="exemption-message">
-                                <i className="fas fa-check-circle"></i>
-                                <strong>No payment required!</strong>
-                              </p>
-                              <p>{paymentReq.message}</p>
-                              <p className="fee-info">Registration Fee: <span style={{textDecoration: 'line-through'}}>₹{eventFee}</span> <strong style={{color: 'green'}}>FREE</strong></p>
-                            </div>
-                          </div>
-                        );
-                      } else if (paymentReq.type === 'online_payment_required') {
-                        return (
-                          <div className="payment-required">
-                            <h4><i className="fas fa-credit-card"></i> Online Payment Required</h4>
-                            <p>Registration Fee: <strong>₹{eventFee}</strong></p>
-                            <p>{paymentReq.message}</p>
-
-                            <div className="payment-steps">
-                              <div className="step">
-                                <span className="step-number">1</span>
-                                <span>Complete payment on ERP portal</span>
-                                <button
-                                  type="button"
-                                  className="payment-instructions-button"
-                                  onClick={() => setShowPaymentInstructions(true)}
-                                >
-                                  <i className="fas fa-info-circle"></i>
-                                  View Payment Instructions
-                                </button>
-                              </div>
-                              <div className="step">
-                                <span className="step-number">2</span>
-                                <span>Enter your Transaction Refernce Number below</span>
-                              </div>
-                            </div>
-
-                            <div className="transaction-form">
-                              <div className="form-group">
-                                <label htmlFor="transaction-id">Transaction Refernce Number *</label>
-                                <input
-                                  type="text"
-                                  id="transaction-id"
-                                  value={transactionId}
-                                  onChange={(e) => handleTransactionIdChange(e.target.value)}
-                                  placeholder="Ex: JCIT1234567890"
-                                  maxLength="14"
-                                  className={transactionIdValid === true ? 'valid-input' : transactionIdValid === false ? 'invalid-input' : ''}
-                                  required
-                                />
-                                {transactionIdValid === true && (
-                                  <p className="validation-message success">
-                                    <i className="fas fa-check-circle"></i> Valid Transaction Refernce Number format
-                                  </p>
-                                )}
-                                {transactionIdValid === false && (
-                                  <p className="validation-message error">
-                                    <i className="fas fa-exclamation-circle"></i> Invalid format. Must be exactly 14 alphanumeric characters
-                                  </p>
-                                )}
-                                <p className="field-note">
-                                  Enter the Transaction Refernce Number you received after completing payment on ERP portal
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      } else {
-                        // Default case for any other paid events
-                        return (
-                          <div className="payment-info">
-                            <h4><i className="fas fa-credit-card"></i> Payment Required</h4>
-                            <p>Registration Fee: <strong>₹{eventFee}</strong></p>
-                            <p>Payment is required for this event.</p>
-                            <button
-                              type="button"
-                              className="payment-instructions-button"
-                              onClick={() => setShowPaymentInstructions(true)}
-                            >
-                              <i className="fas fa-info-circle"></i>
-                              View Payment Instructions
-                            </button>
-                          </div>
-                        );
-                      }
-                    })()}
-                  </div>
-                )}
               </div>
             ))}
+
+            {/* Payment section - moved to the end after all team member details */}
+            {eventFee > 0 && (
+              <div className="form-section">
+                <h3>Payment Information</h3>
+                <div className="payment-section">
+                  {(() => {
+                    const paymentReq = getPaymentRequirement();
+
+                    if (paymentReq.type === 'sit_exemption') {
+                      return (
+                        <div className="sit-student-notice">
+                          <div className="sit-exemption-info">
+                            <h4><i className="fas fa-graduation-cap"></i> Payment Exemption</h4>
+                            <p className="exemption-message">
+                              <i className="fas fa-check-circle"></i>
+                              <strong>No payment required!</strong>
+                            </p>
+                            <p>{paymentReq.message}</p>
+                            <p className="fee-info">Team Registration Fee: <span style={{textDecoration: 'line-through'}}>₹{eventFee}</span> <strong style={{color: 'green'}}>FREE</strong></p>
+                          </div>
+                        </div>
+                      );
+                    } else if (paymentReq.type === 'online_payment_required') {
+                      return (
+                        <div className="payment-required">
+                          <h4><i className="fas fa-credit-card"></i> Team Payment Required</h4>
+                          <p>Team Registration Fee: <strong>₹{eventFee}</strong> <span className="payment-note">(One payment covers the entire team)</span></p>
+                          <p>{paymentReq.message}</p>
+
+                          <div className="payment-steps">
+                            <div className="step">
+                              <span className="step-number">1</span>
+                              <span>Complete team payment on ERP portal</span>
+                              <button
+                                type="button"
+                                className="payment-instructions-button"
+                                onClick={() => setShowPaymentInstructions(true)}
+                              >
+                                <i className="fas fa-info-circle"></i>
+                                View Payment Instructions
+                              </button>
+                            </div>
+                            <div className="step">
+                              <span className="step-number">2</span>
+                              <span>Enter your Transaction Refernce Number below</span>
+                            </div>
+                          </div>
+
+                          <div className="transaction-form">
+                            <div className="form-group">
+                              <label htmlFor="transaction-id">Transaction Refernce Number *</label>
+                              <input
+                                type="text"
+                                id="transaction-id"
+                                value={transactionId}
+                                onChange={(e) => handleTransactionIdChange(e.target.value)}
+                                placeholder="Ex: JCIT1234567890"
+                                maxLength="14"
+                                className={transactionIdValid === true ? 'valid-input' : transactionIdValid === false ? 'invalid-input' : ''}
+                                required
+                              />
+                              {transactionIdValid === true && (
+                                <p className="validation-message success">
+                                  <i className="fas fa-check-circle"></i> Valid Transaction Refernce Number format
+                                </p>
+                              )}
+                              {transactionIdValid === false && (
+                                <p className="validation-message error">
+                                  <i className="fas fa-exclamation-circle"></i> Invalid format. Must be exactly 14 alphanumeric characters
+                                </p>
+                              )}
+                              <p className="field-note">
+                                Enter the Transaction Refernce Number you received after completing payment on ERP portal
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    } else {
+                      // Default case for any other paid events
+                      return (
+                        <div className="payment-info">
+                          <h4><i className="fas fa-credit-card"></i> Team Payment Required</h4>
+                          <p>Team Registration Fee: <strong>₹{eventFee}</strong> <span className="payment-note">(One payment covers the entire team)</span></p>
+                          <p>Payment is required for this event. Only the team leader needs to complete the payment.</p>
+                          <button
+                            type="button"
+                            className="payment-instructions-button"
+                            onClick={() => setShowPaymentInstructions(true)}
+                          >
+                            <i className="fas fa-info-circle"></i>
+                            View Payment Instructions
+                          </button>
+                        </div>
+                      );
+                    }
+                  })()}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Submit Button */}
