@@ -469,14 +469,14 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
     const paymentReq = getPaymentRequirement();
     if (eventFee > 0 && paymentReq.showTransactionField) {
       if (!transactionId.trim()) {
-        setError('Transaction ID is required for paid events. Please complete payment first.');
+        setError('Transaction Refernce Number is required for paid events. Please complete payment first.');
         return;
       }
 
       // Validate transaction ID format: 14 alphanumeric characters
       const transactionIdRegex = /^[A-Za-z0-9]{14}$/;
       if (!transactionIdRegex.test(transactionId.trim())) {
-        setError('Invalid Transaction ID format. It should be exactly 14 alphanumeric characters (e.g., JCIT1234567890, ABC123DEF45678)');
+        setError('Invalid Transaction Refernce Number format. It should be exactly 14 alphanumeric characters (e.g., JCIT1234567890, ABC123DEF45678)');
         return;
       }
     }
@@ -666,7 +666,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                 </div>
                 {registrationDetails.transactionId && (
                   <div className="detail-item">
-                    <strong>Transaction ID:</strong> {registrationDetails.transactionId}
+                    <strong>Transaction Refernce Number:</strong> {registrationDetails.transactionId}
                   </div>
                 )}
               </div>
@@ -899,26 +899,26 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                               </div>
                               <div className="step">
                                 <span className="step-number">2</span>
-                                <span>Enter your Transaction ID below</span>
+                                <span>Enter your Transaction Refernce Number below</span>
                               </div>
                             </div>
 
                             <div className="transaction-form">
                               <div className="form-group">
-                                <label htmlFor="transaction-id">Transaction ID *</label>
+                                <label htmlFor="transaction-id">Transaction Refernce Number *</label>
                                 <input
                                   type="text"
                                   id="transaction-id"
                                   value={transactionId}
                                   onChange={(e) => handleTransactionIdChange(e.target.value)}
-                                  placeholder="Ex: JCIT1234567890 or ABC123DEF45678"
+                                  placeholder="Ex: JCIT1234567890"
                                   maxLength="14"
                                   className={transactionIdValid === true ? 'valid-input' : transactionIdValid === false ? 'invalid-input' : ''}
                                   required
                                 />
                                 {transactionIdValid === true && (
                                   <p className="validation-message success">
-                                    <i className="fas fa-check-circle"></i> Valid transaction ID format
+                                    <i className="fas fa-check-circle"></i> Valid Transaction Refernce Number format
                                   </p>
                                 )}
                                 {transactionIdValid === false && (
@@ -927,7 +927,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                                   </p>
                                 )}
                                 <p className="field-note">
-                                  Enter the transaction ID you received after completing payment on ERP portal
+                                  Enter the Transaction Refernce Number you received after completing payment on ERP portal
                                 </p>
                               </div>
                             </div>

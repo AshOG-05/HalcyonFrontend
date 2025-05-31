@@ -50,8 +50,8 @@ function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
               <div className="step">
                 <div className="step-number">3</div>
                 <div className="step-content">
-                  <h4>Get Transaction ID</h4>
-                  <p>After successful payment, you will receive a <strong>Transaction ID</strong>.</p>
+                  <h4>Get Refernce Number</h4>
+                  <p>After successful payment, you will receive a <strong> Transaction Refernce Number</strong>.</p>
                   <p>This ID should be exactly <strong>14 alphanumeric characters</strong> (e.g., JCIT1234567890, ABC123DEF45678)</p>
                 </div>
               </div>
@@ -60,8 +60,8 @@ function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
                 <div className="step-number">4</div>
                 <div className="step-content">
                   <h4>Complete Registration</h4>
-                  <p>Return to the registration form and enter your Transaction ID in the designated field to complete your registration.</p>
-                  <p>The transaction ID field will be available in the main registration form.</p>
+                  <p>Return to the registration form and enter your Transaction Refernce Number in the designated field to complete your registration.</p>
+                  <p>The Transaction Refernce Number field will be available in the main registration form.</p>
                 </div>
               </div>
             </div>
@@ -77,7 +77,7 @@ function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
             </button>
             <p className="erp-note">
               <i className="fas fa-info-circle"></i>
-              The ERP portal will open in a new tab. Complete your payment there and return to the registration form to enter your transaction ID.
+              The ERP portal will open in a new tab. Complete your payment there and return to the registration form to enter your Transaction Refernce Number.
             </p>
           </div>
 
@@ -85,7 +85,7 @@ function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
             <h3><i className="fas fa-exclamation-triangle"></i> Important Notes</h3>
             <ul>
               <li><strong>Complete payment on the ERP portal before proceeding with registration.</strong></li>
-              <li><strong>Keep your transaction ID safe</strong> - you'll need it to complete registration.</li>
+              <li><strong>Keep your Transaction Refernce Number safe</strong> - you'll need it to complete registration.</li>
               <li><strong>Payment is mandatory</strong> for paid events. Registration will not be confirmed without valid payment.</li>
               <li><strong>Contact event coordinators</strong> if you face any payment issues.</li>
             </ul>
