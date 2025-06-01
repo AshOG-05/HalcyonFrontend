@@ -545,6 +545,8 @@ function TeamDashboard() {
   const handleSpotRegistrationSubmit = async (e) => {
     e.preventDefault()
     try {
+      console.log("🔍 Starting validation for spot registration:", spotRegistrationForm)
+
       // Validate form data
       if (!spotRegistrationForm.eventId) {
         throw new Error("Please select an event")
@@ -558,9 +560,9 @@ function TeamDashboard() {
         throw new Error("Please enter the college code")
       }
 
-      // Validate team name for team events
+      // Validate team name for team events (required when teamSize > 1)
       if (spotRegistrationForm.teamSize > 1 && !spotRegistrationForm.teamName.trim()) {
-        throw new Error("Team name is required for team events")
+        throw new Error("Team name is required for team events with more than 1 participant")
       }
 
       // Validate payment mode if any participant requires payment
@@ -590,6 +592,16 @@ function TeamDashboard() {
       // Extract team leader (first participant) and team members (rest of participants)
       const teamLeader = spotRegistrationForm.participants[0]
       const teamMembers = spotRegistrationForm.participants.slice(1)
+
+      console.log("📋 Team leader data:", teamLeader)
+      console.log("👥 Team members data:", teamMembers)
+      console.log("🏆 Team size:", spotRegistrationForm.teamSize)
+      console.log("🏷️ Team name:", spotRegistrationForm.teamName)
+
+      // Validate team leader data
+      if (!teamLeader.name || !teamLeader.email || !teamLeader.mobile || !teamLeader.usn) {
+        throw new Error("Team leader information is incomplete. Please fill all required fields.")
+      }
 
       // Prepare registration data according to backend requirements
       const registrationData = {
@@ -664,10 +676,21 @@ function TeamDashboard() {
       // Send registration request using the dedicated spot registration endpoint
       const token = localStorage.getItem("teamCookie")
 
-      // Log the data being sent for debugging
-      console.log("Sending spot registration data:", registrationData)
-      console.log("Payment mode being sent:", registrationData.paymentMode)
-      console.log("Payment status being sent:", registrationData.paymentStatus)
+      // Enhanced logging for debugging validation issues
+      console.log("📤 Final registration data being sent:", JSON.stringify(registrationData, null, 2))
+      console.log("🎯 Event details:", {
+        id: selectedEvent._id,
+        name: selectedEvent.name,
+        teamSize: selectedEvent.teamSize,
+        minTeamSize: selectedEvent.minTeamSize,
+        maxTeamSize: selectedEvent.maxTeamSize,
+        fees: selectedEvent.fees
+      })
+      console.log("💳 Payment details:", {
+        mode: registrationData.paymentMode,
+        status: registrationData.paymentStatus,
+        transactionId: registrationData.transactionId
+      })
 
       const response = await corsProtectedFetch(`registration/spot/${spotRegistrationForm.eventId}`, {
         method: "POST",
@@ -680,13 +703,32 @@ function TeamDashboard() {
 
       if (!response.ok) {
         const errorData = await response.json()
+        console.error("❌ Registration failed with error:", errorData)
+
+        // Handle specific validation errors
+        if (errorData.error === "Validation failed" && errorData.details) {
+          const validationDetails = Array.isArray(errorData.details)
+            ? errorData.details.join(", ")
+            : errorData.details
+          throw new Error(`Validation Failed: ${validationDetails}`)
+        }
 
         // Handle specific error cases
         if (errorData.error && errorData.error.includes("team registration already exists")) {
           throw new Error(`${errorData.error}\n\nNote: For team events, only one registration per team is allowed. If you need to modify the team, please contact the admin.`)
         }
 
-        throw new Error(errorData.error || "Failed to register participant")
+        // Handle team name validation errors
+        if (errorData.error && errorData.error.includes("Team name is required")) {
+          throw new Error("Team name is required for team events with more than 1 participant. Please enter a team name.")
+        }
+
+        // Handle other validation errors
+        if (errorData.error && errorData.error.includes("required")) {
+          throw new Error(`Registration validation failed: ${errorData.error}`)
+        }
+
+        throw new Error(errorData.error || errorData.message || "Failed to register participant")
       }
 
       // Reset form and refresh registrations

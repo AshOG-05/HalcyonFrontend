@@ -539,7 +539,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
           usn: teamLeader.usn
         },
         teamName: teamSize > 1 ? teamName.trim() : null,
-        teamSize: teamSize,
+        teamSize: parseInt(teamSize, 10), // Ensure teamSize is a number
         teamMembers: teamMembers.map(member => ({
           name: member.name,
           email: member.email,
@@ -563,6 +563,8 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       });
 
       console.log('Sending registration data:', registrationData);
+      console.log('Team size type:', typeof registrationData.teamSize, 'Value:', registrationData.teamSize);
+      console.log('Team name:', registrationData.teamName, 'Type:', typeof registrationData.teamName);
 
       // Send registration request directly (payment processing bypassed)
       const response = await corsProtectedFetch(`registration/${eventId}`, {
@@ -595,7 +597,12 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
           // Don't throw payment errors since payment is bypassed
           console.log('Payment-related error bypassed:', errorData.error);
         } else {
-          throw new Error(errorData.error || errorData.message || 'Failed to register for event');
+          // Handle validation errors with more specific messages
+          if (errorData.details && Array.isArray(errorData.details)) {
+            throw new Error(`Registration validation failed: ${errorData.details.join(', ')}`);
+          } else {
+            throw new Error(errorData.error || errorData.message || 'Failed to register for event');
+          }
         }
       }
 
