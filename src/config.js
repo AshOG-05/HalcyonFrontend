@@ -1,16 +1,9 @@
 // Configuration settings for the application
 
-// API URL - automatically detect environment
-const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-const isDevelopment = !isProduction;
-
-// API URL configuration
-export const API_URL = isProduction
-  ? 'https://halcyonbackend-1.onrender.com/api'  // Production backend
-  : 'http://localhost:4000/api';                 // Development backend
-
-console.log('🌍 Environment detected:', isProduction ? 'Production' : 'Development');
-console.log('🔗 API URL:', API_URL);
+// API URL - pointing to the hosted backend server
+// Direct connection to the backend API
+export const API_URL = 'https://halcyonbackend-1.onrender.com/api';
+// export const API_URL = 'http://localhost:4000/api';
 // Other configuration settings
 export const APP_CONFIG = {
   appName: 'Halcyon 2025',
