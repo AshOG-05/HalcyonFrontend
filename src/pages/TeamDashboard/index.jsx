@@ -38,6 +38,7 @@ function TeamDashboard() {
     teamName: "",
     teamSize: 1,
     commonCollegeName: "",
+    collegeCode: "", // College code field - only for team dashboard registrations
     paymentMode: "", // Added missing paymentMode
     transactionId: "", // Added transaction ID for ERP payments
     participants: [
@@ -49,6 +50,9 @@ function TeamDashboard() {
       },
     ],
   })
+
+  // Same email for all members functionality
+  const [sameEmailForAll, setSameEmailForAll] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [selectedCategory, setSelectedCategory] = useState("")
   const [filteredEvents, setFilteredEvents] = useState([])
@@ -169,6 +173,13 @@ function TeamDashboard() {
       }
 
       const data = await response.json()
+      console.log("Fetched registrations data:", data)
+      // Log payment modes for debugging
+      data.forEach((reg, index) => {
+        if (reg.paymentMode) {
+          console.log(`Registration ${index}: paymentMode=${reg.paymentMode}, paymentStatus=${reg.paymentStatus}`)
+        }
+      })
       setRegistrations(data)
     } catch (err) {
       setError(err.message)
@@ -261,13 +272,31 @@ function TeamDashboard() {
     }
   }
 
-  // Helper function to check if any participant requires payment
-  const isAnyPaymentRequired = () => {
+  // Helper function to check if team payment is required (team-based, not individual-based)
+  const isTeamPaymentRequired = () => {
     if (!selectedEvent || !spotRegistrationForm.participants.length) return false
 
-    return spotRegistrationForm.participants.some(participant =>
-      isPaymentRequired(participant.usn, selectedEvent.category)
+    // Check if ALL participants are SIT students and it's NOT a gaming event
+    const allParticipants = spotRegistrationForm.participants.filter(p => p.usn && p.usn.trim())
+
+    if (allParticipants.length === 0) return true // If no USNs provided, assume payment required
+
+    const allAreSITStudents = allParticipants.every(participant =>
+      participant.usn.toLowerCase().startsWith("1si")
     )
+
+    if (allAreSITStudents && selectedEvent.category !== "gaming") {
+      // All SIT students + non-gaming event = no payment required
+      return false
+    } else {
+      // Mixed students OR gaming event = payment required
+      return true
+    }
+  }
+
+  // Helper function for backward compatibility (keeping the old function name)
+  const isAnyPaymentRequired = () => {
+    return isTeamPaymentRequired()
   }
 
   // Handle category selection
@@ -473,10 +502,44 @@ function TeamDashboard() {
       [field]: value,
     }
 
+    // If "same email for all" is enabled and we're updating the first participant's email,
+    // update all other participants' emails as well
+    if (sameEmailForAll && index === 0 && field === 'email') {
+      for (let i = 1; i < updatedParticipants.length; i++) {
+        updatedParticipants[i] = {
+          ...updatedParticipants[i],
+          email: value
+        }
+      }
+    }
+
     setSpotRegistrationForm((prev) => ({
       ...prev,
       participants: updatedParticipants,
     }))
+  }
+
+  // Handle "same email for all" checkbox change
+  const handleSameEmailChange = (checked) => {
+    setSameEmailForAll(checked)
+
+    if (checked && spotRegistrationForm.participants.length > 1) {
+      // Copy first participant's email to all other participants
+      const firstParticipantEmail = spotRegistrationForm.participants[0]?.email || ''
+      const updatedParticipants = [...spotRegistrationForm.participants]
+
+      for (let i = 1; i < updatedParticipants.length; i++) {
+        updatedParticipants[i] = {
+          ...updatedParticipants[i],
+          email: firstParticipantEmail
+        }
+      }
+
+      setSpotRegistrationForm((prev) => ({
+        ...prev,
+        participants: updatedParticipants,
+      }))
+    }
   }
 
   const handleSpotRegistrationSubmit = async (e) => {
@@ -491,6 +554,10 @@ function TeamDashboard() {
         throw new Error("Please enter the college name")
       }
 
+      if (!spotRegistrationForm.collegeCode.trim()) {
+        throw new Error("Please enter the college code")
+      }
+
       // Validate team name for team events
       if (spotRegistrationForm.teamSize > 1 && !spotRegistrationForm.teamName.trim()) {
         throw new Error("Team name is required for team events")
@@ -501,9 +568,10 @@ function TeamDashboard() {
         throw new Error("Please select a payment mode as some participants require payment")
       }
 
-      // Validate transaction ID if ERP payment is selected
-      if (selectedEvent && isAnyPaymentRequired() && spotRegistrationForm.paymentMode === "erp" && !spotRegistrationForm.transactionId.trim()) {
-        throw new Error("Please enter the transaction reference number for ERP payment")
+      // Validate transaction ID if ERP or UPI payment is selected
+      if (selectedEvent && isAnyPaymentRequired() && (spotRegistrationForm.paymentMode === "erp" || spotRegistrationForm.paymentMode === "upi") && !spotRegistrationForm.transactionId.trim()) {
+        const paymentType = spotRegistrationForm.paymentMode === "erp" ? "ERP" : "UPI"
+        throw new Error(`Please enter the transaction reference number for ${paymentType} payment`)
       }
 
       // Validate all participants have required fields
@@ -533,6 +601,7 @@ function TeamDashboard() {
           email: teamLeader.email,
           mobile: teamLeader.mobile,
         },
+        collegeCode: spotRegistrationForm.collegeCode.trim(), // Include college code for team dashboard registrations
         teamName: spotRegistrationForm.teamSize > 1 ? spotRegistrationForm.teamName.trim() : null,
         teamSize: spotRegistrationForm.teamSize,
         teamMembers: teamMembers.map((member) => ({
@@ -548,35 +617,48 @@ function TeamDashboard() {
       const teamMemberData = JSON.parse(localStorage.getItem("userData")) || {}
       const teamMemberName = teamMemberData.name || "Unknown"
 
-      // Handle payment based on participant requirements
-      if (selectedEvent && isAnyPaymentRequired()) {
+      // Handle payment based on team requirements (not individual requirements)
+      const teamPaymentRequired = isTeamPaymentRequired()
+      console.log("Team payment required:", teamPaymentRequired)
+      console.log("All participants:", spotRegistrationForm.participants.map(p => ({ name: p.name, usn: p.usn })))
+      console.log("Event category:", selectedEvent?.category)
+
+      if (selectedEvent && teamPaymentRequired) {
         registrationData.paymentStatus = "completed"
         // Include team member name in payment references for better tracking
         registrationData.paymentId = `SPOT_PAYMENT_${teamMemberName}_${Date.now()}`
         registrationData.orderId = `SPOT_ORDER_${teamMemberName}_${Date.now()}`
 
-        // Include transaction ID if ERP payment is selected
-        if (spotRegistrationForm.paymentMode === "erp" && spotRegistrationForm.transactionId) {
+        // Include transaction ID if ERP or UPI payment is selected
+        if ((spotRegistrationForm.paymentMode === "erp" || spotRegistrationForm.paymentMode === "upi") && spotRegistrationForm.transactionId) {
           registrationData.transactionId = spotRegistrationForm.transactionId.trim()
         }
 
-        // Create detailed payment notes
-        const paymentDetails = spotRegistrationForm.participants.map((participant, index) => {
-          const requiresPayment = isPaymentRequired(participant.usn, selectedEvent.category)
-          return `${participant.name || `Participant ${index + 1}`} (${participant.usn}): ${requiresPayment ? 'Payment Required' : 'No Payment Required'}`
-        }).join('; ')
+        // Create team-based payment notes (not individual member notes)
+        const teamDetails = spotRegistrationForm.participants.map((participant, index) => {
+          return `${participant.name || `Participant ${index + 1}`} (${participant.usn || 'No USN'})`
+        }).join(', ')
 
-        let paymentNote = `Payment collected via ${spotRegistrationForm.paymentMode.toUpperCase()} by ${teamMemberName}.`
-        if (spotRegistrationForm.paymentMode === "erp" && spotRegistrationForm.transactionId) {
+        let paymentNote = `Team payment collected via ${spotRegistrationForm.paymentMode.toUpperCase()} by ${teamMemberName}.`
+        if ((spotRegistrationForm.paymentMode === "erp" || spotRegistrationForm.paymentMode === "upi") && spotRegistrationForm.transactionId) {
           paymentNote += ` Transaction ID: ${spotRegistrationForm.transactionId}.`
         }
-        paymentNote += ` Details: ${paymentDetails}`
+        paymentNote += ` Team Members: ${teamDetails}`
 
         registrationData.notes = paymentNote
+
+        // IMPORTANT: Include the payment mode so backend can store it properly
+        registrationData.paymentMode = spotRegistrationForm.paymentMode
       } else {
-        // No payment required for any participant
+        // No payment required for the team
         registrationData.paymentStatus = "not_required"
-        registrationData.notes = `No payment required for any participant. Registered by ${teamMemberName}`
+
+        // Create team details for no-payment scenario
+        const teamDetails = spotRegistrationForm.participants.map((participant, index) => {
+          return `${participant.name || `Participant ${index + 1}`} (${participant.usn || 'No USN'})`
+        }).join(', ')
+
+        registrationData.notes = `No payment required for this team (all SIT students in non-gaming event). Team Members: ${teamDetails}. Registered by ${teamMemberName}`
       }
 
       // Send registration request using the dedicated spot registration endpoint
@@ -584,6 +666,8 @@ function TeamDashboard() {
 
       // Log the data being sent for debugging
       console.log("Sending spot registration data:", registrationData)
+      console.log("Payment mode being sent:", registrationData.paymentMode)
+      console.log("Payment status being sent:", registrationData.paymentStatus)
 
       const response = await corsProtectedFetch(`registration/spot/${spotRegistrationForm.eventId}`, {
         method: "POST",
@@ -596,6 +680,12 @@ function TeamDashboard() {
 
       if (!response.ok) {
         const errorData = await response.json()
+
+        // Handle specific error cases
+        if (errorData.error && errorData.error.includes("team registration already exists")) {
+          throw new Error(`${errorData.error}\n\nNote: For team events, only one registration per team is allowed. If you need to modify the team, please contact the admin.`)
+        }
+
         throw new Error(errorData.error || "Failed to register participant")
       }
 
@@ -605,6 +695,7 @@ function TeamDashboard() {
         teamName: "",
         teamSize: 1,
         commonCollegeName: "",
+        collegeCode: "", // Reset college code
         paymentMode: "",
         transactionId: "",
         participants: [
@@ -616,6 +707,7 @@ function TeamDashboard() {
           },
         ],
       })
+      setSameEmailForAll(false) // Reset checkbox
       setSelectedEvent(null)
       fetchRegistrations()
 
@@ -872,6 +964,7 @@ function TeamDashboard() {
                               teamName: newTeamSize > 2 ? "" : "",
                               teamSize: newTeamSize,
                               commonCollegeName: "",
+                              collegeCode: "", // Reset college code when switching events
                               paymentMode: "",
                               transactionId: "",
                               participants: newParticipants,
@@ -1019,7 +1112,10 @@ function TeamDashboard() {
                       <td>
                         <span className={`status-badge ${reg.paymentStatus}`}>
                           {reg.paymentStatus === "completed"
-                            ? "Paid"
+                            ? (reg.paymentMode === "cash" ? "Cash"
+                               : reg.paymentMode === "upi" ? "UPI"
+                               : reg.paymentMode === "erp" ? "ERP"
+                               : "Paid")
                             : reg.paymentStatus === "not_required"
                               ? "No Req"
                               : reg.paymentStatus === "pending"
@@ -1098,7 +1194,10 @@ function TeamDashboard() {
                         <span className="mobile-card-label">Payment Status:</span>
                         <span className={`mobile-card-value status-badge ${reg.paymentStatus}`}>
                           {reg.paymentStatus === "completed"
-                            ? "Paid"
+                            ? (reg.paymentMode === "cash" ? "Cash"
+                               : reg.paymentMode === "upi" ? "UPI"
+                               : reg.paymentMode === "erp" ? "ERP"
+                               : "Paid")
                             : reg.paymentStatus === "not_required"
                               ? "No Payment Required"
                               : reg.paymentStatus === "pending"
@@ -1265,11 +1364,54 @@ function TeamDashboard() {
                 />
               </div>
 
+              {/* College Code - Only for team dashboard registrations */}
+              <div className="form-group">
+                <label htmlFor="collegeCode">
+                  College Code *
+                 
+                </label>
+                <input
+                  type="text"
+                  id="collegeCode"
+                  name="collegeCode"
+                  value={spotRegistrationForm.collegeCode}
+                  onChange={handleCommonFieldChange}
+                  required
+                  placeholder="Enter college code"
+                  maxLength="10"
+                  style={{ textTransform: 'uppercase' }}
+                />
+                <p className="field-note">
+                  <i className="fas fa-university"></i>
+                  Enter the official code/abbreviation for your college
+                </p>
+              </div>
+
 
 
               {/* Participant Details */}
               <div className="participants-section">
                 <h4>Participant Details</h4>
+
+                {/* Same Email for All Members Checkbox (only for teams > 1) */}
+                {spotRegistrationForm.teamSize > 1 && (
+                  <div className="form-group">
+                    <div className="checkbox-group">
+                      <label className="checkbox-label">
+                        <input
+                          type="checkbox"
+                          checked={sameEmailForAll}
+                          onChange={(e) => handleSameEmailChange(e.target.checked)}
+                        />
+                        <span className="checkbox-text">
+                          <i className="fas fa-envelope"></i>
+                          Use the same email address for all team members
+                        </span>
+                      </label>
+                      
+                    </div>
+                  </div>
+                )}
 
                 {spotRegistrationForm.participants.map((participant, index) => (
                   <div key={index} className="participant-card">
@@ -1289,15 +1431,25 @@ function TeamDashboard() {
                       </div>
 
                       <div className="form-group">
-                        <label htmlFor={`participant-${index}-email`}>Email</label>
+                        <label htmlFor={`participant-${index}-email`}>
+                          Email
+                          {sameEmailForAll && index > 0 && (
+                            <span className="field-status">
+                              <i className="fas fa-link"></i> Using first participant's email
+                            </span>
+                          )}
+                        </label>
                         <input
                           type="email"
                           id={`participant-${index}-email`}
                           value={participant.email}
                           onChange={(e) => handleParticipantChange(index, "email", e.target.value)}
+                          disabled={sameEmailForAll && index > 0}
                           required
-                          placeholder="Enter email address"
+                          placeholder={sameEmailForAll && index > 0 ? "Using first participant's email" : "Enter email address"}
+                          className={sameEmailForAll && index > 0 ? 'disabled-field' : ''}
                         />
+                        
                       </div>
 
                       <div className="form-group">
@@ -1343,10 +1495,11 @@ function TeamDashboard() {
                     <option value="">-- Select Payment Mode --</option>
                     <option value="cash">Cash</option>
                     <option value="erp">ERP</option>
+                    <option value="upi">UPI</option>
                   </select>
 
-                  {/* Transaction ID field - Show only when ERP is selected */}
-                  {spotRegistrationForm.paymentMode === "erp" && (
+                  {/* Transaction ID field - Show when ERP or UPI is selected */}
+                  {(spotRegistrationForm.paymentMode === "erp" || spotRegistrationForm.paymentMode === "upi") && (
                     <div className="form-group transaction-id-group">
                       <label htmlFor="transactionId">Transaction Reference Number *</label>
                       <input
@@ -1356,37 +1509,34 @@ function TeamDashboard() {
                         value={spotRegistrationForm.transactionId}
                         onChange={handleCommonFieldChange}
                         required
-                        placeholder="Enter transaction reference number"
+                        placeholder={`Enter transaction reference number from ${spotRegistrationForm.paymentMode.toUpperCase()} payment`}
                         className="transaction-id-input"
                       />
-                      <p className="form-hint">Enter the transaction reference number from ERP payment</p>
+                      <p className="form-hint">
+                        Enter the transaction reference number from {spotRegistrationForm.paymentMode.toUpperCase()} payment
+                      </p>
                     </div>
                   )}
 
                   <div className="payment-info">
-                    <p className="form-hint">Please select how the payment was collected</p>
+                    
                     <div className="payment-breakdown">
-                      <h5>Payment Requirements:</h5>
-                      {spotRegistrationForm.participants.map((participant, index) => (
-                        <div key={index} className="participant-payment-info">
-                          <span className="participant-name">
-                            {participant.name || `Participant ${index + 1}`}
-                            {index === 0 && " (Leader)"}:
-                          </span>
-                          <span className={`payment-status ${
-                            isPaymentRequired(participant.usn, selectedEvent.category)
-                              ? "payment-required"
-                              : "no-payment"
-                          }`}>
-                            {isPaymentRequired(participant.usn, selectedEvent.category)
-                              ? "Payment Required"
-                              : "No Payment Required"}
-                          </span>
-                          {participant.usn && (
-                            <span className="usn-info">({participant.usn})</span>
-                          )}
-                        </div>
-                      ))}
+                      <h5>Team Payment Status:</h5>
+                      <div className="team-payment-info">
+                        <span className="team-name">
+                          Team: {spotRegistrationForm.teamName || "Unnamed Team"} ({spotRegistrationForm.teamSize} members)
+                        </span>
+                        <span className={`payment-status ${
+                          isTeamPaymentRequired()
+                            ? "payment-required"
+                            : "no-payment"
+                        }`}>
+                          {isTeamPaymentRequired()
+                            ? "Payment Required for Team"
+                            : "No Payment Required for Team"}
+                        </span>
+                      </div>
+                     
                     </div>
                   </div>
                 </div>
@@ -1564,7 +1714,10 @@ function TeamDashboard() {
                     <span className="label">Payment Status:</span>
                     <span className={`value status-badge ${selectedRegistration.paymentStatus}`}>
                       {selectedRegistration.paymentStatus === "completed"
-                        ? "Paid"
+                        ? (selectedRegistration.paymentMode === "cash" ? "Cash"
+                           : selectedRegistration.paymentMode === "upi" ? "UPI"
+                           : selectedRegistration.paymentMode === "erp" ? "ERP"
+                           : "Paid")
                         : selectedRegistration.paymentStatus === "not_required"
                           ? "No Payment Required"
                           : selectedRegistration.paymentStatus === "pending"
@@ -1610,16 +1763,6 @@ function TeamDashboard() {
                         <span className="label">USN:</span>
                         <span className="value">{selectedRegistration.teamLeaderDetails?.usn || "Unknown USN"}</span>
                       </div>
-                      <div className="info-row">
-                        <span className="label">Payment Required:</span>
-                        <span className={`value ${
-                          selectedRegistration.teamLeaderDetails?.usn?.toLowerCase().startsWith("1si")
-                            ? "no-payment"
-                            : "payment-required"
-                        }`}>
-                          {selectedRegistration.teamLeaderDetails?.usn?.toLowerCase().startsWith("1si") ? "No" : "Yes"}
-                        </span>
-                      </div>
                     </div>
                   </div>
 
@@ -1644,14 +1787,6 @@ function TeamDashboard() {
                           <div className="info-row">
                             <span className="label">USN:</span>
                             <span className="value">{member.usn || "Unknown USN"}</span>
-                          </div>
-                          <div className="info-row">
-                            <span className="label">Payment Required:</span>
-                            <span className={`value ${
-                              member.usn?.toLowerCase().startsWith("1si") ? "no-payment" : "payment-required"
-                            }`}>
-                              {member.usn?.toLowerCase().startsWith("1si") ? "No" : "Yes"}
-                            </span>
                           </div>
                         </div>
                       </div>

@@ -35,6 +35,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
     { name: '', usn: '', mobile: '', email: '', collegeName: '' }
   ]);
   const [teamSizeOptions, setTeamSizeOptions] = useState([1]);
+  const [sameEmailForAll, setSameEmailForAll] = useState(false);
 
   // Check if USN belongs to Siddaganga Institute of Technology
   const isSITStudent = (usn) => {
@@ -393,6 +394,11 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
     console.log('Updated participants array for team size', size, ':', newParticipants);
     setParticipants(newParticipants);
 
+    // Reset the "same email for all" checkbox when team size changes
+    if (size <= 1) {
+      setSameEmailForAll(false);
+    }
+
     // If team size is > 1, make sure we have a team name field
     if (size > 1 && !teamName) {
       setTeamName('Team ' + (userData.name?.split(' ')[0] || 'Default'));
@@ -406,7 +412,39 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
       ...updatedParticipants[index],
       [field]: value
     };
+
+    // If "same email for all" is enabled and we're updating the team leader's email,
+    // update all other participants' emails as well
+    if (sameEmailForAll && index === 0 && field === 'email') {
+      for (let i = 1; i < updatedParticipants.length; i++) {
+        updatedParticipants[i] = {
+          ...updatedParticipants[i],
+          email: value
+        };
+      }
+    }
+
     setParticipants(updatedParticipants);
+  };
+
+  // Handle "same email for all" checkbox change
+  const handleSameEmailChange = (checked) => {
+    setSameEmailForAll(checked);
+
+    if (checked && participants.length > 1) {
+      // Copy team leader's email to all other participants
+      const teamLeaderEmail = userData.email || participants[0]?.email || '';
+      const updatedParticipants = [...participants];
+
+      for (let i = 1; i < updatedParticipants.length; i++) {
+        updatedParticipants[i] = {
+          ...updatedParticipants[i],
+          email: teamLeaderEmail
+        };
+      }
+
+      setParticipants(updatedParticipants);
+    }
   };
 
   // Handle transaction ID change with validation
@@ -768,6 +806,28 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                 <p className="field-note">Choose a unique name for your team</p>
               </div>
             )}
+
+            {/* Same Email for All Members Checkbox (only for teams > 1) */}
+            {teamSize > 1 && (
+              <div className="form-group">
+                <div className="checkbox-group">
+                  <label className="checkbox-label">
+                    <input
+                      type="checkbox"
+                      checked={sameEmailForAll}
+                      onChange={(e) => handleSameEmailChange(e.target.checked)}
+                    />
+                    <span className="checkbox-text">
+                      <i className="fas fa-envelope"></i>
+                      Use the same email address for all team members
+                    </span>
+                  </label>
+                  <p className="field-note">
+                    When enabled, all team members will use the team leader's email address ({userData.email})
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Participant Details */}
@@ -818,15 +878,30 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                     </div>
 
                     <div className="form-group">
-                      <label htmlFor={`participant-${index}-email`}>Email *</label>
+                      <label htmlFor={`participant-${index}-email`}>
+                        Email *
+                        {sameEmailForAll && (
+                          <span className="field-status">
+                            <i className="fas fa-link"></i> Using team leader's email
+                          </span>
+                        )}
+                      </label>
                       <input
                         type="email"
                         id={`participant-${index}-email`}
                         value={participant.email}
                         onChange={(e) => handleParticipantChange(index, 'email', e.target.value)}
+                        disabled={sameEmailForAll}
                         required
-                        placeholder="Enter participant email"
+                        placeholder={sameEmailForAll ? "Using team leader's email" : "Enter participant email"}
+                        className={sameEmailForAll ? 'disabled-field' : ''}
                       />
+                      {sameEmailForAll && (
+                        <p className="field-note">
+                          <i className="fas fa-info-circle"></i>
+                          This field is automatically filled with the team leader's email
+                        </p>
+                      )}
                     </div>
 
                     <div className="form-group">

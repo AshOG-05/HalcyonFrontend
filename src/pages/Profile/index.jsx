@@ -222,33 +222,6 @@ function Profile() {
                     there's something exciting waiting for everyone.
                   </p>
 
-                  <div className="event-highlights">
-                    <div className="highlight-item">
-                      <i className="fas fa-code"></i>
-                      <span>Technical Events</span>
-                    </div>
-                    <div className="highlight-item">
-                      <i className="fas fa-music"></i>
-                      <span>Cultural Programs</span>
-                    </div>
-                    <div className="highlight-item">
-                      <i className="fas fa-gamepad"></i>
-                      <span>Gaming Competitions</span>
-                    </div>
-                    <div className="highlight-item">
-                      <i className="fas fa-palette"></i>
-                      <span>Fine Arts</span>
-                    </div>
-                    <div className="highlight-item">
-                      <i className="fas fa-theater-masks"></i>
-                      <span>Theatre & Drama</span>
-                    </div>
-                    <div className="highlight-item">
-                      <i className="fas fa-book"></i>
-                      <span>Literary Events</span>
-                    </div>
-                  </div>
-
                   <button onClick={() => navigate('/events')} className="explore-btn">
                     <i className="fas fa-compass"></i>
                     Explore All Events

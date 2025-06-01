@@ -124,38 +124,79 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
     }
   }, [eventToEdit]);
 
+  // Helper function to synchronize team size values
+  const synchronizeTeamSizes = (formData, updates = {}) => {
+    const updatedData = { ...formData, ...updates };
+
+    // For team events, ensure teamSize always matches minTeamSize
+    if (updatedData.teamSizeType === 'team') {
+      const minSize = updatedData.minTeamSize || 3;
+      const maxSize = updatedData.maxTeamSize || Math.max(minSize + 7, 10);
+
+      return {
+        ...updatedData,
+        teamSize: minSize,
+        minTeamSize: minSize,
+        maxTeamSize: Math.max(maxSize, minSize)
+      };
+    }
+
+    return updatedData;
+  };
+
   // Update team size when team size type changes
   useEffect(() => {
-    if (formData.teamSizeType === 'individual') {
-      setFormData(prev => ({
-        ...prev,
-        teamSize: 1,
-        minTeamSize: 1,
-        maxTeamSize: 1
-      }));
-    } else if (formData.teamSizeType === 'duo') {
-      setFormData(prev => ({
-        ...prev,
-        teamSize: 2,
-        minTeamSize: 2,
-        maxTeamSize: 2
-      }));
-    } else if (formData.teamSizeType === 'team') {
-      // For team events, set default values with different min and max
-      setFormData(prev => {
-        // Check if we already have a minTeamSize value to preserve
-        const minSize = prev.minTeamSize >= 3 ? prev.minTeamSize : 3;
+    // Use a ref to track the current teamSizeType to avoid infinite loops
+    const currentTeamSizeType = formData.teamSizeType;
 
-        // Always ensure teamSize matches minTeamSize for team events
-        return {
-          ...prev,
-          teamSize: minSize, // Set teamSize to match minTeamSize
-          minTeamSize: minSize,
-          maxTeamSize: Math.max(minSize + 7, prev.maxTeamSize || 10) // Ensure max is greater than min
-        };
+    if (currentTeamSizeType === 'individual') {
+      setFormData(prev => {
+        // Only update if values are different to prevent unnecessary re-renders
+        if (prev.teamSize !== 1 || prev.minTeamSize !== 1 || prev.maxTeamSize !== 1) {
+          return {
+            ...prev,
+            teamSize: 1,
+            minTeamSize: 1,
+            maxTeamSize: 1
+          };
+        }
+        return prev;
+      });
+    } else if (currentTeamSizeType === 'duo') {
+      setFormData(prev => {
+        // Only update if values are different to prevent unnecessary re-renders
+        if (prev.teamSize !== 2 || prev.minTeamSize !== 2 || prev.maxTeamSize !== 2) {
+          return {
+            ...prev,
+            teamSize: 2,
+            minTeamSize: 2,
+            maxTeamSize: 2
+          };
+        }
+        return prev;
+      });
+    } else if (currentTeamSizeType === 'team') {
+      setFormData(prev => {
+        // Check if we already have a valid minTeamSize value to preserve
+        const minSize = (prev.minTeamSize && prev.minTeamSize >= 3) ? prev.minTeamSize : 3;
+
+        // Calculate a reasonable maxTeamSize
+        const maxSize = (prev.maxTeamSize && prev.maxTeamSize >= minSize) ?
+          prev.maxTeamSize : Math.max(minSize + 7, 10);
+
+        // Only update if values are different to prevent unnecessary re-renders
+        if (prev.teamSize !== minSize || prev.minTeamSize !== minSize || prev.maxTeamSize !== maxSize) {
+          return {
+            ...prev,
+            teamSize: minSize, // Set teamSize to match minTeamSize
+            minTeamSize: minSize,
+            maxTeamSize: maxSize
+          };
+        }
+        return prev;
       });
     }
-  }, [formData.teamSizeType]);
+  }, [formData.teamSizeType]); // Keep the dependency but use safer update logic
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -171,42 +212,52 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
       if (name === 'minTeamSize' || name === 'maxTeamSize') {
         // For team size inputs, we need to handle them carefully
 
-        // If the value is empty, don't update yet
+        // If the value is empty, allow it temporarily (will be handled in onBlur)
         if (value === '') {
-          return; // Exit early without updating state
-        }
-
-        // Parse the value as an integer
-        const parsedValue = parseInt(value);
-
-        // Only update if it's a valid number
-        if (!isNaN(parsedValue)) {
-          if (name === 'minTeamSize') {
-            // For minTeamSize, ensure it's at least 3
-            const minValue = Math.max(3, parsedValue);
-            updatedFormData.minTeamSize = minValue;
-
-            // For team events, ensure teamSize matches minTeamSize
-            if (updatedFormData.teamSizeType === 'team') {
-              updatedFormData.teamSize = minValue;
-              console.log('Updated teamSize to match minTeamSize:', minValue);
-            }
-
-            // Only if min is now greater than max, adjust max
-            if (minValue > updatedFormData.maxTeamSize) {
-              updatedFormData.maxTeamSize = minValue;
-            }
-          } else if (name === 'maxTeamSize') {
-            // For maxTeamSize, ensure it's at least equal to minTeamSize
-            const minValue = updatedFormData.minTeamSize || 3;
-            updatedFormData.maxTeamSize = Math.max(minValue, parsedValue);
-          }
+          updatedFormData[name] = '';
         } else {
-          return; // Exit early for invalid numbers
+          // Parse the value as an integer
+          const parsedValue = parseInt(value);
+
+          // Only update if it's a valid number
+          if (!isNaN(parsedValue) && parsedValue > 0) {
+            if (name === 'minTeamSize') {
+              // For minTeamSize, ensure it's at least 3
+              const minValue = Math.max(3, parsedValue);
+              updatedFormData.minTeamSize = minValue;
+
+              // For team events, ensure teamSize matches minTeamSize
+              if (updatedFormData.teamSizeType === 'team') {
+                updatedFormData.teamSize = minValue;
+                console.log('Updated teamSize to match minTeamSize:', minValue);
+              }
+
+              // If min is now greater than max, adjust max to maintain a reasonable range
+              if (minValue > updatedFormData.maxTeamSize) {
+                updatedFormData.maxTeamSize = Math.max(minValue, minValue + 7);
+                console.log('Adjusted maxTeamSize to maintain range:', updatedFormData.maxTeamSize);
+              }
+            } else if (name === 'maxTeamSize') {
+              // For maxTeamSize, ensure it's at least equal to minTeamSize
+              const minValue = updatedFormData.minTeamSize || 3;
+              const maxValue = Math.max(minValue, parsedValue);
+              updatedFormData.maxTeamSize = maxValue;
+
+              // Ensure maxTeamSize is reasonable (not too large)
+              if (maxValue > 30) {
+                updatedFormData.maxTeamSize = 30;
+                console.log('Capped maxTeamSize at 30');
+              }
+            }
+          } else {
+            // For invalid input, don't update the state
+            return;
+          }
         }
       } else {
         // For other number inputs, ensure we're storing numbers, not strings
-        updatedFormData[name] = parseInt(value) || 0; // Use 0 as fallback if parsing fails
+        const parsedValue = parseInt(value);
+        updatedFormData[name] = isNaN(parsedValue) ? 0 : parsedValue;
       }
     } else {
       // For all other inputs, just use the value directly
@@ -245,50 +296,82 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
     if (name !== 'minTeamSize' && name !== 'maxTeamSize') return;
 
     const updatedFormData = { ...formData };
+    let needsUpdate = false;
 
     // If the field is empty or invalid, set to appropriate default
-    if (value === '' || isNaN(parseInt(value))) {
+    if (value === '' || isNaN(parseInt(value)) || parseInt(value) <= 0) {
       if (name === 'minTeamSize') {
-        updatedFormData[name] = 3; // Default min team size
-      } else if (name === 'maxTeamSize') {
-        // Default to either minTeamSize or 3, whichever is larger
-        updatedFormData[name] = Math.max(updatedFormData.minTeamSize || 3, 3);
-      }
-
-      setFormData(updatedFormData);
-      return;
-    }
-
-    // For minTeamSize, ensure it's at least 3
-    if (name === 'minTeamSize') {
-      const parsedValue = parseInt(value);
-      if (parsedValue < 3) {
-        updatedFormData[name] = 3;
+        updatedFormData.minTeamSize = 3; // Default min team size
 
         // For team events, ensure teamSize matches minTeamSize
         if (updatedFormData.teamSizeType === 'team') {
-          updatedFormData.teamSize = 3; // Set to minimum allowed value
-          console.log('Updated teamSize to match minTeamSize on blur:', 3);
+          updatedFormData.teamSize = 3;
+          console.log('Reset teamSize to match default minTeamSize on blur:', 3);
         }
 
-        setFormData(updatedFormData);
-      } else if (updatedFormData.teamSizeType === 'team') {
-        // Even if the value is valid, ensure teamSize matches minTeamSize for team events
-        updatedFormData.teamSize = parsedValue;
-        console.log('Updated teamSize to match valid minTeamSize on blur:', parsedValue);
-        setFormData(updatedFormData);
+        // Ensure maxTeamSize is at least equal to minTeamSize
+        if (updatedFormData.maxTeamSize < 3) {
+          updatedFormData.maxTeamSize = 10; // Set a reasonable default
+          console.log('Reset maxTeamSize to default on blur:', 10);
+        }
+        needsUpdate = true;
+      } else if (name === 'maxTeamSize') {
+        // Default to either minTeamSize + 7 or 10, whichever is larger
+        const minValue = updatedFormData.minTeamSize || 3;
+        updatedFormData.maxTeamSize = Math.max(minValue + 7, 10);
+        console.log('Reset maxTeamSize to default on blur:', updatedFormData.maxTeamSize);
+        needsUpdate = true;
+      }
+    } else {
+      const parsedValue = parseInt(value);
+
+      // For minTeamSize, ensure it's at least 3
+      if (name === 'minTeamSize') {
+        if (parsedValue < 3) {
+          updatedFormData.minTeamSize = 3;
+          needsUpdate = true;
+
+          // For team events, ensure teamSize matches minTeamSize
+          if (updatedFormData.teamSizeType === 'team') {
+            updatedFormData.teamSize = 3;
+            console.log('Updated teamSize to match corrected minTeamSize on blur:', 3);
+          }
+
+          // Ensure maxTeamSize is at least equal to minTeamSize
+          if (updatedFormData.maxTeamSize < 3) {
+            updatedFormData.maxTeamSize = 10;
+            console.log('Adjusted maxTeamSize to maintain consistency on blur:', 10);
+          }
+        } else {
+          // Value is valid, ensure teamSize matches for team events
+          if (updatedFormData.teamSizeType === 'team' && updatedFormData.teamSize !== parsedValue) {
+            updatedFormData.teamSize = parsedValue;
+            console.log('Updated teamSize to match valid minTeamSize on blur:', parsedValue);
+            needsUpdate = true;
+          }
+        }
+      }
+
+      // For maxTeamSize, ensure it's at least equal to minTeamSize
+      if (name === 'maxTeamSize') {
+        const minValue = updatedFormData.minTeamSize || 3;
+
+        if (parsedValue < minValue) {
+          updatedFormData.maxTeamSize = Math.max(minValue, minValue + 7);
+          console.log('Corrected maxTeamSize to be at least minTeamSize on blur:', updatedFormData.maxTeamSize);
+          needsUpdate = true;
+        } else if (parsedValue > 30) {
+          // Cap at reasonable maximum
+          updatedFormData.maxTeamSize = 30;
+          console.log('Capped maxTeamSize at 30 on blur');
+          needsUpdate = true;
+        }
       }
     }
 
-    // For maxTeamSize, ensure it's at least equal to minTeamSize
-    if (name === 'maxTeamSize') {
-      const parsedValue = parseInt(value);
-      const minValue = updatedFormData.minTeamSize || 3;
-
-      if (parsedValue < minValue) {
-        updatedFormData[name] = minValue;
-        setFormData(updatedFormData);
-      }
+    // Only update state if changes were made
+    if (needsUpdate) {
+      setFormData(updatedFormData);
     }
   };
 

@@ -1429,7 +1429,8 @@
 
 .registrations-tab .preview-pdf-btn,
 .registrations-tab .generate-pdf-btn,
-.registrations-tab .export-excel-btn {
+.registrations-tab .export-excel-btn,
+.registrations-tab .export-single-excel-btn {
   border: 1px solid var(--border-color);
   background-color: var(--primary-dark);
   padding: 0.7rem 1.2rem;
@@ -1446,13 +1447,15 @@
 
 .registrations-tab .preview-pdf-btn i,
 .registrations-tab .generate-pdf-btn i,
-.registrations-tab .export-excel-btn i {
+.registrations-tab .export-excel-btn i,
+.registrations-tab .export-single-excel-btn i {
   font-size: 1rem;
 }
 
 .registrations-tab .preview-pdf-btn:hover,
 .registrations-tab .generate-pdf-btn:hover,
-.registrations-tab .export-excel-btn:hover {
+.registrations-tab .export-excel-btn:hover,
+.registrations-tab .export-single-excel-btn:hover {
   background-color: var(--primary-dark);
   color: var(--text-primary);
   transform: none;
@@ -1818,7 +1821,7 @@
     width: 100%;
   }
 
-  .preview-pdf-btn, .generate-pdf-btn, .export-excel-btn {
+  .preview-pdf-btn, .generate-pdf-btn, .export-excel-btn, .export-single-excel-btn {
     width: 100%;
     justify-content: center;
   }
@@ -2198,7 +2201,7 @@
     gap: 0.5rem;
   }
 
-  .preview-pdf-btn, .generate-pdf-btn, .export-excel-btn {
+  .preview-pdf-btn, .generate-pdf-btn, .export-excel-btn, .export-single-excel-btn {
     padding: 0.6rem 1rem;
     font-size: 0.8rem;
   }
@@ -2357,7 +2360,7 @@
     font-size: 0.8rem;
   }
 
-  .preview-pdf-btn, .generate-pdf-btn, .export-excel-btn {
+  .preview-pdf-btn, .generate-pdf-btn, .export-excel-btn, .export-single-excel-btn {
     padding: 0.5rem 0.8rem;
     font-size: 0.75rem;
   }
@@ -2439,6 +2442,7 @@
   .preview-pdf-btn,
   .generate-pdf-btn,
   .export-excel-btn,
+  .export-single-excel-btn,
   .clear-filters-btn {
     min-height: 44px;
     touch-action: manipulation;

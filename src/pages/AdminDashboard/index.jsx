@@ -493,6 +493,14 @@ function AdminDashboard() {
       return processedReg;
     });
 
+    console.log("Admin dashboard - Processed registrations data:", processedData);
+    // Log payment modes for debugging
+    processedData.forEach((reg, index) => {
+      if (reg.paymentMode) {
+        console.log(`Admin Registration ${index}: paymentMode=${reg.paymentMode}, paymentStatus=${reg.paymentStatus}`);
+      }
+    });
+
     setRegistrations(processedData);
     setFilteredRegistrations(processedData);
   } catch (err) {
@@ -780,7 +788,7 @@ function AdminDashboard() {
       const token = localStorage.getItem('adminCookie');
 
       // Show loading message
-      alert('Exporting all registrations to Excel. This may take a few seconds...');
+      alert('Exporting all 27 events to Excel (individual sheets per event). This may take a few seconds...');
 
       // Use corsProtectedFetch to get the Excel file as a blob
       const response = await corsProtectedFetch('admin/excel', {
@@ -808,8 +816,9 @@ function AdminDashboard() {
       const a = document.createElement('a');
       a.href = blobUrl;
 
-      // Set filename
-      const filename = 'Halcyon_All_Registrations.xlsx';
+      // Set filename with timestamp
+      const timestamp = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+      const filename = `Halcyon_All_Events_Registrations_${timestamp}.xlsx`;
       a.download = filename;
 
       // Append to body, click and remove
@@ -825,6 +834,76 @@ function AdminDashboard() {
       alert('Excel export completed successfully!');
     } catch (err) {
       console.error('Error exporting to Excel:', err);
+      alert(`Error exporting to Excel: ${err.message}`);
+    }
+  };
+
+  // Export single event to Excel based on current filters
+  const handleExportSingleEventToExcel = async () => {
+    if (!filterEvent) {
+      alert('Please select a specific event to export to Excel.');
+      return;
+    }
+
+    // Find the selected event
+    const selectedEvent = events.find(event => event._id === filterEvent);
+
+    if (!selectedEvent) {
+      alert('Invalid event selection. Please try again.');
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('adminCookie');
+
+      // Show loading message
+      alert(`Exporting ${selectedEvent.name} registrations to Excel. This may take a few seconds...`);
+
+      // Use corsProtectedFetch to get the Excel file as a blob
+      const response = await corsProtectedFetch(`admin/excel/${filterEvent}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        try {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to export to Excel');
+        } catch (jsonError) {
+          throw new Error('Failed to export to Excel. The server may be experiencing issues.');
+        }
+      }
+
+      // Convert response to blob
+      const blob = await response.blob();
+
+      // Create a URL for the blob
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      // Create a temporary link element for download
+      const a = document.createElement('a');
+      a.href = blobUrl;
+
+      // Set filename with timestamp
+      const timestamp = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+      const sanitizedEventName = selectedEvent.name.replace(/[^a-zA-Z0-9]/g, '_');
+      const filename = `${sanitizedEventName}_Registrations_${timestamp}.xlsx`;
+      a.download = filename;
+
+      // Append to body, click and remove
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      // Release the URL object after a short delay to ensure download starts
+      setTimeout(() => {
+        window.URL.revokeObjectURL(blobUrl);
+      }, 1000);
+
+      alert(`Excel export for ${selectedEvent.name} completed successfully!`);
+    } catch (err) {
+      console.error('Error exporting single event to Excel:', err);
       alert(`Error exporting to Excel: ${err.message}`);
     }
   };
@@ -1297,13 +1376,20 @@ function AdminDashboard() {
                   <button
                     className="export-excel-btn"
                     onClick={handleExportToExcel}
-                    title="Export filtered registrations to Excel"
+                    title="Export all 27 events to Excel (individual sheets per event)"
                   >
-                    <i className="fas fa-file-excel"></i> Export to Excel
+                    <i className="fas fa-file-excel"></i> Export All Events
                   </button>
 
                   {filterEvent && (
                     <>
+                      <button
+                        className="export-single-excel-btn"
+                        onClick={handleExportSingleEventToExcel}
+                        title="Export selected event to separate Excel file"
+                      >
+                        <i className="fas fa-file-excel"></i> Export This Event
+                      </button>
                       <button
                         className="preview-pdf-btn"
                         onClick={handlePreviewPdf}
@@ -1707,7 +1793,13 @@ const getAllRegistrations = async (req, res) => {
                   <div className="info-row">
                     <span className="label">Payment Status:</span>
                     <span className={`value payment-status ${reg.paymentStatus || 'pending'}`}>
-                      {(reg.paymentStatus || 'pending').replace('_', ' ').toUpperCase()}
+                      {reg.paymentStatus === "completed" && reg.paymentMode === "cash"
+                        ? "CASH"
+                        : reg.paymentStatus === "completed" && reg.paymentMode === "upi"
+                          ? "UPI"
+                          : reg.paymentStatus === "completed" && reg.paymentMode === "erp"
+                            ? "ERP"
+                            : (reg.paymentStatus || 'pending').replace('_', ' ').toUpperCase()}
                     </span>
                   </div>
                   {reg.transactionId && (

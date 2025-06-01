@@ -40,7 +40,7 @@ function Pronites() { // Component name kept as Pronites for file consistency
       gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/djeve.jpg')",
       description: "DJ Eve brings electrifying beats and mesmerizing performances, creating an unforgettable musical journey that will light up Halcyon 2025.",
       icon: "fas fa-music",
-      instagram: "https://www.instagram.com/djeve"
+      instagram: "https://www.instagram.com/dj_eve_india"
     },
     {
       id: 3,

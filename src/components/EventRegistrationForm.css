@@ -1118,3 +1118,141 @@
     min-height: 44px;
   }
 }
+
+/* Checkbox group styles for "same email for all" feature */
+.checkbox-group {
+  margin: 1rem 0;
+  padding: 15px;
+  background: rgba(255, 152, 0, 0.05);
+  border: 1px solid rgba(255, 152, 0, 0.2);
+  border-radius: 8px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.checkbox-label:hover {
+  color: #ff9800;
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 0.75rem;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #ff9800;
+  transform: scale(1.1);
+}
+
+.checkbox-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.checkbox-text i {
+  color: #ff9800;
+  font-size: 1rem;
+}
+
+/* Field status indicator for linked emails */
+.field-status {
+  font-size: 0.85rem;
+  color: #ff9800;
+  font-weight: normal;
+  margin-left: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(255, 152, 0, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Disabled field styles for linked emails */
+.disabled-field {
+  background-color: rgba(255, 152, 0, 0.1) !important;
+  color: #ff9800 !important;
+  cursor: not-allowed !important;
+  border-color: rgba(255, 152, 0, 0.3) !important;
+  opacity: 0.8;
+}
+
+.disabled-field::placeholder {
+  color: rgba(255, 152, 0, 0.7) !important;
+  font-style: italic;
+}
+
+/* Enhanced field note for disabled fields */
+.form-group .field-note {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-style: italic;
+}
+
+.form-group .field-note i {
+  color: #ff9800;
+  font-size: 0.8rem;
+}
+
+/* Responsive adjustments for checkbox */
+@media (max-width: 768px) {
+  .checkbox-group {
+    padding: 12px;
+    margin: 0.75rem 0;
+  }
+
+  .checkbox-label {
+    font-size: 0.9rem;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 0.5rem;
+  }
+
+  .field-status {
+    font-size: 0.8rem;
+    margin-left: 0.25rem;
+    padding: 1px 6px;
+  }
+
+  .checkbox-text {
+    gap: 0.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkbox-group {
+    padding: 10px;
+  }
+
+  .checkbox-label {
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+  }
+
+  .field-status {
+    font-size: 0.75rem;
+    margin-left: 0;
+    margin-top: 0.25rem;
+  }
+}
