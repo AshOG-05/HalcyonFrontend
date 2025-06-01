@@ -17,7 +17,9 @@ function Banner() {
   const [sidebarToggle, setSidebarToggle] = useState(null);
 
   const toggleSidebar = () => {
-    setSidebarToggle(prev => (prev === null ? 1 : prev + 1));
+    const newValue = sidebarToggle === null ? 1 : sidebarToggle + 1;
+    console.log('Banner - toggleSidebar called. Previous value:', sidebarToggle, 'New value:', newValue);
+    setSidebarToggle(newValue);
   };
 
   useEffect(() => {

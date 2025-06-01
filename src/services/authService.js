@@ -16,11 +16,11 @@ const apiRequest = async (url, method, data = null) => {
     options.body = JSON.stringify(data);
   }
 
-  try {
-    // Build the full URL - ORIGINAL_API_URL already includes /api
-    const endpoint = url.startsWith('/') ? url.substring(1) : url;
-    const fullUrl = `${ORIGINAL_API_URL}/${endpoint}`;
+  // Build the full URL - ORIGINAL_API_URL already includes /api
+  const endpoint = url.startsWith('/') ? url.substring(1) : url;
+  const fullUrl = `${ORIGINAL_API_URL}/${endpoint}`;
 
+  try {
     console.log(`🔐 Making auth API request to ${fullUrl} with method ${method}`);
     if (data) {
       console.log('🔐 Request data:', data);

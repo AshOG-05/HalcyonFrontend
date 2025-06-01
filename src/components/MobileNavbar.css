@@ -88,7 +88,8 @@
   width: auto;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); /* Enhanced glow effect for better visibility */
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 1)) brightness(1.2) contrast(1.2); /* Enhanced visibility */
+  opacity: 1;
 }
 
 /* SIT logo specific styles */
@@ -110,11 +111,32 @@
   }
 }
 
-/* Further reduce sizes on very small screens */
-@media (max-width: 375px) {
+/* Enhanced responsive design for different mobile sizes */
+@media (max-width: 480px) and (min-width: 376px) {
+  .mobile-menu-btn {
+    font-size: 1.5rem;
+    padding: 8px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .sit-logo {
+    height: 42px;
+    max-height: 82%;
+  }
+
+  .halcyon-logo {
+    height: 35px;
+    max-height: 72%;
+  }
+}
+
+@media (max-width: 375px) and (min-width: 321px) {
   .mobile-menu-btn {
     font-size: 1.4rem;
-    padding: 6px;
+    padding: 7px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   /* Adjust logo sizes for small screens */
@@ -134,10 +156,22 @@
   }
 }
 
-/* Even smaller screens */
 @media (max-width: 320px) {
+  .mobile-navbar {
+    height: 50px;
+    padding: 0 8px;
+  }
+
+  .mobile-menu-btn {
+    font-size: 1.3rem;
+    padding: 6px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Further reduce logo sizes for very small screens */
   .sit-logo {
-    height: 35px;
+    height: 36px;
     max-height: 75%;
   }
 
@@ -146,7 +180,7 @@
     max-height: 65%;
   }
 
-  /* Further reduce spacing */
+  /* Minimal spacing for very small screens */
   .sit-logo-container, .halcyon-logo-container {
     margin: 0 2px;
   }

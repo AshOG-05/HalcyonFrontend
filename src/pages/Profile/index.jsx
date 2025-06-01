@@ -255,7 +255,7 @@ function Profile() {
                   </button>
                   <div className="secondary-actions">
                     <p className="help-text">
-                      Need help? <a href="/contact" className="help-link">Contact our support team</a>
+                      Need help? <a href="/#contact_anchor" className="help-link">Contact our support team</a>
                     </p>
                   </div>
                 </div>

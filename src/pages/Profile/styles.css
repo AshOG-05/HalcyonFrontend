@@ -622,13 +622,15 @@
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
   box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
   position: relative;
   overflow: hidden;
+  transform: translateY(0);
+  animation: pulse-glow 2s infinite;
 }
 
 .explore-btn::before {
@@ -648,8 +650,14 @@
 
 .explore-btn:hover {
   background: linear-gradient(135deg, #2563eb, #1e40af);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(59, 130, 246, 0.6);
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.8);
+  animation: none; /* Stop pulse animation on hover */
+}
+
+.explore-btn:active {
+  transform: translateY(-2px) scale(1.02);
+  transition: all 0.1s ease;
 }
 
 .explore-btn i {
@@ -658,7 +666,8 @@
 }
 
 .explore-btn:hover i {
-  transform: scale(1.1);
+  transform: scale(1.2) rotate(15deg);
+  color: #ffffff;
 }
 
 /* Event Highlights */
@@ -1032,6 +1041,15 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    box-shadow: 0 8px 35px rgba(59, 130, 246, 0.6);
+  }
 }
 
 .error-container i {

@@ -189,7 +189,9 @@ function AdminDashboard() {
     // Apply search filter (team name or team leader name)
     if (searchTerm.trim()) {
       filtered = filtered.filter((reg) => {
-        const teamLeaderName = reg.teamLeader?.name || reg.participant?.name || "";
+        const teamLeaderName = reg.isSpotRegistration
+          ? reg.displayTeamLeader?.name || ""
+          : reg.teamLeader?.name || "";
         const teamName = reg.teamName || "";
 
         return teamLeaderName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -1387,7 +1389,12 @@ const getAllRegistrations = async (req, res) => {
                     {filteredRegistrations.length > 0 ? (
                       filteredRegistrations.map(reg => (
                         <tr key={reg._id}>
-                          <td>{reg.teamLeader?.name || (reg.participant?.name) || 'Unknown'}</td>
+                          <td>
+                            {reg.isSpotRegistration
+                              ? reg.displayTeamLeader?.name || 'Unknown Participant'
+                              : reg.teamLeader?.name || 'Unknown'
+                            }
+                          </td>
                           <td>{reg.teamName || 'N/A'}</td>
                           <td>{reg.event?.name || 'Unknown'}</td>
                           <td>
@@ -1450,7 +1457,12 @@ const getAllRegistrations = async (req, res) => {
                       <div key={reg._id} className="mobile-card">
                         <div className="mobile-card-header">
                           <div>
-                            <h4 className="mobile-card-title">{reg.teamLeader?.name || (reg.participant?.name) || 'Unknown'}</h4>
+                            <h4 className="mobile-card-title">
+                              {reg.isSpotRegistration
+                                ? reg.displayTeamLeader?.name || 'Unknown Participant'
+                                : reg.teamLeader?.name || 'Unknown'
+                              }
+                            </h4>
                             <p className="mobile-card-subtitle">{reg.teamName || 'N/A'}</p>
                           </div>
                           <div className="mobile-card-actions">
@@ -1613,15 +1625,30 @@ const getAllRegistrations = async (req, res) => {
                 <h4><i className="fas fa-user-tie"></i> Team Leader</h4>
                 <div className="info-row">
                   <span className="label">Name:</span>
-                  <span className="value">{reg.teamLeader?.name || (reg.participant?.name) || 'Unknown'}</span>
+                  <span className="value">
+                    {reg.isSpotRegistration
+                      ? reg.displayTeamLeader?.name || 'Unknown Participant'
+                      : reg.teamLeader?.name || 'Unknown'
+                    }
+                  </span>
                 </div>
                 <div className="info-row">
                   <span className="label">Email:</span>
-                  <span className="value">{reg.teamLeader?.email || (reg.participant?.email) || 'N/A'}</span>
+                  <span className="value">
+                    {reg.isSpotRegistration
+                      ? reg.displayTeamLeader?.email || 'N/A'
+                      : reg.teamLeader?.email || 'N/A'
+                    }
+                  </span>
                 </div>
                 <div className="info-row">
                   <span className="label">Mobile:</span>
-                  <span className="value">{reg.teamLeader?.mobile || (reg.participant?.mobile) || 'N/A'}</span>
+                  <span className="value">
+                    {reg.isSpotRegistration
+                      ? reg.displayTeamLeader?.mobile || 'N/A'
+                      : reg.teamLeader?.mobile || 'N/A'
+                    }
+                  </span>
                 </div>
                 <div className="info-row">
                   <span className="label">USN:</span>
@@ -1631,6 +1658,14 @@ const getAllRegistrations = async (req, res) => {
                   <span className="label">College:</span>
                   <span className="value">{reg.teamLeaderDetails?.collegeName || 'N/A'}</span>
                 </div>
+                {reg.isSpotRegistration && reg.spotRegistration && (
+                  <div className="info-row">
+                    <span className="label">Registered by:</span>
+                    <span className="value" style={{ fontStyle: 'italic', color: '#666' }}>
+                      {reg.spotRegistration?.name || 'Team Member'}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* Team Members Information */}

@@ -528,6 +528,10 @@ function TeamDashboard() {
         teamLeaderDetails: {
           collegeName: spotRegistrationForm.commonCollegeName,
           usn: teamLeader.usn,
+          // Include the actual participant's information for spot registrations
+          name: teamLeader.name,
+          email: teamLeader.email,
+          mobile: teamLeader.mobile,
         },
         teamName: spotRegistrationForm.teamSize > 1 ? spotRegistrationForm.teamName.trim() : null,
         teamSize: spotRegistrationForm.teamSize,

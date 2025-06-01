@@ -2,6 +2,15 @@ import { useState } from 'react';
 import './MobileNavbar.css';
 
 function MobileNavbar({ toggleSidebar }) {
+  const handleToggleClick = () => {
+    console.log('MobileNavbar - Toggle button clicked');
+    if (toggleSidebar) {
+      toggleSidebar();
+    } else {
+      console.log('MobileNavbar - toggleSidebar function is not provided');
+    }
+  };
+
   return (
     <div className="mobile-navbar">
       {/* Completely transparent background overlay for touch targets */}
@@ -10,7 +19,7 @@ function MobileNavbar({ toggleSidebar }) {
       <div className="mobile-navbar-left">
         <button
           className="mobile-menu-btn"
-          onClick={toggleSidebar}
+          onClick={handleToggleClick}
           aria-label="Toggle menu"
         >
           <i className="fas fa-bars"></i>
