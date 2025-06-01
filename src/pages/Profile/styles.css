@@ -1,4 +1,17 @@
 /* User Profile Dashboard Styles - Minimalistic Design */
+/*
+ * ANIMATION POLICY: Minimal animations for better UX
+ * - Button hover effects and transitions are allowed
+ * - Spaceship floating animation in empty state is allowed for engagement
+ * - Loading spinners and essential UI feedback animations are allowed
+ * - Avoid excessive container animations or card transforms
+ *
+ * SPACESHIP ANIMATION OPTIONS:
+ * - gentleFloat: Subtle vertical movement (3px max) - DEFAULT
+ * - gentleSway: Horizontal swaying motion (1px max)
+ * - pulseGlow: Scale and glow effect (2% scale change)
+ * To change animation, modify the animation property in .empty-state i
+ */
 .user-profile {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   color: #f8fafc;
@@ -392,6 +405,16 @@
     radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
     radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 40%);
   pointer-events: none;
+  animation: backgroundPulse 4s ease-in-out infinite;
+}
+
+@keyframes backgroundPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 .empty-state {
@@ -407,18 +430,169 @@
   margin-bottom: 2rem;
 }
 
+/* Add subtle stars around the spaceship */
+.empty-state-icon::before {
+  content: '✦';
+  position: absolute;
+  top: 10%;
+  left: -20%;
+  font-size: 1rem;
+  color: rgba(59, 130, 246, 0.4);
+  animation: twinkle 2s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.empty-state-icon::after {
+  content: '✧';
+  position: absolute;
+  top: 20%;
+  right: -15%;
+  font-size: 0.8rem;
+  color: rgba(139, 92, 246, 0.4);
+  animation: twinkle 2.5s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
 .empty-state i {
   font-size: 4rem;
   color: #3b82f6;
   margin-bottom: 1rem;
   display: block;
   text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-  animation: float 3s ease-in-out infinite;
+  animation: gentleFloat 4s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform;
 }
 
+/* Gentle floating animation - subtle movement */
+@keyframes gentleFloat {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  25% {
+    transform: translateY(-2px) rotate(0.5deg);
+    text-shadow: 0 0 22px rgba(59, 130, 246, 0.35);
+  }
+  50% {
+    transform: translateY(-3px) rotate(0deg);
+    text-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+  }
+  75% {
+    transform: translateY(-2px) rotate(-0.5deg);
+    text-shadow: 0 0 22px rgba(59, 130, 246, 0.35);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+}
+
+/* Alternative: Gentle sway animation */
+@keyframes gentleSway {
+  0% {
+    transform: translateX(0px) rotate(0deg);
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  25% {
+    transform: translateX(-1px) rotate(0.3deg);
+    text-shadow: 0 0 22px rgba(59, 130, 246, 0.35);
+  }
+  50% {
+    transform: translateX(0px) rotate(0deg);
+    text-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+  }
+  75% {
+    transform: translateX(1px) rotate(-0.3deg);
+    text-shadow: 0 0 22px rgba(59, 130, 246, 0.35);
+  }
+  100% {
+    transform: translateX(0px) rotate(0deg);
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+}
+
+/* Alternative: Pulse glow animation */
+@keyframes pulseGlow {
+  0% {
+    transform: scale(1);
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    transform: scale(1.02);
+    text-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+  }
+  100% {
+    transform: scale(1);
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+}
+
+/* Combined gentle animation - floating + subtle glow */
+@keyframes gentleFloatGlow {
+  0% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  25% {
+    transform: translateY(-1.5px) rotate(0.3deg) scale(1.005);
+    text-shadow: 0 0 22px rgba(59, 130, 246, 0.35);
+  }
+  50% {
+    transform: translateY(-2.5px) rotate(0deg) scale(1.01);
+    text-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+  }
+  75% {
+    transform: translateY(-1.5px) rotate(-0.3deg) scale(1.005);
+    text-shadow: 0 0 22px rgba(59, 130, 246, 0.35);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+}
+
+/* Animation style classes for easy switching */
+.empty-state i.gentle-sway {
+  animation: gentleSway 5s ease-in-out infinite;
+}
+
+.empty-state i.pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.empty-state i.gentle-float-glow {
+  animation: gentleFloatGlow 4.5s ease-in-out infinite;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .empty-state i {
+    animation: none;
+  }
+
+  .empty-state i.gentle-sway,
+  .empty-state i.pulse-glow,
+  .empty-state i.gentle-float-glow {
+    animation: none;
+  }
+}
+
+/* Fallback for older browsers */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-3px); }
 }
 
 .empty-state h4 {

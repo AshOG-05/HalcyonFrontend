@@ -12,28 +12,23 @@ function Footer() {
             <h4 className="footer-section-title">Executive Committee</h4>
             <ul className="contact-list">
               <li>
-                <span className="contact-name">CEO</span>
-                <span className="contact-info">: DR. SHIVAKUMARAIAH</span>
+                <span className="contact-name">CEO</span><span className="contact-info">: DR. SHIVAKUMARAIAH</span>
               </li>
               <li>
-                <span className="contact-name">PRINCIPAL</span>
-                <span className="contact-info">: DR. S V DINESH</span>
+                <span className="contact-name">PRINCIPAL</span><span className="contact-info">: DR. S V DINESH</span>
               </li>
               <li>
-                <span className="contact-name">CULTURAL CO-ORDINATOR</span>
-                <span className="contact-info">: DR. SAGAR T S</span>
+                <span className="contact-name">CULTURAL CO-ORDINATOR</span><span className="contact-info">: DR. SAGAR T S</span>
               </li>
             </ul>
 
             <h4 className="footer-section-title mobile-section-spacing">Registration</h4>
             <ul className="contact-list">
               <li>
-                <span className="contact-name">TARUN N</span>
-                <span className="contact-info">: 99729 09371</span>
+                <span className="contact-name">TARUN N</span><span className="contact-info">: 99729 09371</span>
               </li>
               <li>
-                <span className="contact-name">ANKITHA G</span>
-                <span className="contact-info">: 93539 91404</span>
+                <span className="contact-name">ANKITHA G</span><span className="contact-info">: 93539 91404</span>
               </li>
             </ul>
           </div>
@@ -43,24 +38,20 @@ function Footer() {
             <h4 className="footer-section-title">Student Co-ordinators</h4>
             <ul className="contact-list">
               <li>
-                <span className="contact-name">SUCHITH S</span>
-                <span className="contact-info">: 9481460046</span>
+                <span className="contact-name">SUCHITH S</span><span className="contact-info">: 9481460046</span>
               </li>
               <li>
-                <span className="contact-name">NAMITH R K</span>
-                <span className="contact-info">: 82963 71301</span>
+                <span className="contact-name">NAMITH R K</span><span className="contact-info">: 82963 71301</span>
               </li>
               <li>
-                <span className="contact-name">ISHITHA BR</span>
-                <span className="contact-info">: 80952 99195</span>
+                <span className="contact-name">ISHITHA BR</span><span className="contact-info">: 80952 99195</span>
               </li>
             </ul>
 
             <h4 className="footer-section-title mobile-section-spacing">Digital Design</h4>
             <ul className="contact-list">
               <li>
-                <span className="contact-name">AAKASH AGADI</span>
-                <span className="contact-info">: 9844584717</span>
+                <span className="contact-name">AAKASH AGADI</span><span className="contact-info">: 9844584717</span>
               </li>
             </ul>
           </div>

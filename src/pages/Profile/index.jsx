@@ -221,6 +221,7 @@ function Profile() {
                     Discover amazing events at Halcyon 2025! From technical competitions to cultural performances,
                     there's something exciting waiting for everyone.
                   </p>
+
                   <div className="event-highlights">
                     <div className="highlight-item">
                       <i className="fas fa-code"></i>
@@ -235,10 +236,19 @@ function Profile() {
                       <span>Gaming Competitions</span>
                     </div>
                     <div className="highlight-item">
-                      <i className="fas fa-trophy"></i>
-                      <span>Sports Events</span>
+                      <i className="fas fa-palette"></i>
+                      <span>Fine Arts</span>
+                    </div>
+                    <div className="highlight-item">
+                      <i className="fas fa-theater-masks"></i>
+                      <span>Theatre & Drama</span>
+                    </div>
+                    <div className="highlight-item">
+                      <i className="fas fa-book"></i>
+                      <span>Literary Events</span>
                     </div>
                   </div>
+
                   <button onClick={() => navigate('/events')} className="explore-btn">
                     <i className="fas fa-compass"></i>
                     Explore All Events
