@@ -213,13 +213,41 @@ function Profile() {
             {registrations.length === 0 ? (
               <div className="no-registrations">
                 <div className="empty-state">
-                  <i className="fas fa-calendar-times"></i>
-                  <h4>No Registrations Yet</h4>
-                  <p>You haven't registered for any events yet.</p>
+                  <div className="empty-state-icon">
+                    <i className="fas fa-rocket"></i>
+                  </div>
+                  <h4>Ready to Join the Adventure?</h4>
+                  <p>
+                    Discover amazing events at Halcyon 2025! From technical competitions to cultural performances,
+                    there's something exciting waiting for everyone.
+                  </p>
+                  <div className="event-highlights">
+                    <div className="highlight-item">
+                      <i className="fas fa-code"></i>
+                      <span>Technical Events</span>
+                    </div>
+                    <div className="highlight-item">
+                      <i className="fas fa-music"></i>
+                      <span>Cultural Programs</span>
+                    </div>
+                    <div className="highlight-item">
+                      <i className="fas fa-gamepad"></i>
+                      <span>Gaming Competitions</span>
+                    </div>
+                    <div className="highlight-item">
+                      <i className="fas fa-trophy"></i>
+                      <span>Sports Events</span>
+                    </div>
+                  </div>
                   <button onClick={() => navigate('/events')} className="explore-btn">
-                    <i className="fas fa-search"></i>
-                    Explore Events
+                    <i className="fas fa-compass"></i>
+                    Explore All Events
                   </button>
+                  <div className="secondary-actions">
+                    <p className="help-text">
+                      Need help? <a href="/contact" className="help-link">Contact our support team</a>
+                    </p>
+                  </div>
                 </div>
               </div>
             ) : (
@@ -330,9 +358,14 @@ function Profile() {
     <div className="dashboard-container user-profile">
       <div className="dashboard-header">
         <h2>User Profile</h2>
-        <button className="logout-btn" onClick={handleLogout}>
-          <i className="fas fa-sign-out-alt"></i> Logout
-        </button>
+        <div className="header-buttons">
+          <button className="home-btn" onClick={() => navigate('/')}>
+            <i className="fas fa-home"></i> Home
+          </button>
+          <button className="logout-btn" onClick={handleLogout}>
+            <i className="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
       </div>
 
       <div className="dashboard-content">

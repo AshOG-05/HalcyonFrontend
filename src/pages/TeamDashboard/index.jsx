@@ -990,6 +990,7 @@ function TeamDashboard() {
               </p>
             </div>
 
+            {/* Desktop Table Layout */}
             <table className="dashboard-table">
               <thead>
                 <tr>
@@ -1059,6 +1060,94 @@ function TeamDashboard() {
                 )}
               </tbody>
             </table>
+
+            {/* Mobile Cards Layout for Registrations */}
+            <div className="mobile-cards-container">
+              {filteredRegistrations.length > 0 ? (
+                filteredRegistrations.map((reg) => (
+                  <div key={reg._id} className="mobile-card registration-card">
+                    <div className="mobile-card-header">
+                      <div>
+                        <h4 className="mobile-card-title">
+                          {reg.isSpotRegistration
+                            ? reg.displayTeamLeader?.name || "Unknown"
+                            : reg.teamLeader?.name || "Unknown"}
+                        </h4>
+                        <p className="mobile-card-subtitle">{reg.teamName || "N/A"}</p>
+                      </div>
+                      <div className="mobile-card-actions">
+                        <button
+                          className="action-btn-mini view-btn"
+                          onClick={() => handleViewRegistration(reg)}
+                          title="View Details"
+                        >
+                          <i className="fas fa-eye"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div className="mobile-card-body">
+                      <div className="mobile-card-row">
+                        <span className="mobile-card-label">Event:</span>
+                        <span className="mobile-card-value">{reg.event?.name || "Unknown Event"}</span>
+                      </div>
+                      <div className="mobile-card-row">
+                        <span className="mobile-card-label">Payment Status:</span>
+                        <span className={`mobile-card-value status-badge ${reg.paymentStatus}`}>
+                          {reg.paymentStatus === "completed"
+                            ? "Paid"
+                            : reg.paymentStatus === "not_required"
+                              ? "No Payment Required"
+                              : reg.paymentStatus === "pending"
+                                ? "Payment Pending"
+                                : reg.paymentStatus === "failed"
+                                  ? "Payment Failed"
+                                  : reg.paymentStatus === "pay_on_event_day"
+                                    ? "Pay on Event Day"
+                                    : "Payment Required"}
+                        </span>
+                      </div>
+                      {reg.event?.date && (
+                        <div className="mobile-card-row">
+                          <span className="mobile-card-label">Event Date:</span>
+                          <span className="mobile-card-value">
+                            {new Date(reg.event.date).toLocaleDateString()}
+                          </span>
+                        </div>
+                      )}
+                      {reg.event?.venue && (
+                        <div className="mobile-card-row">
+                          <span className="mobile-card-label">Venue:</span>
+                          <span className="mobile-card-value">{reg.event.venue}</span>
+                        </div>
+                      )}
+                      <div className="mobile-card-row">
+                        <span className="mobile-card-label">Registration Date:</span>
+                        <span className="mobile-card-value">
+                          {new Date(reg.registeredAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="no-data-mobile">
+                  <i className="fas fa-exclamation-circle"></i>
+                  <p>
+                    {registrations.length === 0
+                      ? "No registrations found"
+                      : (searchTerm || filterCategory || filterEvent)
+                        ? "No registrations match your search criteria"
+                        : "No registrations found"
+                    }
+                  </p>
+                  {(searchTerm || filterCategory || filterEvent) && (
+                    <button onClick={clearFilters} className="clear-filters-link">
+                      Clear filters to see all registrations
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         )
 
