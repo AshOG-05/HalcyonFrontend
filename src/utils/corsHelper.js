@@ -7,10 +7,10 @@ const isProduction = window.location.hostname !== 'localhost' &&
                     window.location.hostname !== '127.0.0.1' &&
                     !window.location.hostname.includes('localhost');
 
-// Static API URL - uncomment the one you want to use
+// Static API URL - ALWAYS use production backend
 // For localhost development:
-// export const ORIGINAL_API_URL = 'http://localhost:4000/api';
-// For production:
+// export const ORIGINAL_API_URL = 'http://localhost:4001/api';
+// For production (ACTIVE):
 export const ORIGINAL_API_URL = 'https://halcyonbackend-1.onrender.com/api';
 
 console.log('🔗 CORS Helper - API URL:', ORIGINAL_API_URL);
@@ -91,7 +91,7 @@ export const corsProtectedFetch = async (endpoint, options = {}) => {
     // Provide environment-specific error messages
     const environmentInfo = isProduction
       ? 'Production environment - check if backend server is running on Render'
-      : 'Development environment - check if backend server is running on localhost:4000';
+      : 'Development environment - check if backend server is running on localhost:4001';
 
     throw new Error(`Network request failed: ${error.message}. ${environmentInfo}. Please check your internet connection and try again.`);
   }
