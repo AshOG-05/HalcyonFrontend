@@ -887,11 +887,10 @@ function TeamDashboard() {
                               setError("Failed to load event details for registration: " + err.message)
                             }
                           }}
-                          disabled={!event.registrationOpen}
-                          title={!event.registrationOpen ? "Registration is closed for this event" : "Click to register participants for this event"}
+                          title="Click to register participants for this event (spot registration available even when regular registration is closed)"
                         >
-                          <i className={`fas ${event.registrationOpen ? 'fa-user-plus' : 'fa-lock'}`}></i>
-                          {event.registrationOpen ? 'Register Participant' : 'Registration Closed'}
+                          <i className="fas fa-user-plus"></i>
+                          Register Participant
                         </button>
                       </td>
                     </tr>
@@ -1020,11 +1019,10 @@ function TeamDashboard() {
                             setError("Failed to load event details for registration: " + err.message)
                           }
                         }}
-                        disabled={!event.registrationOpen}
-                        title={!event.registrationOpen ? "Registration is closed for this event" : "Click to register participants for this event"}
+                        title="Click to register participants for this event (spot registration available even when regular registration is closed)"
                       >
-                        <i className={`fas ${event.registrationOpen ? 'fa-user-plus' : 'fa-lock'}`}></i>
-                        {event.registrationOpen ? 'Register Participant' : 'Registration Closed'}
+                        <i className="fas fa-user-plus"></i>
+                        Register Participant
                       </button>
                     </div>
                   </div>
