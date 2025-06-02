@@ -7,18 +7,15 @@ const isProduction = window.location.hostname !== 'localhost' &&
                     window.location.hostname !== '127.0.0.1' &&
                     !window.location.hostname.includes('localhost');
 
-// The original API URL without the CORS proxy
-//Updated upstream
-//                // Development backend
+// Dynamic API URL based on environment
+export const ORIGINAL_API_URL = isProduction
+  ? 'https://halcyonbackend-1.onrender.com/api'
+  : 'http://localhost:4000/api';
 
-// console.log('🔗 CORS Helper - API URL:', ORIGINAL_API_URL);
-// console.log('🌍 Environment:', isProduction ? 'Production' : 'Development');
-// console.log('🌐 Current hostname:', window.location.hostname);
-// console.log('🔗 Current origin:', window.location.origin);
-
-// export const ORIGINAL_API_URL = 'https://halcyonbackend-1.onrender.com/api';
-export const ORIGINAL_API_URL = 'http://localhost:4003/api';
-//Stashed changes
+console.log('🔗 CORS Helper - API URL:', ORIGINAL_API_URL);
+console.log('🌍 Environment:', isProduction ? 'Production' : 'Development');
+console.log('🌐 Current hostname:', window.location.hostname);
+console.log('🔗 Current origin:', window.location.origin);
 
 /**
  * Custom fetch function that attempts to use different CORS approaches
@@ -143,9 +140,8 @@ export const fetchWithRetry = async (endpoint, options = {}, maxRetries = 3) => 
  */
 export const checkBackendHealth = async () => {
   try {
-    const baseUrl = isProduction
-      ? 'https://halcyonbackend-1.onrender.com'
-      : 'http://localhost:4003';
+    // Use the same base URL as ORIGINAL_API_URL but without /api
+    const baseUrl = ORIGINAL_API_URL.replace('/api', '');
 
     console.log('🏥 Checking backend health at:', `${baseUrl}/health`);
 
