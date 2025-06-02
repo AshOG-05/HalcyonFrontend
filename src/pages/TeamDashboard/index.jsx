@@ -714,6 +714,10 @@ function TeamDashboard() {
         }
 
         // Handle specific error cases
+        if (errorData.error && errorData.error.includes("A participant with USN")) {
+          throw new Error(`${errorData.error}\n\nNote: Each participant can only be registered once per event. Please check if this person is already registered.`)
+        }
+
         if (errorData.error && errorData.error.includes("team registration already exists")) {
           throw new Error(`${errorData.error}\n\nNote: For team events, only one registration per team is allowed. If you need to modify the team, please contact the admin.`)
         }
