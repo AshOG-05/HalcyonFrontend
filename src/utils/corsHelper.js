@@ -8,14 +8,17 @@ const isProduction = window.location.hostname !== 'localhost' &&
                     !window.location.hostname.includes('localhost');
 
 // The original API URL without the CORS proxy
-export const ORIGINAL_API_URL = isProduction
-  ? 'https://halcyonbackend-1.onrender.com/api'  // Production backend
-  : 'http://localhost:4000/api';                 // Development backend
+//Updated upstream
+//                // Development backend
 
-console.log('🔗 CORS Helper - API URL:', ORIGINAL_API_URL);
-console.log('🌍 Environment:', isProduction ? 'Production' : 'Development');
-console.log('🌐 Current hostname:', window.location.hostname);
-console.log('🔗 Current origin:', window.location.origin);
+// console.log('🔗 CORS Helper - API URL:', ORIGINAL_API_URL);
+// console.log('🌍 Environment:', isProduction ? 'Production' : 'Development');
+// console.log('🌐 Current hostname:', window.location.hostname);
+// console.log('🔗 Current origin:', window.location.origin);
+
+export const ORIGINAL_API_URL = 'https://halcyonbackend-1.onrender.com/api';  
+// export const ORIGINAL_API_URL = 'http://localhost:4000/api';
+//Stashed changes
 
 /**
  * Custom fetch function that attempts to use different CORS approaches
