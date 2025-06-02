@@ -9,9 +9,9 @@ const isProduction = window.location.hostname !== 'localhost' &&
 
 // Static API URL - uncomment the one you want to use
 // For localhost development:
-export const ORIGINAL_API_URL = 'http://localhost:4000/api';
+// export const ORIGINAL_API_URL = 'http://localhost:4000/api';
 // For production:
-// export const ORIGINAL_API_URL = 'https://halcyonbackend-1.onrender.com/api';
+export const ORIGINAL_API_URL = 'https://halcyonbackend-1.onrender.com/api';
 
 console.log('🔗 CORS Helper - API URL:', ORIGINAL_API_URL);
 console.log('🌍 Environment:', isProduction ? 'Production' : 'Development');
