@@ -625,14 +625,14 @@ function AdminDashboard() {
       return;
     }
 
-    // Generate PDF for the selected event with download option
-    await handleGenerateEventPdf(selectedEvent._id, selectedEvent.name, true);
+    // Generate PDF for the selected event
+    await handleGenerateEventPdf(selectedEvent._id, selectedEvent.name);
   };
 
-  // Preview PDF based on current filters
-  const handlePreviewPdf = async () => {
+  // Generate Judge PDF based on current filters
+  const handleGenerateJudgePdf = async () => {
     if (!filterEvent) {
-      alert('Please select a specific event to preview a PDF report.');
+      alert('Please select a specific event to generate a Judge PDF.');
       return;
     }
 
@@ -644,20 +644,20 @@ function AdminDashboard() {
       return;
     }
 
-    // Generate PDF for the selected event without download option
-    await handleGenerateEventPdf(selectedEvent._id, selectedEvent.name, false);
+    // Generate Judge PDF for the selected event
+    await handleGenerateEventJudgePdf(selectedEvent._id, selectedEvent.name);
   };
 
   // Generate PDF for a specific event
-  const handleGenerateEventPdf = async (eventId, eventName, shouldDownload = true) => {
+  const handleGenerateEventPdf = async (eventId, eventName) => {
     try {
       const token = localStorage.getItem('adminCookie');
 
       // Show loading message
-      alert(`${shouldDownload ? 'Generating' : 'Previewing'} PDF report for ${eventName}. This may take a few seconds...`);
+      alert(`Generating PDF report for ${eventName}. This may take a few seconds...`);
 
-      // Use corsProtectedFetch to get the PDF as a blob
-      const response = await corsProtectedFetch(`admin/pdf/${eventId}`, {
+      // Use corsProtectedFetch to get the PDF as a blob with cache busting
+      const response = await corsProtectedFetch(`admin/pdf/${eventId}?t=${Date.now()}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -678,29 +678,25 @@ function AdminDashboard() {
       // Create a URL for the blob
       const url = window.URL.createObjectURL(blob);
 
-      // Open the PDF in a new tab for preview
-      const newWindow = window.open(url, '_blank');
+      // Create a temporary link element for download
+      const a = document.createElement('a');
+      a.href = url;
 
-      // If popup is blocked, inform the user
-      if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-        alert('PDF generated successfully! Please allow popups to view it in a new tab.');
+      // Try to get filename from Content-Disposition header, fallback to default
+      let filename = `${eventName.replace(/\s+/g, '_')}_registrations.pdf`;
+      const contentDisposition = response.headers.get('content-disposition');
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+        if (filenameMatch && filenameMatch[1]) {
+          filename = filenameMatch[1].replace(/['"]/g, '');
+        }
       }
+      a.download = filename;
 
-      // If download is requested, create a download link
-      if (shouldDownload) {
-        // Create a temporary link element for download
-        const a = document.createElement('a');
-        a.href = url;
-
-        // Set filename
-        const filename = `${eventName.replace(/\s+/g, '_')}_registrations.pdf`;
-        a.download = filename;
-
-        // Append to body, click and remove
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      }
+      // Append to body, click and remove
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
 
       // Release the URL object after a short delay to ensure download starts
       setTimeout(() => {
@@ -708,7 +704,67 @@ function AdminDashboard() {
       }, 1000);
     } catch (err) {
       console.error('Error generating PDF:', err);
-      alert(`Error ${shouldDownload ? 'generating' : 'previewing'} PDF: ${err.message}`);
+      alert(`Error generating PDF: ${err.message}`);
+    }
+  };
+
+  // Generate Judge PDF for a specific event
+  const handleGenerateEventJudgePdf = async (eventId, eventName) => {
+    try {
+      const token = localStorage.getItem('adminCookie');
+
+      // Show loading message
+      alert(`Generating Judge PDF for ${eventName}. This may take a few seconds...`);
+
+      // Use corsProtectedFetch to get the Judge PDF as a blob with cache busting
+      const response = await corsProtectedFetch(`admin/judge-pdf/${eventId}?t=${Date.now()}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        try {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to generate Judge PDF');
+        } catch (jsonError) {
+          throw new Error('Failed to generate Judge PDF. The server may be experiencing issues.');
+        }
+      }
+
+      // Convert response to blob
+      const blob = await response.blob();
+
+      // Create a URL for the blob
+      const url = window.URL.createObjectURL(blob);
+
+      // Create a temporary link element for download
+      const a = document.createElement('a');
+      a.href = url;
+
+      // Try to get filename from Content-Disposition header, fallback to default
+      let filename = `${eventName.replace(/\s+/g, '_')}_judge_sheet.pdf`;
+      const contentDisposition = response.headers.get('content-disposition');
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+        if (filenameMatch && filenameMatch[1]) {
+          filename = filenameMatch[1].replace(/['"]/g, '');
+        }
+      }
+      a.download = filename;
+
+      // Append to body, click and remove
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      // Release the URL object after a short delay to ensure download starts
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url);
+      }, 1000);
+    } catch (err) {
+      console.error('Error generating Judge PDF:', err);
+      alert(`Error generating Judge PDF: ${err.message}`);
     }
   };
 
@@ -1391,18 +1447,18 @@ function AdminDashboard() {
                         <i className="fas fa-file-excel"></i> Export This Event
                       </button>
                       <button
-                        className="preview-pdf-btn"
-                        onClick={handlePreviewPdf}
-                        title="Preview PDF for selected event"
-                      >
-                        <i className="fas fa-eye"></i> Preview PDF
-                      </button>
-                      <button
                         className="generate-pdf-btn"
                         onClick={handleGeneratePdf}
-                        title="Download PDF for selected event"
+                        title="Download registration PDF for selected event"
                       >
-                        <i className="fas fa-file-pdf"></i> Download PDF
+                        <i className="fas fa-file-pdf"></i> Registration PDF
+                      </button>
+                      <button
+                        className="generate-judge-pdf-btn"
+                        onClick={handleGenerateJudgePdf}
+                        title="Download judge PDF for selected event"
+                      >
+                        <i className="fas fa-gavel"></i> Judge PDF
                       </button>
                     </>
                   )}

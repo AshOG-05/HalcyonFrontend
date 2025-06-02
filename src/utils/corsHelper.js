@@ -16,8 +16,8 @@ const isProduction = window.location.hostname !== 'localhost' &&
 // console.log('🌐 Current hostname:', window.location.hostname);
 // console.log('🔗 Current origin:', window.location.origin);
 
-export const ORIGINAL_API_URL = 'https://halcyonbackend-1.onrender.com/api';  
-// export const ORIGINAL_API_URL = 'http://localhost:4000/api';
+// export const ORIGINAL_API_URL = 'https://halcyonbackend-1.onrender.com/api';
+export const ORIGINAL_API_URL = 'http://localhost:4003/api';
 //Stashed changes
 
 /**
@@ -145,7 +145,7 @@ export const checkBackendHealth = async () => {
   try {
     const baseUrl = isProduction
       ? 'https://halcyonbackend-1.onrender.com'
-      : 'http://localhost:4000';
+      : 'http://localhost:4003';
 
     console.log('🏥 Checking backend health at:', `${baseUrl}/health`);
 
