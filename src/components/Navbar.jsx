@@ -38,7 +38,7 @@ function Navbar() {
       <a title="About" href="#about_anchor">About</a>
       <a title="Timeline" href="#timeline_anchor">Timeline</a>
       <a title="Explore" href="#explore_anchor">Explore</a>
-      <a title="Special Guests" href="#special_guests">Special Guests</a>
+      {/* <a title="Special Guests" href="#special_guests">Special Guests</a> */}
       <Link to="/events" title="Events">Events</Link>
       <a title="Reach Us" href="#reach_us">Reach Us</a>
       <a title="Contact" href="#contact_anchor">Contact</a>
@@ -56,7 +56,7 @@ function Navbar() {
 
       <img
         src="/assets/final LOGO.png"
-        alt="Halcyon 2025 Logo"
+        alt="Halcyon 2026 Logo"
         className="nav-logo halcyon-logo"
       />
     </nav>

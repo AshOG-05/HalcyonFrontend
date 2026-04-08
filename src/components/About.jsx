@@ -69,8 +69,11 @@ function About() {
         <h1>About <span className="highlight">Halcyon</span></h1>
         <div className="about-content">
           <p className="about-text">
-            Welcome to <span className="highlight">Halcyon</span> - the biggest, most exciting college fest of Siddaganga Institutue of Technology, Tumkur!
-            Join us for an unforgettable celebration of youth, talent, and culture.
+            <span className="highlight">Halcyon'26</span>.THE SUMMER FEST OF SIDDAGANGA INSTITUTE OF TECHNOLOGY, IS THE LARGEST
+CULTURAL CELEBRATION HOSTED BY THE INSTITUTION. SPANNING FOR TWO VIBRANT DAYS, THIS
+ANNUAL FEST HAS BEEN A CHERISHED TRADITION SINCE ITS INCEPTION IN 1992. NOW IN ITS 33RD
+YEAR, HALCYON CONTINUES TO GROW IN SCALE AND ENTHUSIASM, DRAWING OVER 2,500
+PARTICIPANTS EACH YEAR FROM VARIOUS COLLEGES ACROSS KARNATAKA.
           </p>
 
           {/* Added Marquee component here */}
@@ -89,7 +92,7 @@ function About() {
             </div>
             <div className="feature" data-aos="fade-up" data-aos-delay="300">
               <i className="fas fa-rupee-sign"></i>
-              <h3>₹2.03 Lakh Prize Pool</h3>
+              <h3>₹2 Lakh Prize Pool</h3>
               <p>Win big from our massive prize pool across all competitions.</p>
             </div>
           </div>

@@ -6,7 +6,7 @@
 export const API_URL = 'https://halcyonbackend-1.onrender.com/api';
 // Other configuration settings
 export const APP_CONFIG = {
-  appName: 'Halcyon 2025',
+  appName: 'Halcyon 2026',
   tokenName: 'cookie',
   adminTokenName: 'adminCookie',
   teamTokenName: 'teamCookie',

@@ -4,7 +4,7 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="footer-content" id="contact_anchor">
-        <h3 className="footer-title">HALCYON 2025</h3>
+        <h3 className="footer-title">HALCYON 2026</h3>
 
         <div className="footer-grid">
           {/* Executive Committee Section */}
@@ -25,10 +25,10 @@ function Footer() {
             <h4 className="footer-section-title mobile-section-spacing">Registration</h4>
             <ul className="contact-list">
               <li>
-                <span className="contact-name">TARUN N</span><span className="contact-info">: 99729 09371</span>
+                <span className="contact-name">SUMUKHA BHARADWAJ</span><span className="contact-info">: 72047 66483</span>
               </li>
               <li>
-                <span className="contact-name">ANKITHA G</span><span className="contact-info">: 93539 91404</span>
+                <span className="contact-name">CHAITHRA Y U</span><span className="contact-info">: 84318 70362</span>
               </li>
             </ul>
           </div>
@@ -38,20 +38,20 @@ function Footer() {
             <h4 className="footer-section-title">Student Co-ordinators</h4>
             <ul className="contact-list">
               <li>
-                <span className="contact-name">SUCHITH S</span><span className="contact-info">: 9481460046</span>
+                <span className="contact-name">PRAJWAL GOWDA T</span><span className="contact-info">: 90355 87984</span>
               </li>
               <li>
-                <span className="contact-name">NAMITH R K</span><span className="contact-info">: 82963 71301</span>
+                <span className="contact-name">JP GOWDA BY</span><span className="contact-info">: 96634 99618</span>
               </li>
               <li>
-                <span className="contact-name">ISHITHA BR</span><span className="contact-info">: 80952 99195</span>
+                <span className="contact-name">SUJAL HUKKERI</span><span className="contact-info">: 86607 65383</span>
               </li>
             </ul>
 
             <h4 className="footer-section-title mobile-section-spacing">Digital Design</h4>
             <ul className="contact-list">
               <li>
-                <span className="contact-name">AAKASH AGADI</span><span className="contact-info">: 9844584717</span>
+                <span className="contact-name">AAKASH AGADI</span><span className="contact-info">: 98445 84717</span>
               </li>
             </ul>
           </div>

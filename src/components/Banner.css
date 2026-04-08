@@ -3,7 +3,7 @@
 /* Reset all button styles first */
 @font-face{
   font-family:'CustomFont';
-  src:url('../../fonts/samarkan.ttf') format('truetype');
+  src:url('../../fonts/pops.ttf') format('truetype');
 }
 .banner .register-button, .banner .logout-button {
   position: relative;

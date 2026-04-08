@@ -44,7 +44,7 @@ function AuthPage() {
       </div>
       <div className="auth-card">
         <div className="auth-header">
-          <h2>Welcome to Halcyon 2025</h2>
+          <h2>Welcome to Halcyon 2026</h2>
           <div className="auth-tabs">
             <button
               className={`auth-tab ${activeTab === 'login' ? 'active' : ''}`}

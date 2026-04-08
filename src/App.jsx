@@ -3,8 +3,7 @@ import Navbar from './components/Navbar'
 import Banner from './components/Banner'
 import About from './components/About'
 import Timeline from './components/Timeline'
-import Pronites from './components/Pronites' // Special Guests component (file name kept as Pronites for consistency)
-// import Sponsors from './components/Sponsors'
+import Pronites from './components/Pronites'
 import Footer from './components/Footer'
 import ParticlesComponent from './components/ParticlesComponent'
 import Explore from './components/Explore'
@@ -17,7 +16,7 @@ import './App.css'
 function App() {
   // Initialize loading state based on device type
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
-  const [loading, setLoading] = useState(!isMobile); // Start with loading=false on mobile
+  const [loading, setLoading] = useState(!isMobile); 
 
   useEffect(() => {
     // Only set up the timer for desktop devices
@@ -85,7 +84,7 @@ function App() {
           {/* <ParticlesComponent /> */}
         </div>
         <Explore />
-        <Pronites /> {/* Special Guests component */}
+        {/* <Pronites /> Special Guests component */}
         {/* Sponsors section commented out until sponsors are confirmed */}
         {/* <Sponsors /> */}
         <ReachUs />

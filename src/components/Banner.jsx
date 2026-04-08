@@ -30,7 +30,7 @@ function Banner() {
     }
 
     // Countdown Timer
-    const festDay = new Date("JUNE 2, 2025 12:00:00").getTime();
+    const festDay = new Date("APRIL 17, 2026 12:00:00").getTime();
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -124,9 +124,9 @@ function Banner() {
       <div className="overlay"></div>
       <div className="heading">
         <h1 className="samarkan" style={{fontFamily:'CustomFont'}}>HALCYON</h1>
-        <h1 className="samarkan" style={{fontFamily:'CustomFont'}}>2025</h1>
-        <p>Vividhta ka utsav sanskrithi ka shasan</p>
-        <p>2nd JUNE 2025 - 3rd JUNE 2025</p>
+        <h1 className="samarkan" style={{fontFamily:'CustomFont'}}>2026</h1>
+        <p>Celebrating the echoes of comicore</p>
+        <p>17th April 2026 - 18th April 2026</p>
         {!isLoggedIn ? (
           <div className="register-button">
             <a
