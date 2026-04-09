@@ -89,6 +89,7 @@ function App() {
         {/* <Sponsors /> */}
         <ReachUs />
         <BrochureDownload />
+        {/*testing*/}
         <Footer />
       </div>
     </>
