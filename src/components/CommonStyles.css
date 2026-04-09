@@ -1,0 +1,144 @@
+/* Common styles for section headings */
+.section-heading {
+  text-align: center;
+  font-size: 3.5rem;
+  margin-bottom: 3rem;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  position: relative;
+  font-weight: 900;
+  font-family: 'Fredoka One', 'Arial Black', sans-serif;
+  text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 23, 68, 0.4);
+}
+
+.section-heading-text {
+  position: relative;
+  display: inline-block;
+  animation: fadeInUp 1.2s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+  cursor: default;
+}
+
+.section-heading-text:hover {
+  transform: translateY(-8px) scale(1.05) rotate(1deg);
+  color: #FF1744;
+  text-shadow: 5px 5px 0px rgba(0, 0, 0, 0.4), 0 0 25px rgba(255, 23, 68, 0.6);
+}
+
+/* Animation for section headings */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================= */
+/* 📦 COMIC BOOK PANELS */
+/* ============================= */
+
+.comic-panel {
+  background: white;
+  border: 5px solid #000;
+  border-radius: 10px;
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);
+  padding: 2rem;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.comic-panel:hover {
+  transform: translateY(-5px);
+  box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.4);
+}
+
+.comic-panel-red {
+  border-color: #FF1744;
+  box-shadow: 8px 8px 0px rgba(255, 23, 68, 0.3);
+}
+
+.comic-panel-blue {
+  border-color: #00B0FF;
+  box-shadow: 8px 8px 0px rgba(0, 176, 255, 0.3);
+}
+
+.comic-panel-yellow {
+  background: #FFFACD;
+  border-color: #FFEB3B;
+  box-shadow: 8px 8px 0px rgba(255, 235, 59, 0.3);
+}
+
+.comic-panel-purple {
+  border-color: #9C27B0;
+  box-shadow: 8px 8px 0px rgba(156, 39, 176, 0.3);
+}
+
+/* ============================= */
+/* SECTION BREAKING LINES */
+/* ============================= */
+
+.section-break {
+  height: 4px;
+  background: linear-gradient(90deg, 
+    #000 0%, #000 10%, 
+    transparent 10%, transparent 20%, 
+    #000 20%, #000 30%, 
+    transparent 30%, transparent 40%, 
+    #000 40%, #000 50%,
+    transparent 50%, transparent 60%,
+    #000 60%, #000 70%,
+    transparent 70%, transparent 80%,
+    #000 80%, #000 90%,
+    transparent 90%, transparent 100%);
+  margin: 2rem 0;
+  position: relative;
+  z-index: 10;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .section-heading {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-heading-text:hover {
+    transform: translateY(-4px) scale(1.02);
+    text-shadow: 0 0 15px rgba(255, 23, 68, 0.5), 0 0 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .comic-panel {
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+  }
+
+  .comic-panel:hover {
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@media (max-width: 480px) {
+  .section-heading {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 3px;
+  }
+
+  .section-heading-text:hover {
+    transform: translateY(-2px) scale(1.01);
+    text-shadow: 0 0 10px rgba(255, 23, 68, 0.3), 0 0 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .comic-panel {
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-width: 3px;
+  }
+}

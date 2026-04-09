@@ -1,0 +1,1149 @@
+/* ============================================================
+   EVENT MODAL — POP COMICS THEME
+   ============================================================ */
+
+/* ---------- overlay ---------- */
+.comic-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  padding: 1rem;
+  backdrop-filter: blur(3px);
+  animation: overlayIn 0.2s ease both;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ---------- modal shell ---------- */
+.comic-event-modal {
+  position: relative;
+  background: #fff;
+  border: 5px solid #000;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 12px 12px 0px #000;
+  overflow: hidden;
+  animation: modalPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.7) rotate(-3deg); }
+  to   { opacity: 1; transform: scale(1)   rotate(0deg);  }
+}
+
+/* ---------- close button ---------- */
+.comic-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 20;
+  width: 38px;
+  height: 38px;
+  background: #FFEB3B;
+  border: 3px solid #000;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 3px 3px 0px #000;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  line-height: 1;
+}
+.comic-modal-close:hover {
+  transform: rotate(90deg) scale(1.1);
+  box-shadow: 4px 4px 0px #000;
+}
+
+/* ---------- corner sound effects ---------- */
+.comic-modal-sfx {
+  position: absolute;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  font-weight: 900;
+  pointer-events: none;
+  z-index: 15;
+  animation: sfxPop 0.4s ease both;
+}
+.comic-modal-sfx-tl { top: 14px;  left: 14px;  color: #FF1744; transform: rotate(-10deg); }
+.comic-modal-sfx-br { bottom: 80px; right: 14px; color: #00B0FF; transform: rotate(8deg);  }
+
+@keyframes sfxPop {
+  from { opacity: 0; transform: scale(0.3) rotate(-15deg); }
+  to   { opacity: 1; }
+}
+
+/* ---------- loading ---------- */
+.comic-modal-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1rem;
+}
+
+.comic-spinner {
+  width: 60px;
+  height: 60px;
+  border: 5px solid #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  animation: spinComic 1s linear infinite;
+  box-shadow: 4px 4px 0px #000;
+}
+
+@keyframes spinComic {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.comic-loading-text {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  letter-spacing: 3px;
+  color: #000;
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* ---------- error ---------- */
+.comic-modal-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1rem;
+}
+
+.comic-error-icon { font-size: 3rem; }
+
+.comic-error-text {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.2rem;
+  color: #FF1744;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+/* ---------- header strip ---------- */
+.comic-modal-header {
+  position: relative;
+  background: linear-gradient(135deg, #FF1744 0%, #9C27B0 100%);
+  border-bottom: 5px solid #000;
+  padding: 1.6rem 3rem 1.4rem 1.6rem;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* subtle halftone overlay on header */
+.comic-modal-header-bg {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 14px 14px;
+  pointer-events: none;
+}
+
+.comic-modal-event-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  color: #fff;
+  margin: 0 0 1rem;
+  letter-spacing: 3px;
+  text-shadow: 3px 3px 0px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 2;
+}
+
+/* meta pills row */
+.comic-modal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.comic-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border: 2px solid #000;
+  border-radius: 20px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.4);
+  white-space: nowrap;
+}
+
+.comic-meta-red    { background: #FFEB3B; color: #000; }
+.comic-meta-blue   { background: #00B0FF; color: #fff; }
+.comic-meta-yellow { background: #fff;    color: #000; }
+.comic-meta-purple { background: #FF1744; color: #fff; }
+
+/* ---------- scrollable body ---------- */
+.comic-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  background: #fafafa;
+}
+
+.comic-modal-body::-webkit-scrollbar       { width: 6px; }
+.comic-modal-body::-webkit-scrollbar-track { background: #f0f0f0; }
+.comic-modal-body::-webkit-scrollbar-thumb { background: #FF1744; border-radius: 3px; }
+
+/* ---------- sections ---------- */
+.comic-modal-section {
+  background: #fff;
+  border: 3px solid #000;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 5px 5px 0px #000;
+}
+
+.comic-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--sec-color);
+  color: var(--sec-text);
+  border-bottom: 3px solid #000;
+  padding: 0.6rem 1rem;
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  font-weight: 900;
+}
+
+.comic-section-icon { font-size: 1.1rem; }
+
+.comic-section-body {
+  padding: 1rem;
+  color: #333;
+  line-height: 1.65;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* list items */
+.comic-section-list {
+  list-style: none;
+  padding: 0.8rem 1rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.comic-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  color: #333;
+  font-size: 0.93rem;
+  line-height: 1.5;
+}
+
+.comic-list-bullet {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  background: var(--sec-color);
+  color: var(--sec-text);
+  border: 2px solid #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+/* prize items */
+.comic-prize-item { align-items: center; }
+.comic-prize-medal { font-size: 1.3rem; flex-shrink: 0; }
+
+/* coordinator items */
+.comic-coordinator-item { align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+.comic-coord-avatar { font-size: 1.2rem; flex-shrink: 0; }
+
+.comic-coord-name {
+  font-weight: 700;
+  color: #000;
+  flex: 1;
+  min-width: 120px;
+}
+
+.comic-coord-phone {
+  color: #9C27B0;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.88rem;
+  border: 2px solid #9C27B0;
+  border-radius: 20px;
+  padding: 0.15rem 0.6rem;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.comic-coord-phone:hover {
+  background: #9C27B0;
+  color: #fff;
+}
+
+/* ---------- footer ---------- */
+.comic-modal-footer {
+  flex-shrink: 0;
+  border-top: 4px solid #000;
+  padding: 1rem 1.4rem;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* registration status message */
+.comic-reg-message {
+  text-align: center;
+  padding: 0.6rem 1rem;
+  border: 3px solid #000;
+  border-radius: 8px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+.comic-reg-success { background: #00E676; color: #000; }
+.comic-reg-error   { background: #FF1744; color: #fff; }
+
+/* fee + team info */
+.comic-reg-info-row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.comic-reg-info-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.9rem;
+  border: 3px solid #000;
+  border-radius: 8px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  flex: 1;
+  min-width: 0;
+  box-shadow: 3px 3px 0px #000;
+}
+
+.comic-fee-pill  { background: #FFEB3B; color: #000; }
+.comic-team-pill { background: #00B0FF; color: #fff; }
+
+/* register button */
+.comic-register-btn {
+  width: 100%;
+  padding: 0.9rem;
+  background: linear-gradient(135deg, #FF1744, #FF6D00);
+  color: #fff;
+  border: 4px solid #000;
+  border-radius: 10px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  box-shadow: 6px 6px 0px #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.comic-register-btn:hover:not(:disabled) {
+  transform: translateY(-4px);
+  box-shadow: 9px 9px 0px #000;
+}
+.comic-register-btn:disabled {
+  background: #ccc;
+  border-color: #999;
+  color: #666;
+  box-shadow: 3px 3px 0px #999;
+  cursor: not-allowed;
+}
+
+.comic-btn-spinner {
+  display: inline-block;
+  animation: spinComic 0.8s linear infinite;
+}
+.comic-btn-arrow {
+  transition: transform 0.2s ease;
+}
+.comic-register-btn:hover:not(:disabled) .comic-btn-arrow {
+  transform: translateX(5px);
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 480px) {
+  .comic-event-modal {
+    max-height: 95vh;
+    border-radius: 10px;
+  }
+
+  .comic-modal-header {
+    padding: 1.2rem 2.5rem 1rem 1rem;
+  }
+
+  .comic-meta-pill { font-size: 0.72rem; }
+
+  .comic-reg-info-row { flex-direction: column; }
+
+  .comic-modal-sfx-tl,
+  .comic-modal-sfx-br { display: none; }
+}
+
+.event-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.event-modal {
+  background: #FFFACD;
+  background-image:
+    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
+    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px);
+  background-size: 25px 25px, 100%;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: modalFadeIn 0.3s ease-out;
+  border: 4px solid #000;
+  padding: 0;
+  backdrop-filter: blur(10px);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 23, 68, 0.5) rgba(10, 10, 20, 0.7);
+}
+
+/* Custom scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+.event-modal::-webkit-scrollbar {
+  width: 8px;
+}
+
+.event-modal::-webkit-scrollbar-track {
+  background: rgba(10, 10, 20, 0.7);
+  border-radius: 10px;
+  margin: 10px 0;
+}
+
+.event-modal::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, rgba(255, 23, 68, 0.3), rgba(255, 23, 68, 0.5));
+  border-radius: 10px;
+  border: 2px solid rgba(10, 10, 20, 0.7);
+}
+
+.event-modal::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, rgba(255, 23, 68, 0.5), rgba(255, 23, 68, 0.7));
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.close-modal:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #FF1744;
+}
+
+.event-modal-header {
+  background: rgba(10, 10, 20, 0.7);
+  padding: 30px 30px 20px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom: 1px solid rgba(30, 30, 50, 0.4);
+}
+
+.event-modal-header h2 {
+  color: #FF1744;
+  margin: 0 0 15px 0;
+  font-size: 2rem;
+  padding-right: 30px;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(255, 23, 68, 0.3);
+  position: relative;
+  display: inline-block;
+}
+
+.event-modal-header h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg, #FF1744, transparent);
+  animation: glowLine 3s ease-in-out infinite;
+}
+
+@keyframes glowLine {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 23, 68, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(255, 23, 68, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 23, 68, 0.3);
+  }
+}
+
+.event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  color: #ddd;
+  font-size: 0.95rem;
+  margin-top: 20px;
+}
+
+.event-date-time, .event-location, .event-category, .event-day-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15, 15, 25, 0.4);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(30, 30, 50, 0.4);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.event-date-time i, .event-location i, .event-category i, .event-day-badge i {
+  color: #FF1744;
+  text-shadow: 0 0 8px rgba(255, 23, 68, 0.3);
+  width: 16px;
+  text-align: center;
+}
+
+.event-category {
+  background: rgba(255, 23, 68, 0.15);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 23, 68, 0.3);
+}
+
+.event-day-badge {
+  background: rgba(255, 23, 68, 0.15);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 23, 68, 0.3);
+  white-space: nowrap;
+}
+
+.event-day-badge i {
+  color: #FF1744;
+}
+
+.event-modal-content {
+  padding: 30px;
+  color: #ddd;
+  background: rgba(15, 15, 25, 0.4);
+}
+
+.event-description, .event-rules, .event-prizes, .event-coordinators {
+  margin-bottom: 25px;
+  background: rgba(10, 10, 20, 0.5);
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(30, 30, 50, 0.4);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.event-description h3, .event-rules h3, .event-prizes h3, .event-coordinators h3 {
+  color: #FF1744;
+  margin: 0 0 15px 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(255, 23, 68, 0.3);
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+}
+
+.event-description h3::after, .event-rules h3::after, .event-prizes h3::after, .event-coordinators h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg, #FF1744, transparent);
+}
+
+.event-description p {
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 300;
+  font-size: 0.95rem;
+}
+
+.event-rules ul, .event-prizes ul, .event-coordinators ul {
+  padding-left: 20px;
+  margin: 0;
+  list-style-type: none;
+}
+
+.event-rules li, .event-prizes li, .event-coordinators li {
+  position: relative;
+  padding-left: 15px;
+}
+
+.event-rules li::before, .event-prizes li::before, .event-coordinators li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #FF1744;
+  font-size: 1.2rem;
+  line-height: 1;
+  top: 0;
+}
+
+.event-rules li, .event-prizes li, .event-coordinators li {
+  margin-bottom: 12px;
+  line-height: 1.5;
+  font-weight: 300;
+  font-size: 0.95rem;
+}
+
+.event-modal-actions {
+  padding: 20px 30px 30px;
+  border-top: 1px solid rgba(30, 30, 50, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: rgba(10, 10, 20, 0.5);
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.event-registration-info {
+  background: rgba(15, 15, 25, 0.4);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 5px;
+  border: 1px solid rgba(30, 30, 50, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.registration-fee, .team-size-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  color: #ddd;
+}
+
+.registration-fee {
+  padding-bottom: 10px;
+  border-bottom: 1px dashed rgba(255, 23, 68, 0.2);
+}
+
+.registration-fee i, .team-size-info i {
+  color: #FF1744;
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+  text-shadow: 0 0 8px rgba(255, 23, 68, 0.3);
+}
+
+.registration-fee span strong, .team-size-info span strong {
+  color: #ffb74d;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.register-button {
+  background: rgba(20, 20, 35, 0.6);
+  color: #FF1744;
+  border: 1px solid rgba(255, 23, 68, 0.4);
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.5px;
+}
+
+.register-button:hover {
+  background: rgba(255, 23, 68, 0.15);
+  border-color: rgba(255, 23, 68, 0.7);
+  color: #FF1744;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 0 8px rgba(255, 23, 68, 0.5);
+}
+
+.register-button:disabled {
+  background-color: rgba(50, 50, 50, 0.3);
+  border-color: rgba(100, 100, 100, 0.3);
+  color: #999;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+.modal-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  color: #ddd;
+  min-height: 300px;
+}
+
+.spinner {
+  border: 3px solid rgba(30, 30, 30, 0.5);
+  border-radius: 50%;
+  border-top: 3px solid #FF1744;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.modal-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  color: #f44336;
+  text-align: center;
+  min-height: 300px;
+}
+
+.modal-error i {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(244, 67, 54, 0.3);
+}
+
+.modal-loading p,
+.modal-error p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  max-width: 500px;
+}
+
+.registration-message {
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.registration-message.success {
+  background-color: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  text-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+}
+
+.registration-message.error {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  text-shadow: 0 0 8px rgba(244, 67, 54, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .event-modal-overlay {
+    padding: 10px;
+  }
+
+  .event-modal {
+    width: 95%;
+    max-height: calc(100vh - 20px);
+    border-radius: 12px;
+  }
+
+  .event-modal-header {
+    padding: 20px 15px 15px;
+  }
+
+  .event-modal-header h2 {
+    font-size: 1.5rem;
+    padding-right: 35px;
+  }
+
+  .close-modal {
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    font-size: 1.1rem;
+  }
+
+  .event-modal-content {
+    padding: 15px;
+  }
+
+  .event-modal-actions {
+    padding: 15px;
+  }
+
+  .event-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .event-date-time, .event-location, .event-category, .event-day-badge {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+
+  .event-description, .event-rules, .event-prizes, .event-coordinators {
+    padding: 12px;
+    margin-bottom: 15px;
+  }
+
+  .event-description h3, .event-rules h3, .event-prizes h3, .event-coordinators h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  .event-description p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .event-rules ul, .event-prizes ul, .event-coordinators ul {
+    padding-left: 0;
+  }
+
+  .event-rules li, .event-prizes li, .event-coordinators li {
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    padding: 6px 10px;
+  }
+
+  .register-button, .close-button {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+
+  .registration-message {
+    padding: 12px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .event-modal-overlay {
+    padding: 5px;
+  }
+
+  .event-modal {
+    width: 98%;
+    max-height: calc(100vh - 10px);
+    border-radius: 8px;
+  }
+
+  .event-modal-header {
+    padding: 15px 12px 12px;
+  }
+
+  .event-modal-header h2 {
+    font-size: 1.3rem;
+    padding-right: 30px;
+    line-height: 1.3;
+  }
+
+  .close-modal {
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+  }
+
+  .event-modal-content {
+    padding: 12px;
+  }
+
+  .event-modal-actions {
+    padding: 12px;
+  }
+
+  .event-meta {
+    gap: 6px;
+  }
+
+  .event-date-time, .event-location, .event-category, .event-day-badge {
+    padding: 5px 8px;
+    font-size: 0.8rem;
+  }
+
+  .event-description, .event-rules, .event-prizes, .event-coordinators {
+    padding: 10px;
+    margin-bottom: 12px;
+  }
+
+  .event-description h3, .event-rules h3, .event-prizes h3, .event-coordinators h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+
+  .event-description p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .event-rules li, .event-prizes li, .event-coordinators li {
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+    padding: 4px 8px;
+  }
+
+  .register-button, .close-button {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+
+  .registration-message {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .event-modal {
+    width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .event-modal-header {
+    padding: 12px 10px 10px;
+  }
+
+  .event-modal-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .close-modal {
+    top: 8px;
+    right: 8px;
+    width: 26px;
+    height: 26px;
+    font-size: 0.9rem;
+  }
+
+  .event-modal-content {
+    padding: 10px;
+  }
+
+  .event-modal-actions {
+    padding: 10px;
+  }
+
+  .event-description, .event-rules, .event-prizes, .event-coordinators {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+
+  .event-description h3, .event-rules h3, .event-prizes h3, .event-coordinators h3 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  .event-description p {
+    font-size: 0.8rem;
+  }
+
+  .event-rules li, .event-prizes li, .event-coordinators li {
+    font-size: 0.75rem;
+    padding: 3px 6px;
+  }
+
+  .register-button, .close-button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .event-modal-header {
+    padding: 10px 8px 8px;
+  }
+
+  .event-modal-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .event-modal-content {
+    padding: 8px;
+  }
+
+  .event-modal-actions {
+    padding: 8px;
+  }
+
+  .event-description, .event-rules, .event-prizes, .event-coordinators {
+    padding: 6px;
+  }
+
+  .event-description h3, .event-rules h3, .event-prizes h3, .event-coordinators h3 {
+    font-size: 0.95rem;
+  }
+
+  .event-description p {
+    font-size: 0.75rem;
+  }
+
+  .event-rules li, .event-prizes li, .event-coordinators li {
+    font-size: 0.7rem;
+    padding: 2px 4px;
+  }
+
+  .register-button, .close-button {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Mobile touch improvements */
+@media (max-width: 768px) {
+  /* Touch-friendly interactions */
+  .register-button,
+  .close-button,
+  .close-modal {
+    min-height: 44px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Smooth scrolling */
+  .event-modal {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Better touch targets */
+  .close-modal {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Prevent text selection on touch */
+  .event-modal-header h2,
+  .event-description h3,
+  .event-rules h3,
+  .event-prizes h3,
+  .event-coordinators h3 {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Better spacing for touch interactions */
+  .event-meta {
+    margin-top: 16px;
+  }
+
+  .event-date-time, .event-location, .event-category, .event-day-badge {
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+  }
+}

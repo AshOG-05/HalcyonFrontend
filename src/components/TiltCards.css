@@ -1,0 +1,215 @@
+.tilt-cards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+  background: transparent;
+}
+
+/* Tilt cards title styling now uses common section-heading class */
+
+.tilt-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  gap: 2rem;
+  justify-content: center;
+  max-width: 1200px;
+  width: 90%;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+
+.tilt-card-wrapper {
+  position: relative;
+  transform: scale(1.05);
+}
+
+.tilt-card-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.tilt-card-outer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 350px;
+  background-color: white;
+  border-radius: 8px;
+  transform: skew(0, 3deg);
+  transition: all 0.3s ease-in-out;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+  border: 4px solid #000000;
+}
+
+.tilt-card-outer:hover {
+  transform: skew(-6deg, 3deg);
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
+}
+
+.tilt-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.tilt-card-outer:hover .tilt-card-inner {
+  transform: skew(6deg, 0);
+  scale: 1.05;
+}
+
+.tilt-card-label {
+  position: absolute;
+  top: 1rem;
+  left: -1rem;
+  background-color: var(--color-red);
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem 0.5rem 1.5rem;
+  z-index: 10;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  letter-spacing: 1px;
+  max-width: 90%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tilt-card-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: white;
+  transition: transform 0.5s ease;
+  filter: brightness(1) contrast(1);
+}
+
+.tilt-card-inner:hover .tilt-card-image {
+  transform: scale(1.1);
+}
+
+/* Special styling for Ethnic Show image */
+.ethnic-show-image {
+  background-position: center bottom !important;
+}
+
+.tilt-card-link-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .tilt-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 992px) {
+  .tilt-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 900px;
+  }
+}
+
+@media (max-width: 900px) {
+  .tilt-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    max-width: 600px;
+    gap: 2.5rem;
+  }
+
+  .tilt-card-wrapper {
+    transform: scale(1.05);
+    margin-bottom: 1rem;
+  }
+
+  .tilt-card-outer {
+    transform: skew(0, 3deg);
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tilt-cards-container {
+    padding: 3rem 0;
+    overflow: visible;
+  }
+
+  .tilt-card-outer {
+    height: 280px;
+  }
+
+  /* Tilt cards title styling now uses common section-heading class */
+
+  .tilt-cards-grid {
+    width: 95%;
+    max-width: 600px;
+    margin: 0 auto;
+    overflow: visible;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem;
+  }
+
+  .tilt-card-wrapper {
+    flex: 0 0 280px;
+    margin: 0 auto 2rem;
+  }
+
+  .tilt-card-image {
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .tilt-cards-grid {
+    grid-template-columns: 1fr;
+    max-width: 280px;
+    margin: 0 auto;
+    gap: 3rem;
+  }
+
+  .tilt-card-outer {
+    height: 280px;
+    transform: skew(0, 3deg);
+  }
+
+  .tilt-card-wrapper {
+    transform: scale(1.05);
+    margin-bottom: 1.5rem;
+  }
+
+  .tilt-card-animation {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .tilt-card-image {
+    background-size: cover;
+    background-position: center;
+  }
+}

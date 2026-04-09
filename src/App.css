@@ -1,0 +1,147 @@
+/* ============================= */
+/* 🌈 COMIC BOOK PAGE BACKGROUND */
+/* ============================= */
+
+body {
+  margin: 0;
+  padding: 0;
+
+  /* 🟡 comic base - bright paper yellow */
+  background-color: #FFFACD;
+
+  /* 🎨 Simple comic book look - no rainbow gradients */
+  background-image:
+    /* Comic book halftone dot pattern - classic */
+    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
+    
+    /* Diagonal halftone variation */
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.02),
+      rgba(0, 0, 0, 0.02) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+
+  background-size:
+    25px 25px,
+    100% 100%;
+
+  background-attachment: fixed;
+  font-family: var(--font-body, 'Poppins', sans-serif);
+}
+
+/* ✨ Comic paper texture overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background: 
+    /* Diagonal crosshatch only */
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.01),
+      rgba(0, 0, 0, 0.01) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Comic book grid lines effect */
+body::after {
+  display: none;
+}
+
+/* ============================= */
+/* 📦 MAIN LAYOUT */
+/* ============================= */
+
+.App {
+  text-align: center;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+.well {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  z-index: 1;
+  background: transparent;
+}
+
+/* ❌ REMOVE boring gradient */
+/* ✅ Make content transparent */
+.content {
+  position: relative;
+  width: 100%;
+  background: transparent !important;
+  z-index: 1;
+}
+
+/* ============================= */
+/* ❌ REMOVE DARK OVERLAYS */
+/* ============================= */
+
+.panel {
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+/* ============================= */
+/* ✨ PARTICLES */
+/* ============================= */
+
+#particles-js {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* ============================= */
+/* 💥 COMIC BUTTONS (UNCHANGED) */
+/* ============================= */
+
+button {
+  font-family: var(--font-display, 'Fredoka One', 'Arial Black', sans-serif);
+  font-weight: 700;
+}
+
+.btn-comic {
+  border: var(--border-thick, 3px) solid #000;
+  border-radius: 6px;
+  font-weight: 900;
+  font-size: 16px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.btn-comic:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.3);
+}
+
+.btn-comic:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+}
+
+/* 🎨 Variants */
+.btn-comic-red { background: #FF1744; color: white; }
+.btn-comic-blue { background: #00B0FF; color: #000; }
+.btn-comic-yellow { background: #FFEB3B; color: #000; }
+.btn-comic-purple { background: #9C27B0; color: white; }
+.btn-comic-green { background: #00E676; color: #000; }

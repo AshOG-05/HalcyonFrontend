@@ -1,0 +1,531 @@
+/* Sidebar Component Styles */
+
+.sidebar-container {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  z-index: 1000;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Sidebar Header */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px 15px 0; /* Reduced top padding from 15px to 5px */
+  margin-bottom:0;/* Remove all margins */
+  background-color: rgba(0, 0, 0, 0.9); /* Darker background to match sidebar */
+  border: none; /* Remove all borders */
+  position: sticky;
+  top: 0;
+  z-index: 100; /* Higher z-index to ensure it stays on top */
+  box-shadow: none; /* Remove box shadow that might create a light effect */
+  width: 100%; /* Ensure it spans the full width */
+  backdrop-filter: none; /* Remove blur effect that might create a line */
+  height: 100px; /* Further increased height to create more bottom space after Explore (desktop only) */
+}
+
+/* Close Sidebar Button */
+.close-sidebar-btn {
+  background-color: rgba(255, 0, 0, 0.2);
+  border: 1px solid rgba(255, 0, 0, 0.5);
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  margin-top: 8px; /* Reduced from 18px to align with reduced top space */
+}
+
+.close-sidebar-btn:hover {
+  background-color: rgba(255, 0, 0, 0.4);
+  transform: scale(1.1);
+  color: #fff;
+}
+
+.close-sidebar-btn:active {
+  transform: scale(0.95);
+}
+
+/* Improve sidebar styling */
+.sidebar {
+  position: fixed;
+  left: -400px; /* Increased from -250px */
+  width: 400px; /* Increased from 250px */
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  transition: all 0.5s ease;
+  z-index: 1000;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-y: auto; /* Enable scrolling if content overflows */
+  padding: 0 0 100px 0; /* Remove top padding, keep bottom padding */
+  margin: 0; /* Remove any margin */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(255, 23, 68, 0.5) rgba(0, 0, 0, 0.3); /* Firefox */
+}
+
+/* Remove any potential border between header and content */
+.sidebar-header + .sidebar-content {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Custom scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 23, 68, 0.5);
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 23, 68, 0.7);
+}
+
+/* Sidebar Content */
+.sidebar-content {
+  padding: 0; /* Remove all padding */
+  margin: 10px 0 0 0; /* Added top margin to create space after Explore (desktop only) */
+  display: flex;
+  flex-direction: column;
+  border: none; /* Remove any borders */
+  border-top: none; /* Explicitly remove top border */
+  box-shadow: none; /* Remove any box shadow */
+}
+
+.sidebar header {
+  font-size: 1.5rem;
+  color: white;
+  text-align: left;
+  background: transparent;
+  user-select: none;
+  padding-left: 25px; /* Align with the icons (20px + 5px border) */
+  padding-top: 4px; /* Reduced from 10px to decrease top space */
+  padding-bottom: 40px; /* Keeping the increased bottom space after Explore (desktop only) */
+  flex: 1;
+  font-weight: 600;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: flex-start; /* Align to the top of the flex container */
+  height: 40px; /* Match the height of the close button */
+  line-height: 1; /* Reset line height */
+  border: none; /* Remove any borders */
+  border-top: none; /* Explicitly remove top border */
+  border-bottom: none; /* Explicitly remove bottom border */
+  text-decoration: none; /* Remove any text decoration */
+  box-shadow: none; /* Remove any box shadow */
+  margin-bottom: 20px; /* Added margin-bottom for more space after Explore (desktop only) */
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center; /* Vertically center content */
+  height: 65px;
+  width: 100%;
+  color: white;
+  padding: 0 15px 0 20px; /* Added right padding to prevent text overflow */
+  box-sizing: border-box;
+  border-left: 5px solid transparent;
+  transition: all 0.5s ease;
+  text-decoration: none;
+  position: relative; /* For positioning elements */
+  margin-bottom: 5px; /* Add space between menu items */
+}
+
+.sidebar a:hover {
+  border-left: 5px solid #FF1744;
+  background: rgba(255, 23, 68, 0.1);
+}
+
+.sidebar a i {
+  font-size: 1.2rem;
+  width: 30px; /* Fixed width for icons */
+  text-align: center; /* Center the icon in its fixed width */
+  margin-right: 16px;
+  display: inline-flex; /* Better alignment with text */
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar a span {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 1rem; /* Consistent font size */
+  font-weight: 500; /* Medium weight for better readability */
+  line-height: 1.2; /* Slightly increased line height for better spacing */
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
+  max-width: calc(100% - 50px); /* Ensure text doesn't overlap with icons */
+}
+
+/* Style for the last menu item */
+.sidebar a:last-child {
+  margin-bottom: 30px; /* Add extra margin to the last item */
+}
+
+/* Improve checkbox styling */
+.nav-checkbox {
+  position: relative;
+  background: none;
+  box-shadow: none;
+}
+
+#check {
+  display: none;
+}
+
+/* Improve button styling */
+label {
+  background: none;
+  box-shadow: none;
+}
+
+label #btn, label #cancel {
+  position: absolute;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+label #btn {
+  left: 0;
+  top: 0;
+  font-size: 2rem;
+  color: white;
+  padding: 10px;
+  transition: all 0.3s ease;
+  z-index: 10;
+  background: none;
+  border: none;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+label #btn:hover {
+  transform: scale(1.1);
+  color: #FF1744;
+}
+
+#check:checked ~ .sidebar {
+  left: 0;
+}
+
+#check:checked ~ label #btn {
+  left: 400px; /* Increased to match new sidebar width */
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  #check:checked ~ label #btn {
+    left: 70%;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+
+
+/* Hide elements on mobile */
+.mobile-hidden {
+  display: none !important;
+}
+
+/* Space after Explore text - only visible on desktop */
+.desktop-only-space {
+  display: inline-block;
+  width: 10px;
+  height: 1px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  /* Hide the space after Explore on mobile */
+  .desktop-only-space {
+    display: none !important;
+    width: 0 !important;
+  }
+
+  .sidebar-container {
+    top: 15px;
+    left: 15px;
+    z-index: 2000;
+  }
+
+  label #btn {
+    font-size: 2.2rem;
+    padding: 12px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  label #btn:active {
+    transform: scale(0.95);
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  /* Mobile sidebar styles - enhanced responsiveness */
+  .sidebar {
+    left: -100% !important;
+    right: auto !important;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6) !important;
+    border-right: 2px solid rgba(255, 23, 68, 0.4) !important;
+    transform: translateX(-100%) !important;
+    padding-bottom: 120px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(255, 23, 68, 0.6) rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(15px) !important;
+    background: rgba(0, 0, 0, 0.95) !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    will-change: transform !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+  }
+
+  /* Custom scrollbar for mobile */
+  .sidebar::-webkit-scrollbar {
+    width: 5px !important; /* Thinner scrollbar for mobile */
+  }
+
+  #check:checked ~ .sidebar {
+    left: 0 !important;
+    right: auto !important;
+    transform: translateX(0) !important;
+  }
+
+  /* Ensure the sidebar overlay doesn't affect the sidebar width */
+  .sidebar-overlay {
+    width: 100% !important;
+  }
+
+  .sidebar a {
+    font-size: 1.2rem;
+    height: 70px;
+    width: 100% !important;
+    padding: 0 20px 0 25px !important;
+    display: flex !important;
+    align-items: center !important;
+    margin-bottom: 8px !important;
+    transition: all 0.2s ease !important;
+    border-radius: 0 25px 25px 0 !important;
+    position: relative !important;
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation !important;
+    min-height: 44px !important; /* Minimum touch target size for accessibility */
+  }
+
+  .sidebar a:active {
+    background: rgba(255, 23, 68, 0.2) !important;
+    transform: scale(0.98) !important;
+  }
+
+  .sidebar a i {
+    font-size: 1.5rem;
+    width: 35px !important;
+    margin-right: 18px !important;
+    text-align: center !important;
+    transition: transform 0.2s ease !important;
+  }
+
+  .sidebar a:hover i {
+    transform: scale(1.1) !important;
+  }
+
+  .sidebar a span {
+    font-size: 1.1rem !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: calc(100% - 60px) !important;
+    font-weight: 500 !important;
+  }
+
+  .close-sidebar-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.8rem;
+    margin-top: 5px !important;
+    transition: all 0.2s ease !important;
+    border-radius: 50% !important;
+    background: rgba(255, 23, 68, 0.1) !important;
+    border: 1px solid rgba(255, 23, 68, 0.3) !important;
+  }
+
+  .close-sidebar-btn:active {
+    transform: scale(0.9) !important;
+    background: rgba(255, 23, 68, 0.2) !important;
+  }
+
+  .sidebar-header {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    background-color: rgba(0, 0, 0, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+    height: 85px !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(255, 23, 68, 0.2) !important;
+    padding-top: 5px !important;
+  }
+
+  .sidebar-content {
+    padding: 0 !important; /* Remove all padding on mobile */
+    margin: 0 !important; /* Remove all margin on mobile to ensure no space after Explore */
+    border: none !important; /* Remove any borders */
+    border-top: none !important; /* Explicitly remove top border */
+    box-shadow: none !important; /* Remove any box shadow */
+  }
+
+  .sidebar-header header {
+    font-size: 1.8rem;
+    padding-left: 25px !important; /* Match the link padding */
+    padding-top: 25px !important; /* Increased to 25px to move text much lower on mobile */
+    padding-bottom: 7px !important; /* Add bottom padding of 7px */
+    display: flex !important;
+    align-items: flex-start !important; /* Align to the top of the flex container */
+    height: 40px !important; /* Match the height of the close button */
+    line-height: 1 !important; /* Reset line height */
+    border: none !important; /* Remove any borders */
+    border-top: none !important; /* Explicitly remove top border */
+    border-bottom: none !important; /* Explicitly remove bottom border */
+    text-decoration: none !important; /* Remove any text decoration */
+    box-shadow: none !important; /* Remove any box shadow */
+    margin-bottom: 0 !important; /* Ensure no bottom margin on mobile */
+  }
+
+}
+
+/* Specific breakpoints for different mobile device sizes */
+@media (max-width: 640px) and (min-width: 481px) {
+  /* Small tablets and large phones in portrait */
+  .sidebar a {
+    font-size: 1.1rem;
+    height: 65px;
+    padding: 0 18px 0 22px !important;
+  }
+
+  .sidebar a i {
+    font-size: 1.3rem;
+    margin-right: 12px;
+  }
+}
+
+@media (max-width: 480px) and (min-width: 415px) {
+  /* Large phones */
+  .sidebar a {
+    font-size: 1.05rem;
+    height: 62px;
+    padding: 0 16px 0 20px !important;
+  }
+
+  .sidebar a i {
+    font-size: 1.25rem;
+    margin-right: 10px;
+  }
+
+  .sidebar-header header {
+    font-size: 1.4rem;
+    padding: 15px 20px;
+  }
+}
+
+@media (max-width: 414px) and (min-width: 376px) {
+  /* Medium phones (iPhone 12, etc.) */
+  .sidebar a {
+    font-size: 1rem;
+    height: 60px;
+    padding: 0 15px 0 18px !important;
+  }
+
+  .sidebar a i {
+    font-size: 1.2rem;
+    margin-right: 10px;
+  }
+
+  .sidebar-header header {
+    font-size: 1.35rem;
+    padding: 12px 18px;
+  }
+}
+
+@media (max-width: 375px) and (min-width: 321px) {
+  /* Small phones (iPhone 12 mini, etc.) */
+  .sidebar a {
+    font-size: 0.95rem;
+    height: 58px;
+    padding: 0 14px 0 16px !important;
+  }
+
+  .sidebar a i {
+    font-size: 1.15rem;
+    margin-right: 8px;
+  }
+
+  .sidebar-header header {
+    font-size: 1.3rem;
+    padding: 10px 16px;
+  }
+
+  .close-sidebar-btn {
+    font-size: 1.3rem;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 320px) {
+  /* Very small phones (iPhone SE, etc.) */
+  .sidebar a {
+    font-size: 0.9rem;
+    height: 55px;
+    padding: 0 12px 0 14px !important;
+  }
+
+  .sidebar a i {
+    font-size: 1.1rem;
+    margin-right: 8px;
+  }
+
+  .sidebar-header header {
+    font-size: 1.25rem;
+    padding: 8px 14px;
+  }
+
+  .close-sidebar-btn {
+    font-size: 1.2rem;
+    padding: 6px;
+  }
+
+  label #btn {
+    font-size: 2rem;
+    padding: 10px;
+  }
+}

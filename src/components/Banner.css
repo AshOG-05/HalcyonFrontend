@@ -1,0 +1,613 @@
+/* Custom styles for the Banner component */
+/* ============================================================
+   BANNER — POP COMICS THEME
+   ============================================================ */
+
+/* ---------- base wrapper ---------- */
+.comic-banner-wrapper {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ---------- video ---------- */
+.comic-banner-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+/* ---------- overlays ---------- */
+.comic-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.3) 100%);
+  z-index: -1;
+}
+
+.comic-banner-halftone {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle, rgba(0, 0, 0, 0.15) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255, 235, 59, 0.1) 1.5px, transparent 1.5px);
+  background-size: 20px 20px, 25px 25px;
+  background-position: 0 0, 10px 10px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---------- corner sound-effects ---------- */
+.comic-sfx {
+  display: none !important;
+}
+
+/* ---------- hero heading block ---------- */
+.comic-banner-heading {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 7rem 1.5rem 3rem;
+  text-align: center;
+  gap: 1.2rem;
+}
+
+/* ---------- title ---------- */
+.comic-banner-title-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.comic-banner-title {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: clamp(4rem, 12vw, 9rem);
+  color: #FF1744;
+  margin: 0;
+  line-height: 1;
+  font-weight: 700;
+  text-shadow: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  animation: titlePop 0.8s cubic-bezier(0.175,0.885,0.32,1.275) both;
+}
+
+.comic-banner-year {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  color: #00B0FF;
+  margin: 0;
+  line-height: 1;
+  font-weight: 700;
+  text-shadow: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  animation: titlePop 0.8s cubic-bezier(0.175,0.885,0.32,1.275) 0.15s both;
+}
+
+@keyframes titlePop {
+  0%   { opacity: 0; transform: scale(0.5) rotate(-5deg); }
+  100% { opacity: 1; transform: scale(1)   rotate(0deg);  }
+}
+
+/* ---------- tagline ---------- */
+.comic-banner-tagline {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: #ffffff;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.7);
+  animation: fadeSlideUp 0.7s ease 0.4s both;
+}
+
+/* ---------- dates badge ---------- */
+.comic-banner-dates {
+  animation: fadeSlideUp 0.7s ease 0.5s both;
+}
+
+.comic-dates-badge {
+  display: inline-block;
+  background: rgba(0,0,0,0.6);
+  border: 3px solid #FFEB3B;
+  border-radius: 30px;
+  padding: 0.45rem 1.4rem;
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+  color: #FFEB3B;
+  letter-spacing: 2px;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
+}
+
+/* ---------- CTA button ---------- */
+.comic-banner-btn-wrap {
+  animation: fadeSlideUp 0.7s ease 0.6s both;
+}
+
+.comic-banner-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #FF1744;
+  color: #ffffff;
+  border: 4px solid #000;
+  border-radius: 10px;
+  padding: 0.85rem 2.4rem;
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+  box-shadow: 6px 6px 0px #000;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  outline: none !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+.comic-banner-cta:hover {
+  transform: translateY(-5px) scale(1.04);
+  box-shadow: 10px 10px 0px #000;
+}
+
+.comic-banner-cta--logout {
+  background: #9C27B0;
+}
+
+.comic-cta-arrow {
+  font-size: 1.2em;
+  transition: transform 0.2s ease;
+}
+.comic-banner-cta:hover .comic-cta-arrow {
+  transform: translateX(5px);
+}
+
+/* ── focus ring removal (carried from original) ── */
+*:focus { outline: none !important; }
+
+/* ---------- countdown ---------- */
+.comic-countdown-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  animation: fadeSlideUp 0.7s ease 0.75s both;
+  margin-top: 0.5rem;
+}
+
+.comic-countdown-label {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(0.85rem, 2vw, 1.1rem);
+  color: #FFEB3B;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.7);
+  animation: bounceComic 2.5s ease-in-out infinite;
+}
+
+.comic-countdown-grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.comic-countdown-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--cell-bg);
+  border: 4px solid var(--cell-border);
+  border-radius: 10px;
+  padding: 0.9rem 1.4rem;
+  min-width: 90px;
+  box-shadow: 6px 6px 0px rgba(0,0,0,0.5);
+  transition: transform 0.2s ease;
+}
+
+.comic-countdown-cell:hover {
+  transform: translateY(-6px) rotate(-2deg);
+}
+
+.comic-countdown-value {
+  font-family: 'Fredoka One', 'Righteous', cursive;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900;
+  color: var(--cell-label);
+  line-height: 1;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+}
+
+.comic-countdown-unit {
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: var(--cell-label);
+  letter-spacing: 2px;
+  margin-top: 0.35rem;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+/* ---------- shared animations ---------- */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes bounceComic {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 768px) {
+  .comic-sfx { font-size: 1rem; }
+
+  .comic-countdown-cell {
+    min-width: 70px;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .comic-banner-heading {
+    padding-top: 5rem;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .comic-sfx-bl,
+  .comic-sfx-br { display: none; }
+
+  .comic-countdown-grid { gap: 0.6rem; }
+
+  .comic-countdown-cell {
+    min-width: 60px;
+    padding: 0.6rem 0.7rem;
+  }
+}
+/* Reset all button styles first */
+@font-face{
+  font-family:'CustomFont';
+  src:url('../../fonts/Rusted\ Vibe.otf') format('opentype');
+}
+.banner .register-button, .banner .logout-button {
+  position: relative;
+  display: inline-block;
+  margin: 2rem 0;
+  background: none !important;
+  outline: none !important;
+  border: none !important;
+}
+
+/* Explicitly override any orange outline */
+.banner .register-button {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.banner .heading .register-button a, .banner .heading .logout-button a {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: var(--color-red) !important;
+  background-color: var(--color-red) !important;
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: 3px solid #000;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3) !important;
+  position: relative;
+  z-index: 1;
+  outline: none !important;
+}
+
+/* Remove any background elements */
+.banner .register-button::before, .banner .register-button::after,
+.banner .logout-button::before, .banner .logout-button::after,
+.banner .register-button .left, .banner .register-button .right,
+.banner .logout-button .left, .banner .logout-button .right {
+  display: none !important;
+}
+
+.banner .heading .register-button a:hover, .banner .heading .logout-button a:hover {
+  background: #FF0043 !important;
+  border-color: #000;
+  color: white;
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Make the overlay light for the Pop Comic theme */
+.banner .overlay {
+  background: linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(248, 250, 252, 0.95) 100%);
+  background-image: repeating-radial-gradient(
+    circle,
+    rgba(255, 23, 68, 0.05) 0px,
+    rgba(255, 23, 68, 0.05) 1px,
+    transparent 1px,
+    transparent 6px
+  );
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* Override any other styles that might be affecting the button */
+.banner .heading .register-button a,
+.banner .heading .logout-button a {
+  background-color: var(--color-red) !important;
+  background-image: none !important;
+  background: var(--color-red) !important;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3) !important;
+  -webkit-box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3) !important;
+  -moz-box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3) !important;
+  outline: none !important;
+  outline-width: 0 !important;
+  outline-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+  -webkit-focus-ring-color: rgba(0,0,0,0) !important;
+  border: 3px solid #000 !important;
+}
+
+/* Focus states */
+.banner .heading .register-button a:focus,
+.banner .heading .logout-button a:focus,
+.banner .heading .register-button a:active,
+.banner .heading .logout-button a:active,
+.banner .heading .register-button a:-moz-focusring,
+.banner .heading .logout-button a:-moz-focusring {
+  outline: none !important;
+  outline-width: 0 !important;
+  outline-color: transparent !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Additional rules to prevent any orange outline */
+.banner .heading .register-button a,
+.banner .heading .register-button a:focus,
+.banner .heading .register-button a:active,
+.banner .heading .register-button a:hover,
+.banner .heading .register-button a:visited,
+.banner .heading .logout-button a,
+.banner .heading .logout-button a:focus,
+.banner .heading .logout-button a:active,
+.banner .heading .logout-button a:hover,
+.banner .heading .logout-button a:visited {
+  outline: none !important;
+  outline-color: transparent !important;
+  outline-width: 0 !important;
+  outline-offset: 0 !important;
+  -webkit-outline: none !important;
+  -moz-outline: none !important;
+  -webkit-outline-color: transparent !important;
+  -moz-outline-color: transparent !important;
+}
+
+/* Firefox specific */
+.banner .heading .register-button a::-moz-focus-inner,
+.banner .heading .logout-button a::-moz-focus-inner {
+  border: 0 !important;
+}
+
+.samarkan{
+  font-family: 'CustomFont';
+  color: #FF1744 !important;
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3), -1px -1px 0px rgba(255, 23, 68, 0.5) !important;
+  letter-spacing: 2px; /* Added spacing for better readability */
+}
+
+/* Override for the first heading (HALCYON) */
+.banner .heading h1:nth-child(1).samarkan {
+  -webkit-text-stroke: 2px #000 !important;
+  text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.4), -2px -2px 0px rgba(255, 235, 59, 0.6) !important;
+  color: #FF1744 !important;
+  font-size: 4rem !important;
+}
+
+/* Override for the second heading (2025) */
+.banner .heading h1:nth-child(2).samarkan {
+  -webkit-text-stroke: 1px #000 !important;
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3), -1px -1px 0px rgba(0, 176, 255, 0.5) !important;
+  color: #00B0FF !important;
+}
+
+/* Countdown Timer Styles */
+#countdown {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+#countdown ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+#countdown ul li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem;
+  font-size: 0.9rem;
+  color: #000;
+  background: rgba(255, 235, 59, 0.8);
+  padding: 1rem 0;
+  border-radius: 8px;
+  width: 100px;
+  height: 100px;
+  backdrop-filter: blur(5px);
+  box-sizing: border-box;
+  border: 3px solid #000;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+  animation: comic-bounce 0.8s ease-in-out infinite;
+}
+
+#countdown ul li:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 235, 59, 1);
+}
+
+#countdown ul li div {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #000;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+  font-family: 'CustomFont', bold;
+}
+
+/* Responsive styles for countdown timer */
+@media (max-width: 992px) {
+  #countdown ul li {
+    width: 90px;
+    height: 90px;
+    margin: 0.4rem;
+  }
+
+  #countdown ul li div {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  #countdown ul {
+    justify-content: center;
+  }
+
+  #countdown ul li {
+    width: 80px;
+    height: 80px;
+    margin: 0.3rem;
+    padding: 0.7rem 0;
+  }
+
+  #countdown ul li div {
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #countdown {
+    margin-top: 1.5rem;
+  }
+
+  #countdown ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 5px;
+  }
+
+  #countdown ul li {
+    width: 70px;
+    height: 70px;
+    margin: 0 0.3rem;
+    padding: 0.4rem 0;
+    font-size: 0.75rem;
+  }
+
+  #countdown ul li div {
+    font-size: 1.6rem;
+    margin-bottom: 0.2rem;
+  }
+}
+
+@media (max-width: 375px) {
+  #countdown ul li {
+    width: 65px;
+    height: 65px;
+    margin: 0 0.25rem;
+    font-size: 0.7rem;
+  }
+
+  #countdown ul li div {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 320px) {
+  #countdown ul {
+    padding: 0 2px;
+  }
+
+  #countdown ul li {
+    width: 55px;
+    height: 60px;
+    margin: 0 0.2rem;
+    padding: 0.3rem 0;
+    font-size: 0.65rem;
+  }
+
+  #countdown ul li div {
+    font-size: 1.3rem;
+    margin-bottom: 0.1rem;
+  }
+}
+
+/* Additional responsive styles for the countdown timer */
+.responsive-countdown {
+  width: 100%;
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+.responsive-countdown ul {
+  flex-wrap: nowrap !important;
+  display: flex !important;
+  flex-direction: row !important;
+  white-space: nowrap;
+  width: 100%;
+  justify-content: center !important;
+}
+
+/* Heading styles */
+.banner .heading {
+  position: relative;
+  z-index: 1;
+  padding-top: 70px; /* Add padding for desktop to account for navbar */
+}
+
+/* Mobile-specific styles for banner with mobile navbar */
+@media (max-width: 768px) {
+  .banner .heading {
+    padding-top: 70px; /* Increased padding to match taller navbar */
+  }
+}
+
+/* Further reduce padding on very small screens */
+@media (max-width: 375px) {
+  .banner .heading {
+    padding-top: 65px; /* Adjusted for smaller screens */
+  }
+}

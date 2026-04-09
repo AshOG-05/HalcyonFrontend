@@ -1,0 +1,155 @@
+/* ============================= */
+/* 🎯 EXPLORE SECTION - COMIC UI */
+/* ============================= */
+/* ❌ Remove dark overlay */
+.explore.panel {
+  background: transparent !important;
+}
+
+/* ❌ Kill any pseudo overlay */
+.explore.panel::before,
+.explore.panel::after {
+  background: none !important;
+  content: none !important;
+}
+.comic-explore-section {
+  position: relative;
+  padding: 4rem 2rem;
+  overflow: hidden;
+
+  /* 🟡 Base comic tone */
+  background-color: #FFFACD;
+
+  /* 🎨 Comic layered background */
+  background-image:
+    /* 🟡 Halftone dots */
+    radial-gradient(#00000022 1px, transparent 1px);
+
+  background-size: 25px 25px;
+
+  background-blend-mode: normal;
+}
+
+/* ✨ Paper grain overlay */
+.comic-explore-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.03),
+    rgba(0, 0, 0, 0.03) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================= */
+/* 🌌 STARS BACKGROUND */
+/* ============================= */
+
+.stars-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle 4s infinite alternate;
+}
+
+@keyframes twinkle {
+  from {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
+/* ============================= */
+/* 📦 CONTENT CONTAINER */
+/* ============================= */
+
+.comic-explore-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* ============================= */
+/* 💥 HEADER */
+/* ============================= */
+
+.comic-explore-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.comic-explore-title {
+  font-family: var(--font-comic-bold);
+  font-size: 2.8rem;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin: 0;
+
+  text-shadow: 3px 3px 0px #ffffff;
+}
+
+/* 💣 BOOM effect */
+.comic-explore-effect {
+  position: absolute;
+  top: -20px;
+  right: 20%;
+  font-size: 1.5rem;
+  color: #FFEB3B;
+  transform: rotate(-10deg);
+}
+
+/* ============================= */
+/* 🎨 COLOR VARIANTS */
+/* ============================= */
+
+.comic-bg-red {
+  background-color: #FF1744;
+}
+
+.comic-bg-blue {
+  background-color: #00B0FF;
+}
+
+.comic-bg-yellow {
+  background-color: #FFEB3B;
+}
+
+/* ============================= */
+/* 📱 RESPONSIVE */
+/* ============================= */
+
+@media (max-width: 768px) {
+  .comic-explore-title {
+    font-size: 2rem;
+  }
+
+  .comic-explore-section {
+    padding: 3rem 1rem;
+  }
+
+  .comic-explore-effect {
+    right: 10%;
+    font-size: 1.2rem;
+  }
+}

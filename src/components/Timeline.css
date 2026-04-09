@@ -1,0 +1,325 @@
+/* Timeline Component Styles - Inspired by Dequinox18 */
+
+.panel.timeline {
+  position: relative;
+  z-index: 10;
+  background: #FFFACD !important;
+  background-image:
+    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
+    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px) !important;
+  background-size: 25px 25px, 100%;
+  margin-top: 2rem;
+  padding-top: 4rem;
+  padding-bottom: 6rem;
+  overflow: hidden;
+  border: none;
+  border-top: 8px solid #000000;
+  border-bottom: 8px solid #000000;
+}
+
+/* Timeline Header */
+.timeline-header h1 {
+  text-align: center;
+  font-size: 3.5rem;
+  margin-bottom: 3rem;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  position: relative;
+  font-weight: 700;
+}
+
+.timeline-title-text {
+  position: relative;
+  display: inline-block;
+}
+
+/* Orange underline removed to match other section headings */
+
+/* Timeline Tabs */
+.timeline-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.timeline-tabs button {
+  background: white;
+  border: 4px solid #000000;
+  border-radius: 8px;
+  padding: 0.8rem 2rem;
+  color: #000000;
+  font-size: 1.1rem;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  font-weight: 900;
+  font-family: 'Fredoka One', 'Arial Black', sans-serif;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+}
+
+.timeline-tabs button:hover {
+  background: #FF1744;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
+}
+
+.timeline-tabs button.active {
+  background: #FF1744;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
+  border-color: #000000;
+  font-weight: 900;
+}
+
+.timeline-tabs .day-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Timeline Wrapper */
+.timeline-wrapper {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Timeline Line */
+.timeline-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  background: #000000;
+  transform: translateX(-50%);
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+  animation: timelineGlow 3s infinite alternate ease-in-out;
+}
+
+@keyframes timelineGlow {
+  0% {
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+  }
+  100% {
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Timeline Content */
+.timeline-content {
+  position: relative;
+}
+
+/* Timeline Event */
+.timeline-event {
+  position: relative;
+  margin-bottom: 30px;
+  width: 50%;
+  box-sizing: border-box;
+}
+
+/* Left side events */
+.timeline-event.left {
+  left: 0;
+  padding-right: 40px;
+  text-align: right;
+}
+
+/* Right side events */
+.timeline-event.right {
+  left: 50%;
+  padding-left: 40px;
+  text-align: left;
+}
+
+/* Event Content */
+.timeline-event-content {
+  position: relative;
+  padding: 15px 20px;
+  background: white;
+  border: 4px solid #000000;
+  border-radius: 8px;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+  transition: all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+  width: 100%;
+}
+
+.timeline-event-content:hover {
+  transform: translateY(-5px) scale(1.02);
+  background: white;
+  border-color: #000000;
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
+}
+
+/* Event Dot */
+.timeline-event-dot {
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  background: #FF1744;
+  border-radius: 50%;
+  border: 3px solid #000000;
+  z-index: 1;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.timeline-event-content:hover .timeline-event-dot {
+  transform: scale(1.2);
+  background: #FF1744;
+  border-color: #000000;
+}
+
+/* Left side dot */
+.timeline-event.left .timeline-event-dot {
+  right: -8px;
+  transform: translateY(-50%);
+}
+
+/* Right side dot */
+.timeline-event.right .timeline-event-dot {
+  left: -8px;
+  transform: translateY(-50%);
+}
+
+/* Event Title */
+.timeline-event-title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #000000;
+  font-weight: 900;
+  font-family: 'Fredoka One', 'Arial Black', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  /* Reduce space between timeline and explore section on mobile */
+  .panel.timeline {
+    padding-bottom: 2rem;
+  }
+
+  /* Force timeline header visibility on mobile */
+  .mobile-visible {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+    pointer-events: auto !important;
+    z-index: 100 !important;
+  }
+
+  .timeline-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #000000 !important;
+  }
+
+  /* Timeline title text now uses common section-heading-text class */
+  .timeline-title-text {
+    display: inline-block !important;
+    color: #000000 !important;
+    text-shadow: none !important;
+    font-weight: bold !important;
+    letter-spacing: 3px !important;
+    background: none !important;
+    -webkit-text-fill-color: #000000 !important;
+  }
+
+  .timeline-tabs button {
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  /* Remove the timeline line on mobile */
+  .timeline-line {
+    display: none;
+  }
+
+  /* Make all events perfectly aligned in a straight line */
+  .timeline-event {
+    width: 100%;
+    left: 0 !important;
+    margin: 0 auto 12px;
+    padding: 0;
+    position: relative;
+  }
+
+  /* Add more space at the bottom of the timeline container */
+  .timeline-events-container {
+    padding-bottom: 20px;
+  }
+
+  /* Remove staggered effect - ensure perfect alignment in a straight line */
+  .timeline-event.left,
+  .timeline-event.right {
+    padding: 0;
+    text-align: center;
+    left: 0 !important;
+    width: 100%;
+  }
+
+  /* Remove the dots/bullets */
+  .timeline-event-dot {
+    display: none;
+  }
+
+  /* Center the content in a straight line */
+  .timeline-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  /* Style the event cards for mobile - perfectly aligned in a straight line */
+  .timeline-event-content {
+    padding: 12px 15px;
+    width: 100%;
+    margin: 0;
+    background: white;
+    border: 3px solid #000000;
+    box-sizing: border-box;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
+  }
+
+  .timeline-event-title {
+    font-size: 1rem;
+    text-align: center;
+    color: #000000;
+  }
+
+  /* Adjust hover effect for mobile */
+  .timeline-event-content:hover {
+    transform: translateY(-3px);
+    scale: 1;
+  }
+
+  /* Add smooth sequential animation for mobile */
+  @keyframes mobileSequentialFade {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Apply the animation to timeline events on mobile */
+  .timeline-event {
+    animation-fill-mode: both;
+  }
+}

@@ -1,0 +1,112 @@
+.brochure-download-section {
+  padding: 4rem 0;
+  background: #FFFACD;
+  background-image:
+    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.02),
+      rgba(0, 0, 0, 0.02) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  background-size: 25px 25px, 100%;
+  color: #000000;
+  position: relative;
+  overflow: hidden;
+  border-top: 8px solid #000000;
+  border-bottom: 8px solid #000000;
+}
+
+.brochure-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.brochure-content {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border: 6px solid #000000;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.brochure-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 900;
+  font-family: 'Fredoka One', 'Arial Black', sans-serif;
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
+}
+
+.brochure-content p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: #333333;
+  font-weight: 500;
+}
+
+.download-button {
+  display: inline-block;
+  background: #FF1744;
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 900;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.3);
+  border: 4px solid #000000;
+  cursor: pointer;
+  font-family: 'Fredoka One', 'Arial Black', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.download-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.4);
+  background: #FF5252;
+}
+
+.download-button i {
+  margin-right: 0.5rem;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .brochure-content h2 {
+    font-size: 2rem;
+  }
+  
+  .brochure-content p {
+    font-size: 1rem;
+  }
+  
+  .download-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .brochure-content h2 {
+    font-size: 1.8rem;
+  }
+  
+  .brochure-download-section {
+    padding: 2rem 0;
+  }
+}
