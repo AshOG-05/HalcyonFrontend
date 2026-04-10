@@ -4,21 +4,22 @@ import { ORIGINAL_API_URL } from '../utils/corsHelper';
 
 // Helper function for making API requests (simplified for auth)
 const apiRequest = async (url, method, data = null) => {
+  // Build the full URL - ORIGINAL_API_URL already includes /api
+  const endpoint = url.startsWith('/') ? url.substring(1) : url;
+  const fullUrl = `${ORIGINAL_API_URL}/${endpoint}`;
+
   const options = {
     method,
     headers: {
       'Content-Type': 'application/json'
     },
-    credentials: 'include' // Include credentials for CORS
+    // Try WITHOUT credentials first - if backend doesn't have credentials: true in CORS
+    mode: 'cors'
   };
 
   if (data) {
     options.body = JSON.stringify(data);
   }
-
-  // Build the full URL - ORIGINAL_API_URL already includes /api
-  const endpoint = url.startsWith('/') ? url.substring(1) : url;
-  const fullUrl = `${ORIGINAL_API_URL}/${endpoint}`;
 
   try {
     console.log(`🔐 Making auth API request to ${fullUrl} with method ${method}`);
@@ -28,17 +29,32 @@ const apiRequest = async (url, method, data = null) => {
 
     const response = await fetch(fullUrl, options);
 
-    // Try to parse the JSON response
+    console.log(`🔐 Response status: ${response.status}, Content-Type: ${response.headers.get('content-type')}`);
+
     let responseData;
-    try {
-      responseData = await response.json();
-    } catch (jsonError) {
-      console.error('❌ Failed to parse JSON response:', jsonError);
-      throw new Error(`Failed to parse server response: ${jsonError.message}`);
+
+    // Check if response is JSON
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      try {
+        responseData = await response.json();
+      } catch (jsonError) {
+        console.error('❌ Failed to parse JSON response:', jsonError);
+        const responseText = await response.text();
+        console.error('Response text:', responseText);
+        throw new Error(`Failed to parse server response: ${jsonError.message}`);
+      }
+    } else {
+      // If not JSON, try to get text
+      const responseText = await response.text();
+      console.warn('⚠️ Response is not JSON. Content:', responseText);
+      responseData = responseText && responseText.length > 0 
+        ? { message: responseText } 
+        : { message: 'Empty response from server' };
     }
 
     // Log the response for debugging
-    console.log(`🔐 Response status: ${response.status}`, responseData);
+    console.log(`🔐 Response data:`, responseData);
 
     if (!response.ok) {
       const errorMessage = responseData.error || responseData.message || `Server returned ${response.status}`;
@@ -49,15 +65,25 @@ const apiRequest = async (url, method, data = null) => {
     return responseData;
   } catch (error) {
     console.error('❌ API request failed:', error);
+    console.error('🔥 Error details:', {
+      name: error.name,
+      message: error.message,
+      stack: error.stack
+    });
 
     // If it's a network error, provide a more helpful message
-    if (error.name === 'TypeError' && (error.message.includes('fetch') || error.message.includes('Failed to fetch'))) {
-      const isProduction = !fullUrl.includes('localhost');
-      const environmentInfo = isProduction
-        ? 'Production backend (Render)'
-        : 'Local development backend';
+    if (error.name === 'TypeError') {
+      console.error('💡 Possible CORS or Network Issues:');
+      console.error('1. Backend CORS might not allow requests from this domain');
+      console.error('2. Backend server might be down or unreachable');
+      console.error('3. Check browser console (F12) for CORS errors');
+      console.error('4. Try this backend URL in Postman:', fullUrl);
 
-      throw new Error(`Network error: Unable to connect to ${environmentInfo} at ${fullUrl}. Please check if the backend server is running and your internet connection.`);
+      throw new Error(`Connection Error: Cannot reach the backend server at ${fullUrl}. This could be a CORS issue. Please check:
+1. Is the backend running?
+2. Check browser DevTools (F12) → Console/Network for detailed CORS errors
+3. Backend should have CORS configured for your frontend domain
+4. Try the request in Postman to verify backend is working`);
     }
 
     throw error;
