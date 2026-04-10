@@ -102,7 +102,7 @@ function Banner() {
         {/* Dates badge */}
         <div className="comic-banner-dates">
           <span className="comic-dates-badge">
-            📅 17th April 2026 — 18th April 2026
+             17th April 2026 — 18th April 2026
           </span>
         </div>
 
