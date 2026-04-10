@@ -281,7 +281,7 @@
 /* Reset all button styles first */
 @font-face{
   font-family:'CustomFont';
-  src:url('../../fonts/Rusted\ Vibe.otf') format('opentype');
+  src:url('/assets/fonts/Rusted\ Vibe.otf') format('opentype');
 }
 .banner .register-button, .banner .logout-button {
   position: relative;
