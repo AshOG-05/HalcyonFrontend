@@ -58,35 +58,37 @@
 
 /* Colorful comic cards */
 .transportation-grid .transport-card:nth-child(1) {
-  background: linear-gradient(160deg, #FFC200 0%, #FFE07A 100%);
+  background: #EF0039;
 }
 
 .transportation-grid .transport-card:nth-child(2) {
-  background: linear-gradient(160deg, #F700F1 0%, #FF8AF9 100%);
+  background: #00489E;
 }
 
 .transportation-grid .transport-card:nth-child(3) {
-  background: linear-gradient(160deg, #08BA14 0%, #86EA8F 100%);
+  background: #FFC200;
 }
 
 .transportation-grid .transport-card:nth-child(4) {
-  background: linear-gradient(160deg, #00489E 0%, #4F92E2 100%);
+  background: #8E01C2;
 }
 
+.transportation-grid .transport-card:nth-child(1) h3,
+.transportation-grid .transport-card:nth-child(1) p,
+.transportation-grid .transport-card:nth-child(2) h3,
+.transportation-grid .transport-card:nth-child(2) p,
 .transportation-grid .transport-card:nth-child(4) h3,
 .transportation-grid .transport-card:nth-child(4) p {
+  color: #ffffff;
+}
+
+.transportation-grid .transport-card:nth-child(3) h3,
+.transportation-grid .transport-card:nth-child(3) p {
   color: #000000;
 }
 
 .transport-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 36%),
-    radial-gradient(circle at 80% 85%, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 35%);
-  pointer-events: none;
-  opacity: 0.9;
+  content: none;
 }
 
 .transport-card h3 {

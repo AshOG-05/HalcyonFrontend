@@ -54,7 +54,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: white;
+  background: linear-gradient(145deg, #101010, #000000);
   cursor: pointer;
   max-width: 6.8rem;
   border: 4px solid #000000;
@@ -118,7 +118,7 @@
   font-weight: 900;
   text-align: center;
   text-transform: uppercase;
-  color: #ffffff;
+  color: #FFC200;
   margin-bottom: 2.5rem;
   transform: rotate(-90deg) translateY(20px);
   transition: all 1.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -146,7 +146,7 @@
   position: relative;
   bottom: auto;
   left: auto;
-  color: #ffffff;
+  color: #FFC200;
 }
 
 .card-link {
@@ -263,7 +263,7 @@
     text-transform: uppercase;
     letter-spacing: 2px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    color: rgba(255, 255, 255, 0.9);
+    color: #FFC200;
   }
 
   .flex-card-container:hover .card-title,
@@ -275,7 +275,7 @@
     position: relative;
     bottom: auto;
     left: auto;
-    color: #fff;
+    color: #FFC200;
     text-shadow: 0 0 10px rgba(255, 23, 68, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8);
   }
 

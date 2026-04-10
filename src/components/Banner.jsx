@@ -59,10 +59,10 @@ function Banner() {
   return (
     <div className="banner panel comic-banner-wrapper" id="top">
 
-      {/* ── Video background ── */}
-      <video
-        src="/assets/Halcyonfinal.mp4"
-        loop muted autoPlay
+      {/* ── Static background image ── */}
+      <img
+        src="/assets/comic_background_9.jpg"
+        alt="Halcyon comic background"
         className="comic-banner-video"
       />
 

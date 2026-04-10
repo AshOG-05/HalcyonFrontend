@@ -123,8 +123,7 @@ function InteractiveExplore() {
             data-id={item.id}
             className={`flex-card-container ${activeId === item.id ? 'active' : ''}`}
             style={{
-              backgroundImage: `url(${item.image})`,
-              backgroundColor: 'transparent',
+              backgroundImage: 'none',
               ...(isMobile && activeId === item.id ? { height: '15rem' } : {})
             }}
             onMouseEnter={() => !isMobile && setActiveId(item.id)}
