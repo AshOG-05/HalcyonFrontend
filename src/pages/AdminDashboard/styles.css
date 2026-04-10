@@ -1732,6 +1732,74 @@
 
   .dashboard-content {
     min-height: calc(100vh - 70px);
+    flex-direction: column;
+  }
+
+  .dashboard-sidebar {
+    width: 100%;
+    padding: 0;
+    flex-direction: row;
+    border-right: none;
+    border-bottom: 2px solid var(--highlight);
+    box-shadow: 0 2px 10px var(--shadow-color);
+    height: auto;
+    justify-content: flex-start;
+    align-items: stretch;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    order: 1;
+  }
+
+  .dashboard-sidebar::before {
+    display: none;
+  }
+
+  .sidebar-btn {
+    margin: 0;
+    padding: 1rem 1.2rem;
+    border-radius: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex: 1;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    border-left: none;
+    transition: all 0.3s ease;
+    min-width: fit-content;
+  }
+
+  .sidebar-btn span {
+    font-size: 0.8rem;
+  }
+
+  .sidebar-btn i {
+    font-size: 1.1rem;
+  }
+
+  .sidebar-btn:hover {
+    background-color: rgba(255, 23, 68, 0.1);
+    border-bottom-color: var(--highlight);
+    transform: none;
+  }
+
+  .sidebar-btn.active {
+    border-left: none;
+    border-bottom: 3px solid var(--highlight);
+    background-color: rgba(255, 23, 68, 0.15);
+    box-shadow: inset 0 -3px 0px rgba(255, 23, 68, 0.3);
+    font-weight: 700;
+  }
+
+  .sidebar-btn.active::before {
+    display: none;
+  }
+
+  .dashboard-main {
+    order: 2;
   }
 
   .dashboard-stats {
@@ -1987,8 +2055,54 @@
     font-size: 0.8rem;
   }
 
+  .dashboard-content {
+    flex-direction: column;
+  }
+
+  .dashboard-sidebar {
+    width: 100%;
+    padding: 0;
+    flex-direction: row;
+    border-right: none;
+    border-bottom: 2px solid var(--highlight);
+    justify-content: flex-start;
+    overflow-x: auto;
+    gap: 0;
+  }
+
+  .sidebar-btn {
+    padding: 0.7rem 0.6rem;
+    font-size: 0.65rem;
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 70px;
+    border-radius: 0;
+  }
+
+  .sidebar-btn span {
+    font-size: 0.6rem;
+  }
+
+  .sidebar-btn i {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .sidebar-btn:hover {
+    border-bottom-color: var(--highlight);
+  }
+
+  .sidebar-btn.active {
+    border-bottom: 3px solid var(--highlight);
+  }
+
   .dashboard-main {
     padding: 0.8rem;
+    order: 2;
+  }
+
+  .dashboard-container {
+    min-height: 100vh;
   }
 
   .dashboard-content {
