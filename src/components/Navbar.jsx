@@ -46,7 +46,7 @@ function Navbar() {
 
       {isLoggedIn ? (
         <Link to="/profile" title="Profile" className="profile show">
-          <i className="fas fa-user-astronaut"></i> Profile
+          Profile
         </Link>
       ) : (
         <Link to="/RegisterLogin" title="Login">

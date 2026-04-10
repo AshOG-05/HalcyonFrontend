@@ -165,7 +165,7 @@
   padding: 3rem 0;
   position: relative;
   overflow: hidden;
-  border-top: 8px solid #000000;
+  border-top: none;
   background-image:
     radial-gradient(circle, #00000015 1.5px, transparent 1.5px);
   background-size: 25px 25px;
@@ -484,5 +484,108 @@
 
   .mobile-section-spacing {
     margin-top: 0.6rem;
+  }
+}
+
+/* ==========================================
+   Footer Refresh (final override)
+   ========================================== */
+.comic-footer {
+  padding: clamp(2rem, 4vw, 3.2rem) 1.2rem !important;
+}
+
+.comic-footer-container {
+  max-width: 1120px;
+}
+
+.footer-grid {
+  gap: clamp(1rem, 2.4vw, 1.8rem) !important;
+  align-items: stretch;
+}
+
+.comic-footer-section {
+  border-radius: 14px !important;
+  padding: 1.25rem 1.2rem !important;
+  background: linear-gradient(180deg, #ffffff, #fffdf4) !important;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.24) !important;
+}
+
+.footer-section-title.comic-section-heading {
+  font-size: clamp(1.05rem, 1.9vw, 1.35rem);
+  margin-bottom: 0.85rem !important;
+  color: #000 !important;
+  letter-spacing: 1.2px;
+}
+
+.mobile-section-spacing {
+  margin-top: 1.25rem !important;
+}
+
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.46rem;
+}
+
+.contact-list li {
+  margin: 0 !important;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.contact-name {
+  font-weight: 800 !important;
+}
+
+.contact-info {
+  color: #222 !important;
+}
+
+.footer-contact {
+  margin-top: 1.2rem !important;
+}
+
+.comic-socials {
+  gap: 0.8rem !important;
+}
+
+.comic-socials a {
+  width: 46px !important;
+  height: 46px !important;
+  border-width: 3px !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+.comic-socials a:hover {
+  transform: translateY(-3px) scale(1.05) !important;
+}
+
+.comic-footer-bottom {
+  margin-top: 1.25rem !important;
+  border: 3px solid #000 !important;
+  border-top: 3px solid #000 !important;
+  border-radius: 12px !important;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.22) !important;
+  background: linear-gradient(180deg, #ffffff, #fffdf4) !important;
+  padding: 1rem 1.2rem !important;
+}
+
+.comic-footer-bottom p {
+  margin: 0 !important;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .comic-footer-section {
+    padding: 1rem 0.9rem !important;
+  }
+
+  .contact-list li {
+    font-size: 0.9rem;
   }
 }

@@ -1554,3 +1554,638 @@
     font-size: 0.75rem;
   }
 }
+
+/* ==========================================
+   Profile Page — Pop Comic Theme Override
+   ========================================== */
+.user-profile {
+  --comic-red: #FF1744;
+  --comic-blue: #00B0FF;
+  --comic-yellow: #FFEB3B;
+  background: #FFFACD !important;
+  background-image:
+    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
+    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px) !important;
+  background-size: 25px 25px, 100% !important;
+  color: #121212 !important;
+}
+
+.user-profile::before {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 23, 68, 0.08), transparent 45%),
+    radial-gradient(circle at 88% 30%, rgba(0, 176, 255, 0.08), transparent 45%) !important;
+}
+
+.dashboard-header,
+.dashboard-sidebar,
+.dashboard-main,
+.quick-actions,
+.stat-card,
+.registration-card,
+.no-registrations,
+.user-info-card {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 3px solid #000 !important;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.22) !important;
+  backdrop-filter: none !important;
+}
+
+.dashboard-header {
+  border-radius: 0 0 12px 12px;
+  border-top: none !important;
+}
+
+.dashboard-sidebar {
+  border-radius: 0 12px 12px 0;
+}
+
+.dashboard-main {
+  border-left: none !important;
+}
+
+.dashboard-header h2,
+.welcome-section h3,
+.registrations-header h3,
+.account-settings-container h3,
+.quick-actions h4,
+.empty-state h4,
+.event-name,
+.detail-value,
+.stat-value {
+  color: #000 !important;
+  text-shadow: none !important;
+}
+
+.welcome-section p,
+.stat-label,
+.detail-row,
+.empty-state p,
+.detail-label,
+.help-text,
+.auth-subtitle {
+  color: rgba(0, 0, 0, 0.72) !important;
+}
+
+.home-btn,
+.logout-btn,
+.action-btn,
+.view-event-btn,
+.retry-button,
+.explore-btn,
+.action-card {
+  background: #fff !important;
+  color: #000 !important;
+  border: 3px solid #000 !important;
+  border-radius: 10px !important;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2) !important;
+  font-weight: 800 !important;
+}
+
+.home-btn:hover,
+.logout-btn:hover,
+.action-btn:hover,
+.view-event-btn:hover,
+.retry-button:hover,
+.explore-btn:hover,
+.action-card:hover {
+  background: var(--comic-red) !important;
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.25) !important;
+}
+
+.home-btn i,
+.logout-btn i,
+.action-btn i,
+.view-event-btn i,
+.action-card i,
+.detail-row i,
+.sidebar-btn i,
+.stat-icon i,
+.user-avatar i {
+  color: var(--comic-blue) !important;
+}
+
+.sidebar-btn {
+  border-left: 3px solid transparent !important;
+  color: #121212 !important;
+  font-weight: 700 !important;
+}
+
+.sidebar-btn:hover {
+  background: rgba(255, 23, 68, 0.08) !important;
+  border-left-color: var(--comic-red) !important;
+  color: #000 !important;
+}
+
+.sidebar-btn.active {
+  background: rgba(0, 176, 255, 0.12) !important;
+  border-left-color: var(--comic-blue) !important;
+  color: #000 !important;
+}
+
+.stat-icon,
+.user-avatar {
+  background: #fff !important;
+  border: 3px solid #000 !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.18) !important;
+}
+
+.category-tag {
+  border: 2px solid #000 !important;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.status-badge {
+  border-width: 2px !important;
+  border-color: #000 !important;
+  color: #000 !important;
+  font-weight: 800 !important;
+  background: var(--comic-yellow) !important;
+}
+
+.card-header,
+.card-body,
+.card-footer,
+.event-detail:last-child,
+.user-detail,
+.dashboard-sidebar {
+  border-color: rgba(0, 0, 0, 0.22) !important;
+}
+
+.registrations-count {
+  background: var(--comic-yellow) !important;
+  color: #000 !important;
+  border: 2px solid #000 !important;
+  font-weight: 800 !important;
+}
+
+.no-registrations::before {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 23, 68, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(0, 176, 255, 0.12) 0%, transparent 40%) !important;
+}
+
+.help-link {
+  color: var(--comic-red) !important;
+  font-weight: 700 !important;
+}
+
+.help-link:hover {
+  color: #000 !important;
+}
+
+@media (max-width: 768px) {
+  .dashboard-sidebar {
+    border-radius: 10px;
+    margin: 0 0.5rem;
+  }
+
+  .sidebar-btn {
+    border-left: none !important;
+    border-bottom: 3px solid transparent !important;
+  }
+
+  .sidebar-btn.active {
+    border-left: none !important;
+    border-bottom-color: var(--comic-blue) !important;
+  }
+}
+
+/* ==========================================
+   Profile Comic Theme (v2 - aligned)
+   ========================================== */
+.user-profile {
+  font-family: var(--font-body, 'Poppins', sans-serif) !important;
+}
+
+.dashboard-header h2,
+.welcome-section h3,
+.registrations-header h3,
+.account-settings-container h3,
+.quick-actions h4,
+.empty-state h4,
+.event-name {
+  font-family: var(--font-display, 'Fredoka One', 'Arial Black', sans-serif) !important;
+  letter-spacing: 0.8px;
+}
+
+.dashboard-header,
+.quick-actions,
+.stat-card,
+.registration-card,
+.no-registrations,
+.user-info-card,
+.dashboard-sidebar {
+  border-width: 4px !important;
+  border-radius: 12px !important;
+  box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.22) !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+}
+
+.dashboard-header {
+  border-top: 4px solid #000 !important;
+  border-left: 4px solid #000 !important;
+  border-right: 4px solid #000 !important;
+  border-bottom: 4px solid #000 !important;
+}
+
+.dashboard-main {
+  background: transparent !important;
+}
+
+.dashboard-sidebar {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 250, 230, 0.92)) !important;
+}
+
+.sidebar-btn {
+  font-family: var(--font-display, 'Fredoka One', 'Arial Black', sans-serif) !important;
+  font-size: 0.92rem !important;
+  letter-spacing: 0.5px;
+  border-left-width: 4px !important;
+}
+
+.sidebar-btn.active {
+  background: rgba(255, 235, 59, 0.26) !important;
+  border-left-color: #FF1744 !important;
+}
+
+.sidebar-btn:hover {
+  background: rgba(0, 176, 255, 0.12) !important;
+}
+
+.home-btn,
+.logout-btn,
+.action-btn,
+.view-event-btn,
+.retry-button,
+.explore-btn,
+.action-card {
+  font-family: var(--font-display, 'Fredoka One', 'Arial Black', sans-serif) !important;
+  border-radius: 10px !important;
+  border-width: 3px !important;
+}
+
+.home-btn,
+.view-event-btn,
+.action-card {
+  background: #00B0FF !important;
+  color: #000 !important;
+}
+
+.logout-btn,
+.retry-button {
+  background: #FF1744 !important;
+  color: #fff !important;
+}
+
+.explore-btn {
+  background: #FFEB3B !important;
+  color: #000 !important;
+}
+
+.home-btn:hover,
+.view-event-btn:hover,
+.action-card:hover,
+.logout-btn:hover,
+.retry-button:hover,
+.explore-btn:hover {
+  background: #fff !important;
+  color: #000 !important;
+}
+
+.stat-icon,
+.user-avatar {
+  border-radius: 12px !important;
+}
+
+.user-avatar {
+  background: #FF1744 !important;
+}
+
+.status-badge.completed {
+  background: #00E676 !important;
+}
+
+.status-badge.not_required {
+  background: #00B0FF !important;
+}
+
+.status-badge.pending {
+  background: #FFEB3B !important;
+}
+
+.status-badge.failed {
+  background: #FF5252 !important;
+}
+
+.status-badge.pay_on_event_day,
+.status-badge.payment_required {
+  background: #FFD54F !important;
+}
+
+/* ==========================================
+   Profile Contrast Fixes
+   ========================================== */
+.home-btn i,
+.view-event-btn i,
+.action-card i,
+.explore-btn i {
+  color: #000 !important;
+}
+
+.logout-btn i,
+.retry-button i,
+.danger-btn i {
+  color: #fff !important;
+}
+
+.home-btn:hover i,
+.view-event-btn:hover i,
+.action-card:hover i,
+.explore-btn:hover i,
+.logout-btn:hover i,
+.retry-button:hover i,
+.danger-btn:hover i {
+  color: #000 !important;
+}
+
+.explore-btn,
+.explore-btn span,
+.explore-btn i {
+  color: #000 !important;
+}
+
+.status-badge,
+.status-badge i,
+.status-badge span {
+  color: #000 !important;
+}
+
+/* ==========================================
+   Profile Comic Theme (v3 - polish)
+   ========================================== */
+.dashboard-header {
+  padding: 1.1rem 1.6rem !important;
+}
+
+.dashboard-header h2 {
+  font-size: clamp(1.35rem, 2.1vw, 1.95rem) !important;
+}
+
+.dashboard-content {
+  gap: 1rem;
+}
+
+.dashboard-sidebar {
+  padding: 1.25rem 0 !important;
+}
+
+.sidebar-btn {
+  margin: 0.1rem 0.45rem !important;
+  border: 2px solid transparent !important;
+  border-radius: 10px !important;
+  padding: 0.8rem 1rem !important;
+}
+
+.sidebar-btn:hover {
+  border-color: #000 !important;
+}
+
+.sidebar-btn.active {
+  border-color: #000 !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.18) !important;
+}
+
+.dashboard-main {
+  padding: 1.4rem !important;
+}
+
+.welcome-section {
+  background: rgba(255, 255, 255, 0.86);
+  border: 3px solid #000;
+  border-radius: 12px;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
+  padding: 1rem 1.1rem;
+}
+
+.welcome-section h3 {
+  margin-bottom: 0.35rem;
+}
+
+.stats-grid {
+  gap: 0.9rem !important;
+}
+
+.stat-card {
+  padding: 1rem !important;
+}
+
+.quick-actions {
+  padding: 1.15rem !important;
+}
+
+.action-grid {
+  gap: 0.65rem !important;
+}
+
+.action-card {
+  min-height: 88px;
+}
+
+.registrations-header {
+  background: rgba(255, 255, 255, 0.9);
+  border: 3px solid #000;
+  border-radius: 10px;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.18);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.9rem !important;
+}
+
+.registration-card {
+  border-radius: 12px !important;
+}
+
+.card-header {
+  background: rgba(255, 235, 59, 0.2);
+  border-bottom: 2px dashed rgba(0, 0, 0, 0.22);
+}
+
+.card-footer {
+  background: rgba(255, 255, 255, 0.55);
+  border-top: 2px dashed rgba(0, 0, 0, 0.18);
+}
+
+.category-tag {
+  border-radius: 999px !important;
+  padding: 0.28rem 0.62rem !important;
+}
+
+.view-event-btn {
+  width: 100%;
+}
+
+.user-info-card {
+  padding: 1.3rem !important;
+}
+
+.user-detail {
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.24) !important;
+}
+
+.user-detail:last-child {
+  border-bottom: none !important;
+}
+
+.account-actions {
+  margin-top: 0.25rem;
+}
+
+.loading-container,
+.error-container {
+  background: rgba(255, 255, 255, 0.88);
+  border: 3px solid #000;
+  border-radius: 12px;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .dashboard-main {
+    padding: 1rem !important;
+  }
+
+  .welcome-section {
+    padding: 0.85rem 0.9rem;
+  }
+
+  .registrations-header {
+    padding: 0.65rem 0.8rem;
+  }
+}
+
+/* ==========================================
+   My Registrations Section Refinement
+   ========================================== */
+.registrations-container {
+  gap: 1rem !important;
+}
+
+.registrations-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0.85rem 1rem !important;
+}
+
+.registrations-header h3 {
+  margin: 0 !important;
+  font-size: clamp(1rem, 1.8vw, 1.3rem) !important;
+}
+
+.registrations-grid {
+  gap: 0.9rem !important;
+}
+
+.registration-card {
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1rem 1rem 0.65rem 1rem !important;
+}
+
+.event-name {
+  font-size: 1.02rem !important;
+  line-height: 1.3 !important;
+}
+
+.event-meta {
+  margin-top: 0.25rem;
+}
+
+.category-tag {
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.4px;
+}
+
+.payment-status {
+  display: flex;
+  align-items: center;
+}
+
+.status-badge {
+  border-radius: 999px !important;
+  padding: 0.34rem 0.62rem !important;
+  font-size: 0.74rem !important;
+  line-height: 1 !important;
+}
+
+.card-body {
+  padding: 0.8rem 1rem !important;
+}
+
+.event-details {
+  gap: 0.55rem !important;
+}
+
+.detail-row {
+  font-size: 0.86rem !important;
+  line-height: 1.3;
+}
+
+.detail-row i {
+  width: 18px !important;
+}
+
+.card-footer {
+  padding: 0.7rem 1rem 1rem 1rem !important;
+}
+
+.view-event-btn {
+  min-height: 42px;
+  font-size: 0.84rem !important;
+  gap: 0.45rem !important;
+}
+
+.view-event-btn i {
+  font-size: 0.9rem;
+}
+
+.no-registrations {
+  min-height: 340px !important;
+}
+
+.empty-state h4 {
+  margin-bottom: 0.6rem !important;
+}
+
+.empty-state p {
+  margin-bottom: 1.5rem !important;
+}
+
+@media (max-width: 768px) {
+  .registrations-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.55rem !important;
+  }
+
+  .registrations-count {
+    align-self: flex-start;
+  }
+
+  .card-header {
+    padding: 0.9rem 0.9rem 0.55rem 0.9rem !important;
+  }
+
+  .card-body {
+    padding: 0.65rem 0.9rem !important;
+  }
+
+  .card-footer {
+    padding: 0.65rem 0.9rem 0.9rem 0.9rem !important;
+  }
+}
