@@ -72,6 +72,11 @@ function App() {
         </div>
       )}
       <div className="well" id="well">
+        <span className="comic-page-callout comic-page-callout-pow" aria-hidden="true" />
+        <span className="comic-page-callout comic-page-callout-wow" aria-hidden="true" />
+        <span className="comic-page-callout comic-page-callout-boom" aria-hidden="true" />
+        <span className="comic-page-callout comic-page-callout-poof" aria-hidden="true" />
+        <span className="comic-page-callout comic-page-callout-yeah" aria-hidden="true" />
         <a href="#top" title="Back to top">
           <button id="back-to-top-btn">
             <i className="fas fa-angle-double-up"></i>
@@ -80,7 +85,9 @@ function App() {
         <Banner />
         <div className="content">
           <About />
+          <div className="simple-black-break" aria-hidden="true" />
           <Timeline />
+          <div className="simple-black-break" aria-hidden="true" />
           {/* <ParticlesComponent /> */}
         </div>
         <Explore />

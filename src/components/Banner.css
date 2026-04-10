@@ -642,3 +642,13 @@
     padding-top: 65px; /* Adjusted for smaller screens */
   }
 }
+
+/* Remove seam/gap between Banner and About */
+.comic-banner-wrapper {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.comic-banner-heading {
+  padding-bottom: 0 !important;
+}

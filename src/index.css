@@ -3,6 +3,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Arial+Black&display=swap');
 @import './theme/colors.css';
 
+@font-face {
+  font-family: 'FatKat';
+  src:
+    local('FAT KAT - (DEMO) HANSCOSTUDIO.COM'),
+    url('../fonts/FAT KAT - (DEMO) HANSCOSTUDIO.COM.TTF') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OugkehSub';
+  src:
+    local('OUGKEHREGULAR-DYYRW'),
+    url('../fonts/OUGKEHREGULAR-DYYRW.OTF') format('opentype');
+  font-display: swap;
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
@@ -10,8 +26,21 @@ html {
 
 /* Comic theme fonts */
 :root {
-  --font-display: 'Fredoka One', 'Arial Black', sans-serif;
+  --font-display: 'FatKat', 'Fredoka One', 'Arial Black', sans-serif;
+  --font-subheading: 'OugkehSub', 'Fredoka One', 'Arial Black', sans-serif;
   --font-body: 'Poppins', sans-serif;
+}
+
+/* Main headings: FatKat + popping red */
+:is(
+  h1,
+  .section-heading,
+  .comic-section-heading,
+  .timeline-header h1
+) {
+  font-family: var(--font-display) !important;
+  color: var(--color-red, #EF0039) !important;
+  -webkit-text-stroke: 1px #000 !important;
 }
 
 *,

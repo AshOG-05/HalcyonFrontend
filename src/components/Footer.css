@@ -589,3 +589,12 @@
     font-size: 0.9rem;
   }
 }
+
+/* Revert committee/registration block to previous footer look */
+.footer .comic-section-heading,
+.footer .footer-section-title {
+  font-family: 'Fredoka One', 'Arial Black', sans-serif !important;
+  color: var(--color-red, #EF0039) !important;
+  -webkit-text-stroke: 0 !important;
+  text-shadow: none !important;
+}
