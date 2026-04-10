@@ -5,9 +5,7 @@ function Footer() {
     <footer className="footer comic-footer">
       <div className="footer-content comic-footer-container" id="contact_anchor">
         
-        <h3 className="footer-title comic-footer-title">
-          HALCYON 2026
-        </h3>
+        
 
         <div className="footer-grid">
           
@@ -70,11 +68,6 @@ function Footer() {
             HALCYON 2026 <span>ALL RIGHTS RESERVED</span>
           </p>
 
-          <div className="comic-footer-badges">
-            <span>EPIC</span>
-            <span>AWESOME</span>
-            <span>LEGENDARY</span>
-          </div>
         </div>
 
       </div>
