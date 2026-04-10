@@ -54,10 +54,14 @@
   cursor: pointer;
   position: relative;
   transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-  font-weight: 900;
+  font-weight: 700;
   font-family: 'Fredoka One', 'Arial Black', sans-serif;
   box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
   letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
 }
 
 .timeline-tabs button:hover {
@@ -73,12 +77,19 @@
   transform: translateY(-3px);
   box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
   border-color: #000000;
-  font-weight: 900;
+  font-weight: 700;
+}
+
+.timeline-tabs button.active .day-text {
+  color: white;  /* White text when button is active */
 }
 
 .timeline-tabs .day-text {
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
+  display: block;
+  white-space: nowrap;
+  color: #000000;  /* Black text for inactive button */
 }
 
 /* Timeline Wrapper */

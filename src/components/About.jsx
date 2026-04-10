@@ -82,18 +82,6 @@ function About() {
 
         </div>
       </div>
-
-      <div className="section-divider" style={{
-        position: 'relative', height: '100px',
-        marginTop: '2rem', overflow: 'hidden', zIndex: 5
-      }}>
-        <div style={{
-          position: 'absolute', bottom: 0, left: 0, width: '100%', height: '3px',
-          background: '#000000',
-          boxShadow: '4px 4px 0px rgba(0,0,0,0.3)'
-        }}></div>
-      </div>
-
     </div>
   );
 }
