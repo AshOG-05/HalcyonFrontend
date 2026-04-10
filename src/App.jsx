@@ -23,7 +23,7 @@ function App() {
     if (!isMobile) {
       const timer = setTimeout(() => {
         setLoading(false);
-      }, 5000); // Increased from 2500ms to 5000ms for better visibility
+      }, 2500);
       return () => clearTimeout(timer);
     }
     // No timer needed for mobile - already set to false
@@ -49,7 +49,7 @@ function App() {
             src="/assets/final LOGO.png"
             alt="Preloader"
             style={{
-              height: '25vh',
+              height: '32vh',
               objectFit: 'contain',
               animation: 'glow 3s ease-in-out infinite'
             }}

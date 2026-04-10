@@ -6,6 +6,7 @@
   padding-top: 3rem;
   padding-bottom: 3rem;
   background: transparent;
+  width: 100%;
 }
 
 /* Explore title styling now uses common section-heading class */
@@ -16,8 +17,8 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 100rem;
-  height: 70vh;
+  max-width: 120rem;
+  height: 74vh;
   margin-top: 2rem;
   perspective: 1000px; /* Adds depth to the card animations */
 }
@@ -26,7 +27,7 @@
   .flex-cards-section {
     flex-direction: row;
     align-items: stretch;
-    height: 70vh;
+    height: 74vh;
   }
 }
 
@@ -43,7 +44,7 @@
   background-repeat: no-repeat;
   background-color: white;
   cursor: pointer;
-  max-width: 6rem;
+  max-width: 6.8rem;
   border: 4px solid #000000;
   box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
   will-change: flex, max-width, border-color, box-shadow;
@@ -56,7 +57,7 @@
 }
 
 .flex-card-container.active {
-  flex: 4;
+  flex: 5;
   max-width: none;
 }
 
@@ -144,14 +145,14 @@
   .flex-card-container {
     min-height: 60px;
     max-width: none;
-    width: 32%;
+    width: 32.5%;
     margin: 0.5rem 1%;
     height: 80px;
   }
 
   .flex-card-container.active {
     flex: 1;
-    height: 200px;
+    height: 230px;
     width: 100%;
   }
 
@@ -171,14 +172,14 @@
     flex-direction: column;
     padding: 1rem 0;
     width: 100%;
-    max-width: 48rem;
+    max-width: 56rem;
     margin: 0 auto;
   }
 
   .flex-card-container {
     width: 100%;
     height: 5rem;
-    max-width: 46rem;
+    max-width: 54rem;
     margin: 0.8rem 0;
     transition: all 0.5s ease;
     border: 2px solid rgba(255, 23, 68, 0.4);

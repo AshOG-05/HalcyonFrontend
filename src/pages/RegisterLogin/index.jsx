@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import AdminLogin from './AdminLogin';
@@ -43,6 +44,11 @@ function AuthPage() {
         ))}
       </div>
       <div className="auth-card">
+        <div className="auth-top-nav">
+          <Link to="/" className="auth-back-button">
+            <i className="fas fa-arrow-left"></i> Back to Home
+          </Link>
+        </div>
         <div className="auth-header">
           <h2>Welcome to Halcyon 2026</h2>
           <div className="auth-tabs">

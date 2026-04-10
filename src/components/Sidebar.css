@@ -5,7 +5,7 @@
   --comic-blue: #00B0FF;
   --comic-yellow: #FFEB3B;
   position: fixed;
-  top: 30px;
+  top: 24px;
   left: 30px;
   z-index: 1000;
   -webkit-tap-highlight-color: transparent;
@@ -212,24 +212,35 @@
   display: none;
 }
 
-/* Improve button styling */
-label {
+/* Improve sidebar toggle button styling (scoped) */
+.sidebar-container label {
+  position: relative;
+  display: block;
+  width: 0;
+  height: 0;
   background: none;
   box-shadow: none;
 }
 
-label #btn, label #cancel {
+.sidebar-container label #btn,
+.sidebar-container label #cancel {
   position: absolute;
   cursor: pointer;
   border-radius: 3px;
 }
 
-label #btn {
+.sidebar-container label #btn {
   left: 0;
   top: 0;
-  font-size: 2rem;
+  font-size: 1.75rem;
   color: #000000;
-  padding: 10px;
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.3s ease;
   z-index: 10;
   background: white;
@@ -240,7 +251,7 @@ label #btn {
   font-weight: 700;
 }
 
-label #btn:hover {
+.sidebar-container label #btn:hover {
   transform: scale(1.1);
   color: white;
   background: #FF1744;
@@ -288,14 +299,20 @@ label #btn:hover {
   }
 
   .sidebar-container {
-    top: 10px;
+    top: 8px;
     left: 10px;
     z-index: 2200;
   }
 
   label #btn {
-    font-size: 2.2rem;
-    padding: 12px;
+    font-size: 2rem;
+    padding: 0;
+    width: 46px;
+    height: 46px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: white;
     border: 3px solid #000000;
     border-radius: 8px;

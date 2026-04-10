@@ -90,7 +90,7 @@ function InteractiveExplore() {
     {
       id: 4,
       title: "Theatre",
-      image: "/assets/arts-bg.jpg",
+      image: "/assets/art-event.jpg",
     },
     {
       id: 5,
@@ -100,7 +100,7 @@ function InteractiveExplore() {
     {
       id: 6,
       title: "Literary",
-      image: "/assets/sports-bg.jpg",
+      image: "/assets/tech-bg.jpg",
     },
   ];
 

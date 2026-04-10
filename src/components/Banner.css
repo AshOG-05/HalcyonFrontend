@@ -256,9 +256,25 @@
 @media (max-width: 768px) {
   .comic-sfx { font-size: 1rem; }
 
+  .comic-countdown-grid {
+    flex-wrap: nowrap;
+    gap: 0.55rem;
+    width: 100%;
+  }
+
   .comic-countdown-cell {
-    min-width: 70px;
-    padding: 0.7rem 0.9rem;
+    min-width: 0;
+    width: calc((100% - 1.65rem) / 4);
+    padding: 0.65rem 0.4rem;
+  }
+
+  .comic-countdown-value {
+    font-size: clamp(1.35rem, 4.4vw, 2rem);
+  }
+
+  .comic-countdown-unit {
+    font-size: 0.62rem;
+    letter-spacing: 1px;
   }
 
   .comic-banner-heading {
@@ -271,11 +287,26 @@
   .comic-sfx-bl,
   .comic-sfx-br { display: none; }
 
-  .comic-countdown-grid { gap: 0.6rem; }
+  .comic-countdown-grid {
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+  }
 
   .comic-countdown-cell {
-    min-width: 60px;
-    padding: 0.6rem 0.7rem;
+    min-width: 0;
+    width: calc((100% - 1.2rem) / 4);
+    padding: 0.5rem 0.3rem;
+    border-width: 3px;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
+  }
+
+  .comic-countdown-value {
+    font-size: clamp(1.1rem, 4.8vw, 1.6rem);
+  }
+
+  .comic-countdown-unit {
+    font-size: 0.55rem;
+    letter-spacing: 0.8px;
   }
 }
 /* Reset all button styles first */
