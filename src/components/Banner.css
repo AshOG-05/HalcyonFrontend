@@ -3,6 +3,12 @@
    BANNER — POP COMICS THEME
    ============================================================ */
 
+@font-face {
+  font-family: 'FatkatFont';
+  src: url('/assets/fonts/fatkat.ttf') format('truetype');
+  font-display: swap;
+}
+
 /* ---------- base wrapper ---------- */
 .comic-banner-wrapper {
   position: relative;
@@ -70,26 +76,26 @@
 }
 
 .comic-banner-title {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: 'FatkatFont', 'Comic Sans MS', cursive, sans-serif;
   font-size: clamp(4rem, 12vw, 9rem);
   color: #FF1744;
   margin: 0;
   line-height: 1;
   font-weight: 700;
-  text-shadow: none;
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   animation: titlePop 0.8s cubic-bezier(0.175,0.885,0.32,1.275) both;
 }
 
 .comic-banner-year {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: 'FatkatFont', 'Comic Sans MS', cursive, sans-serif;
   font-size: clamp(2.5rem, 7vw, 5.5rem);
   color: #00B0FF;
   margin: 0;
   line-height: 1;
   font-weight: 700;
-  text-shadow: none;
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   animation: titlePop 0.8s cubic-bezier(0.175,0.885,0.32,1.275) 0.15s both;
@@ -310,10 +316,6 @@
   }
 }
 /* Reset all button styles first */
-@font-face{
-  font-family:'CustomFont';
-  src:url('/assets/fonts/Rusted\ Vibe.otf') format('opentype');
-}
 .banner .register-button, .banner .logout-button {
   position: relative;
   display: inline-block;
@@ -443,10 +445,16 @@
 }
 
 .samarkan{
-  font-family: 'CustomFont';
+  font-family: 'FatkatFont';
   color: #FF1744 !important;
   text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3), -1px -1px 0px rgba(255, 23, 68, 0.5) !important;
   letter-spacing: 2px; /* Added spacing for better readability */
+}
+
+.fatkat-force {
+  font-family: 'FatkatFont' !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
 }
 
 /* Override for the first heading (HALCYON) */
@@ -512,7 +520,7 @@
   margin-bottom: 0.5rem;
   color: #000;
   text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
-  font-family: 'CustomFont', bold;
+  font-family: 'FatkatFont', 'Comic Sans MS', cursive, sans-serif;
 }
 
 /* Responsive styles for countdown timer */

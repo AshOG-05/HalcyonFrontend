@@ -10,7 +10,7 @@ function ReachUs() {
         </h2>
 
         <div className="transportation-grid">
-          <div className="transport-card">
+          <div className="transport-card" data-transport="bus">
             <h3>BUS</h3>
             <p>
               Frequent buses are available to Tumakuru from the Kempegowda Bus Station, Bengaluru.
@@ -19,7 +19,7 @@ function ReachUs() {
             </p>
           </div>
 
-          <div className="transport-card">
+          <div className="transport-card" data-transport="train">
             <h3>TRAINS</h3>
             <p>
               Trains are available intermittently from Bengaluru station. Kindly refer to the train schedules for timings.
@@ -27,7 +27,7 @@ function ReachUs() {
             </p>
           </div>
 
-          <div className="transport-card">
+          <div className="transport-card" data-transport="taxi">
             <h3>TAXIS</h3>
             <p>
               Taxis are available from Bangalore to SIT. However, considering the frequency of buses,
@@ -35,7 +35,7 @@ function ReachUs() {
             </p>
           </div>
 
-          <div className="transport-card">
+          <div className="transport-card" data-transport="air">
             <h3>AIR</h3>
             <p>
               The nearest airport is the Kempegowda International Airport, Bengaluru.

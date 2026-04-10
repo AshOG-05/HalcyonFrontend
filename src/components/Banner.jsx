@@ -15,8 +15,8 @@ const COUNTDOWN_COLORS = [
 ];
 
 function Banner() {
-  const [days,    setDays]    = useState(0);
-  const [hours,   setHours]   = useState(0);
+  const [days, setDays] = useState(0);
+  const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,12 +34,12 @@ function Banner() {
 
     const festDay = new Date("APRIL 17, 2026 12:00:00").getTime();
     const interval = setInterval(() => {
-      const now      = new Date().getTime();
+      const now = new Date().getTime();
       const distance = festDay - now;
-      setDays(   Math.max(0, Math.floor(distance / (1000 * 60 * 60 * 24))));
-      setHours(  Math.max(0, Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))));
-      setMinutes(Math.max(0, Math.floor((distance % (1000 * 60 * 60))      / (1000 * 60))));
-      setSeconds(Math.max(0, Math.floor((distance % (1000 * 60))           / 1000)));
+      setDays(Math.max(0, Math.floor(distance / (1000 * 60 * 60 * 24))));
+      setHours(Math.max(0, Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))));
+      setMinutes(Math.max(0, Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))));
+      setSeconds(Math.max(0, Math.floor((distance % (1000 * 60)) / 1000)));
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -50,8 +50,8 @@ function Banner() {
   };
 
   const countdownItems = [
-    { value: days,    label: 'DAYS'    },
-    { value: hours,   label: 'HOURS'   },
+    { value: days, label: 'DAYS' },
+    { value: hours, label: 'HOURS' },
     { value: minutes, label: 'MINUTES' },
     { value: seconds, label: 'SECONDS' },
   ];
@@ -88,10 +88,10 @@ function Banner() {
 
         {/* Title block */}
         <div className="comic-banner-title-block">
-          <h1 className="samarkan comic-banner-title" style={{ fontFamily: 'CustomFont', fontSize: 'clamp(6rem, 16vw, 13rem)' }}>
+          <h1 className="samarkan comic-banner-title fatkat-force" style={{ fontSize: 'clamp(6rem, 16vw, 13rem)' }}>
             HALCYON
           </h1>
-          <h1 className="samarkan comic-banner-year"  style={{ fontFamily: 'CustomFont', fontSize: 'clamp(3.2rem, 9vw, 7rem)' }}>
+          <h1 className="samarkan comic-banner-year fatkat-force" style={{ fontSize: 'clamp(3.2rem, 9vw, 7rem)' }}>
             2026
           </h1>
         </div>
@@ -102,7 +102,7 @@ function Banner() {
         {/* Dates badge */}
         <div className="comic-banner-dates">
           <span className="comic-dates-badge">
-            📅 17th April 2026 — 18th April 2026
+            17th April 2026 — 18th April 2026
           </span>
         </div>
 
@@ -125,7 +125,7 @@ function Banner() {
 
         {/* ── Countdown ── */}
         <div className="comic-countdown-wrapper">
-          
+
           <div className="comic-countdown-grid">
             {countdownItems.map((item, i) => {
               const color = COUNTDOWN_COLORS[i];
@@ -134,8 +134,8 @@ function Banner() {
                   key={item.label}
                   className="comic-countdown-cell"
                   style={{
-                    '--cell-bg':     color.bg,
-                    '--cell-label':  color.label,
+                    '--cell-bg': color.bg,
+                    '--cell-label': color.label,
                     '--cell-border': color.border,
                   }}
                 >
