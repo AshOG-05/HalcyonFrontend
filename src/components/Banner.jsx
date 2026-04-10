@@ -88,10 +88,10 @@ function Banner() {
 
         {/* Title block */}
         <div className="comic-banner-title-block">
-          <h1 className="samarkan comic-banner-title" style={{ fontFamily: 'CustomFont' }}>
+          <h1 className="samarkan comic-banner-title" style={{ fontFamily: 'CustomFont', fontSize: 'clamp(6rem, 16vw, 13rem)' }}>
             HALCYON
           </h1>
-          <h1 className="samarkan comic-banner-year"  style={{ fontFamily: 'CustomFont' }}>
+          <h1 className="samarkan comic-banner-year"  style={{ fontFamily: 'CustomFont', fontSize: 'clamp(3.2rem, 9vw, 7rem)' }}>
             2026
           </h1>
         </div>
