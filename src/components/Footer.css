@@ -541,6 +541,18 @@
   color: #222 !important;
 }
 
+/* Keep Executive Committee title centered, but left-align its 3 role rows */
+.executive-committee-list,
+.executive-committee-list li {
+  text-align: left !important;
+}
+
+/* Apply same alignment pattern to all footer info cards */
+.footer-section .contact-list,
+.footer-section .contact-list li {
+  text-align: left !important;
+}
+
 .footer-contact {
   margin-top: 1.2rem !important;
 }

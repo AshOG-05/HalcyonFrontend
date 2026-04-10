@@ -15,7 +15,7 @@ function Footer() {
               Executive Committee
             </h4>
 
-            <ul className="contact-list comic-contact-list">
+            <ul className="contact-list comic-contact-list executive-committee-list">
               <li><span className="contact-name">CEO</span><span className="contact-info">: DR. SHIVAKUMARAIAH</span></li>
               <li><span className="contact-name">PRINCIPAL</span><span className="contact-info">: DR. S V DINESH</span></li>
               <li><span className="contact-name">CULTURAL CO-ORDINATOR</span><span className="contact-info">: DR. SAGAR T S</span></li>

@@ -77,7 +77,7 @@ function About() {
             <div className="feature comic-feature-card" data-aos="fade-up" data-aos-delay="400">
               <span className="comic-feature-badge badge-yellow">🎭 CULTURE</span>
               <i className="fas fa-users"></i>
-              <h3>2500+ Participants</h3>
+              <h3>5000+ Participants</h3>
               <p>Connect with vibrant talent from colleges across Karnataka and celebrate culture together.</p>
             </div>
           </div>
