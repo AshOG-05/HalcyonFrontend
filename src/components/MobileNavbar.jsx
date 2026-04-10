@@ -37,7 +37,7 @@ function MobileNavbar({ toggleSidebar }) {
           <div className="logo-container halcyon-logo-container">
             <img
               src="/assets/final LOGO.png"
-              alt="Halcyon 2025 Logo"
+              alt="Halcyon 2026 Logo"
               className="mobile-navbar-logo halcyon-logo"
             />
           </div>

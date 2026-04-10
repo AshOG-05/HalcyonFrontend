@@ -14,8 +14,8 @@
   color: #000000;
   position: relative;
   overflow: hidden;
-  border-top: 8px solid #000000;
-  border-bottom: 8px solid #000000;
+  border-top: none;
+  border-bottom: none;
 }
 
 .brochure-container {

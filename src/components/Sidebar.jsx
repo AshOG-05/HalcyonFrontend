@@ -136,7 +136,7 @@ function Sidebar({ externalToggle }) {
             left: 0,
             width: '100%',
             height: '100%',
-            background: 'ff1744cc',
+            background: 'rgba(0, 0, 0, 0.45)',
             backdropFilter: isMobile ? 'blur(5px)' : 'blur(3px)',
             zIndex: 999,
             transition: 'opacity 0.3s ease',

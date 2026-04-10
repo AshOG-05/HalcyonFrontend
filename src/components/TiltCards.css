@@ -11,11 +11,11 @@
 
 .tilt-cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(3, minmax(340px, 1fr));
+  gap: 3rem;
   justify-content: center;
-  max-width: 1200px;
-  width: 90%;
+  max-width: 1400px;
+  width: 100%;
   padding: 0 1rem;
   margin: 0 auto;
 }
@@ -40,7 +40,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 350px;
+  height: 420px;
   background-color: white;
   border-radius: 8px;
   transform: skew(0, 3deg);
@@ -121,15 +121,15 @@
 @media (max-width: 1200px) {
   .tilt-cards-grid {
     grid-template-columns: repeat(3, 1fr);
-    max-width: 1000px;
+    max-width: 1200px;
   }
 }
 
 @media (max-width: 992px) {
   .tilt-cards-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    max-width: 900px;
+    gap: 2.4rem;
+    max-width: 1020px;
   }
 }
 
@@ -137,8 +137,8 @@
   .tilt-cards-grid {
     grid-template-columns: repeat(2, 1fr);
     justify-items: center;
-    max-width: 600px;
-    gap: 2.5rem;
+    max-width: 760px;
+    gap: 3.2rem;
   }
 
   .tilt-card-wrapper {
@@ -148,7 +148,7 @@
 
   .tilt-card-outer {
     transform: skew(0, 3deg);
-    height: 300px;
+    height: 360px;
   }
 }
 
@@ -159,24 +159,24 @@
   }
 
   .tilt-card-outer {
-    height: 280px;
+    height: 340px;
   }
 
   /* Tilt cards title styling now uses common section-heading class */
 
   .tilt-cards-grid {
-    width: 95%;
-    max-width: 600px;
+    width: 100%;
+    max-width: 760px;
     margin: 0 auto;
     overflow: visible;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 2.5rem;
+    gap: 3.25rem;
   }
 
   .tilt-card-wrapper {
-    flex: 0 0 280px;
+    flex: 0 0 360px;
     margin: 0 auto 2rem;
   }
 
@@ -189,13 +189,13 @@
 @media (max-width: 480px) {
   .tilt-cards-grid {
     grid-template-columns: 1fr;
-    max-width: 280px;
+    max-width: 360px;
     margin: 0 auto;
-    gap: 3rem;
+    gap: 3.5rem;
   }
 
   .tilt-card-outer {
-    height: 280px;
+    height: 320px;
     transform: skew(0, 3deg);
   }
 

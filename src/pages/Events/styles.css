@@ -24,8 +24,8 @@ html {
 
 .events-container {
   min-height: 100vh;
-  padding: 4rem 2rem;
-  padding-top: 5rem;
+  padding: clamp(1rem, 3vw, 2rem);
+  padding-top: clamp(4.5rem, 10vw, 5.5rem);
   background: #000000;
   background: linear-gradient(to bottom, #000000, #0a0a14);
   color: #fff;
@@ -35,7 +35,7 @@ html {
 
 .events-title {
   text-align: center;
-  font-size: 3.5rem;
+  font-size: clamp(1.8rem, 6vw, 3.5rem);
   margin-bottom: 0.5rem;
   margin-top: 2rem;
   padding-top: 1rem;
@@ -66,7 +66,7 @@ html {
   text-align: center;
   color: #ccc;
   margin-bottom: 3rem;
-  font-size: 1.2rem;
+  font-size: clamp(0.95rem, 2.3vw, 1.2rem);
   letter-spacing: 1px;
   font-weight: 300;
   max-width: 600px;
@@ -78,7 +78,7 @@ html {
 
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -433,7 +433,6 @@ html {
   }
 
   .events-grid {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
@@ -441,5 +440,22 @@ html {
     padding: 6px 12px;
     font-size: 0.8rem;
     margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .events-container {
+    padding: 1rem 0.75rem;
+    padding-top: 4.25rem;
+  }
+
+  .event-card,
+  .category-card {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .category-name {
+    font-size: 1.45rem;
   }
 }

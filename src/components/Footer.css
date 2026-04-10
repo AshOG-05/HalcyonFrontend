@@ -14,8 +14,8 @@
 
 .comic-footer {
   background: #FFFACD;
-  border-top: 8px solid #000000;
-  border-bottom: 8px solid #000000;
+  border-top: none;
+  border-bottom: none;
   padding: 3rem 2rem;
   background-image:
     radial-gradient(circle, #00000015 1.5px, transparent 1.5px);

@@ -26,8 +26,8 @@
     repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px);
   background-size: 25px 25px, 100%;
   border: none;
-  border-top: 8px solid #000000;
-  border-bottom: 8px solid #000000;
+  border-top: none;
+  border-bottom: none;
   border-radius: 0;
   padding: 4rem 2rem;
   position: relative;
@@ -210,6 +210,114 @@
   box-shadow: 8px 8px 0px rgba(0,0,0,0.4);
 }
 
+/* ---- MOBILE RESPONSIVE FIXES ---- */
+@media (max-width: 768px) {
+  .about.comic-about-container {
+    padding: 2.2rem 1rem;
+    min-height: auto;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+  }
+
+  .about-box {
+    margin: 1rem auto !important;
+    margin-top: 1rem !important; /* overrides inline marginTop */
+    padding: 1.3rem 1rem;
+    border-width: 3px;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+  }
+
+  .comic-title-text {
+    font-size: clamp(1.6rem, 8vw, 2.4rem);
+    letter-spacing: 1.5px;
+    line-height: 1.15;
+    margin-bottom: 0.65rem;
+    text-shadow: 2px 2px 0 #FF1744, 4px 4px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  .comic-title-underline {
+    width: 130px;
+    height: 4px;
+    margin-top: 0.6rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #000000;
+  }
+
+  .comic-thought-bubble {
+    margin: 1rem 0 1.2rem;
+    padding: 1rem;
+    border-width: 3px;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.22);
+  }
+
+  .comic-body-text {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    letter-spacing: 0.1px;
+  }
+
+  .about-features {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.2rem;
+  }
+
+  .feature.comic-feature-card {
+    padding: 1rem 0.9rem;
+    border-width: 3px;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.22);
+  }
+
+  .feature.comic-feature-card i {
+    font-size: 2rem;
+  }
+
+  .feature.comic-feature-card h3 {
+    font-size: 1.05rem;
+    letter-spacing: 1px;
+  }
+
+  .feature.comic-feature-card p {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .about-cta.comic-cta-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    letter-spacing: 0.6px;
+    padding: 0.9rem 0.9rem;
+    margin-top: 1.4rem;
+    border-width: 3px;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.25);
+    text-transform: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .about.comic-about-container {
+    padding: 1.7rem 0.7rem;
+  }
+
+  .about-box {
+    padding: 1rem 0.75rem;
+  }
+
+  .comic-title-text {
+    font-size: clamp(1.45rem, 8.5vw, 2rem);
+  }
+
+  .comic-body-text {
+    font-size: 0.86rem;
+  }
+
+  .comic-feature-badge {
+    font-size: 0.72rem;
+    padding: 0.3rem 0.55rem;
+  }
+}
+
 /* ---- FLOATING COMIC BADGES ---- */
 .comic-badge {
   display: none !important;
@@ -235,8 +343,8 @@
     radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
     repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px);
   background-size: 25px 25px, 100%;
-  border-top: 8px solid #000000;
-  border-bottom: 8px solid #000000;
+  border-top: none;
+  border-bottom: none;
 }
 
 .about-decorations {

@@ -33,12 +33,6 @@ function Explore() {
       {/* 🎯 Main Content */}
       <div className="explore-container comic-explore-container">
 
-        {/* 💥 Comic Header */}
-        <div className="comic-explore-header">
-          <h2 className="comic-explore-title">EXPLORE EVENTS</h2>
-          <span className="comic-sound-effect comic-explore-effect">BOOM!</span>
-        </div>
-
         {/* ⚡ Your Existing Components (UNCHANGED) */}
         <InteractiveExplore />
         <TiltCards />

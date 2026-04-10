@@ -56,19 +56,19 @@ function TiltCards() {
     {
       id: 1,
       title: "DJ NIGHT",
-      image: "/assets/dj.jpg",
+      image: "/assets/music-event.jpg",
       link: null, // No redirect for DJ NIGHT
     },
     {
       id: 2,
       title: "CHOREOGRAPHY",
-      image: "/assets/choreography.jpg",
+      image: "/assets/dance-event.jpg",
       link: "/events/dance", // Redirect to dance category
     },
     {
       id: 3,
       title: "ETHNIC SHOW",
-      image: "/assets/ethnic_2.jpg",
+      image: "/assets/art-event.jpg",
       link: "/events/theatre", // Redirect to theatre category
     },
   ];

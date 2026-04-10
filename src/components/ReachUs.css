@@ -15,8 +15,8 @@
   position: relative;
   overflow: hidden;
   min-height: auto;
-  border-top: 8px solid #000000;
-  border-bottom: 8px solid #000000;
+  border-top: none;
+  border-bottom: none;
 }
 
 /* Removed starry background */

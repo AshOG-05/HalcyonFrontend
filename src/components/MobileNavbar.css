@@ -1,16 +1,24 @@
 .mobile-navbar {
+  --comic-red: #FF1744;
+  --comic-blue: #00B0FF;
+  --comic-yellow: #FFEB3B;
   display: none; /* Hidden by default, will be shown only on mobile */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 65px; /* Increased to accommodate larger SIT logo */
-  background-color: transparent; /* Completely transparent background */
+  background: #FFFACD;
+  background-image:
+    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
+    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px);
+  background-size: 25px 25px, 100%;
   z-index: 1000;
   padding: 0 15px;
   justify-content: space-between;
   align-items: center;
-  box-shadow: none; /* Ensure no shadow */
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.25);
+  border-bottom: 4px solid #000;
 }
 
 /* Completely transparent background overlay */
@@ -20,10 +28,10 @@
   left: 0;
   width: 100%;
   height: 100%;
-  backdrop-filter: none; /* Remove blur effect */
+  backdrop-filter: none;
   z-index: -1;
-  border-bottom: none; /* Remove border */
-  background-color: transparent; /* Ensure no background color */
+  border-bottom: none;
+  background-color: transparent;
 }
 
 .mobile-navbar-left {
@@ -48,9 +56,9 @@
 }
 
 .mobile-menu-btn {
-  background: none;
-  border: none;
-  color: white;
+  background: #fff;
+  border: 3px solid #000;
+  color: #000;
   font-size: 1.6rem; /* Reduced from 2rem */
   cursor: pointer;
   padding: 8px; /* Reduced from 10px */
@@ -58,13 +66,25 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* Enhanced glow for better visibility against transparent background */
+  text-shadow: none;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
 }
 
 .mobile-menu-btn:hover {
-  color: #FF1744;
+  color: #fff;
+  background: var(--comic-red);
   transform: scale(1.05); /* Reduced from 1.1 */
-  text-shadow: 0 0 12px rgba(255, 23, 68, 0.9); /* Enhanced glow for better visibility against transparent background */
+  text-shadow: none;
+}
+
+.mobile-navbar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--comic-red), var(--comic-blue), var(--comic-yellow));
 }
 
 /* General logo container styles */
@@ -88,7 +108,7 @@
   width: auto;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 1)) brightness(1.2) contrast(1.2); /* Enhanced visibility */
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.25)) brightness(1.05) contrast(1.05);
   opacity: 1;
 }
 
@@ -108,6 +128,15 @@
 @media (max-width: 768px) {
   .mobile-navbar {
     display: flex;
+    background: transparent;
+    background-image: none;
+    box-shadow: none;
+    border-bottom: none;
+    backdrop-filter: none;
+  }
+
+  .mobile-navbar::after {
+    display: none;
   }
 }
 
@@ -158,7 +187,7 @@
 
 @media (max-width: 320px) {
   .mobile-navbar {
-    height: 50px;
+    height: 56px;
     padding: 0 8px;
   }
 

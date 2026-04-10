@@ -27,7 +27,7 @@ html {
   background: #000000;
   background: linear-gradient(to bottom, #000000, #0a0a14);
   color: #fff;
-  padding: 2rem 1rem;
+  padding: clamp(1rem, 3vw, 2rem);
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
@@ -69,7 +69,7 @@ html {
 }
 
 .category-header h1 {
-  font-size: 3rem;
+  font-size: clamp(1.7rem, 5.5vw, 3rem);
   margin-bottom: 0.5rem;
   color: white;
   display: flex;
@@ -114,7 +114,7 @@ html {
 }
 
 .category-header p {
-  font-size: 1.2rem;
+  font-size: clamp(0.9rem, 2.2vw, 1.2rem);
   color: #ccc;
   margin-bottom: 2rem;
   margin-top: 1.5rem;
@@ -160,7 +160,7 @@ html {
 
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
   gap: 2rem;
   margin-top: 2rem;
   position: relative;
@@ -408,10 +408,6 @@ html {
     font-size: 2rem;
   }
 
-  .events-grid {
-    grid-template-columns: 1fr;
-  }
-
   .navigation-buttons {
     flex-direction: column;
     gap: 0.8rem;
@@ -421,5 +417,19 @@ html {
   .back-button {
     padding: 6px 12px;
     font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-events-container {
+    padding: 0.9rem 0.7rem;
+    padding-top: 4.2rem;
+  }
+
+  .event-card-header,
+  .event-card-details,
+  .event-card-description,
+  .event-card-actions {
+    padding: 1rem;
   }
 }

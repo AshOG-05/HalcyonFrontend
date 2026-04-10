@@ -145,3 +145,17 @@ button {
 .btn-comic-yellow { background: #FFEB3B; color: #000; }
 .btn-comic-purple { background: #9C27B0; color: white; }
 .btn-comic-green { background: #00E676; color: #000; }
+
+@media (max-width: 992px) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
+@media (max-width: 768px) {
+  .well,
+  .content {
+    width: 100%;
+    overflow-x: clip;
+  }
+}

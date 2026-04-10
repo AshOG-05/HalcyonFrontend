@@ -30,8 +30,8 @@ html {
   background-color: #000;
   background: linear-gradient(to bottom, #000000, #0a0a14);
   color: #fff;
-  padding: 4rem 2rem;
-  padding-top: 5rem;
+  padding: clamp(1rem, 3vw, 2rem);
+  padding-top: clamp(4.5rem, 10vw, 5.5rem);
   position: relative;
   overflow: hidden;
 }
@@ -119,8 +119,8 @@ html {
 .shape-1 {
   top: -100px;
   left: -100px;
-  width: 400px;
-  height: 400px;
+  width: clamp(220px, 35vw, 400px);
+  height: clamp(220px, 35vw, 400px);
   background: linear-gradient(45deg, var(--color-red), #ff3d68);
   animation: shapeFloat 15s ease-in-out infinite alternate;
 }
@@ -128,8 +128,8 @@ html {
 .shape-2 {
   bottom: -150px;
   right: -100px;
-  width: 500px;
-  height: 500px;
+  width: clamp(260px, 42vw, 500px);
+  height: clamp(260px, 42vw, 500px);
   background: linear-gradient(45deg, #1a1a1a, #333333);
   animation: shapeFloat 20s ease-in-out infinite alternate-reverse;
 }
@@ -137,8 +137,8 @@ html {
 .shape-3 {
   top: 30%;
   right: 10%;
-  width: 300px;
-  height: 300px;
+  width: clamp(180px, 26vw, 300px);
+  height: clamp(180px, 26vw, 300px);
   background: radial-gradient(circle, rgba(255, 23, 68, 0.1), rgba(0, 0, 0, 0));
   animation: pulse 8s ease-in-out infinite;
 }
@@ -214,7 +214,7 @@ html {
 }
 
 .event-title {
-  font-size: 3rem;
+  font-size: clamp(1.5rem, 5vw, 3rem);
   color: #fff;
   margin-bottom: 20px;
   text-transform: uppercase;
@@ -367,7 +367,7 @@ html {
   position: relative;
   overflow: hidden;
   width: 100%;
-  max-width: 300px;
+  max-width: min(300px, 100%);
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -431,7 +431,7 @@ html {
 /* Single button layout optimization */
 .registration-buttons .register-button,
 .event-actions .back-button {
-  max-width: 300px;
+  max-width: min(300px, 100%);
   width: 100%;
 }
 

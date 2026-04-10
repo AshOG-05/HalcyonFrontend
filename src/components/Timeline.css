@@ -13,8 +13,8 @@
   padding-bottom: 6rem;
   overflow: hidden;
   border: none;
-  border-top: 8px solid #000000;
-  border-bottom: 8px solid #000000;
+  border-top: none;
+  border-bottom: none;
 }
 
 /* Timeline Header */

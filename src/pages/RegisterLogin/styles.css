@@ -29,7 +29,7 @@ html {
   justify-content: center;
   align-items: center;
   background: linear-gradient(to bottom, #000000, #0a0a14);
-  padding: 20px;
+  padding: clamp(12px, 3vw, 20px);
   position: relative;
   overflow: hidden;
 }
@@ -48,7 +48,7 @@ html {
 
 .auth-card {
   width: 100%;
-  max-width: 500px;
+  max-width: min(500px, 100%);
   background: rgba(15, 15, 25, 0.6);
   backdrop-filter: blur(10px);
   border-radius: 15px;
@@ -145,7 +145,7 @@ html {
 }
 
 .auth-content {
-  padding: 30px;
+  padding: clamp(16px, 3.5vw, 30px);
   background: rgba(15, 15, 25, 0.4);
 }
 
@@ -316,7 +316,7 @@ html {
 }
 
 .auth-footer {
-  padding: 0 30px 25px;
+  padding: 0 clamp(16px, 3.5vw, 30px) clamp(16px, 3.5vw, 25px);
   text-align: center;
   background: rgba(10, 10, 20, 0.5);
   border-bottom-left-radius: 15px;
@@ -460,5 +460,22 @@ html {
 
   .auth-content {
     padding: 20px;
+  }
+}
+
+@media (max-width: 380px) {
+  .auth-container {
+    padding: 10px;
+  }
+
+  .auth-tabs {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .auth-tab {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
   }
 }

@@ -75,32 +75,32 @@ function InteractiveExplore() {
     {
       id: 1,
       title: "Dance",
-      image: "/assets/DomainImages/dance1-removebg-preview.png",
+      image: "/assets/dance-event.jpg",
     },
     {
       id: 2,
       title: "Music",
-      image: "/assets/DomainImages/music-removebg-preview.png",
+      image: "/assets/music-event.jpg",
     },
     {
       id: 3,
       title: "Gaming",
-      image: "/assets/DomainImages/gam-removebg-preview.png",
+      image: "/assets/tech-event.jpg",
     },
     {
       id: 4,
       title: "Theatre",
-      image: "/assets/DomainImages/theatre3-removebg-preview.png",
+      image: "/assets/arts-bg.jpg",
     },
     {
       id: 5,
       title: "Fine Arts",
-      image: "/assets/DomainImages/finearts-removebg-preview.png",
+      image: "/assets/art-event.jpg",
     },
     {
       id: 6,
       title: "Literary",
-      image: "/assets/DomainImages/literary-removebg-preview.png",
+      image: "/assets/sports-bg.jpg",
     },
   ];
 
@@ -117,8 +117,8 @@ function InteractiveExplore() {
             data-id={item.id}
             className={`flex-card-container ${activeId === item.id ? 'active' : ''}`}
             style={{
-              backgroundImage: isMobile ? 'none' : `url(${item.image})`,
-              backgroundColor: isMobile ? '#111111' : 'transparent',
+              backgroundImage: `url(${item.image})`,
+              backgroundColor: 'transparent',
               ...(isMobile && activeId === item.id ? { height: '15rem' } : {})
             }}
             onMouseEnter={() => !isMobile && setActiveId(item.id)}
