@@ -13,24 +13,28 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 15px 15px 0; /* Reduced top padding from 15px to 5px */
-  margin-bottom:0;/* Remove all margins */
-  background-color: rgba(0, 0, 0, 0.9); /* Darker background to match sidebar */
-  border: none; /* Remove all borders */
+  padding: 5px 15px 15px 0;
+  margin-bottom:0;
+  background: #FFFACD;
+  background-image:
+    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
+    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px);
+  background-size: 25px 25px, 100%;
+  border: 4px solid #000000;
   position: sticky;
   top: 0;
-  z-index: 100; /* Higher z-index to ensure it stays on top */
-  box-shadow: none; /* Remove box shadow that might create a light effect */
-  width: 100%; /* Ensure it spans the full width */
-  backdrop-filter: none; /* Remove blur effect that might create a line */
-  height: 100px; /* Further increased height to create more bottom space after Explore (desktop only) */
+  z-index: 100;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  backdrop-filter: none;
+  height: 100px;
 }
 
 /* Close Sidebar Button */
 .close-sidebar-btn {
-  background-color: rgba(255, 0, 0, 0.2);
-  border: 1px solid rgba(255, 0, 0, 0.5);
-  color: white;
+  background-color: white;
+  border: 3px solid #000000;
+  color: #FF1744;
   font-size: 1.5rem;
   cursor: pointer;
   padding: 10px;
@@ -42,13 +46,16 @@
   width: 40px;
   height: 40px;
   margin-right: 10px;
-  margin-top: 8px; /* Reduced from 18px to align with reduced top space */
+  margin-top: 8px;
+  font-weight: 700;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
 }
 
 .close-sidebar-btn:hover {
-  background-color: rgba(255, 0, 0, 0.4);
+  background-color: #FF1744;
+  color: white;
   transform: scale(1.1);
-  color: #fff;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
 }
 
 .close-sidebar-btn:active {
@@ -58,20 +65,24 @@
 /* Improve sidebar styling */
 .sidebar {
   position: fixed;
-  left: -400px; /* Increased from -250px */
-  width: 400px; /* Increased from 250px */
+  left: -400px;
+  width: 400px;
   height: 100%;
-  background: rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(10px);
+  background: #FFFACD;
+  background-image:
+    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
+    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px);
+  background-size: 25px 25px, 100%;
+  backdrop-filter: none;
   transition: all 0.5s ease;
   z-index: 1000;
-  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  overflow-y: auto; /* Enable scrolling if content overflows */
-  padding: 0 0 100px 0; /* Remove top padding, keep bottom padding */
-  margin: 0; /* Remove any margin */
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: rgba(255, 23, 68, 0.5) rgba(0, 0, 0, 0.3); /* Firefox */
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+  border-right: 4px solid #000000;
+  overflow-y: auto;
+  padding: 0 0 100px 0;
+  margin: 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 23, 68, 0.6) rgba(255, 250, 205, 0.3);
 }
 
 /* Remove any potential border between header and content */
@@ -87,17 +98,17 @@
 }
 
 .sidebar::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.3);
+  background: '#FFFACD';
   border-radius: 4px;
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-  background: rgba(255, 23, 68, 0.5);
+  background: "#FFFACD";
   border-radius: 4px;
 }
 
 .sidebar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 23, 68, 0.7);
+  background: "#FFFACD";
 }
 
 /* Sidebar Content */
@@ -113,46 +124,48 @@
 
 .sidebar header {
   font-size: 1.5rem;
-  color: white;
+  color: #000000;
   text-align: left;
   background: transparent;
   user-select: none;
-  padding-left: 25px; /* Align with the icons (20px + 5px border) */
-  padding-top: 4px; /* Reduced from 10px to decrease top space */
-  padding-bottom: 40px; /* Keeping the increased bottom space after Explore (desktop only) */
+  padding-left: 25px;
+  padding-top: 4px;
+  padding-bottom: 40px;
   flex: 1;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 1px;
   display: flex;
-  align-items: flex-start; /* Align to the top of the flex container */
-  height: 40px; /* Match the height of the close button */
-  line-height: 1; /* Reset line height */
-  border: none; /* Remove any borders */
-  border-top: none; /* Explicitly remove top border */
-  border-bottom: none; /* Explicitly remove bottom border */
-  text-decoration: none; /* Remove any text decoration */
-  box-shadow: none; /* Remove any box shadow */
-  margin-bottom: 20px; /* Added margin-bottom for more space after Explore (desktop only) */
+  align-items: flex-start;
+  height: 40px;
+  line-height: 1;
+  border: none;
+  border-top: none;
+  border-bottom: none;
+  text-decoration: none;
+  box-shadow: none;
+  margin-bottom: 20px;
 }
 
 .sidebar a {
   display: flex;
-  align-items: center; /* Vertically center content */
+  align-items: center;
   height: 65px;
   width: 100%;
-  color: white;
-  padding: 0 15px 0 20px; /* Added right padding to prevent text overflow */
+  color: #000000;
+  padding: 0 15px 0 20px;
   box-sizing: border-box;
-  border-left: 5px solid transparent;
-  transition: all 0.5s ease;
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
   text-decoration: none;
-  position: relative; /* For positioning elements */
-  margin-bottom: 5px; /* Add space between menu items */
+  position: relative;
+  margin-bottom: 5px;
+  font-weight: 600;
 }
 
 .sidebar a:hover {
-  border-left: 5px solid #FF1744;
-  background: rgba(255, 23, 68, 0.1);
+  border-left: 4px solid #FF1744;
+  background: "#FFFACD";
+  transform: translateX(5px);
 }
 
 .sidebar a i {
@@ -209,18 +222,23 @@ label #btn {
   left: 0;
   top: 0;
   font-size: 2rem;
-  color: white;
+  color: #000000;
   padding: 10px;
   transition: all 0.3s ease;
   z-index: 10;
-  background: none;
-  border: none;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  background: white;
+  border: 3px solid #000000;
+  border-radius: 8px;
+  text-shadow: none;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
 }
 
 label #btn:hover {
   transform: scale(1.1);
-  color: #FF1744;
+  color: white;
+  background: #FF1744;
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
 }
 
 #check:checked ~ .sidebar {
@@ -272,35 +290,43 @@ label #btn:hover {
   label #btn {
     font-size: 2.2rem;
     padding: 12px;
-    background-color: rgba(0, 0, 0, 0.6);
-    border-radius: 50%;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(5px);
+    background-color: white;
+    border: 3px solid #000000;
+    border-radius: 8px;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+    color: #000000;
     transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: none;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+    font-weight: 700;
   }
 
   label #btn:active {
     transform: scale(0.95);
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: #FF1744;
+    color: white;
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
   }
 
   /* Mobile sidebar styles - enhanced responsiveness */
   .sidebar {
     left: -100% !important;
     right: auto !important;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6) !important;
-    border-right: 2px solid rgba(255, 23, 68, 0.4) !important;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2) !important;
+    border-right: 4px solid #000000 !important;
     transform: translateX(-100%) !important;
     padding-bottom: 120px !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
     scrollbar-width: thin !important;
-    scrollbar-color: rgba(255, 23, 68, 0.6) rgba(0, 0, 0, 0.3) !important;
-    backdrop-filter: blur(15px) !important;
-    background: rgba(0, 0, 0, 0.95) !important;
+    scrollbar-color: rgba(255, 23, 68, 0.6) rgba(255, 250, 205, 0.3) !important;
+    backdrop-filter: none !important;
+    background: #FFFACD !important;
+    background-image:
+      radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
+      repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px) !important;
+    background-size: 25px 25px, 100% !important;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     will-change: transform !important;
     -webkit-overflow-scrolling: touch !important;
@@ -332,15 +358,22 @@ label #btn:hover {
     align-items: center !important;
     margin-bottom: 8px !important;
     transition: all 0.2s ease !important;
-    border-radius: 0 25px 25px 0 !important;
+    border-left: 4px solid transparent !important;
     position: relative !important;
     -webkit-tap-highlight-color: transparent !important;
     touch-action: manipulation !important;
-    min-height: 44px !important; /* Minimum touch target size for accessibility */
+    min-height: 44px !important;
+    color: #000000 !important;
+    font-weight: 600 !important;
+  }
+
+  .sidebar a:hover {
+    border-left: 4px solid #FF1744 !important;
+    background: "#FFFACD" !important;
   }
 
   .sidebar a:active {
-    background: rgba(255, 23, 68, 0.2) !important;
+    background: "#FFFACD" !important;
     transform: scale(0.98) !important;
   }
 
@@ -372,13 +405,13 @@ label #btn:hover {
     margin-top: 5px !important;
     transition: all 0.2s ease !important;
     border-radius: 50% !important;
-    background: rgba(255, 23, 68, 0.1) !important;
+    background: "#FFFACD" !important;
     border: 1px solid rgba(255, 23, 68, 0.3) !important;
   }
 
   .close-sidebar-btn:active {
     transform: scale(0.9) !important;
-    background: rgba(255, 23, 68, 0.2) !important;
+    background: "#FFFACD" !important;
   }
 
   .sidebar-header {
@@ -388,7 +421,7 @@ label #btn:hover {
     position: sticky !important;
     top: 0 !important;
     z-index: 100 !important;
-    background-color: rgba(0, 0, 0, 0.95) !important;
+    background-color: "#FFFACD" !important;
     backdrop-filter: blur(10px) !important;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
     height: 85px !important;
@@ -527,5 +560,18 @@ label #btn:hover {
   label #btn {
     font-size: 2rem;
     padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar-header {
+    background: #FFFACD !important;
+    background-image:
+      radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
+      repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px) !important;
+    background-size: 25px 25px, 100% !important;
+    backdrop-filter: none !important;
+    border: 4px solid #000000 !important;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3) !important;
   }
 }

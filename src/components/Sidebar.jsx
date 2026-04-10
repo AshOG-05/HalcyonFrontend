@@ -136,7 +136,7 @@ function Sidebar({ externalToggle }) {
             left: 0,
             width: '100%',
             height: '100%',
-            background: isMobile ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0.7)',
+            background: 'ff1744cc',
             backdropFilter: isMobile ? 'blur(5px)' : 'blur(3px)',
             zIndex: 999,
             transition: 'opacity 0.3s ease',
@@ -154,8 +154,8 @@ function Sidebar({ externalToggle }) {
           checked={sidebarOpen}
           onChange={toggleSidebar}
         />
-        <label htmlFor="check" className={isMobile ? "mobile-hidden" : ""} style={{ background: 'none', boxShadow: 'none' }}>
-          <i className="fas fa-bars" id="btn" style={{ background: 'none', boxShadow: 'none' }}></i>
+        <label htmlFor="check" className={isMobile ? "mobile-hidden" : ""}>
+          <i className="fas fa-bars" id="btn" ></i>
         </label>
         <div
           className="sidebar"
@@ -170,7 +170,7 @@ function Sidebar({ externalToggle }) {
             perspective: '1000px'
           } : {}}>
           <div className="sidebar-header">
-            <header style={{ border: 'none', borderBottom: 'none', borderTop: 'none', boxShadow: 'none' }}>
+            <header>
               Explore
               <span className="desktop-only-space" style={{ display: 'inline-block', width: '10px' }}></span>
             </header>
