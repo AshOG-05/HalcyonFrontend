@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   padding: 4rem 0;
-  margin-top: 10.5rem;
+  margin-top: clamp(2rem, 5vw, 4.5rem);
   background: transparent;
 }
 
@@ -12,7 +12,7 @@
 
 .tilt-cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(340px, 1fr));
+  grid-template-columns: repeat(3, minmax(260px, 1fr));
   gap: 3rem;
   justify-content: center;
   max-width: 1400px;
@@ -121,16 +121,9 @@
 /* Responsive adjustments */
 @media (max-width: 1200px) {
   .tilt-cards-grid {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 1200px;
-  }
-}
-
-@media (max-width: 992px) {
-  .tilt-cards-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.4rem;
-    max-width: 1020px;
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+    gap: 2rem;
+    max-width: 980px;
   }
 }
 
@@ -143,7 +136,7 @@
   }
 
   .tilt-card-wrapper {
-    transform: scale(1.05);
+    transform: scale(1.02);
     margin-bottom: 1rem;
   }
 
@@ -157,10 +150,11 @@
   .tilt-cards-container {
     padding: 3rem 0;
     overflow: visible;
+    margin-top: clamp(1.4rem, 4.5vw, 2.5rem);
   }
 
   .tilt-card-outer {
-    height: 340px;
+    height: 320px;
   }
 
   /* Tilt cards title styling now uses common section-heading class */
@@ -177,8 +171,10 @@
   }
 
   .tilt-card-wrapper {
-    flex: 0 0 360px;
+    flex: 1 1 min(100%, 360px);
+    width: min(100%, 360px);
     margin: 0 auto 2rem;
+    transform: scale(1);
   }
 
   .tilt-card-image {
@@ -190,19 +186,21 @@
 @media (max-width: 480px) {
   .tilt-cards-grid {
     grid-template-columns: 1fr;
-    max-width: 360px;
+    max-width: 100%;
     margin: 0 auto;
-    gap: 3.5rem;
+    gap: 2rem;
+    padding: 0 0.5rem;
   }
 
   .tilt-card-outer {
-    height: 320px;
+    height: 280px;
     transform: skew(0, 3deg);
   }
 
   .tilt-card-wrapper {
-    transform: scale(1.05);
-    margin-bottom: 1.5rem;
+    transform: scale(1);
+    width: 100%;
+    margin-bottom: 1rem;
   }
 
   .tilt-card-animation {

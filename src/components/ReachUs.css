@@ -145,6 +145,10 @@
 }
 
 @media (max-width: 768px) {
+  .reach-us-section .container {
+    padding: 0 1rem;
+  }
+
   .transportation-grid {
     grid-template-columns: 1fr;
   }
@@ -158,6 +162,16 @@
   .transport-card h3 {
     font-size: 1.5rem;
   }
+
+  .map-wrapper {
+    height: 360px;
+  }
+
+  .view-on-maps-btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
 }
 
 @media (max-width: 480px) {
@@ -169,5 +183,19 @@
 
   .transport-card {
     padding: 1rem;
+  }
+
+  .map-wrapper {
+    height: 300px;
+  }
+
+  .map-actions {
+    padding: 14px;
+  }
+
+  .view-on-maps-btn {
+    font-size: 0.95rem;
+    padding: 10px 14px;
+    letter-spacing: 0.5px;
   }
 }

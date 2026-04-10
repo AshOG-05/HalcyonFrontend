@@ -5,6 +5,7 @@
 body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 
   /* 🟡 comic base - bright paper yellow */
   background-color: #FFFACD;
@@ -60,6 +61,8 @@ body::after {
 #root {
   position: relative;
   z-index: 1;
+  width: 100%;
+  overflow-x: clip;
 }
 
 .well {
@@ -69,6 +72,13 @@ body::after {
   overflow-x: hidden;
   z-index: 1;
   background: transparent;
+}
+
+img,
+iframe,
+video {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Floating comic callouts across the page */

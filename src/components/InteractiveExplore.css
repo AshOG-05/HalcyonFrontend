@@ -7,6 +7,8 @@
   padding-bottom: 3rem;
   background: transparent;
   width: 100%;
+  padding-left: clamp(0.5rem, 2vw, 1.2rem);
+  padding-right: clamp(0.5rem, 2vw, 1.2rem);
 }
 
 /* Explore title styling now uses common section-heading class */
@@ -190,6 +192,13 @@
   }
 }
 
+@media (max-width: 992px) {
+  .flex-card-container {
+    width: 48%;
+    margin: 0.4rem 1%;
+  }
+}
+
 @media (max-width: 768px) {
   .flex-cards-section {
     height: auto;
@@ -335,5 +344,37 @@
     background: radial-gradient(circle, rgba(255, 23, 68, 0.1) 0%, transparent 60%);
     opacity: 0.5;
     pointer-events: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .interactive-explore {
+    padding-top: 2.25rem;
+    padding-bottom: 2.25rem;
+  }
+
+  .flex-cards-section {
+    padding: 0.5rem 0;
+  }
+
+  .flex-card-container {
+    height: 4.6rem;
+    margin: 0.6rem 0;
+  }
+
+  .flex-card-container.active {
+    height: 12.5rem !important;
+    margin: 1rem 0;
+  }
+
+  .card-title {
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+  }
+
+  .flex-card-container:hover .card-title,
+  .flex-card-container.active .card-title {
+    font-size: 1.55rem;
+    margin-bottom: 0.75rem;
   }
 }
