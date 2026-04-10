@@ -610,3 +610,131 @@
   -webkit-text-stroke: 0 !important;
   text-shadow: none !important;
 }
+
+/* ==========================================
+   Footer Alignment + Responsiveness (v3)
+   ========================================== */
+.comic-footer {
+  padding: clamp(2rem, 4vw, 3rem) 1rem !important;
+}
+
+.comic-footer-container {
+  max-width: 1100px !important;
+}
+
+.footer-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: clamp(1rem, 2.2vw, 1.7rem) !important;
+  align-items: stretch !important;
+}
+
+.comic-footer-section {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  border-radius: 12px !important;
+  padding: clamp(1rem, 2vw, 1.3rem) !important;
+}
+
+.footer-section-title.comic-section-heading {
+  text-align: center !important;
+  margin-bottom: 0.9rem !important;
+  font-size: clamp(1rem, 1.7vw, 1.3rem) !important;
+  letter-spacing: 1px !important;
+}
+
+.mobile-section-spacing {
+  margin-top: 1rem !important;
+}
+
+.footer-section .contact-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+.footer-section .contact-list li {
+  margin: 0 !important;
+  width: 100% !important;
+  text-align: left !important;
+  font-size: 0.94rem !important;
+  line-height: 1.35 !important;
+}
+
+.contact-name {
+  font-weight: 800 !important;
+}
+
+.contact-info {
+  margin-left: 0.25rem !important;
+}
+
+.comic-socials {
+  margin-top: 0.8rem !important;
+  gap: 0.9rem !important;
+}
+
+.comic-footer-bottom {
+  margin-top: 1.1rem !important;
+  padding: 0.9rem 1rem !important;
+}
+
+.comic-footer-bottom p {
+  text-align: center !important;
+  font-size: 0.9rem !important;
+}
+
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .comic-footer-section {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .comic-footer {
+    padding: 1.4rem 0.65rem !important;
+  }
+
+  .comic-footer-section {
+    padding: 0.9rem 0.8rem !important;
+  }
+
+  .footer-section-title.comic-section-heading {
+    font-size: 1rem !important;
+  }
+
+  .footer-section .contact-list li {
+    text-align: center !important;
+    font-size: 0.88rem !important;
+  }
+
+  .contact-name,
+  .contact-info {
+    display: inline !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+  }
+
+  .contact-info {
+    margin-left: 0.2rem !important;
+  }
+
+  .comic-socials a {
+    width: 42px !important;
+    height: 42px !important;
+    font-size: 1.1rem !important;
+  }
+
+  .comic-footer-bottom p {
+    font-size: 0.82rem !important;
+  }
+}

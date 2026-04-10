@@ -28,11 +28,20 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #FFFACD;
+  background-color: #FFFACD;
   background-image:
-    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
-    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px);
-  background-size: 25px 25px, 100%;
+    repeating-conic-gradient(
+      from -10deg at 72% 56%,
+      rgba(239, 0, 57, 0.24) 0deg 7deg,
+      rgba(123, 0, 34, 0.08) 7deg 14deg
+    ),
+    radial-gradient(
+      circle at 72% 56%,
+      rgba(255, 194, 0, 0.16) 0%,
+      rgba(255, 194, 0, 0.07) 16%,
+      rgba(255, 194, 0, 0) 48%
+    );
+  background-size: 100% 100%, 100% 100%;
   padding: clamp(12px, 3vw, 20px);
   position: relative;
   overflow: hidden;
@@ -43,8 +52,8 @@ html {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 15% 10%, rgba(255, 23, 68, 0.08) 0%, transparent 55%),
-    radial-gradient(circle at 85% 35%, rgba(0, 176, 255, 0.08) 0%, transparent 55%);
+    radial-gradient(circle at 18% 10%, rgba(255, 23, 68, 0.1) 0%, transparent 48%),
+    radial-gradient(circle at 85% 32%, rgba(0, 176, 255, 0.1) 0%, transparent 52%);
   pointer-events: none;
   z-index: 0;
 }
@@ -52,12 +61,15 @@ html {
 .auth-card {
   width: 100%;
   max-width: min(620px, 100%);
-  background: #fff;
+  background:
+    radial-gradient(circle, rgba(0, 0, 0, 0.07) 1px, transparent 1px),
+    linear-gradient(180deg, #ffffff 0%, #fffef5 100%);
+  background-size: 16px 16px, 100% 100%;
   backdrop-filter: none;
-  border-radius: 14px;
-  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.24);
+  border-radius: 12px;
+  box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.28);
   overflow: hidden;
-  border: 4px solid #000;
+  border: 5px solid #000;
   position: relative;
   z-index: 1;
   animation: fadeIn 0.5s ease-in-out;
@@ -81,7 +93,7 @@ html {
   color: #000;
   background: #fff;
   border: 3px solid #000;
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 8px 12px;
   font-weight: 900;
   font-size: 0.9rem;
@@ -104,8 +116,8 @@ html {
 .auth-header {
   padding: 30px 20px 20px;
   text-align: center;
-  border-bottom: 4px solid #000;
-  background: rgba(255, 235, 59, 0.35);
+  border-bottom: 5px solid #000;
+  background: linear-gradient(180deg, #ffeb3b 0%, #ffd600 100%);
 }
 
 .auth-header h2 {
@@ -113,7 +125,7 @@ html {
   margin-bottom: 20px;
   font-size: 2rem;
   font-weight: 900;
-  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.12);
+  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.45), 3px 3px 0 rgba(0, 0, 0, 0.2);
   position: relative;
   display: inline-block;
 }
@@ -148,8 +160,9 @@ html {
 .auth-tabs {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 12px;
   margin-top: 25px;
+  flex-wrap: wrap;
 }
 
 .auth-tab {
@@ -159,9 +172,9 @@ html {
   padding: 10px 25px;
   cursor: pointer;
   font-size: 1rem;
-  border-radius: 12px;
+  border-radius: 8px;
   transition: all 0.3s ease;
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.22);
   letter-spacing: 0.5px;
   font-weight: 800;
 }
@@ -185,7 +198,7 @@ html {
 
 .auth-content {
   padding: clamp(16px, 3.5vw, 30px);
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .auth-form-container {
@@ -196,8 +209,8 @@ html {
   margin-bottom: 25px;
   text-align: center;
   color: #000;
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.6rem;
+  font-weight: 900;
   position: relative;
   display: inline-block;
   left: 50%;
@@ -250,7 +263,7 @@ html {
 .form-group label {
   font-size: 0.95rem;
   color: #111;
-  font-weight: 500;
+  font-weight: 800;
   margin-left: 5px;
   display: flex;
   align-items: center;
@@ -266,18 +279,18 @@ html {
 .form-group input {
   padding: 14px 15px;
   border-radius: 8px;
-  border: 2px solid #000;
-  background: #fff;
+  border: 3px solid #000;
+  background: #ffffff;
   color: #000;
   font-size: 1rem;
   transition: all 0.3s ease;
-  box-shadow: none;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.14);
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #FF1744;
-  box-shadow: 0 0 0 2px rgba(255, 23, 68, 0.2);
+  border-color: #00B0FF;
+  box-shadow: 0 0 0 2px rgba(0, 176, 255, 0.2);
   background: #fff;
 }
 
@@ -288,15 +301,15 @@ html {
 .auth-button {
   margin-top: 20px;
   padding: 14px;
-  border-radius: 10px;
-  border: 3px solid #000;
+  border-radius: 8px;
+  border: 4px solid #000;
   background: #FF1744;
   color: #fff;
   font-weight: 900;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.22);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.24);
   letter-spacing: 0.5px;
   position: relative;
   overflow: hidden;
@@ -318,11 +331,11 @@ html {
 }
 
 .auth-button:hover {
-  background: #fff;
+  background: #FFEB3B;
   border-color: #000;
   color: #000;
   transform: translateY(-3px);
-  box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.28);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.3);
   text-shadow: none;
 }
 
@@ -357,24 +370,25 @@ html {
 .auth-footer {
   padding: 0 clamp(16px, 3.5vw, 30px) clamp(16px, 3.5vw, 25px);
   text-align: center;
-  background: rgba(255, 255, 255, 0.85);
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  border-top: 3px dashed #000;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .auth-link {
-  background: transparent;
-  border: none;
+  background: #fff;
+  border: 2px solid #000;
   color: #FF1744;
   cursor: pointer;
   font-size: 0.9rem;
   text-decoration: none;
   transition: all 0.3s ease;
   padding: 8px 15px;
-  border-radius: 20px;
+  border-radius: 999px;
   display: inline-block;
   position: relative;
-  font-weight: 500;
+  font-weight: 800;
   letter-spacing: 0.5px;
 }
 
@@ -392,6 +406,7 @@ html {
 
 .auth-link:hover {
   color: #000;
+  background: #FFEB3B;
   text-shadow: none;
 }
 
