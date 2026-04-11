@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { EVENT_CATEGORIES } from '../../config';
 import { corsProtectedFetch, ORIGINAL_API_URL } from '../../utils/corsHelper';
 import './styles.css';
+import '../../components/comicLoading.css';
 
 function Events() {
   const navigate = useNavigate();
@@ -119,7 +120,21 @@ function Events() {
         </button>
 
         <div className="loading-container">
-          <div className="loading-spinner"></div>
+          <div className="comic-loading-wrap comic-loading-wrap--events">
+            <div
+              className="comic-loading comic-loading--events"
+              role="status"
+              aria-live="polite"
+              aria-label="Loading event categories"
+            >
+              <div className="comic-loading__sun" />
+            </div>
+            <div className="comic-loading-bars" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </div>
+          </div>
           <p>Loading event categories...</p>
         </div>
       </div>

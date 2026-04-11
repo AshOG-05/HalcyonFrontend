@@ -92,24 +92,34 @@
 }
 
 .comic-panel-red {
-  border-color: #FF1744;
-  box-shadow: 8px 8px 0px rgba(255, 23, 68, 0.3);
+  border-color: #d31034;
+  box-shadow: 8px 8px 0px rgba(211, 16, 52, 0.3);
 }
 
 .comic-panel-blue {
-  border-color: #00B0FF;
-  box-shadow: 8px 8px 0px rgba(0, 176, 255, 0.3);
+  border-color: #1089d3;
+  box-shadow: 8px 8px 0px rgba(16, 137, 211, 0.3);
 }
 
 .comic-panel-yellow {
   background: #FFFACD;
-  border-color: #FFEB3B;
-  box-shadow: 8px 8px 0px rgba(255, 235, 59, 0.3);
+  border-color: #b28f10;
+  box-shadow: 8px 8px 0px rgba(178, 143, 16, 0.35);
 }
 
 .comic-panel-purple {
-  border-color: #9C27B0;
-  box-shadow: 8px 8px 0px rgba(156, 39, 176, 0.3);
+  border-color: #802095;
+  box-shadow: 8px 8px 0px rgba(128, 32, 149, 0.3);
+}
+
+.comic-panel-orange {
+  border-color: #d37b10;
+  box-shadow: 8px 8px 0px rgba(211, 123, 16, 0.35);
+}
+
+.comic-panel-green {
+  border-color: #10b24c;
+  box-shadow: 8px 8px 0px rgba(16, 178, 76, 0.3);
 }
 
 /* ============================= */

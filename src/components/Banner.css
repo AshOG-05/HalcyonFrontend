@@ -4,6 +4,49 @@
    ============================================================ */
 
 /* ---------- base wrapper ---------- */
+/* Replace your .samarkan rules with these */
+.comic-banner-title {
+  -webkit-text-stroke: 3px #000;
+  text-shadow: 5px 5px 0px #000, -2px -2px 0px #000;
+  color: #FF1744 !important;
+}
+
+.comic-banner-year {
+  -webkit-text-stroke: 3px #000;
+  text-shadow: 5px 5px 0px #000, -2px -2px 0px #000;
+  color: #00B0FF !important;
+}
+
+/* Sunburst background — add to .comic-banner-wrapper::before */
+.comic-banner-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    #9B3DCC 0deg, #6A1FA0 10deg, #9B3DCC 20deg, #6A1FA0 30deg,
+    /* repeat pattern for 36 spokes */
+    #9B3DCC 360deg
+  );
+  z-index: -3;
+}
+
+/* Make SFX visible */
+.comic-sfx {
+  display: block !important;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  color: #FFE900;
+  -webkit-text-stroke: 1.5px #000;
+  text-shadow: 3px 3px 0 #000;
+}
+
+/* Yellow dates badge */
+.comic-dates-badge {
+  background: #FFE900;
+  color: #000;
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0px #000;
+}
 .comic-banner-wrapper {
   position: relative;
   min-height: 100vh;

@@ -39,7 +39,7 @@ function Navbar() {
       <a title="Timeline" href="#timeline_anchor">Timeline</a>
       <a title="Explore" href="#explore_anchor">Explore</a>
       {/* <a title="Special Guests" href="#special_guests">Special Guests</a> */}
-      <Link to="/events/dance" title="Events">Events</Link>
+      <Link to="/events" title="Events">Events</Link>
       <a title="Reach Us" href="#reach_us">Reach Us</a>
       <a title="Contact" href="#contact_anchor">Contact</a>
      

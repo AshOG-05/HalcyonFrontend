@@ -95,7 +95,8 @@ html {
   border: 3px solid #000;
   border-radius: 8px;
   padding: 8px 12px;
-  font-weight: 900;
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-weight: 600;
   font-size: 0.9rem;
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
   transition: all 0.25s ease;
