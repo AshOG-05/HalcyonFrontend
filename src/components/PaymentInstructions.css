@@ -4,8 +4,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
+  isolation: isolate;
+  background: rgba(20, 12, 8, 0.4);
+  backdrop-filter: none;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,20 +15,29 @@
 }
 
 .payment-instructions-modal {
-  background: #FFFACD;
+  background-color: #FFFACD;
   background-image:
-    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
-    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px);
-  background-size: 25px 25px, 100%;
+    repeating-conic-gradient(
+      from -10deg at 72% 56%,
+      rgba(239, 0, 57, 0.26) 0deg 7deg,
+      rgba(123, 0, 34, 0.09) 7deg 14deg
+    ),
+    radial-gradient(
+      circle at 72% 56%,
+      rgba(255, 194, 0, 0.16) 0%,
+      rgba(255, 194, 0, 0.08) 15%,
+      rgba(255, 194, 0, 0) 48%
+    );
+  background-size: 100% 100%, 100% 100%;
   border-radius: 15px;
   max-width: 800px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  border: 4px solid #000;
-  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
+  border: 5px solid #000;
+  box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.28);
+  backdrop-filter: none;
   animation: modalFadeIn 0.3s ease-out;
 }
 
@@ -40,9 +50,9 @@
   position: absolute;
   top: 20px;
   right: 20px;
-  background: rgba(20, 20, 35, 0.6);
-  border: 1px solid rgba(255, 23, 68, 0.4);
-  color: #FF1744;
+  background: #fff;
+  border: 3px solid #000;
+  color: #000;
   font-size: 1.5rem;
   width: 40px;
   height: 40px;
@@ -53,15 +63,15 @@
   justify-content: center;
   transition: all 0.3s ease;
   z-index: 10;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
 .close-modal:hover {
-  background: rgba(255, 23, 68, 0.2);
-  border-color: #FF1744;
-  color: #FF1744;
+  background: #FF1744;
+  border-color: #000;
+  color: #fff;
   transform: rotate(90deg);
-    box-shadow: 0 0 15px rgba(255, 23, 68, 0.3);
-  border-bottom: 1px solid rgba(30, 30, 50, 0.4);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
 
 .payment-icon {
@@ -94,13 +104,13 @@
 .event-details, .fee-details {
   margin: 8px 0;
   font-size: 1.1rem;
-  color: #ddd;
+  color: rgba(0, 0, 0, 0.82);
 }
 
 .fee-details {
-  color: #ffb74d;
+  color: #000;
   font-size: 1.3rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.5px;
 }
 
@@ -122,8 +132,8 @@
 
 .instructions-content {
   padding: 30px;
-  color: #ddd;
-  background: rgba(15, 15, 25, 0.4);
+  color: rgba(0, 0, 0, 0.88);
+  background: rgba(255, 255, 255, 0.55);
 }
 
 .instruction-section {
@@ -169,15 +179,15 @@
   align-items: flex-start;
   gap: 20px;
   padding: 20px;
-  background: rgba(10, 10, 20, 0.5);
-  border-radius: 8px;
-  border: 1px solid rgba(30, 30, 50, 0.4);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 10px;
+  border: 3px solid #000;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.15);
 }
 
 .step-number {
   background: #FF1744;
-  color: #000;
+  color: #fff;
   width: 35px;
   height: 35px;
   border-radius: 50%;
@@ -187,7 +197,8 @@
   font-weight: bold;
   font-size: 1.1rem;
   flex-shrink: 0;
-  box-shadow: 0 0 10px rgba(255, 23, 68, 0.3);
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
 .step-content h4 {
@@ -199,16 +210,16 @@
 }
 
 .step-content p {
-  color: #ddd;
+  color: rgba(0, 0, 0, 0.82);
   margin: 5px 0;
   line-height: 1.5;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 0.95rem;
 }
 
 .step-content strong {
-  color: #ffb74d;
-  font-weight: 600;
+  color: #000;
+  font-weight: 700;
   letter-spacing: 0.5px;
 }
 
@@ -247,12 +258,12 @@
 }
 
 .important-notes {
-  background: rgba(15, 15, 25, 0.4);
+  background: rgba(255, 250, 240, 0.95);
   padding: 25px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 23, 68, 0.3);
+  border-radius: 10px;
+  border: 3px solid #000;
   margin-bottom: 25px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
 .important-notes h3 {
@@ -273,12 +284,12 @@
 }
 
 .important-notes li {
-  color: #ddd;
+  color: rgba(0, 0, 0, 0.85);
   margin: 12px 0;
   padding-left: 20px;
   position: relative;
   line-height: 1.5;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 0.95rem;
 }
 
@@ -290,12 +301,12 @@
 }
 
 .contact-info {
-  background: rgba(10, 10, 20, 0.5);
+  background: rgba(255, 255, 255, 0.92);
   padding: 20px;
-  border-radius: 8px;
-  border: 1px solid rgba(30, 30, 50, 0.4);
+  border-radius: 10px;
+  border: 3px solid #000;
   margin-bottom: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
 .contact-info h3 {
@@ -314,10 +325,10 @@
 }
 
 .contact-info p {
-  color: #ddd;
+  color: rgba(0, 0, 0, 0.82);
   margin: 8px 0;
   line-height: 1.5;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 0.95rem;
 }
 
@@ -326,19 +337,19 @@
   display: flex;
   gap: 15px;
   justify-content: center;
-  border-top: 1px solid rgba(30, 30, 50, 0.4);
-  background: rgba(10, 10, 20, 0.5);
+  border-top: 4px solid #000;
+  background: rgba(255, 235, 59, 0.22);
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
 
 .transaction-form {
-  background: rgba(15, 15, 25, 0.4);
+  background: rgba(255, 255, 255, 0.95);
   padding: 25px;
-  border-radius: 8px;
-  border: 1px solid rgba(30, 30, 50, 0.4);
+  border-radius: 10px;
+  border: 3px solid #000;
   margin: 25px 0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
 .transaction-form .form-group {
@@ -371,7 +382,7 @@
 }
 
 .transaction-form input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .transaction-form input.valid-input {
@@ -453,7 +464,7 @@
 }
 
 .erp-access-section p {
-  color: #ddd;
+  color: rgba(0, 0, 0, 0.82);
   margin-bottom: 1.5rem;
   font-size: 0.95rem;
 }
@@ -491,7 +502,7 @@
 .erp-note {
   margin-top: 1rem;
   font-size: 0.85rem;
-  color: #bbb;
+  color: rgba(0, 0, 0, 0.6);
   font-style: italic;
   display: flex;
   align-items: center;
@@ -504,12 +515,13 @@
 }
 
 .back-button {
-  background: rgba(20, 20, 35, 0.6);
-  color: #ddd;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #fff;
+  color: #000;
+  border: 3px solid #000;
   padding: 15px 30px;
-  border-radius: 30px;
+  border-radius: 12px;
   font-size: 1.1rem;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -517,7 +529,7 @@
   gap: 10px;
   min-width: 180px;
   justify-content: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.22);
   letter-spacing: 0.5px;
 }
 
@@ -586,11 +598,11 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to bottom, rgba(10, 10, 20, 0.95), rgba(10, 10, 20, 1));
-    backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(to bottom, rgba(255, 250, 205, 0.98), #fffacd);
+    backdrop-filter: none;
+    border-top: 4px solid #000;
     padding: 15px 20px 20px;
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 -6px 0 rgba(0, 0, 0, 0.08);
     z-index: 1000;
   }
 

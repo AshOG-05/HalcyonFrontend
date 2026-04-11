@@ -1,11 +1,21 @@
-/* Dance Page Styles - Comic Pop Art Theme */
+/* Dance Page Styles — background aligned with home (App.css) */
 .dance-page {
   min-height: 100vh;
-  background: #FFFACD;
+  background-color: #FFFACD;
   background-image:
-    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
-    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px);
-  background-size: 25px 25px, 100%;
+    repeating-conic-gradient(
+      from -10deg at 72% 56%,
+      rgba(239, 0, 57, 0.30) 0deg 7deg,
+      rgba(123, 0, 34, 0.11) 7deg 14deg
+    ),
+    radial-gradient(
+      circle at 72% 56%,
+      rgba(255, 194, 0, 0.20) 0%,
+      rgba(255, 194, 0, 0.10) 15%,
+      rgba(255, 194, 0, 0) 48%
+    );
+  background-size: 100% 100%, 100% 100%;
+  background-attachment: fixed;
   border-top: 8px solid #000000;
   border-bottom: 8px solid #000000;
   position: relative;
@@ -24,8 +34,8 @@
 .back-button {
   display: inline-flex;
   align-items: center;
-  background-color: var(--color-red);
-  color: #fff;
+  background-color: #FF1744;
+  color: #000;
   padding: 0.5rem 1rem;
   border-radius: 5px;
   text-decoration: none;
@@ -48,12 +58,12 @@
 }
 
 .dance-card {
-  background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(20, 20, 20, 0.9));
-  border-radius: 8px;
+  background: #fff;
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.25);
   position: relative;
-  border: 3px solid var(--color-red);
+  border: 4px solid #000;
 }
 
 /* Border pattern similar to the image */
@@ -91,12 +101,12 @@
 .dance-header h1 {
   font-size: 5rem;
   font-weight: 900;
-  color: white;
+  color: #000;
   text-transform: uppercase;
   letter-spacing: 10px;
   margin: 0;
   font-family: var(--font-display, 'Fredoka One', 'Arial Black', sans-serif);
-  text-shadow: 0 0 20px rgba(255, 23, 68, 0.5), 3px 3px 0px rgba(0, 0, 0, 0.5);
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.12);
 }
 
 /* Content styles */
@@ -120,15 +130,14 @@
 
 .dance-details {
   flex: 1;
-  background-color: rgba(255, 23, 68, 0.15);
+  background-color: rgba(255, 23, 68, 0.08);
   padding: 2rem;
   border-radius: 10px;
   position: relative;
-  box-shadow: 0 5px 15px rgba(255, 23, 68, 0.2);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
   margin-left: 2rem;
-  border: 3px solid var(--color-red);
-  color: #fff;
-}
+  border: 3px solid #000;
+  color: #000;
 }
 
 /* Create a scroll-like appearance */
@@ -178,7 +187,7 @@
 
 .dance-event p {
   font-size: 1rem;
-  color: #ddd;
+  color: #333;
   margin-bottom: 0.5rem;
   line-height: 1.5;
   letter-spacing: 1px;
@@ -190,9 +199,9 @@
 .general-rules-section {
   padding: 2rem;
   margin: 2rem 0;
-  background-color: rgba(255, 23, 68, 0.1);
-  border-top: 3px solid var(--color-red);
-  border-bottom: 3px solid var(--color-red);
+  background-color: rgba(255, 23, 68, 0.05);
+  border-top: 4px solid #000;
+  border-bottom: 4px solid #000;
 }
 
 .general-rules-section h2 {
@@ -237,7 +246,7 @@
   content: counter(rule-counter) ".";
   position: absolute;
   left: -2rem;
-  color: #8b4513;
+  color: var(--color-red);
   font-weight: bold;
   font-size: 1.1rem;
 }
@@ -246,7 +255,7 @@
 .dance-footer {
   display: flex;
   padding: 2rem;
-  background-color: #8b4513;
+  background-color: #FF1744;
   color: #fff;
   border-top: 5px solid #000;
 }
@@ -265,8 +274,8 @@
 }
 
 .register-btn {
-  background-color: #f9ecd9;
-  color: #8b4513;
+  background-color: #FF1744;
+  color: #fff;
   border: none;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
@@ -278,10 +287,12 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
+  border: 3px solid #000;
 }
 
 .register-btn:hover {
-  background-color: #e0c9a1;
+  background-color: #FF0043;
   transform: translateY(-2px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }

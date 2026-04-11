@@ -871,7 +871,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
 
                 {/* Show name, email, mobile fields for additional participants */}
                 {index > 0 && (
-                  <>
+                  <div className="participant-fields-grid">
                     <div className="form-group">
                       <label htmlFor={`participant-${index}-name`}>Name *</label>
                       <input
@@ -924,7 +924,7 @@ function EventRegistrationForm({ eventId, onClose, onSuccess }) {
                         placeholder="Enter participant mobile number"
                       />
                     </div>
-                  </>
+                  </div>
                 )}
 
                 {/* USN field for all participants */}

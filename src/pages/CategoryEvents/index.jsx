@@ -168,9 +168,6 @@ function CategoryEvents() {
       <div className="category-events-inner">
       <div className="category-header">
         <div className="navigation-buttons">
-          <Link to="/" className="back-button home-button">
-            <i className="fas fa-home"></i> Home
-          </Link>
           <Link to="/events" className="back-button">
             <i className="fas fa-arrow-left"></i> Back to Events
           </Link>

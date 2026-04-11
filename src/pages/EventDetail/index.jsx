@@ -60,6 +60,10 @@ function EventDetail() {
   const handleRegister = () => {
     // Check if user is logged in
     if (!isLoggedIn()) {
+<<<<<<< HEAD
+=======
+      // Redirect to login with return URL back to this event
+>>>>>>> 94fda59b0d9806324577e1bd3beaa34e46cf74be
       navigate(`/RegisterLogin?redirect=/event/${id}`);
       return;
     }
@@ -148,11 +152,15 @@ function EventDetail() {
   }
 
   return (
+<<<<<<< HEAD
     <div
       className="event-detail-container"
       style={getCategoryPageThemeStyle(event.category || 'other')}
     >
       <div className="event-detail-inner">
+=======
+    <div className="event-detail-container">
+>>>>>>> 94fda59b0d9806324577e1bd3beaa34e46cf74be
       {showRegistrationForm ? (
         <EventRegistrationForm
           eventId={id}

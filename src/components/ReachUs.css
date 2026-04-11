@@ -84,7 +84,7 @@
 
 .transportation-grid .transport-card:nth-child(3) h3,
 .transportation-grid .transport-card:nth-child(3) p {
-  color: #000000;
+  color: #ffffff;
 }
 
 .transport-card::after {

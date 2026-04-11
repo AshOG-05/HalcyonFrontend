@@ -372,7 +372,6 @@ html {
   padding: 0 clamp(16px, 3.5vw, 30px) clamp(16px, 3.5vw, 25px);
   text-align: center;
   background: rgba(255, 255, 255, 0.9);
-  border-top: 3px dashed #000;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
