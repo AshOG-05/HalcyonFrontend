@@ -22,7 +22,17 @@ function Events() {
 
   const fetchEvents = async () => {
     try {
+      // Try using the CORS-protected fetch
       const response = await corsProtectedFetch('event');
+
+      // Check if we got an opaque response (from no-cors mode)
+      if (response.type === 'opaque') {
+        console.log('Received opaque response, using mock data');
+        const mockData = getMockEvents();
+        setEvents(mockData);
+        processCategoryData(mockData);
+        return;
+      }
 
       if (!response.ok) {
         throw new Error(`Failed to fetch events: ${response.status}`);
