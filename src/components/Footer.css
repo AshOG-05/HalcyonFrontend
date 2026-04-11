@@ -109,27 +109,16 @@
   justify-content: center;
   color: #000000;
   font-size: 1.3rem;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.3s ease;
   background: white;
   box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
-  position: relative;
-}
-
-.comic-socials a i {
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .comic-socials a:hover {
-  background: linear-gradient(135deg, #FF1744 0%, #F50057 100%);
-  color: #ffffff;
-  border-color: #ffffff;
-  transform: translateY(-8px) scale(1.15);
-  box-shadow: 0 8px 20px rgba(255, 23, 68, 0.4), 6px 6px 0px rgba(0, 0, 0, 0.3);
-}
-
-.comic-socials a:hover i {
-  color: #ffffff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  background: #FF1744;
+  color: white;
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.3);
 }
 
 /* bottom */

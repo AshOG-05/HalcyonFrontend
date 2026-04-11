@@ -42,7 +42,7 @@ function EventDetail() {
   const handleRegister = () => {
     // Check if user is logged in
     if (!isLoggedIn()) {
-      // Redirect to login page with a return URL back to this EventDetail page (black theme)
+      // Redirect to login with return URL back to this event
       navigate(`/RegisterLogin?redirect=/event/${id}`);
       return;
     }
@@ -100,30 +100,6 @@ function EventDetail() {
 
   return (
     <div className="event-detail-container">
-      {/* Background elements */}
-      <div className="event-detail-bg">
-        {/* Stars background */}
-        <div className="stars-container">
-          {[...Array(100)].map((_, i) => (
-            <div
-              key={i}
-              className="star"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 2}s`
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Gradient shapes */}
-        <div className="gradient-shape shape-1"></div>
-        <div className="gradient-shape shape-2"></div>
-        <div className="gradient-shape shape-3"></div>
-      </div>
-
       {showRegistrationForm ? (
         <EventRegistrationForm
           eventId={id}

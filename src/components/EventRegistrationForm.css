@@ -5,31 +5,88 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
+  isolation: isolate;
+  background: transparent;
+  backdrop-filter: none;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 20px;
+  padding: 12px;
   overflow-y: auto;
+}
+
+.event-registration-overlay::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: #FFFACD;
+  background-image:
+    repeating-conic-gradient(
+      from -10deg at 72% 56%,
+      rgba(239, 0, 57, 0.28) 0deg 7deg,
+      rgba(123, 0, 34, 0.10) 7deg 14deg
+    ),
+    radial-gradient(
+      circle at 72% 56%,
+      rgba(255, 194, 0, 0.18) 0%,
+      rgba(255, 194, 0, 0.09) 15%,
+      rgba(255, 194, 0, 0) 48%
+    );
+  background-size: 100% 100%, 100% 100%;
+  background-attachment: fixed;
+  pointer-events: none;
+}
+
+.event-registration-overlay::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle at 72% 56%, rgba(239, 0, 57, 0.12) 0%, rgba(239, 0, 57, 0) 44%);
+  pointer-events: none;
+}
+
+@media (max-width: 992px) {
+  .event-registration-overlay::before {
+    background-image:
+      repeating-conic-gradient(
+        from -10deg at 70% 52%,
+        rgba(239, 0, 57, 0.25) 0deg 7deg,
+        rgba(123, 0, 34, 0.10) 7deg 14deg
+      ),
+      radial-gradient(
+        circle at 70% 52%,
+        rgba(255, 194, 0, 0.14) 0%,
+        rgba(255, 194, 0, 0.07) 15%,
+        rgba(255, 194, 0, 0) 48%
+      );
+  }
+}
+
+@media (max-width: 768px) {
+  .event-registration-overlay::before {
+    background-attachment: scroll;
+  }
 }
 
 .event-registration-modal {
   width: 100%;
-  max-width: 600px;
-  max-height: 90vh;
-  background: rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  max-width: min(960px, calc(100vw - 24px));
+  max-height: min(95vh, 920px);
+  background: #fff;
+  backdrop-filter: none;
+  border-radius: 10px;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.3);
   overflow-y: auto;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-x: hidden;
+  border: 5px solid #000;
   position: relative;
   z-index: 1001;
   animation: fadeIn 0.5s ease-in-out;
-  color: #fff;
-  padding: 30px;
+  color: #000;
+  padding: 18px 22px 20px;
 }
 
 @keyframes fadeIn {
@@ -43,7 +100,7 @@
   right: 15px;
   background: transparent;
   border: none;
-  color: #fff;
+  color: #000;
   font-size: 1.2rem;
   cursor: pointer;
   z-index: 1002;
@@ -57,20 +114,20 @@
 }
 
 .close-modal:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 23, 68, 0.1);
 }
 
 .loading {
-  padding: 40px;
+  padding: 28px 20px;
   text-align: center;
-  color: #fff;
-  font-size: 1.1rem;
+  color: #000;
+  font-size: 1rem;
 }
 
 .registration-closed {
   text-align: center;
   padding: 2rem;
-  color: #fff;
+  color: #000;
 }
 
 .registration-closed-icon {
@@ -91,119 +148,159 @@
   margin-bottom: 1rem;
   font-size: 1.1rem;
   line-height: 1.5;
+  color: #333;
 }
 
 .event-registration-modal h2 {
-  margin-bottom: 20px;
-  color: #fff;
-  font-size: 2rem;
+  margin: 0 0 12px;
+  padding: 0 40px 0 8px;
+  color: #000;
+  font-size: clamp(1.35rem, 3.2vw, 1.85rem);
+  line-height: 1.2;
   text-align: center;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 1px;
+  text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 23, 68, 0.4);
+  font-family: 'Fredoka One', 'Arial Black', sans-serif;
 }
 
 .event-registration-modal h3 {
-  margin: 15px 0;
-  color: #fff;
-  font-size: 1.4rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 8px;
-  font-weight: 500;
+  margin: 8px 0 10px;
+  color: #FF1744;
+  font-size: clamp(1.15rem, 2.2vw, 1.3rem);
+  border-bottom: 3px solid #000;
+  padding-bottom: 6px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
 }
 
 .event-registration-modal h4 {
-  margin: 15px 0;
-  color: #fff;
-  font-size: 1.2rem;
+  margin: 8px 0;
+  color: #000;
+  font-size: 1.05rem;
 }
 
 .event-registration-modal h5 {
-  margin: 10px 0;
+  margin: 4px 0 8px;
   color: #FF1744;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .user-info {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 18px;
+  background: #fff;
+  padding: 12px 14px;
   border-radius: 8px;
-  margin-bottom: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  margin-bottom: 12px;
+  border: 4px solid #FF1744;
+  box-shadow: 3px 3px 0 rgba(255, 23, 68, 0.2);
 }
 
 .user-info p {
-  margin: 10px 0;
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.9);
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #333;
 }
 
 .required-fields-note {
   color: #FF1744 !important;
   font-style: italic;
-  margin-top: 15px !important;
+  margin-top: 10px !important;
   font-weight: 500;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 10px;
+  border-top: 2px solid #000;
+  padding-top: 8px;
 }
 
 .form-section {
-  margin-bottom: 25px;
+  margin-bottom: 16px;
+}
+
+.form-section .form-section {
+  margin-bottom: 12px;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .highlight-field {
-  background-color: rgba(255, 23, 68, 0.05);
-  padding: 15px;
+  background-color: #fff;
+  padding: 12px;
   border-radius: 8px;
-  border-left: 3px solid #FF1744;
+  border-left: 5px solid #FF1744;
+  border: 4px solid #FF1744;
+  box-shadow: 3px 3px 0 rgba(255, 23, 68, 0.2);
 }
 
 .field-note {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  color: #666;
   font-style: italic;
-  margin-top: 5px !important;
+  margin-top: 4px !important;
   margin-bottom: 0 !important;
+  line-height: 1.35;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
-  font-size: 0.9rem;
-  color: #ddd;
+  margin-bottom: 4px;
+  font-size: 0.88rem;
+  color: #333;
+  font-weight: 600;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
   width: 100%;
-  padding: 14px 16px;
+  padding: 10px 12px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
-  font-size: 1rem;
+  border: 3px solid #000;
+  background: #fff;
+  color: #000;
+  font-size: 0.95rem;
   transition: all 0.3s ease;
+}
+
+/* Wider screens: name / email / mobile on one row for extra participants */
+.participant-fields-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px 14px;
+  margin-bottom: 8px;
+  align-items: start;
+}
+
+.participant-fields-grid .form-group {
+  margin-bottom: 0;
+}
+
+@media (max-width: 720px) {
+  .participant-fields-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .participant-fields-grid .form-group {
+    margin-bottom: 10px;
+  }
 }
 
 /* Special styling for team size dropdown */
 .team-size-select {
   font-weight: bold;
-  background: rgba(255, 23, 68, 0.1);
-  border: 1px solid rgba(255, 23, 68, 0.3);
-  color: #fff;
-  padding: 16px 20px;
-  font-size: 1.1rem;
+  background: rgba(255, 23, 68, 0.08);
+  border: 3px solid #000;
+  color: #000;
+  padding: 12px 16px;
+  font-size: 1rem;
   text-align: center;
   cursor: pointer;
 }
 
 .team-size-select option {
-  background-color: #222;
-  color: #fff;
+  background-color: #fff;
+  color: #000;
   padding: 10px;
   font-size: 1rem;
 }
@@ -212,8 +309,8 @@
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #fff;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+  border-color: #FF1744;
+  box-shadow: 0 0 0 2px rgba(255, 23, 68, 0.2);
 }
 
 .team-members-section {
@@ -221,29 +318,30 @@
 }
 
 .team-member {
-  background: rgba(255, 255, 255, 0.03);
-  padding: 20px;
+  background: #fff;
+  padding: 14px 16px;
   border-radius: 8px;
-  margin-bottom: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 12px;
+  border: 4px solid #FF1744;
+  box-shadow: 3px 3px 0 rgba(255, 23, 68, 0.2);
 }
 
 .form-actions {
-  margin-top: 25px;
+  margin-top: 14px;
+  padding-top: 4px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 12px;
 }
 
 .test-razorpay-btn-alt {
   padding: 14px 30px;
   border-radius: 8px;
-  border: none;
+  border: 5px solid #000;
   background: #FF1744;
-  color: #000;
-  font-weight: 600;
+  color: #fff;
+  font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -251,56 +349,58 @@
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 1px;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.3);
+  font-family: 'Fredoka One', sans-serif;
 }
 
 .test-razorpay-btn-alt:hover {
-  background: #ffb74d;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: #FF0043;
+  transform: translateY(-3px);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.4);
 }
 
 .register-button {
-  background: rgba(20, 20, 35, 0.6);
-  color: #FF1744;
-  border: 1px solid rgba(255, 23, 68, 0.4);
-  padding: 12px 20px;
-  border-radius: 30px;
-  font-weight: 500;
+  background: #FF1744;
+  color: #fff;
+  border: 5px solid #000;
+  padding: 11px 24px;
+  border-radius: 8px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 1rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  font-size: 0.98rem;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.3);
   letter-spacing: 0.5px;
-  min-width: 200px;
+  min-width: min(280px, 100%);
   text-align: center;
+  text-transform: uppercase;
+  font-family: 'Fredoka One', sans-serif;
 }
 
 .register-button:hover {
-  background: rgba(255, 23, 68, 0.15);
-  border-color: rgba(255, 23, 68, 0.7);
-  color: #ffb74d;
+  background: #FF0043;
+  color: #fff;
+  border-color: #000;
   transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  text-shadow: 0 0 8px rgba(255, 23, 68, 0.5);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.35);
 }
 
 .register-button:disabled {
-  background-color: rgba(50, 50, 50, 0.3);
-  border-color: rgba(100, 100, 100, 0.3);
+  background-color: rgba(160, 160, 160, 0.5);
+  border-color: #999;
   color: #999;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
-  text-shadow: none;
 }
 
 .auth-button {
   padding: 14px 30px;
   border-radius: 8px;
-  border: none;
+  border: 5px solid #000;
   background: #fff;
   color: #000;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -308,56 +408,61 @@
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 1px;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.3);
+  font-family: 'Fredoka One', sans-serif;
 }
 
 .auth-button:hover {
-  background: #f0f0f0;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: #FF1744;
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.4);
 }
 
 .auth-button:disabled {
-  background: #666;
+  background: #ccc;
   cursor: not-allowed;
   transform: none;
+  color: #999;
 }
 
 .error-message {
-  background: rgba(255, 0, 0, 0.1);
-  border: 1px solid rgba(255, 0, 0, 0.3);
-  color: #ff6b6b;
-  padding: 12px 18px;
+  background: rgba(255, 100, 100, 0.1);
+  border: 3px solid #FF1744;
+  color: #d32f2f;
+  padding: 10px 14px;
   border-radius: 8px;
-  margin-bottom: 25px;
-  font-size: 1rem;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
   text-align: center;
 }
 
 .payment-error-message {
-  background: rgba(255, 23, 68, 0.1);
-  border: 1px solid rgba(255, 23, 68, 0.3);
+  background: rgba(255, 23, 68, 0.08);
+  border: 3px solid #000;
   color: #FF1744;
-  padding: 20px;
+  padding: 14px 16px;
   border-radius: 8px;
-  margin-bottom: 25px;
+  margin-bottom: 12px;
   text-align: center;
 }
 
 .payment-error-message i {
-  font-size: 2rem;
-  margin-bottom: 10px;
+  font-size: 1.75rem;
+  margin-bottom: 8px;
 }
 
 .payment-error-message h3 {
   color: #FF1744 !important;
-  margin: 10px 0 !important;
+  margin: 6px 0 !important;
   border: none !important;
-  font-size: 1.3rem !important;
+  font-size: 1.15rem !important;
 }
 
 .payment-error-message p {
-  margin: 10px 0;
-  font-size: 1rem;
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #333;
 }
 
 .support-contact {
@@ -369,17 +474,20 @@
   margin-top: 15px;
   padding: 10px 15px;
   background-color: #FF1744;
-  color: #000;
-  border: none;
+  color: #fff;
+  border: 5px solid #000;
   border-radius: 5px;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+  font-family: 'Fredoka One', sans-serif;
 }
 
 .test-razorpay-btn:hover {
-  background-color: #ffb74d;
+  background-color: #FF0043;
   transform: translateY(-2px);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.3);
 }
 
 .success-message {
@@ -389,12 +497,12 @@
 
 .success-message i {
   font-size: 4rem;
-  color: #fff;
+  color: #FF1744;
   margin-bottom: 20px;
 }
 
 .success-message h3 {
-  color: #fff;
+  color: #000;
   margin-bottom: 15px;
   border: none;
   font-size: 1.8rem;
@@ -403,7 +511,7 @@
 .success-message p {
   margin-bottom: 30px;
   font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: #333;
 }
 
 /* Payment details styles */
@@ -413,36 +521,42 @@
 }
 
 .payment-info {
-  background: rgba(255, 255, 255, 0.05);
+  background: #fff;
   padding: 20px;
   border-radius: 8px;
   margin: 20px 0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 5px solid #FF1744;
+  box-shadow: 4px 4px 0 rgba(255, 23, 68, 0.2);
 }
 
 .payment-info p {
   margin: 10px 0;
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: #333;
 }
 
 .payment-info h4 {
   margin: 20px 0 10px;
   color: #FF1744;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 5px solid #000;
   padding-top: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  font-family: 'Fredoka One', sans-serif;
 }
 
 .json-data {
-  background: rgba(0, 0, 0, 0.3);
+  background: #f5f5f5;
   padding: 15px;
   border-radius: 5px;
   overflow-x: auto;
   font-family: monospace;
   font-size: 0.9rem;
-  color: #fff;
+  color: #333;
   max-height: 200px;
   overflow-y: auto;
+  border: 5px solid #000;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive adjustments */
@@ -455,9 +569,9 @@
 
   .event-registration-modal {
     max-width: 100%;
-    max-height: calc(100vh - 40px);
+    max-height: min(95vh, calc(100vh - 20px));
     border-radius: 12px;
-    padding: 20px;
+    padding: 16px 14px 18px;
     margin: 0;
   }
 
@@ -766,27 +880,28 @@
 
 /* Payment section styles */
 .payment-section {
-  background: rgba(255, 23, 68, 0.1);
-  border: 1px solid rgba(255, 23, 68, 0.3);
+  background: rgba(255, 235, 59, 0.2);
+  border: 3px solid #000;
   border-radius: 10px;
-  padding: 20px;
-  margin-top: 20px;
+  padding: 14px 16px;
+  margin-top: 12px;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.12);
 }
 
 /* Payment section when positioned at the end */
 .form-section:has(.payment-section) {
-  border-top: 2px solid rgba(255, 23, 68, 0.3);
-  padding-top: 25px;
-  margin-top: 30px;
+  border-top: 4px solid #000;
+  padding-top: 16px;
+  margin-top: 18px;
 }
 
 .form-section:has(.payment-section) h3 {
   color: #FF1744;
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 1.4rem;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .payment-info {
@@ -806,11 +921,11 @@
 
 .payment-info p {
   margin: 5px 0;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(0, 0, 0, 0.82);
 }
 
 .payment-info p strong {
-  color: #ff3d68;
+  color: #000;
   font-size: 1.1rem;
 }
 
@@ -820,24 +935,27 @@
 }
 
 .payment-instructions-button {
-  background: linear-gradient(135deg, #FF1744 0%, #ff3d68 100%);
-  color: #000;
-  border: none;
-  padding: 12px 24px;
+  background: #FF1744;
+  color: #fff;
+  border: 3px solid #000;
+  padding: 10px 18px;
   border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.25);
+  font-family: 'Fredoka One', 'Arial Black', sans-serif;
 }
 
 .payment-instructions-button:hover {
-  background: linear-gradient(135deg, #ff3d68 0%, #e65100 100%);
+  background: #FF0043;
+  color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 23, 68, 0.4);
+  box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.3);
 }
 
 .payment-instructions-button i {
@@ -886,55 +1004,51 @@
 
 /* Payment Required Section */
 .payment-required {
-  background: rgba(255, 23, 68, 0.1);
-  backdrop-filter: blur(5px);
-  border: 2px solid rgba(255, 23, 68, 0.3);
-  border-radius: 12px;
-  padding: 20px;
-  margin: 15px 0;
-  color: #fff;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: none;
+  border: 3px solid #000;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin: 8px 0;
+  color: #000;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.18);
   position: relative;
   overflow: hidden;
 }
 
 .payment-required::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(255, 23, 68, 0.05) 0%, rgba(0, 0, 0, 0.1) 100%);
-  pointer-events: none;
+  display: none;
 }
 
 .payment-required h4 {
   color: #FF1744;
-  margin-bottom: 10px;
+  margin: 0 0 8px;
   display: flex;
   align-items: center;
   gap: 8px;
   position: relative;
   z-index: 1;
-  font-weight: 600;
-  text-shadow: 0 0 10px rgba(255, 23, 68, 0.3);
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.12);
 }
 
 .payment-required p {
   position: relative;
   z-index: 1;
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 1.45;
+  margin: 6px 0;
+  font-size: 0.92rem;
 }
 
 .payment-required strong {
-  color: #ff3d68;
-  font-weight: 600;
+  color: #000;
+  font-weight: 700;
 }
 
 .payment-steps {
-  margin: 15px 0;
+  margin: 10px 0;
   position: relative;
   z-index: 1;
 }
@@ -942,24 +1056,42 @@
 .payment-steps .step {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 10px 0;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(5px);
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin: 8px 0;
+  padding: 10px 12px;
+  background: rgba(255, 250, 240, 0.98);
+  backdrop-filter: none;
   border-radius: 8px;
-  border: 1px solid rgba(255, 23, 68, 0.2);
+  border: 3px solid #000;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.88);
   transition: all 0.3s ease;
+  font-size: 0.92rem;
+}
+
+@media (min-width: 800px) {
+  .payment-steps .step {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  .payment-steps .step > span:not(.step-number) {
+    min-width: 0;
+  }
 }
 
 .payment-steps .step:hover {
-  background: rgba(0, 0, 0, 0.4);
-  border-color: rgba(255, 23, 68, 0.4);
+  background: #fff;
+  border-color: #FF1744;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.16);
 }
 
 .payment-steps .step-number {
-  background: linear-gradient(135deg, #FF1744, #ff3d68);
-  color: #000;
+  background: #FF1744;
+  color: #fff;
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -969,19 +1101,21 @@
   font-size: 0.9rem;
   font-weight: bold;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(255, 23, 68, 0.3);
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 /* Transaction Form */
 .transaction-form {
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 23, 68, 0.2);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: none;
+  border: 3px solid #000;
   border-radius: 8px;
-  padding: 15px;
-  margin-top: 15px;
+  padding: 12px 14px;
+  margin-top: 10px;
   position: relative;
   z-index: 1;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.15);
 }
 
 .transaction-form .form-group {
@@ -989,7 +1123,7 @@
 }
 
 .transaction-form label {
-  color: #fff;
+  color: #000;
   font-weight: 600;
   margin-bottom: 8px;
   display: block;
@@ -998,22 +1132,23 @@
 .transaction-form input {
   width: 100%;
   padding: 12px;
-  border: 2px solid rgba(255, 23, 68, 0.3);
+  border: 3px solid #000;
   border-radius: 6px;
   font-size: 1rem;
   transition: all 0.3s ease;
   font-family: 'Courier New', monospace;
   letter-spacing: 1px;
   box-sizing: border-box;
-  background: rgba(0, 0, 0, 0.3);
-  color: #fff;
+  background: #fff;
+  color: #000;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.08);
 }
 
 .transaction-form input:focus {
   outline: none;
   border-color: #FF1744;
-  box-shadow: 0 0 0 3px rgba(255, 23, 68, 0.2);
-  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 2px rgba(255, 23, 68, 0.25);
+  background: #fff;
 }
 
 .transaction-form input.valid-input {
@@ -1051,7 +1186,7 @@
 }
 
 .field-note {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.6);
   font-size: 0.85rem;
   margin-top: 6px;
   line-height: 1.4;
@@ -1121,8 +1256,8 @@
 
 /* Checkbox group styles for "same email for all" feature */
 .checkbox-group {
-  margin: 1rem 0;
-  padding: 15px;
+  margin: 0.5rem 0;
+  padding: 10px 12px;
   background: rgba(255, 23, 68, 0.05);
   border: 1px solid rgba(255, 23, 68, 0.2);
   border-radius: 8px;
@@ -1133,13 +1268,13 @@
   align-items: center;
   cursor: pointer;
   font-size: 1rem;
-  color: #fff;
+  color: #000;
   margin-bottom: 0.5rem;
   transition: all 0.3s ease;
 }
 
 .checkbox-label:hover {
-  color: #ff3d68;
+  color: #FF1744;
 }
 
 .checkbox-label input[type="checkbox"] {
@@ -1194,7 +1329,7 @@
 /* Enhanced field note for disabled fields */
 .form-group .field-note {
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.58);
   margin-top: 0.25rem;
   display: flex;
   align-items: center;

@@ -1,57 +1,86 @@
-/* Custom scrollbar for the entire page */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(10, 10, 20, 0.7);
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, rgba(255, 23, 68, 0.3), rgba(255, 23, 68, 0.5));
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, rgba(255, 23, 68, 0.5), rgba(255, 23, 68, 0.7));
-}
-
-/* Firefox scrollbar */
-html {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 23, 68, 0.5) rgba(10, 10, 20, 0.7);
-}
-
 :root {
   --comic-red: #FF1744;
   --comic-blue: #00B0FF;
   --comic-yellow: #FFEB3B;
 }
 
+/* Full-bleed home page comic background (matches App.css body) */
 .category-events-container {
   min-height: 100vh;
-  background: #FFFACD;
-  background-image:
-    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
-    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px);
-  background-size: 25px 25px, 100%;
+  position: relative;
+  overflow-x: clip;
   color: #121212;
   padding: clamp(1rem, 3vw, 2rem);
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  background: transparent;
+  isolation: isolate;
 }
 
 .category-events-container::before {
   content: '';
-  position: absolute;
+  position: fixed;
   inset: 0;
-  background:
-    radial-gradient(circle at 15% 10%, rgba(255, 23, 68, 0.08) 0%, transparent 55%),
-    radial-gradient(circle at 85% 35%, rgba(0, 176, 255, 0.08) 0%, transparent 55%);
-  pointer-events: none;
   z-index: 0;
+  background-color: #FFFACD;
+  background-image:
+    repeating-conic-gradient(
+      from -10deg at 72% 56%,
+      rgba(239, 0, 57, 0.30) 0deg 7deg,
+      rgba(123, 0, 34, 0.11) 7deg 14deg
+    ),
+    radial-gradient(
+      circle at 72% 56%,
+      rgba(255, 194, 0, 0.20) 0%,
+      rgba(255, 194, 0, 0.10) 15%,
+      rgba(255, 194, 0, 0) 48%
+    );
+  background-size: 100% 100%, 100% 100%;
+  background-attachment: fixed;
+  pointer-events: none;
+}
+
+.category-events-container::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(circle at 72% 56%, rgba(239, 0, 57, 0.13) 0%, rgba(239, 0, 57, 0) 44%);
+  pointer-events: none;
+}
+
+.category-header,
+.events-grid,
+.loading-container,
+.error-container,
+.no-events-container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 992px) {
+  .category-events-container::before {
+    background-image:
+      repeating-conic-gradient(
+        from -10deg at 70% 52%,
+        rgba(239, 0, 57, 0.25) 0deg 7deg,
+        rgba(123, 0, 34, 0.10) 7deg 14deg
+      ),
+      radial-gradient(
+        circle at 70% 52%,
+        rgba(255, 194, 0, 0.16) 0%,
+        rgba(255, 194, 0, 0.08) 15%,
+        rgba(255, 194, 0, 0) 48%
+      );
+  }
+}
+
+@media (max-width: 768px) {
+  .category-events-container::before {
+    background-attachment: scroll;
+  }
 }
 
 
@@ -61,7 +90,7 @@ html {
   margin-bottom: 3rem;
   padding-top: 2rem;
   position: relative;
-  z-index: 5;
+  z-index: 1;
 }
 
 .navigation-buttons {
@@ -71,7 +100,7 @@ html {
   margin-bottom: 2rem;
   text-align: left;
   position: relative;
-  z-index: 10;
+  z-index: 1;
   isolation: isolate;
   padding-bottom: 1rem;
 }
@@ -142,7 +171,7 @@ html {
   letter-spacing: 0.3px;
   opacity: 1;
   position: relative;
-  z-index: 10;
+  z-index: 1;
 }
 
 .back-button:hover {
