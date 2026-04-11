@@ -36,64 +36,55 @@ export const corsProtectedFetch = async (endpoint, options = {}) => {
   }
 
   try {
-    const response = await fetch(fullUrl, {
-      ...options,
-      // Include credentials since backend is configured to accept them
-      credentials: 'include',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-        ...options.headers,
-      }
-    });
+    // Create AbortController with 120 second timeout to handle Render free tier cold starts
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 120000); // 120 seconds
 
-    console.log(`✅ Response received - Status: ${response.status} (${response.statusText})`);
-    console.log(`📊 Response headers:`, Object.fromEntries(response.headers.entries()));
+    try {
+      const response = await fetch(fullUrl, {
+        ...options,
+        // Include credentials since backend is configured to accept them
+        credentials: 'include',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          ...options.headers,
+        },
+        signal: controller.signal
+      });
 
-    // Even if the response is not ok (e.g., 400, 500), we still want to return it
-    // so the caller can handle the error appropriately
-    return response;
+      clearTimeout(timeoutId);
+      console.log(`✅ Response received - Status: ${response.status} (${response.statusText})`);
+      console.log(`📊 Response headers:`, Object.fromEntries(response.headers.entries()));
+      return response;
+    } finally {
+      clearTimeout(timeoutId);
+    }
   } catch (error) {
-    console.error(`❌ Network error for ${fullUrl}:`, {
+    const isTimeout = error.name === 'AbortError';
+    
+    console.error(`❌ ${isTimeout ? 'Request timeout' : 'Network error'} for ${fullUrl}:`, {
       name: error.name,
       message: error.message,
       stack: error.stack
     });
 
-    // For GET requests, we can try no-cors mode as a last resort
-    if (!options.method || options.method === 'GET') {
-      console.log('🔄 Trying with no-cors mode as fallback...');
-
-      try {
-        // This will return an opaque response that we can't read
-        // But we'll handle that in the calling function with mock data
-        const response = await fetch(fullUrl, {
-          ...options,
-          mode: 'no-cors',
-          credentials: 'include',
-        });
-
-        console.log('⚠️ No-cors response received (opaque)');
-        // We can't check if it's ok because the response is opaque
-        // So we'll just return it and let the caller handle it
-        return response;
-      } catch (noCorsError) {
-        console.error('❌ No-cors approach also failed:', noCorsError);
-      }
-    }
-
-    // If all else fails, throw the original error with more context
-    console.error('💥 All fetch attempts failed for:', fullUrl);
+    // Throw the original error with more context
+    console.error('💥 Fetch failed for:', fullUrl);
     console.error('🌍 Current environment:', isProduction ? 'Production' : 'Development');
     console.error('🔗 Backend URL being used:', ORIGINAL_API_URL);
     console.error('🌐 Frontend URL:', window.location.origin);
 
     // Provide environment-specific error messages
+    const timeoutInfo = isTimeout 
+      ? 'Request timed out after 120 seconds. This can happen when the backend is starting up on Render free tier.'
+      : '';
+    
     const environmentInfo = isProduction
       ? 'Production environment - check if backend server is running on Render'
       : 'Development environment - check if backend server is running on localhost:4001';
 
-    throw new Error(`Network request failed: ${error.message}. ${environmentInfo}. Please check your internet connection and try again.`);
+    throw new Error(`Network request failed: ${error.message}. ${timeoutInfo || environmentInfo}. Please check your internet connection and try again.`);
   }
 };
 
