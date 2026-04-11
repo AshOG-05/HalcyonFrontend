@@ -14,24 +14,22 @@ import './components/CommonStyles.css'
 import './App.css'
 
 function App() {
-  // Initialize loading state based on device type
+  // Show loader on all devices for consistent styling
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
-  const [loading, setLoading] = useState(!isMobile); 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Only set up the timer for desktop devices
-    if (!isMobile) {
-      const timer = setTimeout(() => {
-        setLoading(false);
-      }, 2500);
-      return () => clearTimeout(timer);
-    }
-    // No timer needed for mobile - already set to false
+    // Show loader for at least 1.5 seconds on mobile, 2.5 seconds on desktop
+    const loaderDuration = isMobile ? 1500 : 2500;
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, loaderDuration);
+    return () => clearTimeout(timer);
   }, [isMobile]);
 
   return (
     <>
-      {loading && !isMobile && (
+      {loading && (
         <div
           style={{
             position: 'fixed',
