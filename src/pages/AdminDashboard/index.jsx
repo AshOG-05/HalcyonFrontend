@@ -1896,7 +1896,7 @@ const getAllRegistrations = async (req, res) => {
   };
 
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container admin-dashboard">
       <div className="dashboard-header">
         <h2>
           Admin Dashboard
