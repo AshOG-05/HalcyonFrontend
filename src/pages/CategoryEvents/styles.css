@@ -254,13 +254,13 @@ html {
 
 @media (min-width: 900px) {
   .events-grid {
-    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
 }
 
 @media (min-width: 1200px) {
   .events-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1rem 1.1rem;
   }
 }
@@ -425,6 +425,39 @@ html {
   color: #000;
   font-weight: 900;
   letter-spacing: 0.5px;
+}
+
+.event-fee-row .event-fee-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.event-fee-row .event-fee-label {
+  white-space: nowrap;
+}
+
+@media (min-width: 769px) {
+  .event-card-header {
+    align-items: center;
+  }
+
+  .event-card-header h3 {
+    -webkit-line-clamp: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .event-fee-row {
+    align-items: center;
+  }
+
+  .event-fee-row .event-fee-text {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
 }
 
 .event-card-description {

@@ -233,10 +233,11 @@ function CategoryEvents() {
                   <i className="fas fa-map-marker-alt"></i>
                   <span>{event.venue}</span>
                 </div>
-                <div className="event-detail">
+                <div className="event-detail event-fee-row">
                   <i className="fas fa-ticket-alt"></i>
-                  <span>
-                    Registration: <strong>{getEventFee(event)}</strong>
+                  <span className="event-fee-text">
+                    <span className="event-fee-label">Registration:</span>
+                    <strong>{getEventFee(event)}</strong>
                   </span>
                 </div>
               </div>
