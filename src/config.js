@@ -16,7 +16,7 @@ export const APP_CONFIG = {
 };
 // Festival days configuration
 export const FESTIVAL_DAYS = [
-  { id: 1, label: 'Day 1', description: 'Join us for exciting events on day one of Halcyon 2025!' },
+  { id: 1, label: 'Day 1', description: 'Join us for exciting events on day one of Halcyon 2026!' },
   { id: 2, label: 'Day 2', description: 'The fun continues through to the second day with more amazing events!' }
 ];
 // Event categories configuration

@@ -2907,3 +2907,322 @@
 .dashboard-container.admin-dashboard .fab{
   font-family: "Font Awesome 5 Brands" !important;
 }
+
+/* ============================================================
+   RESPONSIVE STABILITY OVERRIDES
+   ============================================================ */
+
+/* Keep mobile card views hidden on desktop/tablet by default */
+.dashboard-container.admin-dashboard .mobile-cards-container{
+  display: none;
+}
+
+/* Better base layout for search + filters on larger screens */
+.dashboard-container.admin-dashboard .search-filter-container{
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.dashboard-container.admin-dashboard .search-bar{
+  width: 100%;
+}
+
+.dashboard-container.admin-dashboard .search-input-wrapper{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #0f1728;
+  border: 1px solid var(--ui-border);
+  border-radius: 8px;
+  padding: 0.55rem 0.7rem;
+}
+
+.dashboard-container.admin-dashboard .search-icon{
+  color: var(--ui-text-muted);
+  flex-shrink: 0;
+}
+
+.dashboard-container.admin-dashboard .search-input{
+  width: 100%;
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  min-width: 0;
+}
+
+.dashboard-container.admin-dashboard .clear-search-btn{
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+}
+
+/* Allow table to scroll gracefully on medium widths */
+.dashboard-container.admin-dashboard .dashboard-table-container{
+  overflow-x: auto;
+}
+
+.dashboard-container.admin-dashboard .dashboard-table{
+  min-width: 760px;
+}
+
+/* Keep sidebar tabs accessible on tablet instead of hidden */
+@media (max-width: 912px) {
+  .dashboard-container.admin-dashboard .dashboard-content{
+    min-width: 0;
+  }
+
+  .dashboard-container.admin-dashboard .dashboard-sidebar{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    padding: 0.55rem;
+    gap: 0.45rem;
+    border-right: none;
+    border-bottom: 1px solid var(--ui-border);
+    order: 1;
+  }
+
+  .dashboard-container.admin-dashboard .sidebar-btn{
+    margin: 0;
+    min-width: 0;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 0.7rem 0.45rem;
+  }
+
+  .dashboard-container.admin-dashboard .sidebar-btn span{
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.1;
+    font-size: 0.78rem;
+  }
+
+  .dashboard-container.admin-dashboard .dashboard-main{
+    order: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container.admin-dashboard .dashboard-table{
+    min-width: 0;
+  }
+}
+
+/* ============================================================
+   MOBILE RESTRUCTURE (FINAL OVERRIDES)
+   ============================================================ */
+@media (max-width: 768px) {
+  .dashboard-container.admin-dashboard .dashboard-header{
+    padding: 0.85rem 0.9rem !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .dashboard-header h2{
+    font-size: 1rem !important;
+    min-width: 0 !important;
+    line-height: 1.2 !important;
+  }
+
+  .dashboard-container.admin-dashboard .logout-btn{
+    width: auto !important;
+    min-width: 92px !important;
+    padding: 0.5rem 0.7rem !important;
+    font-size: 0.74rem !important;
+    justify-content: center !important;
+  }
+
+  .dashboard-container.admin-dashboard .dashboard-main{
+    padding: 0.85rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .dashboard-table-container{
+    padding: 0.85rem !important;
+    border-radius: 10px !important;
+  }
+
+  .dashboard-container.admin-dashboard .dashboard-table-container h3{
+    font-size: 1rem !important;
+    margin-bottom: 0.8rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .dashboard-stats{
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+    margin-bottom: 0.9rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .stat-card{
+    padding: 0.85rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .stat-card .stat-value{
+    font-size: 1.45rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .search-filter-container{
+    gap: 0.7rem !important;
+    margin-bottom: 0.7rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .search-input-wrapper{
+    padding: 0.5rem 0.6rem !important;
+    border-radius: 8px !important;
+  }
+
+  .dashboard-container.admin-dashboard .filter-controls{
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.55rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .filter-group{
+    margin-right: 0 !important;
+    width: 100% !important;
+    display: grid !important;
+    gap: 0.28rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .filter-group label{
+    display: block !important;
+    font-size: 0.74rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .filter-group select,
+  .dashboard-container.admin-dashboard .filter-select{
+    width: 100% !important;
+    min-width: 0 !important;
+    font-size: 0.82rem !important;
+    padding: 0.5rem 0.65rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .clear-filters-btn{
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .dashboard-container.admin-dashboard .event-count{
+    justify-content: flex-start !important;
+    text-align: left !important;
+    font-size: 0.78rem !important;
+    margin: 0.35rem 0 0.2rem !important;
+  }
+
+  /* On mobile, force cards and hide tables for all tabs */
+  .dashboard-container.admin-dashboard .dashboard-table{
+    display: none !important;
+  }
+
+  .dashboard-container.admin-dashboard .mobile-cards-container{
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.7rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .mobile-card{
+    padding: 0.8rem !important;
+    border-radius: 10px !important;
+    gap: 0.55rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .mobile-card-header{
+    gap: 0.55rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .mobile-card-title{
+    font-size: 0.86rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .dashboard-container.admin-dashboard .mobile-card-subtitle{
+    font-size: 0.72rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .dashboard-container.admin-dashboard .mobile-card-row{
+    align-items: flex-start !important;
+    gap: 0.45rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .mobile-card-label{
+    min-width: 72px !important;
+    font-size: 0.74rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .mobile-card-value{
+    font-size: 0.78rem !important;
+    text-align: right !important;
+    word-break: break-word !important;
+  }
+
+  /* Prevent category badge overflow/wrapping issues in mobile cards */
+  .dashboard-container.admin-dashboard .mobile-card-row .mobile-card-value{
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    min-width: 0 !important;
+  }
+
+  .dashboard-container.admin-dashboard .mobile-card-row .category-badge{
+    max-width: 100% !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    flex-shrink: 1 !important;
+  }
+
+  .dashboard-container.admin-dashboard .action-btn-mini{
+    width: 31px !important;
+    height: 31px !important;
+    border-radius: 7px !important;
+  }
+
+  .dashboard-container.admin-dashboard .export-buttons{
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-top: 0.3rem !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.5rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .export-buttons button,
+  .dashboard-container.admin-dashboard .registrations-tab .generate-pdf-btn,
+  .dashboard-container.admin-dashboard .registrations-tab .generate-judge-pdf-btn,
+  .dashboard-container.admin-dashboard .registrations-tab .export-excel-btn,
+  .dashboard-container.admin-dashboard .registrations-tab .export-single-excel-btn{
+    width: 100% !important;
+    justify-content: center !important;
+    font-size: 0.8rem !important;
+    padding: 0.62rem 0.7rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .modal-content.registration-modal{
+    width: calc(100vw - 20px) !important;
+    max-height: calc(100vh - 20px) !important;
+    margin: 10px !important;
+  }
+
+  .dashboard-container.admin-dashboard .modal-header{
+    padding: 0.75rem 0.8rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .modal-header h3{
+    font-size: 0.95rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .modal-body{
+    padding: 0.75rem !important;
+  }
+
+  .dashboard-container.admin-dashboard .registration-info-grid{
+    gap: 0.65rem !important;
+  }
+}

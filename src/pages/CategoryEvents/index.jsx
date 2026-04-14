@@ -95,7 +95,7 @@ function CategoryEvents() {
     return Array.from({ length: 5 }, (_, index) => ({
       _id: `mock-${eventName}-${index}`,
       name: `${category.label} Event ${index + 1}`,
-      description: `This is a sample ${category.label.toLowerCase()} event for Halcyon 2025. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies aliquam, nunc nisl aliquet nunc, eget aliquam nisl nunc eget nisl.`,
+      description: `This is a sample ${category.label.toLowerCase()} event for Halcyon 2026. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies aliquam, nunc nisl aliquet nunc, eget aliquam nisl nunc eget nisl.`,
       date: new Date().toISOString(),
       venue: 'Main Auditorium',
       category: eventName,
