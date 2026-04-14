@@ -19,7 +19,7 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
     teamSize: 1, // Default to 1 participant (used for team type)
     minTeamSize: 1, // Default min team size
     maxTeamSize: 1, // Default max team size
-    fees: 0 // Default to free event
+    fees: '' // Default to empty field for better UX
   });
 
   const [loading, setLoading] = useState(false);
@@ -254,6 +254,14 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
             return;
           }
         }
+      } else if (name === 'fees') {
+        // For fees field, allow empty string for better UX
+        if (value === '') {
+          updatedFormData.fees = '';
+        } else {
+          const parsedValue = parseInt(value);
+          updatedFormData.fees = isNaN(parsedValue) ? '' : parsedValue;
+        }
       } else {
         // For other number inputs, ensure we're storing numbers, not strings
         const parsedValue = parseInt(value);
@@ -422,7 +430,7 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
         day: parseInt(formData.day), // Make sure it's a number
         category: formData.category,
         teamSize: finalTeamSize, // Use the calculated team size
-        fees: parseInt(formData.fees), // Make sure it's a number
+        fees: formData.fees === '' ? 0 : parseInt(formData.fees), // Convert empty string to 0
         // Always use min and max team sizes
         minTeamSize: formData.teamSizeType === 'team' ?
           parseInt(formData.minTeamSize) : finalTeamSize,
@@ -486,7 +494,7 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
           teamSize: 1, // Default for individual
           minTeamSize: 1,
           maxTeamSize: 1,
-          fees: 0
+          fees: '' // Reset to empty field for better UX
         });
       }
 
@@ -734,10 +742,11 @@ function EventForm({ onEventAdded, onEventUpdated, onCancel, eventToEdit = null 
             type="number"
             id="fees"
             name="fees"
-            min="0"
             value={formData.fees}
             onChange={handleChange}
-            required
+            onFocus={handleFocus}
+            onClick={handleFocus}
+            placeholder="Leave empty for free event"
           />
         </div>
 
