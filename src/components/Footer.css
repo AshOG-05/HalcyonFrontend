@@ -738,3 +738,25 @@
     font-size: 0.82rem !important;
   }
 }
+
+/* Final hardening for narrow devices */
+.footer,
+.comic-footer,
+.footer-content,
+.comic-footer-container,
+.footer-grid,
+.comic-footer-section,
+.contact-list li {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-section .contact-list li {
+  overflow-wrap: anywhere;
+}
+
+.footer-section .contact-name,
+.footer-section .contact-info {
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+}

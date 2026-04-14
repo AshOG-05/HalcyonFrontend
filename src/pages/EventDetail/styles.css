@@ -904,13 +904,14 @@ html {
 
   /* Fixed back button (for error states) - keep small */
   .back-button:not(.event-actions .back-button) {
-    position: fixed;
-    top: 15px;
-    left: 15px;
+    position: sticky;
+    top: 10px;
+    left: auto;
     padding: 8px 12px;
     font-size: 0.8rem;
     width: auto;
-    margin-bottom: 0;
+    margin-bottom: 1rem;
+    z-index: 3;
   }
 }
 

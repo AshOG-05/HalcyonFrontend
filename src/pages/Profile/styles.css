@@ -2189,3 +2189,191 @@
     padding: 0.65rem 0.9rem 0.9rem 0.9rem !important;
   }
 }
+
+/* ==========================================
+   Profile Final Theme (v4 unified)
+   ========================================== */
+.user-profile {
+  --pf-red: #ff1744;
+  --pf-blue: #00b0ff;
+  --pf-yellow: #ffeb3b;
+  --pf-ink: #111111;
+  --pf-paper: #fffacd;
+  --pf-card: #fffef5;
+  --pf-border: #000000;
+  --pf-shadow: 6px 6px 0 rgba(0, 0, 0, 0.2);
+  font-family: var(--font-body, "Poppins", sans-serif) !important;
+  color: var(--pf-ink) !important;
+}
+
+.user-profile .dashboard-header h2,
+.user-profile .welcome-section h3,
+.user-profile .registrations-header h3,
+.user-profile .account-settings-container h3,
+.user-profile .quick-actions h4,
+.user-profile .event-name {
+  font-family: var(--font-display, "Fredoka One", "Arial Black", sans-serif) !important;
+  letter-spacing: 0.6px !important;
+  color: var(--pf-ink) !important;
+}
+
+.user-profile .dashboard-header,
+.user-profile .dashboard-sidebar,
+.user-profile .dashboard-main,
+.user-profile .quick-actions,
+.user-profile .stat-card,
+.user-profile .registration-card,
+.user-profile .registrations-header,
+.user-profile .user-info-card,
+.user-profile .welcome-section,
+.user-profile .loading-container,
+.user-profile .error-container,
+.user-profile .no-registrations {
+  background: var(--pf-card) !important;
+  border: 3px solid var(--pf-border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--pf-shadow) !important;
+  backdrop-filter: none !important;
+}
+
+.user-profile .dashboard-header {
+  margin: 0.75rem 0.75rem 0 !important;
+  padding: 1rem 1.25rem !important;
+}
+
+.user-profile .dashboard-content {
+  gap: 0.9rem !important;
+  padding: 0.75rem !important;
+}
+
+.user-profile .dashboard-main {
+  padding: 1rem !important;
+}
+
+.user-profile .dashboard-sidebar {
+  padding: 0.75rem 0.35rem !important;
+}
+
+.user-profile .sidebar-btn {
+  font-family: var(--font-display, "Fredoka One", "Arial Black", sans-serif) !important;
+  font-size: 0.88rem !important;
+  border: 2px solid transparent !important;
+  border-radius: 10px !important;
+  margin: 0.2rem 0.35rem !important;
+  padding: 0.7rem 0.8rem !important;
+  color: #222 !important;
+}
+
+.user-profile .sidebar-btn:hover {
+  background: rgba(0, 176, 255, 0.12) !important;
+  border-color: #000 !important;
+}
+
+.user-profile .sidebar-btn.active {
+  background: rgba(255, 235, 59, 0.32) !important;
+  border-color: #000 !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+.user-profile .home-btn,
+.user-profile .logout-btn,
+.user-profile .action-card,
+.user-profile .action-btn,
+.user-profile .view-event-btn,
+.user-profile .retry-button,
+.user-profile .explore-btn {
+  font-family: var(--font-display, "Fredoka One", "Arial Black", sans-serif) !important;
+  border: 3px solid #000 !important;
+  border-radius: 10px !important;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.18) !important;
+  text-transform: none !important;
+}
+
+.user-profile .home-btn,
+.user-profile .view-event-btn,
+.user-profile .action-card {
+  background: var(--pf-blue) !important;
+  color: #000 !important;
+}
+
+.user-profile .logout-btn,
+.user-profile .retry-button,
+.user-profile .danger-btn {
+  background: var(--pf-red) !important;
+  color: #fff !important;
+}
+
+.user-profile .explore-btn {
+  background: var(--pf-yellow) !important;
+  color: #000 !important;
+  animation: none !important;
+}
+
+.user-profile .home-btn:hover,
+.user-profile .logout-btn:hover,
+.user-profile .action-card:hover,
+.user-profile .action-btn:hover,
+.user-profile .view-event-btn:hover,
+.user-profile .retry-button:hover,
+.user-profile .explore-btn:hover {
+  background: #fff !important;
+  color: #000 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.24) !important;
+}
+
+.user-profile .stat-icon,
+.user-profile .user-avatar {
+  background: #fff !important;
+  border: 3px solid #000 !important;
+  border-radius: 12px !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+.user-profile .status-badge {
+  background: var(--pf-yellow) !important;
+  border: 2px solid #000 !important;
+  color: #000 !important;
+  font-weight: 800 !important;
+}
+
+.user-profile .category-tag {
+  border: 2px solid #000 !important;
+  border-radius: 999px !important;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15) !important;
+}
+
+.user-profile .card-header {
+  background: rgba(255, 235, 59, 0.2) !important;
+  border-bottom: 2px dashed rgba(0, 0, 0, 0.22) !important;
+}
+
+.user-profile .card-footer {
+  background: rgba(255, 255, 255, 0.55) !important;
+  border-top: 2px dashed rgba(0, 0, 0, 0.18) !important;
+}
+
+.user-profile .detail-row,
+.user-profile .detail-label,
+.user-profile .stat-label,
+.user-profile .welcome-section p,
+.user-profile .help-text,
+.user-profile .empty-state p {
+  color: rgba(0, 0, 0, 0.74) !important;
+}
+
+@media (max-width: 768px) {
+  .user-profile .dashboard-header {
+    margin: 0.5rem !important;
+    padding: 0.9rem !important;
+  }
+
+  .user-profile .dashboard-content {
+    padding: 0.5rem !important;
+  }
+
+  .user-profile .dashboard-sidebar {
+    margin: 0 0.1rem !important;
+    border-radius: 10px !important;
+  }
+}

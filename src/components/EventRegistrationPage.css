@@ -450,6 +450,11 @@
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.15);
 }
 
+.event-detail span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .event-detail i {
   color: #FF1744;
   font-size: 1.2rem;
@@ -539,6 +544,8 @@
 .registration-actions {
   display: flex;
   justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
   gap: 15px;
   margin-top: 30px;
 }

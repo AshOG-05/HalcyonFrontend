@@ -249,7 +249,7 @@
   font-weight: 600;
 }
 
-.form-group input,
+.form-group input:not([type="checkbox"]),
 .form-group select,
 .form-group textarea {
   width: 100%;
@@ -305,7 +305,7 @@
   font-size: 1rem;
 }
 
-.form-group input:focus,
+.form-group input:not([type="checkbox"]):focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
@@ -603,7 +603,7 @@
     margin-bottom: 8px;
   }
 
-  .form-group input,
+  .form-group input:not([type="checkbox"]),
   .form-group select,
   .form-group textarea {
     padding: 12px 14px;
@@ -663,12 +663,19 @@
   .payment-steps .step {
     padding: 10px;
     margin: 8px 0;
+    align-items: flex-start;
   }
 
   .payment-steps .step-number {
     width: 24px;
     height: 24px;
     font-size: 0.8rem;
+  }
+
+  .payment-steps .step .payment-instructions-button {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
   }
 
   .transaction-form {
@@ -724,7 +731,7 @@
     margin-bottom: 6px;
   }
 
-  .form-group input,
+  .form-group input:not([type="checkbox"]),
   .form-group select,
   .form-group textarea {
     padding: 10px 12px;
@@ -785,6 +792,11 @@
     font-size: 0.9rem;
   }
 
+  .payment-steps .step span:not(.step-number) {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
   .validation-message {
     font-size: 0.85rem;
     padding: 6px 10px;
@@ -808,7 +820,7 @@
     font-size: 1.1rem;
   }
 
-  .form-group input,
+  .form-group input:not([type="checkbox"]),
   .form-group select,
   .form-group textarea {
     padding: 9px 10px;
@@ -860,7 +872,7 @@
     font-size: 1rem;
   }
 
-  .form-group input,
+  .form-group input:not([type="checkbox"]),
   .form-group select,
   .form-group textarea {
     padding: 8px 9px;
@@ -1070,6 +1082,11 @@
   font-size: 0.92rem;
 }
 
+.payment-steps .step .payment-instructions-button {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 @media (min-width: 800px) {
   .payment-steps .step {
     display: grid;
@@ -1203,7 +1220,7 @@
 /* Mobile touch improvements */
 @media (max-width: 768px) {
   /* Improve touch targets */
-  .form-group input,
+  .form-group input:not([type="checkbox"]),
   .form-group select,
   .form-group textarea {
     min-height: 44px; /* iOS recommended touch target size */
@@ -1213,7 +1230,7 @@
   }
 
   /* Better focus states for mobile */
-  .form-group input:focus,
+  .form-group input:not([type="checkbox"]):focus,
   .form-group select:focus,
   .form-group textarea:focus {
     transform: scale(1.02);
@@ -1221,7 +1238,7 @@
   }
 
   /* Prevent zoom on input focus for iOS */
-  .form-group input,
+  .form-group input:not([type="checkbox"]),
   .form-group select,
   .form-group textarea {
     font-size: 16px; /* Prevents zoom on iOS */
@@ -1389,5 +1406,90 @@
     font-size: 0.75rem;
     margin-left: 0;
     margin-top: 0.25rem;
+  }
+}
+
+/* Desktop visual polish */
+@media (min-width: 769px) {
+  .event-registration-modal {
+    background: linear-gradient(180deg, #ffffff 0%, #fffdf3 100%);
+    border-radius: 14px;
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.24);
+    padding: 20px 24px 22px;
+  }
+
+  .close-modal {
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    background: #fff;
+    border: 2px solid #000;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.18);
+  }
+
+  .event-registration-modal h2 {
+    margin-bottom: 16px;
+    padding: 0 42px 12px;
+    border-bottom: 3px solid rgba(0, 0, 0, 0.2);
+    font-size: clamp(1.45rem, 2.6vw, 2rem);
+  }
+
+  .registration-form {
+    gap: 18px;
+  }
+
+  .form-section {
+    background: rgba(255, 255, 255, 0.88);
+    border: 3px solid #000;
+    border-radius: 12px;
+    padding: 14px 14px 10px;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.12);
+    margin-bottom: 0;
+  }
+
+  .form-section .form-section {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 6px 0 0;
+  }
+
+  .form-section h3 {
+    font-size: 1.25rem;
+    margin-bottom: 14px;
+  }
+
+  .form-group label {
+    font-size: 0.95rem;
+  }
+
+  .team-member {
+    border-width: 3px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 0 rgba(255, 23, 68, 0.18);
+  }
+
+  .checkbox-group {
+    border-width: 2px;
+    background: linear-gradient(180deg, rgba(255, 23, 68, 0.06), rgba(255, 23, 68, 0.02));
+  }
+
+  .checkbox-label {
+    align-items: flex-start;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    margin-top: 2px;
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+  }
+
+  .register-button {
+    border-width: 4px;
+    border-radius: 10px;
+    min-width: min(320px, 100%);
   }
 }
