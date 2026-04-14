@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { API_URL, APP_CONFIG, EVENT_CATEGORIES } from '../../config';
 import { isLoggedIn, logout } from '../../services/authService';
 import { corsProtectedFetch } from '../../utils/corsHelper';
+import '../../components/comicLoading.css';
 import './styles.css';
 
 function Profile() {
@@ -127,7 +128,16 @@ function Profile() {
     if (loading) {
       return (
         <div className="loading-container">
-          <div className="loading-spinner"></div>
+          <div className="comic-loading-wrap">
+            <div className="comic-loading" role="status" aria-live="polite" aria-label="Loading profile">
+              <div className="comic-loading__sun" />
+            </div>
+            <div className="comic-loading-bars" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </div>
+          </div>
           <p>Loading your profile data...</p>
         </div>
       );
@@ -180,23 +190,6 @@ function Profile() {
               </div>
             </div>
 
-            <div className="quick-actions">
-              <h4>Quick Actions</h4>
-              <div className="action-grid">
-                <button onClick={() => navigate('/events')} className="action-card">
-                  <i className="fas fa-compass"></i>
-                  <span>Explore Events</span>
-                </button>
-                <button onClick={() => setActiveTab('registrations')} className="action-card">
-                  <i className="fas fa-clipboard-list"></i>
-                  <span>My Registrations</span>
-                </button>
-                <button onClick={() => setActiveTab('account')} className="action-card">
-                  <i className="fas fa-user-cog"></i>
-                  <span>Account Settings</span>
-                </button>
-              </div>
-            </div>
           </div>
         );
 
@@ -214,11 +207,11 @@ function Profile() {
               <div className="no-registrations">
                 <div className="empty-state">
                   <div className="empty-state-icon">
-                    <i className="fas fa-rocket"></i>
+                    <i className="fas fa-calendar-check"></i>
                   </div>
                   <h4>Ready to Join the Adventure?</h4>
                   <p>
-                    Discover amazing events at Halcyon 2025! From technical competitions to cultural performances,
+                    Discover amazing events at Halcyon 2026! From technical competitions to cultural performances,
                     there's something exciting waiting for everyone.
                   </p>
 
@@ -228,7 +221,16 @@ function Profile() {
                   </button>
                   <div className="secondary-actions">
                     <p className="help-text">
-                      Need help? <a href="/#contact_anchor" className="help-link">Contact our support team</a>
+                      Need help?{' '}
+                      <button
+                        type="button"
+                        className="help-link help-link-btn"
+                        onClick={() => {
+                          window.location.href = '/#contact_anchor';
+                        }}
+                      >
+                        Contact our support team
+                      </button>
                     </p>
                   </div>
                 </div>
@@ -337,44 +339,82 @@ function Profile() {
     }
   };
 
+  const upcomingCount = registrations.filter(reg =>
+    reg.event && new Date(reg.event.date) > new Date()
+  ).length;
+
   return (
     <div className="dashboard-container user-profile">
-      <div className="dashboard-header">
-        <h2>User Profile</h2>
-        <div className="header-buttons">
-          <button className="home-btn" onClick={() => navigate('/')}>
-            <i className="fas fa-home"></i> Home
-          </button>
-          <button className="logout-btn" onClick={handleLogout}>
-            <i className="fas fa-sign-out-alt"></i> Logout
-          </button>
+      <div className="profile-shell">
+        <div className="profile-topbar">
+          <div className="profile-identity">
+            <div className="profile-avatar">
+              <i className="fas fa-user-astronaut"></i>
+            </div>
+            <div className="profile-identity-text">
+              <h2>{userData?.name || 'User Profile'}</h2>
+              <p>{userData?.email || 'Welcome to your Halcyon dashboard'}</p>
+            </div>
+          </div>
+          <div className="header-buttons">
+            <button className="home-btn" onClick={() => navigate('/')}>
+              <i className="fas fa-home"></i> Home
+            </button>
+            <button className="logout-btn" onClick={handleLogout}>
+              <i className="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div className="dashboard-content">
-        <div className="dashboard-sidebar">
+        <div className="profile-stats-strip">
+          <div className="profile-stat-chip">
+            <i className="fas fa-clipboard-list"></i>
+            <div>
+              <strong>{registrations.length}</strong>
+              <span>Total Registrations</span>
+            </div>
+          </div>
+          <div className="profile-stat-chip">
+            <i className="fas fa-calendar-alt"></i>
+            <div>
+              <strong>{upcomingCount}</strong>
+              <span>Upcoming Events</span>
+            </div>
+          </div>
+          <div className="profile-stat-chip">
+            <i className="fas fa-user-shield"></i>
+            <div>
+              <strong>{userData?.role || 'user'}</strong>
+              <span>Account Type</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="profile-tabs">
           <button
-            className={`sidebar-btn ${activeTab === 'dashboard' ? 'active' : ''}`}
+            className={`sidebar-btn ${activeTab === 'dashboard' ? 'active' : ''} profile-tab-btn`}
             onClick={() => setActiveTab('dashboard')}
           >
             <i className="fas fa-tachometer-alt"></i> <span>Dashboard</span>
           </button>
           <button
-            className={`sidebar-btn ${activeTab === 'registrations' ? 'active' : ''}`}
+            className={`sidebar-btn ${activeTab === 'registrations' ? 'active' : ''} profile-tab-btn`}
             onClick={() => setActiveTab('registrations')}
           >
             <i className="fas fa-clipboard-list"></i> <span>My Registrations</span>
           </button>
           <button
-            className={`sidebar-btn ${activeTab === 'account' ? 'active' : ''}`}
+            className={`sidebar-btn ${activeTab === 'account' ? 'active' : ''} profile-tab-btn`}
             onClick={() => setActiveTab('account')}
           >
             <i className="fas fa-user-cog"></i> <span>Account Settings</span>
           </button>
         </div>
 
-        <div className="dashboard-main">
-          {renderContent()}
+        <div className="profile-content-wrap">
+          <div className="dashboard-main profile-main">
+            {renderContent()}
+          </div>
         </div>
       </div>
     </div>

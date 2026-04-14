@@ -1493,3 +1493,206 @@
     min-width: min(320px, 100%);
   }
 }
+
+/* ==========================================
+   Event Registration Form Final Redesign
+   ========================================== */
+.event-registration-modal {
+  background: linear-gradient(180deg, #fffef7 0%, #fffdf2 100%);
+}
+
+.event-registration-modal h2 {
+  text-shadow: none;
+  font-family: 'FatKat', 'Fredoka One', 'Arial Black', sans-serif;
+  color: #ff1744;
+  -webkit-text-stroke: 3px #000;
+  paint-order: stroke fill;
+  letter-spacing: 2px;
+  padding-top: 16px;
+  padding-bottom: 20px;
+}
+
+.registration-form {
+  gap: 1rem;
+}
+
+.form-section {
+  background: rgba(255, 255, 255, 0.92);
+  border: 3px solid #000;
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.14);
+  padding: 14px 14px 10px;
+}
+
+.highlight-field {
+  border: 3px solid #000;
+  border-left: 5px solid #000;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.14);
+}
+
+.form-section h3 {
+  margin: 0 0 12px;
+  font-size: clamp(1.08rem, 2.1vw, 1.3rem);
+  border-bottom-width: 4px;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.form-group input:not([type="checkbox"]),
+.form-group select,
+.form-group textarea {
+  border-width: 4px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.team-member {
+  border-color: #000 !important;
+  border-width: 1px;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.team-member h5 {
+  margin-bottom: 10px;
+  color: #111 !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 6px;
+}
+
+/* Final thin-border overrides for participant details area */
+.highlight-field {
+  border: 0.5px solid #000 !important;
+  border-left: 0.5px solid #000 !important;
+  box-shadow: none !important;
+}
+
+.team-member {
+  border: 0.5px solid #000 !important;
+  box-shadow: none !important;
+}
+
+.team-member h5 {
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.3) !important;
+}
+
+.user-info {
+  border: 0.5px solid rgba(0, 0, 0, 0.5) !important;
+  box-shadow: none !important;
+}
+
+/* Same thin style for participant input fields (Name/Email/Mobile/USN) */
+.team-member .form-group input:not([type="checkbox"]),
+.team-member .form-group select,
+.team-member .form-group textarea {
+  border: 0.5px solid #000 !important;
+  box-shadow: none !important;
+}
+
+.highlight-field input:not([type="checkbox"]),
+.highlight-field select,
+.highlight-field textarea {
+  border: 0.5px solid #000 !important;
+  box-shadow: none !important;
+}
+
+.user-info {
+  border: 2px solid rgba(0, 0, 0, 0.45);
+  box-shadow: none;
+}
+
+.participant-fields-grid {
+  gap: 10px 12px;
+}
+
+/* Clean custom checkbox */
+.checkbox-group {
+  background: #fff;
+  border: 2px solid rgba(255, 23, 68, 0.32);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.checkbox-label {
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.45rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  border: 3px solid #000;
+  border-radius: 5px;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  transform: none;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.checkbox-label input[type="checkbox"]::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: #ff1744;
+  border-radius: 2px;
+  transform: scale(0);
+  transition: transform 0.16s ease;
+}
+
+.checkbox-label input[type="checkbox"]:checked::after {
+  transform: scale(1);
+}
+
+.checkbox-text {
+  font-weight: 600;
+  color: #202020;
+}
+
+.form-group .field-note {
+  color: rgba(0, 0, 0, 0.64);
+}
+
+.register-button {
+  min-width: min(360px, 100%);
+  padding: 12px 22px;
+}
+
+@media (max-width: 768px) {
+  .form-section {
+    padding: 12px 10px 8px;
+    border-width: 2px;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  .form-group input:not([type="checkbox"]),
+  .form-group select,
+  .form-group textarea {
+    border-width: 3px;
+    border-radius: 8px;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
+  }
+}

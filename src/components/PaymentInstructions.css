@@ -78,11 +78,12 @@
 }
 
 .payment-icon {
-  display: block;
+  display: inline-flex;
   font-size: 3rem;
   color: #FF1744;
-  margin-bottom: 14px;
+  margin-bottom: 0;
   text-shadow: 0 0 10px rgba(255, 23, 68, 0.3);
+  flex-shrink: 0;
 }
 
 .payment-header {
@@ -91,9 +92,16 @@
   background: rgba(255, 250, 205, 0.82);
 }
 
+.payment-header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
 .payment-header h2 {
   color: #FF1744;
-  margin: 0 0 15px;
+  margin: 0;
   font-size: 2rem;
   font-weight: 600;
   text-shadow: 0 0 10px rgba(255, 23, 68, 0.3);
@@ -571,12 +579,10 @@
 
   .payment-icon {
     font-size: 2.35rem;
-    margin-bottom: 8px;
   }
 
   .payment-header h2 {
     font-size: 1.75rem;
-    margin-bottom: 10px;
   }
 
   .event-details {
