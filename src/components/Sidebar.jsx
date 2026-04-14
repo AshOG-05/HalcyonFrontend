@@ -199,6 +199,10 @@ function Sidebar({ externalToggle }) {
               <i className="fas fa-compass"></i>
               <span>Events</span>
             </a>
+            {/* <a title="Pronites" href="#special_guests" onClick={closeSidebar}>
+              <i className="fas fa-star"></i>
+              <span>Pronites</span>
+            </a> */}
             <a title="Contact" href="#contact_anchor" onClick={closeSidebar}>
               <i className="fas fa-envelope"></i>
               <span>Contact</span>
