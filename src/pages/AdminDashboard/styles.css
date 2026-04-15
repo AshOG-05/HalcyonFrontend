@@ -2943,6 +2943,14 @@
 .dashboard-container.admin-dashboard .search-icon{
   color: var(--ui-text-muted);
   flex-shrink: 0;
+  /* Defensive reset: other dashboards define a global `.search-icon` as `position:absolute` */
+  position: static;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  transform: none;
+  z-index: auto;
 }
 
 .dashboard-container.admin-dashboard .search-input{
