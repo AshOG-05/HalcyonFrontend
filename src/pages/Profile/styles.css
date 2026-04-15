@@ -735,6 +735,15 @@
   text-decoration: underline;
 }
 
+.help-link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
 /* Mobile Responsive Improvements */
 @media (max-width: 768px) {
   .no-registrations {
@@ -2188,4 +2197,717 @@
   .card-footer {
     padding: 0.65rem 0.9rem 0.9rem 0.9rem !important;
   }
+}
+
+/* ==========================================
+   Profile Final Theme (v4 unified)
+   ========================================== */
+.user-profile {
+  --pf-red: #ff1744;
+  --pf-blue: #00b0ff;
+  --pf-yellow: #ffeb3b;
+  --pf-ink: #111111;
+  --pf-paper: #fffacd;
+  --pf-card: #fffef5;
+  --pf-border: #000000;
+  --pf-shadow: 6px 6px 0 rgba(0, 0, 0, 0.2);
+  font-family: var(--font-body, "Poppins", sans-serif) !important;
+  color: var(--pf-ink) !important;
+}
+
+.user-profile .dashboard-header h2,
+.user-profile .welcome-section h3,
+.user-profile .registrations-header h3,
+.user-profile .account-settings-container h3,
+.user-profile .quick-actions h4,
+.user-profile .event-name {
+  font-family: var(--font-display, "Fredoka One", "Arial Black", sans-serif) !important;
+  letter-spacing: 0.6px !important;
+  color: var(--pf-ink) !important;
+}
+
+.user-profile .dashboard-header,
+.user-profile .dashboard-sidebar,
+.user-profile .dashboard-main,
+.user-profile .quick-actions,
+.user-profile .stat-card,
+.user-profile .registration-card,
+.user-profile .registrations-header,
+.user-profile .user-info-card,
+.user-profile .welcome-section,
+.user-profile .loading-container,
+.user-profile .error-container,
+.user-profile .no-registrations {
+  background: var(--pf-card) !important;
+  border: 3px solid var(--pf-border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--pf-shadow) !important;
+  backdrop-filter: none !important;
+}
+
+.user-profile .dashboard-header {
+  margin: 0.75rem 0.75rem 0 !important;
+  padding: 1rem 1.25rem !important;
+}
+
+.user-profile .dashboard-content {
+  gap: 0.9rem !important;
+  padding: 0.75rem !important;
+}
+
+.user-profile .dashboard-main {
+  padding: 1rem !important;
+}
+
+.user-profile .dashboard-sidebar {
+  padding: 0.75rem 0.35rem !important;
+}
+
+.user-profile .sidebar-btn {
+  font-family: var(--font-display, "Fredoka One", "Arial Black", sans-serif) !important;
+  font-size: 0.88rem !important;
+  border: 2px solid transparent !important;
+  border-radius: 10px !important;
+  margin: 0.2rem 0.35rem !important;
+  padding: 0.7rem 0.8rem !important;
+  color: #222 !important;
+}
+
+.user-profile .sidebar-btn:hover {
+  background: rgba(0, 176, 255, 0.12) !important;
+  border-color: #000 !important;
+}
+
+.user-profile .sidebar-btn.active {
+  background: rgba(255, 235, 59, 0.32) !important;
+  border-color: #000 !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+.user-profile .home-btn,
+.user-profile .logout-btn,
+.user-profile .action-card,
+.user-profile .action-btn,
+.user-profile .view-event-btn,
+.user-profile .retry-button,
+.user-profile .explore-btn {
+  font-family: var(--font-display, "Fredoka One", "Arial Black", sans-serif) !important;
+  border: 3px solid #000 !important;
+  border-radius: 10px !important;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.18) !important;
+  text-transform: none !important;
+}
+
+.user-profile .home-btn,
+.user-profile .view-event-btn,
+.user-profile .action-card {
+  background: var(--pf-blue) !important;
+  color: #000 !important;
+}
+
+.user-profile .logout-btn,
+.user-profile .retry-button,
+.user-profile .danger-btn {
+  background: var(--pf-red) !important;
+  color: #fff !important;
+}
+
+.user-profile .explore-btn {
+  background: var(--pf-yellow) !important;
+  color: #000 !important;
+  animation: none !important;
+}
+
+.user-profile .home-btn:hover,
+.user-profile .logout-btn:hover,
+.user-profile .action-card:hover,
+.user-profile .action-btn:hover,
+.user-profile .view-event-btn:hover,
+.user-profile .retry-button:hover,
+.user-profile .explore-btn:hover {
+  background: #fff !important;
+  color: #000 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.24) !important;
+}
+
+.user-profile .stat-icon,
+.user-profile .user-avatar {
+  background: #fff !important;
+  border: 3px solid #000 !important;
+  border-radius: 12px !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+.user-profile .status-badge {
+  background: var(--pf-yellow) !important;
+  border: 2px solid #000 !important;
+  color: #000 !important;
+  font-weight: 800 !important;
+}
+
+.user-profile .category-tag {
+  border: 2px solid #000 !important;
+  border-radius: 999px !important;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15) !important;
+}
+
+.user-profile .card-header {
+  background: rgba(255, 235, 59, 0.2) !important;
+  border-bottom: 2px dashed rgba(0, 0, 0, 0.22) !important;
+}
+
+.user-profile .card-footer {
+  background: rgba(255, 255, 255, 0.55) !important;
+  border-top: 2px dashed rgba(0, 0, 0, 0.18) !important;
+}
+
+.user-profile .detail-row,
+.user-profile .detail-label,
+.user-profile .stat-label,
+.user-profile .welcome-section p,
+.user-profile .help-text,
+.user-profile .empty-state p {
+  color: rgba(0, 0, 0, 0.74) !important;
+}
+
+@media (max-width: 768px) {
+  .user-profile .dashboard-header {
+    margin: 0.5rem !important;
+    padding: 0.9rem !important;
+  }
+
+  .user-profile .dashboard-content {
+    padding: 0.5rem !important;
+  }
+
+  .user-profile .dashboard-sidebar {
+    margin: 0 0.1rem !important;
+    border-radius: 10px !important;
+  }
+}
+
+/* ==========================================
+   User Dashboard Rebuild (Comic - no rays)
+   ========================================== */
+.user-profile {
+  --ud-red: #ff1744;
+  --ud-blue: #00b0ff;
+  --ud-yellow: #ffeb3b;
+  --ud-green: #00e676;
+  --ud-ink: #111111;
+  --ud-paper: #fffacd;
+  --ud-card: #fffef7;
+  --ud-muted: #3d3d3d;
+  --ud-border: #000000;
+  --ud-shadow: 6px 6px 0 rgba(0, 0, 0, 0.2);
+  min-height: 100vh;
+  color: var(--ud-ink) !important;
+  font-family: var(--font-body, "Poppins", sans-serif) !important;
+  background-color: var(--ud-paper) !important;
+  background-image:
+    radial-gradient(circle, rgba(0, 0, 0, 0.12) 1.2px, transparent 1.2px),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.018),
+      rgba(0, 0, 0, 0.018) 1px,
+      transparent 1px,
+      transparent 4px
+    ) !important;
+  background-size: 24px 24px, 100% 100% !important;
+}
+
+.user-profile::before,
+.user-profile .no-registrations::before {
+  display: none !important;
+  content: none !important;
+}
+
+.user-profile .dashboard-header h2,
+.user-profile .welcome-section h3,
+.user-profile .registrations-header h3,
+.user-profile .account-settings-container h3,
+.user-profile .quick-actions h4,
+.user-profile .event-name,
+.user-profile .empty-state h4 {
+  font-family: var(--font-display, "Fredoka One", "Arial Black", sans-serif) !important;
+  letter-spacing: 0.5px !important;
+  color: var(--ud-ink) !important;
+  text-shadow: none !important;
+}
+
+.user-profile .dashboard-header,
+.user-profile .dashboard-sidebar,
+.user-profile .dashboard-main,
+.user-profile .welcome-section,
+.user-profile .quick-actions,
+.user-profile .stat-card,
+.user-profile .registrations-header,
+.user-profile .registration-card,
+.user-profile .user-info-card,
+.user-profile .loading-container,
+.user-profile .error-container,
+.user-profile .no-registrations {
+  background: var(--ud-card) !important;
+  border: 3px solid var(--ud-border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--ud-shadow) !important;
+  backdrop-filter: none !important;
+}
+
+.user-profile .dashboard-header {
+  margin: 0.8rem 0.8rem 0 !important;
+  padding: 1rem 1.2rem !important;
+}
+
+.user-profile .dashboard-content {
+  display: flex;
+  gap: 0.9rem;
+  padding: 0.8rem;
+  min-height: calc(100vh - 88px);
+}
+
+.user-profile .dashboard-sidebar {
+  width: 250px !important;
+  padding: 0.7rem 0.4rem !important;
+  flex-shrink: 0;
+}
+
+.user-profile .dashboard-main {
+  flex: 1;
+  padding: 1rem !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.user-profile .sidebar-btn {
+  margin: 0.2rem 0.2rem !important;
+  border: 2px solid transparent !important;
+  border-radius: 10px !important;
+  padding: 0.72rem 0.8rem !important;
+  color: var(--ud-ink) !important;
+  font-family: var(--font-display, "Fredoka One", "Arial Black", sans-serif) !important;
+  font-size: 0.86rem !important;
+}
+
+.user-profile .sidebar-btn:hover {
+  background: rgba(0, 176, 255, 0.12) !important;
+  border-color: var(--ud-border) !important;
+}
+
+.user-profile .sidebar-btn.active {
+  background: rgba(255, 235, 59, 0.36) !important;
+  border-color: var(--ud-border) !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+.user-profile .header-buttons,
+.user-profile .account-actions {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.user-profile .home-btn,
+.user-profile .logout-btn,
+.user-profile .action-card,
+.user-profile .action-btn,
+.user-profile .view-event-btn,
+.user-profile .explore-btn,
+.user-profile .retry-button {
+  border: 3px solid #000 !important;
+  border-radius: 10px !important;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.18) !important;
+  font-family: var(--font-display, "Fredoka One", "Arial Black", sans-serif) !important;
+}
+
+.user-profile .home-btn,
+.user-profile .action-card,
+.user-profile .view-event-btn {
+  background: var(--ud-blue) !important;
+  color: #000 !important;
+}
+
+.user-profile .logout-btn,
+.user-profile .danger-btn,
+.user-profile .retry-button {
+  background: var(--ud-red) !important;
+  color: #fff !important;
+}
+
+.user-profile .explore-btn {
+  background: var(--ud-yellow) !important;
+  color: #000 !important;
+  animation: none !important;
+}
+
+.user-profile .home-btn:hover,
+.user-profile .logout-btn:hover,
+.user-profile .action-card:hover,
+.user-profile .action-btn:hover,
+.user-profile .view-event-btn:hover,
+.user-profile .explore-btn:hover,
+.user-profile .retry-button:hover {
+  background: #fff !important;
+  color: #000 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.22) !important;
+}
+
+.user-profile .stat-icon,
+.user-profile .user-avatar {
+  background: #fff !important;
+  border: 3px solid #000 !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.16) !important;
+}
+
+.user-profile .stats-grid {
+  gap: 0.9rem !important;
+}
+
+.user-profile .stat-label,
+.user-profile .detail-label,
+.user-profile .welcome-section p,
+.user-profile .detail-row,
+.user-profile .help-text,
+.user-profile .empty-state p {
+  color: var(--ud-muted) !important;
+}
+
+.user-profile .registrations-header {
+  padding: 0.75rem 0.9rem !important;
+}
+
+.user-profile .registrations-count {
+  background: var(--ud-yellow) !important;
+  color: #000 !important;
+  border: 2px solid #000 !important;
+  font-weight: 800 !important;
+}
+
+.user-profile .registration-card {
+  overflow: hidden;
+}
+
+.user-profile .card-header {
+  background: rgba(255, 235, 59, 0.2) !important;
+  border-bottom: 2px dashed rgba(0, 0, 0, 0.2) !important;
+}
+
+.user-profile .card-footer {
+  background: rgba(255, 255, 255, 0.6) !important;
+  border-top: 2px dashed rgba(0, 0, 0, 0.2) !important;
+}
+
+.user-profile .category-tag {
+  border: 2px solid #000 !important;
+  border-radius: 999px !important;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.12) !important;
+}
+
+.user-profile .status-badge {
+  border: 2px solid #000 !important;
+  color: #000 !important;
+  font-weight: 800 !important;
+}
+
+.user-profile .status-badge.completed { background: var(--ud-green) !important; }
+.user-profile .status-badge.not_required { background: var(--ud-blue) !important; }
+.user-profile .status-badge.pending { background: var(--ud-yellow) !important; }
+.user-profile .status-badge.failed { background: #ff6b6b !important; }
+.user-profile .status-badge.pay_on_event_day,
+.user-profile .status-badge.payment_required { background: #ffd54f !important; }
+
+.user-profile .user-detail {
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.25) !important;
+}
+
+.user-profile .user-detail:last-child {
+  border-bottom: none !important;
+}
+
+.user-profile .detail-value.account-type {
+  color: var(--ud-red) !important;
+  text-transform: capitalize;
+}
+
+@media (max-width: 900px) {
+  .user-profile .dashboard-content {
+    flex-direction: column;
+    padding: 0.55rem;
+  }
+
+  .user-profile .dashboard-sidebar {
+    width: 100% !important;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 0.4rem !important;
+  }
+
+  .user-profile .sidebar-btn {
+    white-space: nowrap;
+    margin: 0 0.25rem !important;
+  }
+}
+
+/* ==========================================
+   User Profile New Structure Layout
+   ========================================== */
+.user-profile .profile-shell {
+  padding: 0.75rem;
+}
+
+.user-profile .profile-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: var(--ud-card);
+  border: 3px solid #000;
+  border-radius: 14px;
+  box-shadow: var(--ud-shadow);
+  padding: 0.9rem 1rem;
+}
+
+.user-profile .profile-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-width: 0;
+}
+
+.user-profile .profile-avatar {
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+  border: 3px solid #000;
+  border-radius: 12px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.16);
+}
+
+.user-profile .profile-avatar i {
+  color: var(--ud-blue);
+  font-size: 1.6rem;
+}
+
+.user-profile .profile-identity-text h2 {
+  margin: 0;
+  font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+}
+
+.user-profile .profile-identity-text p {
+  margin: 0.15rem 0 0;
+  color: var(--ud-muted);
+  font-size: 0.9rem;
+}
+
+.user-profile .profile-stats-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-top: 0.75rem;
+}
+
+.user-profile .profile-stat-chip {
+  background: var(--ud-card);
+  border: 3px solid #000;
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.16);
+  padding: 0.65rem 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.user-profile .profile-stat-chip i {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #000;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ud-blue);
+}
+
+.user-profile .profile-stat-chip strong {
+  display: block;
+  font-family: var(--font-display, "Fredoka One", "Arial Black", sans-serif);
+  font-size: 1.05rem;
+  color: #000;
+  line-height: 1.1;
+}
+
+.user-profile .profile-stat-chip span {
+  display: block;
+  color: #444;
+  font-size: 0.8rem;
+}
+
+.user-profile .profile-tabs {
+  margin-top: 0.75rem;
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.user-profile .profile-tab-btn {
+  flex: 1 1 180px;
+  justify-content: center;
+}
+
+.user-profile .profile-content-wrap {
+  margin-top: 0.75rem;
+}
+
+.user-profile .profile-main {
+  border: 3px solid #000 !important;
+  border-radius: 12px !important;
+  background: var(--ud-card) !important;
+  box-shadow: var(--ud-shadow) !important;
+  padding: 1rem !important;
+}
+
+/* cancel legacy two-column layout for profile page */
+.user-profile .dashboard-content {
+  display: block !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+.user-profile .dashboard-sidebar {
+  width: auto !important;
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.user-profile .dashboard-header {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .user-profile .profile-topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .user-profile .header-buttons {
+    width: 100%;
+  }
+
+  .user-profile .header-buttons .home-btn,
+  .user-profile .header-buttons .logout-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .user-profile .profile-stats-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================
+   Profile Font + Header Button Fixes
+   ========================================== */
+/* Keep comic display font ONLY here */
+.user-profile .welcome-section h3 {
+  font-family: var(--font-display, "Fredoka One", "Arial Black", sans-serif) !important;
+}
+
+/* Remove display/fat font from all other profile text/buttons */
+.user-profile .profile-identity-text h2,
+.user-profile .dashboard-header h2,
+.user-profile .registrations-header h3,
+.user-profile .account-settings-container h3,
+.user-profile .quick-actions h4,
+.user-profile .event-name,
+.user-profile .empty-state h4,
+.user-profile .sidebar-btn,
+.user-profile .home-btn,
+.user-profile .logout-btn,
+.user-profile .action-card,
+.user-profile .action-btn,
+.user-profile .view-event-btn,
+.user-profile .explore-btn,
+.user-profile .retry-button {
+  font-family: var(--font-body, "Poppins", sans-serif) !important;
+  letter-spacing: normal !important;
+}
+
+/* Home and Logout: same dimensions */
+.user-profile .header-buttons .home-btn,
+.user-profile .header-buttons .logout-btn {
+  width: 132px !important;
+  min-width: 132px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  padding: 0 12px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.45rem !important;
+}
+
+@media (max-width: 900px) {
+  .user-profile .header-buttons .home-btn,
+  .user-profile .header-buttons .logout-btn {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+/* ==========================================
+   Registrations Empty State Final Fixes
+   ========================================== */
+.user-profile .empty-state h4 {
+  color: #1f2937 !important;
+  -webkit-text-fill-color: #1f2937 !important;
+  background: none !important;
+  text-shadow: none !important;
+}
+
+.user-profile .empty-state p {
+  color: #1f2937 !important;
+}
+
+.user-profile .empty-state-icon i {
+  color: #3b82f6 !important;
+  text-shadow: none !important;
+  animation: none !important;
+}
+
+/* No display/fat font in top stat strip */
+.user-profile .profile-stat-chip,
+.user-profile .profile-stat-chip strong,
+.user-profile .profile-stat-chip span {
+  font-family: var(--font-body, "Poppins", sans-serif) !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+.user-profile .explore-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.6rem !important;
+  line-height: 1 !important;
+}
+
+.user-profile .explore-btn i {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  font-size: 0.95rem !important;
+  margin: 0 !important;
+  transform: none !important;
 }

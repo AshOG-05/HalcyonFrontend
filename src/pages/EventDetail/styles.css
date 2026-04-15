@@ -1,4 +1,4 @@
-/* Event Detail Page - Black Space Theme */
+/* Event Detail — category comic / sunray theme (matches category listing pages) */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 /* Custom scrollbar for the entire page */
@@ -26,14 +26,59 @@ html {
 }
 
 .event-detail-container {
+  width: 100%;
   min-height: 100vh;
-  background-color: #000;
-  background: linear-gradient(to bottom, #000000, #0a0a14);
-  color: #fff;
-  padding: clamp(1rem, 3vw, 2rem);
+  margin: 0;
+  box-sizing: border-box;
+  background-color: var(--cat-paper, #fffacd);
+  background-image:
+    repeating-conic-gradient(
+      from -10deg at 72% 56%,
+      var(--cat-ray-conic-1, rgba(239, 0, 57, 0.22)) 0deg 7deg,
+      var(--cat-ray-conic-2, rgba(123, 0, 34, 0.08)) 7deg 14deg
+    ),
+    radial-gradient(
+      circle at 72% 56%,
+      var(--cat-ray-glow-1, rgba(255, 194, 0, 0.14)) 0%,
+      var(--cat-ray-glow-2, rgba(255, 194, 0, 0.06)) 16%,
+      var(--cat-ray-glow-end, rgba(255, 194, 0, 0)) 48%
+    ),
+    radial-gradient(circle, rgba(0, 0, 0, 0.1) 1.5px, transparent 1.5px),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.02),
+      rgba(0, 0, 0, 0.02) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  background-size: 100% 100%, 100% 100%, 25px 25px, 100% 100%;
+  color: #121212;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
   padding-top: clamp(4.5rem, 10vw, 5.5rem);
   position: relative;
   overflow: hidden;
+}
+
+.event-detail-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 72% 56%,
+    var(--cat-ray-vignette, rgba(239, 0, 57, 0.1)) 0%,
+    var(--cat-ray-vignette-end, rgba(239, 0, 57, 0)) 44%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.event-detail-inner {
+  max-width: min(1000px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 /* Background elements */
@@ -157,18 +202,21 @@ html {
 .event-detail-content {
   position: relative;
   z-index: 2;
-  max-width: 1000px;
+  width: 100%;
   margin: 0 auto;
 }
 
 .event-detail-card {
-  background: rgba(15, 15, 25, 0.6);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    var(--cat-paper-soft, #fffef5) 100%
+  );
+  backdrop-filter: none;
+  border-radius: 12px;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  border: 1px solid rgba(30, 30, 50, 0.4);
-  border-top: 3px solid rgba(255, 23, 68, 0.7);
+  border: 4px solid #000;
   padding: 30px;
   margin-bottom: 30px;
   animation: fadeIn 0.5s ease-in-out;
@@ -178,25 +226,35 @@ html {
 .event-detail-card::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at center, rgba(255, 23, 68, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
-  opacity: 0.5;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--cat-accent, var(--color-red));
+  border-bottom: 2px solid #000;
+  z-index: 2;
   pointer-events: none;
 }
 
 .event-detail-card::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(255, 23, 68, 0.05) 0%, rgba(0, 0, 0, 0) 20%);
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(var(--cat-accent-rgb), 0.1) 0%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  opacity: 0;
   pointer-events: none;
-  opacity: 0.5;
+  transition: opacity 0.4s ease;
+}
+
+.event-detail-card:hover::after {
+  opacity: 1;
 }
 
 @keyframes fadeIn {
@@ -207,7 +265,7 @@ html {
 .event-header {
   text-align: center;
   margin-bottom: 40px;
-  border-bottom: 1px solid rgba(255, 23, 68, 0.2);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.12);
   padding-bottom: 30px;
   position: relative;
   z-index: 1;
@@ -215,12 +273,15 @@ html {
 
 .event-title {
   font-size: clamp(1.5rem, 5vw, 3rem);
-  color: #fff;
+  color: var(--cat-accent, var(--color-red));
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 2px;
   position: relative;
   display: inline-block;
+  -webkit-text-stroke: 1px #000;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.4);
 }
 
 .event-title:after {
@@ -231,7 +292,12 @@ html {
   transform: translateX(-50%);
   width: 80px;
   height: 3px;
-  background: linear-gradient(to right, transparent, var(--color-red), transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--cat-accent, var(--color-red)),
+    transparent
+  );
 }
 
 .event-meta {
@@ -246,14 +312,20 @@ html {
   align-items: center;
   gap: 12px;
   padding: 15px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.92);
   border-radius: 8px;
-  border: 1px solid rgba(255, 23, 68, 0.1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 3px solid #000;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.15);
+  color: #111;
+}
+
+.event-date-time span,
+.event-location span {
+  color: rgba(0, 0, 0, 0.88);
 }
 
 .event-date-time i, .event-location i {
-  color: var(--color-red);
+  color: var(--cat-accent, var(--color-red));
   font-size: 1.3rem;
 }
 
@@ -272,15 +344,15 @@ html {
 .event-rules h3,
 .event-prizes h3,
 .event-coordinators h3 {
-  color: var(--color-red);
+  color: var(--cat-accent, var(--color-red));
   margin-bottom: 20px;
   font-size: 1.5rem;
-  border-bottom: 1px solid rgba(255, 23, 68, 0.2);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
   padding-bottom: 10px;
 }
 
 .event-description-full p {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(0, 0, 0, 0.82);
   line-height: 1.6;
 }
 
@@ -296,27 +368,28 @@ html {
 .event-rules li, .event-prizes li, .event-coordinators li {
   padding: 12px 15px;
   margin-bottom: 10px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.88);
   border-radius: 8px;
   position: relative;
   padding-left: 35px;
-  border: 1px solid rgba(255, 23, 68, 0.1);
+  border: 2px solid #000;
   transition: all 0.3s ease;
   line-height: 1.6;
   min-height: 44px;
   display: flex;
   align-items: center;
+  color: rgba(0, 0, 0, 0.85);
 }
 
 .event-rules li:hover, .event-prizes li:hover, .event-coordinators li:hover {
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--cat-paper-soft, #fffef6);
   transform: translateX(5px);
-  border-color: rgba(255, 23, 68, 0.3);
+  border-color: #000;
 }
 
 .event-rules li:before {
   content: "•";
-  color: var(--color-red);
+  color: var(--cat-accent, var(--color-red));
   font-size: 1.5rem;
   position: absolute;
   left: 12px;
@@ -345,25 +418,26 @@ html {
   flex-direction: column;
   gap: 1rem;
   margin-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 2px dashed rgba(0, 0, 0, 0.15);
   padding-top: 1.5rem;
   position: relative;
   z-index: 1;
 }
 
-/* Event actions back button - different from fixed back button */
+/* Event actions back button — same comic style as nav .back-button */
 .event-actions .back-button {
-  background: linear-gradient(135deg, #666, #555);
-  color: #fff;
-  border: none;
+  background: var(--cat-btn-idle, #fffef6);
+  color: #000;
+  border: 3px solid #000;
   padding: 1rem 1.5rem;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
+  font-family: var(--font-body, 'Poppins', sans-serif);
   cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  transition: all 0.25s ease;
+  text-transform: none;
+  letter-spacing: 0.02em;
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -373,39 +447,42 @@ html {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
 .event-actions .back-button:hover {
-  background: linear-gradient(135deg, #777, #666);
+  background: var(--cat-accent, var(--color-red));
+  color: var(--cat-on-accent, #fff);
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.24);
 }
 
 .event-actions .back-button:active {
   transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
 .event-actions .back-button i {
   font-size: 1rem;
-  color: #ccc;
+  color: inherit;
 }
 
 .event-actions .back-button:focus {
-  outline: 2px solid #666;
+  outline: 3px solid var(--cat-accent, var(--color-red));
   outline-offset: 2px;
 }
 
 .event-registration-info {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.75);
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  color: #111;
 }
 
 .registration-fee, .team-size-info {
@@ -416,7 +493,7 @@ html {
 }
 
 .registration-fee i, .team-size-info i {
-  color: var(--color-red);
+  color: var(--cat-accent, var(--color-red));
   font-size: 1.2rem;
   width: 20px;
   text-align: center;
@@ -436,12 +513,12 @@ html {
 }
 
 .register-button {
-  background: linear-gradient(135deg, var(--color-red), #ff3d68);
-  color: #000;
-  border: none;
+  background: var(--cat-accent, var(--color-red));
+  color: var(--cat-on-accent, #fff);
+  border: 3px solid #000;
   padding: 1rem 1.5rem;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 1rem;
@@ -451,7 +528,7 @@ html {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 15px rgba(255, 23, 68, 0.3);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   position: relative;
@@ -474,14 +551,15 @@ html {
 }
 
 .register-button:hover {
-  background: linear-gradient(135deg, #ff3d68, var(--color-red));
+  background: color-mix(in srgb, var(--cat-accent, var(--color-red)) 82%, #000);
+  color: var(--cat-on-accent, #fff);
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(255, 23, 68, 0.4);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.24);
 }
 
 .register-button:active {
   transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(255, 23, 68, 0.3);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
 .register-button:disabled {
@@ -508,7 +586,7 @@ html {
 
 /* Focus states for accessibility */
 .register-button:focus {
-  outline: 2px solid #FF1744;
+  outline: 3px solid var(--cat-accent, var(--color-red));
   outline-offset: 2px;
 }
 
@@ -548,7 +626,11 @@ html {
   left: -10px;
   right: -10px;
   bottom: -10px;
-  background: radial-gradient(circle at center, rgba(255, 23, 68, 0.05) 0%, transparent 70%);
+  background: radial-gradient(
+    circle at center,
+    rgba(var(--cat-accent-rgb), 0.06) 0%,
+    transparent 70%
+  );
   border-radius: 15px;
   z-index: -1;
   opacity: 0;
@@ -570,73 +652,69 @@ html {
   padding: 0 1rem;
 }
 
-/* Back button styling - static at top */
+/* Back button — match category listing (body font + category tint) */
 .back-button {
   position: static;
-  background: rgba(0, 0, 0, 0.3);
-  color: rgba(255, 255, 255, 0.8);
-  border: none;
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  background: var(--cat-btn-idle, #fffef6);
+  color: #000;
   padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 0.9rem;
-  font-weight: 400;
+  font-weight: 600;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  border: 1px solid rgba(255, 23, 68, 0.15);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(5px);
-  letter-spacing: 0.3px;
-  opacity: 0.8;
-  transition: all 0.3s ease;
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.02em;
+  text-transform: none;
+  transition: all 0.25s ease;
 }
 
 .back-button:hover {
-  background: rgba(255, 23, 68, 0.1);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  border-color: rgba(255, 23, 68, 0.3);
-  color: #ff5d8a;
-  opacity: 1;
+  background: var(--cat-accent, var(--color-red));
+  color: var(--cat-on-accent, #fff);
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.25);
 }
 
 .back-button:active {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 .back-button i {
   font-size: 0.75rem;
-  color: #FF1744;
+  color: inherit;
   margin-right: 1px;
 }
 
 .loading {
   text-align: center;
   font-size: 1.2rem;
-  color: #fff;
+  color: rgba(0, 0, 0, 0.82);
   padding: 3rem;
-  background: rgba(15, 15, 25, 0.7);
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 12px;
   margin: 2rem auto;
   max-width: 600px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(30, 30, 50, 0.4);
-  font-weight: 500;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.15);
+  border: 3px solid #000;
+  font-weight: 600;
 }
 
 .error {
-  background: linear-gradient(to bottom, rgba(40, 10, 10, 0.7), rgba(30, 5, 5, 0.7));
-  color: #ff6b6b;
+  background: rgba(255, 255, 255, 0.95);
+  color: #b71c1c;
   padding: 1.5rem;
-  border-radius: 10px;
+  border-radius: 12px;
   margin: 2rem auto;
   max-width: 600px;
   text-align: center;
-  border: 1px solid rgba(244, 67, 54, 0.3);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(5px);
-  font-weight: 500;
+  border: 3px solid #000;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.15);
+  font-weight: 600;
 }
 
 .registration-message {
@@ -665,7 +743,7 @@ html {
     font-size: 1.1rem;
     min-height: 55px;
     border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(255, 23, 68, 0.25);
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
   }
 
   /* Navigation buttons responsive */
@@ -826,13 +904,14 @@ html {
 
   /* Fixed back button (for error states) - keep small */
   .back-button:not(.event-actions .back-button) {
-    position: fixed;
-    top: 15px;
-    left: 15px;
+    position: sticky;
+    top: 10px;
+    left: auto;
     padding: 8px 12px;
     font-size: 0.8rem;
     width: auto;
-    margin-bottom: 0;
+    margin-bottom: 1rem;
+    z-index: 3;
   }
 }
 

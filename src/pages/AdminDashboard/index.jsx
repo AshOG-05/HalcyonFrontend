@@ -368,6 +368,15 @@ function AdminDashboard() {
   const handleEditEvent = (event) => {
     setEventToEdit(event);
     setShowEventForm(true);
+
+    // Bring the edit form into view immediately (works for both page and inner scroll container).
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const adminMain = document.querySelector('.dashboard-container.admin-dashboard .dashboard-main');
+      if (adminMain) {
+        adminMain.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
   };
 
   const handleDeleteEvent = async (eventId) => {
@@ -1896,7 +1905,7 @@ const getAllRegistrations = async (req, res) => {
   };
 
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container admin-dashboard">
       <div className="dashboard-header">
         <h2>
           Admin Dashboard
@@ -1953,7 +1962,7 @@ const getAllRegistrations = async (req, res) => {
               <div className="stat-card events">
                 <h4><i className="fas fa-calendar-alt"></i> Total Events</h4>
                 <div className="stat-value">{events.length}</div>
-                <div className="stat-description">Events created for Halcyon 2025</div>
+                <div className="stat-description">Events created for Halcyon 2026</div>
               </div>
 
               <div className="stat-card registrations">

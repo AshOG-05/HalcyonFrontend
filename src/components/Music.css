@@ -1,11 +1,21 @@
-/* Music Page Styles - Comic Pop Art Theme */
+/* Music Page Styles — background aligned with home (App.css) */
 .music-page {
   min-height: 100vh;
-  background: #FFFACD;
+  background-color: #FFFACD;
   background-image:
-    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
-    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px);
-  background-size: 25px 25px, 100%;
+    repeating-conic-gradient(
+      from -10deg at 72% 56%,
+      rgba(239, 0, 57, 0.30) 0deg 7deg,
+      rgba(123, 0, 34, 0.11) 7deg 14deg
+    ),
+    radial-gradient(
+      circle at 72% 56%,
+      rgba(255, 194, 0, 0.20) 0%,
+      rgba(255, 194, 0, 0.10) 15%,
+      rgba(255, 194, 0, 0) 48%
+    );
+  background-size: 100% 100%, 100% 100%;
+  background-attachment: fixed;
   border-top: 8px solid #000000;
   border-bottom: 8px solid #000000;
   position: relative;
@@ -24,7 +34,7 @@
 .back-button {
   display: inline-flex;
   align-items: center;
-  background-color: var(--color-blue);
+  background-color: #00B0FF;
   color: #000;
   padding: 0.5rem 1rem;
   border-radius: 5px;
@@ -48,12 +58,12 @@
 }
 
 .music-card {
-  background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(20, 20, 20, 0.9));
-  border-radius: 8px;
+  background: #fff;
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.25);
   position: relative;
-  border: 3px solid var(--color-blue);
+  border: 4px solid #000;
 }
 
 /* Border pattern similar to the image */
@@ -96,6 +106,7 @@
   letter-spacing: 10px;
   margin: 0;
   font-family: 'Arial Black', sans-serif;
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.12);
 }
 
 /* Content styles */
@@ -119,16 +130,14 @@
 
 .music-details {
   flex: 1;
-  background-color: #e0c9a1;
+  background-color: rgba(0, 176, 255, 0.08);
   padding: 2rem;
   border-radius: 10px;
   position: relative;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
   margin-left: 2rem;
-  border: 1px solid #8b4513;
-  background-image: url('/assets/parchment-texture.jpg');
-  background-size: cover;
-  background-blend-mode: multiply;
+  border: 3px solid #000;
+  color: #000;
 }
 
 /* Create a scroll-like appearance */
@@ -138,8 +147,9 @@
   position: absolute;
   width: 30px;
   height: 30px;
-  background-color: #8b4513;
+  background-color: #00B0FF;
   border-radius: 50%;
+  border: 3px solid #000;
 }
 
 .music-details::before {
@@ -156,7 +166,7 @@
 
 .music-event {
   margin-bottom: 2rem;
-  border-bottom: 1px dashed #8b4513;
+  border-bottom: 2px solid var(--color-blue);
   padding-bottom: 1rem;
 }
 
@@ -167,11 +177,12 @@
 
 .music-event h2 {
   font-size: 1.5rem;
-  color: #000;
+  color: var(--color-blue);
   margin-bottom: 1rem;
   text-align: center;
-  font-weight: bold;
+  font-weight: 900;
   letter-spacing: 2px;
+  font-family: var(--font-display, 'Fredoka One', sans-serif);
 }
 
 .music-event p {
@@ -188,19 +199,21 @@
 .general-rules-section {
   padding: 2rem;
   margin: 2rem 0;
-  background-color: #f5e6c8;
-  border-top: 1px solid #8b4513;
-  border-bottom: 1px solid #8b4513;
+  background-color: rgba(0, 176, 255, 0.05);
+  border-top: 4px solid #000;
+  border-bottom: 4px solid #000;
 }
 
 .general-rules-section h2 {
   text-align: center;
   font-size: 2rem;
-  color: #8b4513;
+  color: var(--color-blue);
   margin-bottom: 1.5rem;
   letter-spacing: 3px;
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: 900;
+  font-family: var(--font-display, 'Fredoka One', sans-serif);
+  text-shadow: 0 0 15px rgba(0, 176, 255, 0.3);
 }
 
 .general-rules-content {
@@ -231,7 +244,7 @@
   content: counter(rule-counter) ".";
   position: absolute;
   left: -2rem;
-  color: #8b4513;
+  color: var(--color-blue);
   font-weight: bold;
   font-size: 1.1rem;
 }
@@ -240,8 +253,8 @@
 .music-footer {
   display: flex;
   padding: 2rem;
-  background-color: #8b4513;
-  color: #fff;
+  background-color: #00B0FF;
+  color: #000;
   border-top: 5px solid #000;
 }
 
@@ -259,8 +272,8 @@
 }
 
 .register-btn {
-  background-color: #f9ecd9;
-  color: #8b4513;
+  background-color: #00B0FF;
+  color: #000;
   border: none;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
@@ -272,10 +285,12 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
+  border: 3px solid #000;
 }
 
 .register-btn:hover {
-  background-color: #e0c9a1;
+  background-color: #0099DA;
   transform: translateY(-2px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }

@@ -5,26 +5,27 @@
 body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 
   /* 🟡 comic base - bright paper yellow */
   background-color: #FFFACD;
 
-  /* 🎨 Simple comic book look - no rainbow gradients */
+  /* 🎨 Ray burst background (primary) */
   background-image:
-    /* Comic book halftone dot pattern - classic */
-    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
-    
-    /* Diagonal halftone variation */
-    repeating-linear-gradient(
-      45deg,
-      rgba(0, 0, 0, 0.02),
-      rgba(0, 0, 0, 0.02) 1px,
-      transparent 1px,
-      transparent 3px
+    repeating-conic-gradient(
+      from -10deg at 72% 56%,
+      rgba(239, 0, 57, 0.30) 0deg 7deg,
+      rgba(123, 0, 34, 0.11) 7deg 14deg
+    ),
+    radial-gradient(
+      circle at 72% 56%,
+      rgba(255, 194, 0, 0.20) 0%,
+      rgba(255, 194, 0, 0.10) 15%,
+      rgba(255, 194, 0, 0) 48%
     );
 
   background-size:
-    25px 25px,
+    100% 100%,
     100% 100%;
 
   background-attachment: fixed;
@@ -37,15 +38,8 @@ body::before {
   position: fixed;
   inset: 0;
 
-  background: 
-    /* Diagonal crosshatch only */
-    repeating-linear-gradient(
-      45deg,
-      rgba(0, 0, 0, 0.01),
-      rgba(0, 0, 0, 0.01) 1px,
-      transparent 1px,
-      transparent 3px
-    );
+  background:
+    radial-gradient(circle at 72% 56%, rgba(239, 0, 57, 0.13) 0%, rgba(239, 0, 57, 0) 44%);
 
   pointer-events: none;
   z-index: 0;
@@ -67,6 +61,8 @@ body::after {
 #root {
   position: relative;
   z-index: 1;
+  width: 100%;
+  overflow-x: clip;
 }
 
 .well {
@@ -78,6 +74,62 @@ body::after {
   background: transparent;
 }
 
+img,
+iframe,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Floating comic callouts across the page */
+.comic-page-callout {
+  position: absolute;
+  width: clamp(70px, 9vw, 130px);
+  aspect-ratio: 1 / 1;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.88;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.22));
+  z-index: 2;
+}
+
+.comic-page-callout-pow {
+  top: 128vh;
+  left: clamp(8px, 2vw, 26px);
+  background-image: url('/assets/pow.png');
+  transform: rotate(-8deg);
+}
+
+.comic-page-callout-wow {
+  top: 212vh;
+  right: clamp(8px, 2vw, 26px);
+  background-image: url('/assets/wow.png');
+  transform: rotate(9deg);
+}
+
+.comic-page-callout-boom {
+  top: 302vh;
+  left: clamp(10px, 2vw, 28px);
+  background-image: url('/assets/boom.png');
+  transform: rotate(-7deg);
+}
+
+.comic-page-callout-poof {
+  top: 395vh;
+  right: clamp(10px, 2vw, 28px);
+  background-image: url('/assets/poof.png');
+  transform: rotate(8deg);
+}
+
+.comic-page-callout-yeah {
+  top: 470vh;
+  left: clamp(14px, 2.4vw, 34px);
+  background-image: url('/assets/yeah.png');
+  transform: rotate(-11deg);
+}
+
 /* ❌ REMOVE boring gradient */
 /* ✅ Make content transparent */
 .content {
@@ -85,6 +137,46 @@ body::after {
   width: 100%;
   background: transparent !important;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Hard remove section seams in the main flow */
+#well > .banner,
+#well > .content > .about,
+#well > .content > .panel.timeline {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Simple black section break */
+.simple-black-break {
+  width: 100%;
+  height: clamp(22px, 2.6vw, 32px);
+  background: #000;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  position: relative;
+  z-index: 3;
+  transform: rotate(180deg);
+  transform-origin: center;
+  clip-path: polygon(
+    0% 40%, 4% 62%, 8% 36%, 12% 66%, 16% 34%, 20% 64%, 24% 38%, 28% 66%,
+    32% 34%, 36% 62%, 40% 36%, 44% 64%, 48% 38%, 52% 66%, 56% 34%, 60% 62%,
+    64% 36%, 68% 64%, 72% 38%, 76% 66%, 80% 34%, 84% 62%, 88% 36%, 92% 64%,
+    96% 38%, 100% 60%, 100% 100%, 0% 100%
+  );
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.28);
+}
+
+@media (max-width: 768px) {
+  .simple-black-break {
+    height: 18px;
+  }
 }
 
 /* ============================= */
@@ -149,6 +241,18 @@ button {
 @media (max-width: 992px) {
   body {
     background-attachment: scroll;
+    background-image:
+      repeating-conic-gradient(
+        from -10deg at 70% 52%,
+        rgba(239, 0, 57, 0.25) 0deg 7deg,
+        rgba(123, 0, 34, 0.10) 7deg 14deg
+      ),
+      radial-gradient(
+        circle at 70% 52%,
+        rgba(255, 194, 0, 0.16) 0%,
+        rgba(255, 194, 0, 0.08) 15%,
+        rgba(255, 194, 0, 0) 48%
+      );
   }
 }
 
@@ -158,4 +262,70 @@ button {
     width: 100%;
     overflow-x: clip;
   }
+
+  .comic-page-callout {
+    width: clamp(54px, 12vw, 82px);
+    opacity: 0.65;
+  }
+
+  .comic-page-callout-wow,
+  .comic-page-callout-poof {
+    display: none;
+  }
+}
+
+/* About rays - alternate color */
+:is(.about.comic-about-container, .about.panel) {
+  background-color: #FFFACD !important;
+  background-image:
+    repeating-conic-gradient(
+      from -10deg at 72% 56%,
+      rgba(255, 194, 0, 0.28) 0deg 7deg,
+      rgba(158, 117, 0, 0.10) 7deg 14deg
+    ),
+    radial-gradient(
+      circle at 72% 56%,
+      rgba(255, 224, 102, 0.18) 0%,
+      rgba(255, 224, 102, 0.08) 16%,
+      rgba(255, 224, 102, 0) 48%
+    ) !important;
+  background-size: 100% 100%, 100% 100% !important;
+}
+
+/* Timeline rays - keep original color */
+.panel.timeline {
+  background-color: #FFFACD !important;
+  background-image:
+    repeating-conic-gradient(
+      from -10deg at 72% 56%,
+      rgba(239, 0, 57, 0.24) 0deg 7deg,
+      rgba(123, 0, 34, 0.08) 7deg 14deg
+    ),
+    radial-gradient(
+      circle at 72% 56%,
+      rgba(255, 194, 0, 0.14) 0%,
+      rgba(255, 194, 0, 0.06) 16%,
+      rgba(255, 194, 0, 0) 48%
+    ) !important;
+  background-size: 100% 100%, 100% 100% !important;
+}
+
+/* Old dotted background only for ReachUs + Brochure + Footer */
+:is(
+  .reach-us-section,
+  .brochure-download-section,
+  .comic-footer,
+  .footer
+) {
+  background-color: #FFFACD !important;
+  background-image:
+    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.02),
+      rgba(0, 0, 0, 0.02) 1px,
+      transparent 1px,
+      transparent 3px
+    ) !important;
+  background-size: 25px 25px, 100% 100% !important;
 }

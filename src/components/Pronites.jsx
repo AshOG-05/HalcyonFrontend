@@ -28,7 +28,7 @@ function Pronites() { // Component name kept as Pronites for file consistency
       image: "/assets/dj1.jpg",
       alt: "DJ Ruhi",
       gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/dj1.jpg')",
-      description: "DJ Ruhi, an international DJ & producer, brings high-energy, creative electronic and dance sets to Halcyon 2025.",
+      description: "DJ Ruhi, an international DJ & producer, brings high-energy, creative electronic and dance sets to Halcyon 2026.",
       instagram: "https://www.instagram.com/djruhi"
     },
      {
@@ -38,7 +38,7 @@ function Pronites() { // Component name kept as Pronites for file consistency
       image: "/assets/ruhi.jpg",
       alt: "DJ Eve",
       gradient: "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/assets/djeve.jpg')",
-      description: "DJ Eve brings electrifying beats and mesmerizing performances, creating an unforgettable musical journey that will light up Halcyon 2025.",
+      description: "DJ Eve brings electrifying beats and mesmerizing performances, creating an unforgettable musical journey that will light up Halcyon 2026.",
       icon: "fas fa-music",
       instagram: "https://www.instagram.com/dj_eve_india"
     },
@@ -235,7 +235,7 @@ function Pronites() { // Component name kept as Pronites for file consistency
         <h1 className="section-heading" data-aos="fade-up">
           <span className="section-heading-text">SPECIAL GUESTS</span>
         </h1>
-        <p className="pronites-subtitle" data-aos="fade-up" data-aos-delay="100">Experience unforgettable performances with our extraordinary guests at Halcyon 2025</p>
+        <p className="pronites-subtitle" data-aos="fade-up" data-aos-delay="100">Experience unforgettable performances with our extraordinary guests at Halcyon 2026</p>
 
         <div className="pronites-content" ref={contentRef} data-aos="fade-up" data-aos-delay="200">
           {/* Enhanced navigation buttons */}

@@ -28,6 +28,38 @@
   text-shadow: 5px 5px 0px rgba(0, 0, 0, 0.4), 0 0 25px rgba(255, 23, 68, 0.6);
 }
 
+/* Match Timeline heading typography for key section titles */
+:is(
+  .interactive-explore .section-heading,
+  .tilt-cards-container .section-heading,
+  .reach-us-section .section-heading
+) {
+  font-size: 3.5rem;
+  margin-bottom: 3rem;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  position: relative;
+  font-weight: 700;
+}
+
+:is(
+  .interactive-explore .section-heading-text,
+  .tilt-cards-container .section-heading-text,
+  .reach-us-section .section-heading-text
+) {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+:is(
+  .interactive-explore .section-heading-text:hover,
+  .tilt-cards-container .section-heading-text:hover,
+  .reach-us-section .section-heading-text:hover
+) {
+  transform: none;
+}
+
 /* Animation for section headings */
 @keyframes fadeInUp {
   0% {
@@ -60,24 +92,34 @@
 }
 
 .comic-panel-red {
-  border-color: #FF1744;
-  box-shadow: 8px 8px 0px rgba(255, 23, 68, 0.3);
+  border-color: #d31034;
+  box-shadow: 8px 8px 0px rgba(211, 16, 52, 0.3);
 }
 
 .comic-panel-blue {
-  border-color: #00B0FF;
-  box-shadow: 8px 8px 0px rgba(0, 176, 255, 0.3);
+  border-color: #1089d3;
+  box-shadow: 8px 8px 0px rgba(16, 137, 211, 0.3);
 }
 
 .comic-panel-yellow {
   background: #FFFACD;
-  border-color: #FFEB3B;
-  box-shadow: 8px 8px 0px rgba(255, 235, 59, 0.3);
+  border-color: #b28f10;
+  box-shadow: 8px 8px 0px rgba(178, 143, 16, 0.35);
 }
 
 .comic-panel-purple {
-  border-color: #9C27B0;
-  box-shadow: 8px 8px 0px rgba(156, 39, 176, 0.3);
+  border-color: #802095;
+  box-shadow: 8px 8px 0px rgba(128, 32, 149, 0.3);
+}
+
+.comic-panel-orange {
+  border-color: #d37b10;
+  box-shadow: 8px 8px 0px rgba(211, 123, 16, 0.35);
+}
+
+.comic-panel-green {
+  border-color: #10b24c;
+  box-shadow: 8px 8px 0px rgba(16, 178, 76, 0.3);
 }
 
 /* ============================= */
@@ -108,6 +150,15 @@
     margin-bottom: 2rem;
   }
 
+  :is(
+    .interactive-explore .section-heading,
+    .tilt-cards-container .section-heading,
+    .reach-us-section .section-heading
+  ) {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
   .section-heading-text:hover {
     transform: translateY(-4px) scale(1.02);
     text-shadow: 0 0 15px rgba(255, 23, 68, 0.5), 0 0 8px rgba(0, 0, 0, 0.2);
@@ -126,6 +177,14 @@
 @media (max-width: 480px) {
   .section-heading {
     margin-bottom: 1.5rem;
+    letter-spacing: 3px;
+  }
+
+  :is(
+    .interactive-explore .section-heading,
+    .tilt-cards-container .section-heading,
+    .reach-us-section .section-heading
+  ) {
     letter-spacing: 3px;
   }
 

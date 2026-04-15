@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { EVENT_CATEGORIES } from '../../config';
+import { EVENT_CATEGORIES, getCategoryPageThemeStyle } from '../../config';
 import { corsProtectedFetch } from '../../utils/corsHelper';
 import './styles.css';
+import '../../components/comicLoading.css';
 
 function CategoryEvents() {
   const { eventName } = useParams();
@@ -21,6 +22,24 @@ function CategoryEvents() {
   useEffect(() => {
     fetchCategoryEvents();
   }, [eventName]);
+
+  /* #root is transparent; App.css body + ::before use a fixed red/cream burst — hide them so only this page's themed layer shows edge-to-edge */
+  useLayoutEffect(() => {
+    document.body.style.setProperty('background-image', 'none');
+    document.body.style.setProperty('background-color', 'transparent');
+    document.body.style.setProperty('background-attachment', 'scroll');
+    const hideBodyDecor = document.createElement('style');
+    hideBodyDecor.setAttribute('data-category-events-fix', '1');
+    hideBodyDecor.textContent =
+      'body::before, body::after { display: none !important; }';
+    document.head.appendChild(hideBodyDecor);
+    return () => {
+      document.body.style.removeProperty('background-image');
+      document.body.style.removeProperty('background-color');
+      document.body.style.removeProperty('background-attachment');
+      hideBodyDecor.remove();
+    };
+  }, []);
 
   const fetchCategoryEvents = async () => {
     try {
@@ -76,7 +95,7 @@ function CategoryEvents() {
     return Array.from({ length: 5 }, (_, index) => ({
       _id: `mock-${eventName}-${index}`,
       name: `${category.label} Event ${index + 1}`,
-      description: `This is a sample ${category.label.toLowerCase()} event for Halcyon 2025. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies aliquam, nunc nisl aliquet nunc, eget aliquam nisl nunc eget nisl.`,
+      description: `This is a sample ${category.label.toLowerCase()} event for Halcyon 2026. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies aliquam, nunc nisl aliquet nunc, eget aliquam nisl nunc eget nisl.`,
       date: new Date().toISOString(),
       venue: 'Main Auditorium',
       category: eventName,
@@ -142,7 +161,11 @@ function CategoryEvents() {
   };
 
   return (
-    <div className="category-events-container">
+    <div
+      className="category-events-container"
+      style={getCategoryPageThemeStyle(category.id)}
+    >
+      <div className="category-events-inner">
       <div className="category-header">
         <div className="navigation-buttons">
           <Link to="/" className="back-button home-button">
@@ -155,12 +178,21 @@ function CategoryEvents() {
         <h1>
           <i className={category.icon}></i> {category.label} Events
         </h1>
-        <p>Explore all {category.label.toLowerCase()} events at Halcyon 2025</p>
+        <p>Explore all {category.label.toLowerCase()} events at Halcyon 2026</p>
       </div>
 
       {loading ? (
         <div className="loading-container">
-          <div className="loading-spinner"></div>
+          <div className="comic-loading-wrap">
+            <div className="comic-loading" role="status" aria-live="polite" aria-label="Loading events">
+              <div className="comic-loading__sun" />
+            </div>
+            <div className="comic-loading-bars" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </div>
+          </div>
           <p>Loading events...</p>
         </div>
       ) : error ? (
@@ -201,16 +233,17 @@ function CategoryEvents() {
                   <i className="fas fa-map-marker-alt"></i>
                   <span>{event.venue}</span>
                 </div>
-                <div className="event-detail">
+                <div className="event-detail event-fee-row">
                   <i className="fas fa-ticket-alt"></i>
-                  <span>
-                    Registration: <strong>{getEventFee(event)}</strong>
+                  <span className="event-fee-text">
+                    <span className="event-fee-label">Registration:</span>
+                    <strong>{getEventFee(event)}</strong>
                   </span>
                 </div>
               </div>
 
               <div className="event-card-description">
-                <p>{event.description.substring(0, 150)}...</p>
+                <p>{event.description.substring(0, 100)}...</p>
               </div>
 
               <div className="event-card-actions">
@@ -218,7 +251,7 @@ function CategoryEvents() {
                   className="view-details-button"
                   onClick={() => handleEventClick(event._id)}
                 >
-                  View Details & Register
+                  Details
                 </button>
               </div>
             </div>
@@ -226,7 +259,7 @@ function CategoryEvents() {
         </div>
       )}
 
-
+      </div>
     </div>
   );
 }

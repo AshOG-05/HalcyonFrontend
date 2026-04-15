@@ -1,461 +1,258 @@
-/* Comic Pop Theme Colors */
-:root {
-  --comic-red: #FF1744;
-  --comic-blue: #00B0FF;
-  --comic-yellow: #FFEB3B;
-  --comic-purple: #9C27B0;
-  --comic-black: #1A1A1A;
-  --comic-white: #FFFFFF;
-}
-
 .reach-us-section {
-  padding: 5rem 2rem;
+  padding: 5rem 0;
   background: #FFFACD;
-  color: var(--comic-black);
+  background-image:
+    radial-gradient(circle, #00000015 1.5px, transparent 1.5px),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.02),
+      rgba(0, 0, 0, 0.02) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  background-size: 25px 25px, 100%;
+  color: #333333;
   position: relative;
   overflow: hidden;
   min-height: auto;
+  border-top: none;
+  border-bottom: none;
 }
+
+/* Removed starry background */
 
 .reach-us-section .container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 2rem;
   position: relative;
   z-index: 1;
 }
 
-/* Transportation Cards Grid */
+/* Section title styling now uses common section-heading class */
+
 .transportation-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2.5rem;
-  margin: 3rem 0;
-  perspective: 1000px;
+  gap: 2rem;
+  margin-bottom: 3rem;
 }
 
-/* Base Transport Card Styling */
 .transport-card {
-  position: relative;
-  border: 5px solid var(--comic-black);
-  border-radius: 12px;
-  padding: 2.5rem 2rem;
-  background: var(--comic-white);
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.25), 
-              12px 12px 0px rgba(0, 0, 0, 0.08);
-  cursor: pointer;
-  transform-style: preserve-3d;
-  overflow: hidden;
-}
-
-/* Gradient overlay for each transport type */
-.transport-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, currentColor 0%, currentColor 100%);
-  opacity: 0.08;
-  z-index: 0;
+  background: #ffffff;
+  border: 4px solid #000000;
   border-radius: 8px;
-}
-
-.transport-card > * {
+  padding: 2rem;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, filter 0.28s ease;
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.3);
   position: relative;
-  z-index: 2;
-}
-
-/* Color-coded card styling based on transport type */
-.transport-card[data-transport="bus"] {
-  --card-color: var(--comic-red);
-  border-color: var(--comic-red);
-  color: var(--card-color);
-}
-
-.transport-card[data-transport="train"] {
-  --card-color: var(--comic-blue);
-  border-color: var(--comic-blue);
-  color: var(--card-color);
-}
-
-.transport-card[data-transport="taxi"] {
-  --card-color: var(--comic-yellow);
-  border-color: var(--comic-yellow);
-  color: var(--card-color);
-}
-
-.transport-card[data-transport="air"] {
-  --card-color: var(--comic-purple);
-  border-color: var(--comic-purple);
-  color: var(--card-color);
-}
-
-/* Hover Animation Effects */
-.transport-card:hover {
-  transform: translateY(-12px) scale(1.07) rotateX(2deg) rotateY(2deg);
-  box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.35),
-              16px 16px 0px rgba(0, 0, 0, 0.15),
-              20px 20px 30px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%);
-}
-
-/* Enhanced border glow on hover */
-.transport-card:hover::before {
-  opacity: 0.15;
-  animation: colorPulse 0.6s ease-out;
-}
-
-@keyframes colorPulse {
-  0% {
-    opacity: 0.08;
-  }
-  50% {
-    opacity: 0.2;
-  }
-  100% {
-    opacity: 0.15;
-  }
-}
-
-/* Card Title Styling */
-.transport-card h3 {
-  font-size: 2rem;
-  font-weight: 900;
-  font-family: 'Fredoka One', 'Comic Sans MS', 'Arial Black', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  margin: 0 0 1.5rem 0;
-  text-align: center;
-  color: var(--card-color);
-  text-shadow: 
-    3px 3px 0px rgba(0, 0, 0, 0.1),
-    -1px -1px 0px rgba(255, 255, 255, 0.5);
-  transition: transform 0.3s ease, text-shadow 0.3s ease;
-}
-
-.transport-card:hover h3 {
-  transform: scale(1.1);
-  text-shadow: 
-    4px 4px 0px rgba(0, 0, 0, 0.2),
-    -2px -2px 0px rgba(255, 255, 255, 0.7);
-}
-
-/* Card Description Text */
-.transport-card p {
-  font-size: 1.05rem;
-  line-height: 1.7;
-  color: #333333;
-  margin: 0;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.transport-card:hover p {
-  color: var(--card-color);
-}
-
-/* Map Container Styling */
-.map-container {
-  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.2),
-              16px 16px 0px rgba(0, 0, 0, 0.08);
-  border: 5px solid var(--comic-black);
+}
+
+.transport-card:hover {
+  transform: translateY(-8px) rotate(-1deg) scale(1.01);
+  box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.42);
+  border-color: #000000;
+  filter: saturate(1.08);
+}
+
+/* Colorful comic cards */
+.transportation-grid .transport-card:nth-child(1) {
+  background: #EF0039;
+}
+
+.transportation-grid .transport-card:nth-child(2) {
+  background: #00489E;
+}
+
+.transportation-grid .transport-card:nth-child(3) {
+  background: #FFC200;
+}
+
+.transportation-grid .transport-card:nth-child(4) {
+  background: #8E01C2;
+}
+
+.transportation-grid .transport-card:nth-child(1) h3,
+.transportation-grid .transport-card:nth-child(1) p,
+.transportation-grid .transport-card:nth-child(2) h3,
+.transportation-grid .transport-card:nth-child(2) p,
+.transportation-grid .transport-card:nth-child(4) h3,
+.transportation-grid .transport-card:nth-child(4) p {
+  color: #ffffff;
+}
+
+.transportation-grid .transport-card:nth-child(3) h3,
+.transportation-grid .transport-card:nth-child(3) p {
+  color: #ffffff;
+}
+
+.transport-card::after {
+  content: none;
+}
+
+.transport-card h3 {
+  font-size: 1.8rem;
+  color: #000000;
+  margin-bottom: 1rem;
+  text-align: center;
+  letter-spacing: 2px;
+  font-family: 'Fredoka One', 'Arial Black', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0px rgba(255, 23, 68, 0.3);
+}
+
+.transport-card p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333333;
+}
+
+.map-container {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.3);
+  border: 4px solid #000000;
   position: relative;
-  background: var(--comic-white);
+  background: white;
   display: flex;
   flex-direction: column;
-  transition: all 0.4s ease;
-}
-
-.map-container:hover {
-  box-shadow: 14px 14px 0px rgba(0, 0, 0, 0.25),
-              18px 18px 0px rgba(0, 0, 0, 0.1);
-  transform: translateY(-4px);
 }
 
 .map-wrapper {
   width: 100%;
-  height: 450px;
+  padding-bottom: 56.25%;
   position: relative;
   overflow: hidden;
-  border-bottom: 3px dashed var(--comic-red);
+  height: 0;
+}
+
+.map-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .map-actions {
-  background: linear-gradient(135deg, #FFF9E6 0%, #FFF5E1 100%);
-  padding: 2rem;
+  background: #FFF9E6;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-top: 3px solid var(--comic-red);
-  gap: 1rem;
+  border-top: 2px solid #000000;
 }
 
 .view-on-maps-btn {
-  background: linear-gradient(135deg, var(--comic-red) 0%, #FF3D4B 100%);
-  color: var(--comic-white);
-  padding: 14px 32px;
-  border-radius: 8px;
+  background-color: #FF1744;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 4px;
   text-decoration: none;
   font-weight: 900;
-  border: 4px solid var(--comic-black);
-  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 3px solid #000000;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
+  margin-bottom: 10px;
   font-size: 1.1rem;
-  font-family: 'Fredoka One', 'Comic Sans MS', 'Arial Black', sans-serif;
+  font-family: 'Fredoka One', 'Arial Black', sans-serif;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  cursor: pointer;
+  letter-spacing: 1px;
 }
 
 .view-on-maps-btn:hover {
-  background: linear-gradient(135deg, #FF3D4B 0%, #FF1744 100%);
-  transform: translateY(-6px) scale(1.05);
-  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.4),
-              12px 12px 0px rgba(255, 23, 68, 0.2);
-}
-
-.view-on-maps-btn:active {
-  transform: translateY(-2px) scale(0.98);
-  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
-}
-
-.view-on-maps-btn i {
-  font-size: 1.2rem;
+  background-color: #FF3D4B;
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
 }
 
 .map-note {
-  color: var(--comic-black);
-  font-size: 0.95rem;
+  color: #333333;
+  font-size: 0.9rem;
   margin: 0;
   text-align: center;
-  font-weight: 600;
-  font-family: 'Comic Sans MS', 'Fredoka One', sans-serif;
-  letter-spacing: 0.5px;
+  font-weight: 500;
 }
 
 .map-note i {
-  color: var(--comic-red);
-  margin-right: 8px;
-  font-size: 1.1rem;
+  color: #FF1744;
+  margin-right: 5px;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
+/* Media Queries */
+@media (max-width: 992px) {
   .transportation-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-  }
-
-  .transport-card {
-    padding: 2rem 1.5rem;
-  }
-
-  .transport-card h3 {
-    font-size: 1.7rem;
-    letter-spacing: 2px;
-  }
-
-  .map-wrapper {
-    height: 400px;
-  }
-}
-
-@media (max-width: 912px) {
-  .reach-us-section {
-    padding: 4rem 1.5rem;
-  }
-
-  .transportation-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .transport-card {
-    padding: 2rem;
-  }
-
-  .transport-card h3 {
-    font-size: 1.6rem;
-  }
-
-  .map-wrapper {
-    height: 380px;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
 @media (max-width: 768px) {
-  .reach-us-section {
-    padding: 3rem 1.5rem;
+  .reach-us-section .container {
+    padding: 0 1rem;
   }
 
   .transportation-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
   }
+
+  /* Section title styling now uses common section-heading class */
 
   .transport-card {
     padding: 1.5rem;
-    border-width: 4px;
-  }
-
-  .transport-card h3 {
-    font-size: 1.4rem;
-    letter-spacing: 2px;
-    margin-bottom: 1rem;
-  }
-
-  .transport-card p {
-    font-size: 0.95rem;
-    line-height: 1.6;
   }
 
   .transport-card:hover {
-    transform: translateY(-8px) scale(1.05);
+    transform: translateY(-5px) rotate(-0.5deg) scale(1.01);
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.36);
+  }
+
+  .transport-card h3 {
+    font-size: 1.5rem;
   }
 
   .map-wrapper {
-    height: 320px;
-  }
-
-  .map-actions {
-    padding: 1.5rem;
-    gap: 0.8rem;
+    padding-bottom: 56.25%;
   }
 
   .view-on-maps-btn {
-    padding: 12px 24px;
-    font-size: 1rem;
     width: 100%;
-  }
-
-  .map-note {
-    font-size: 0.9rem;
+    justify-content: center;
+    text-align: center;
   }
 }
 
 @media (max-width: 480px) {
+  /* Section title styling now uses common section-heading class */
+
   .reach-us-section {
-    padding: 2rem 1rem;
-  }
-
-  .reach-us-section::before {
-    background-image: none;
-  }
-
-  .transportation-grid {
-    grid-template-columns: 1fr;
-    gap: 1.2rem;
-  }
-
-  .transport-card {
-    padding: 1.2rem;
-    border-width: 3px;
-    border-radius: 8px;
-    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.2),
-                8px 8px 0px rgba(0, 0, 0, 0.06);
-  }
-
-  .transport-card h3 {
-    font-size: 1.2rem;
-    letter-spacing: 1.5px;
-    margin-bottom: 0.8rem;
-  }
-
-  .transport-card p {
-    font-size: 0.9rem;
-    line-height: 1.5;
-  }
-
-  .transport-card:hover {
-    transform: translateY(-6px) scale(1.03);
-    box-shadow: 7px 7px 0px rgba(0, 0, 0, 0.25),
-                10px 10px 0px rgba(0, 0, 0, 0.08);
-  }
-
-  .transport-card:hover h3 {
-    transform: scale(1.05);
-  }
-
-  .map-container {
-    border-width: 4px;
-    border-radius: 8px;
-    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.15),
-                12px 12px 0px rgba(0, 0, 0, 0.06);
-  }
-
-  .map-wrapper {
-    height: 280px;
-    border-bottom-width: 2px;
-  }
-
-  .map-actions {
-    padding: 1.2rem;
-    gap: 0.6rem;
-    border-top-width: 2px;
-  }
-
-  .view-on-maps-btn {
-    padding: 11px 20px;
-    font-size: 0.95rem;
-    border-width: 3px;
-    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
-  }
-
-  .view-on-maps-btn:hover {
-    transform: translateY(-4px) scale(1.03);
-    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.3),
-                8px 8px 0px rgba(255, 23, 68, 0.15);
-  }
-
-  .map-note {
-    font-size: 0.85rem;
-  }
-}
-
-@media (max-width: 320px) {
-  .reach-us-section {
-    padding: 1.5rem 0.5rem;
-  }
-
-  .transportation-grid {
-    gap: 1rem;
+    padding: 3rem 0;
   }
 
   .transport-card {
     padding: 1rem;
-    border-width: 3px;
   }
 
-  .transport-card h3 {
-    font-size: 1.1rem;
-    letter-spacing: 1px;
-    margin-bottom: 0.6rem;
-  }
-
-  .transport-card p {
-    font-size: 0.85rem;
-    line-height: 1.4;
+  .transport-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 7px 7px 0px rgba(0, 0, 0, 0.32);
   }
 
   .map-wrapper {
-    height: 240px;
+    padding-bottom: 56.25%;
+  }
+
+  .map-actions {
+    padding: 14px;
   }
 
   .view-on-maps-btn {
-    padding: 10px 16px;
-    font-size: 0.9rem;
-  }
-
-  .map-note {
-    font-size: 0.8rem;
+    font-size: 0.95rem;
+    padding: 10px 14px;
+    letter-spacing: 0.5px;
   }
 }

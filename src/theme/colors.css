@@ -1,21 +1,22 @@
 /* Comic Pop Art Theme - Vibrant Colors */
 
 :root {
-  /* PRIMARY VIBRANT COLORS */
-  --color-red: #FF1744;
-  --color-blue: #00B0FF;
-  --color-yellow: #FFEB3B;
-  --color-purple: #9C27B0;
-  --color-green: #00E676;
+  /* PRIMARY VIBRANT COLORS (aligned with interactive category cards) */
+  --color-red: #D31034;
+  --color-blue: #1089D3;
+  --color-yellow: #B28F10;
+  --color-purple: #802095;
+  --color-green: #10B24C;
+  --color-orange: #D37B10;
   --color-cyan: #00E5FF;
 
   /* CATEGORY COLORS - Comic Pop Art Variants */
-  --color-dance: #FF1744;           /* Vibrant Red */
-  --color-music: #00B0FF;           /* Vibrant Blue */
-  --color-gaming: #FFEB3B;          /* Vibrant Yellow */
-  --color-theatre: #9C27B0;         /* Vibrant Purple */
-  --color-finearts: #00E676;        /* Vibrant Green */
-  --color-literary: #00E5FF;        /* Vibrant Cyan */
+  --color-dance: #D31034;
+  --color-music: #1089D3;
+  --color-gaming: #802095;
+  --color-theatre: #D37B10;
+  --color-finearts: #10B24C;
+  --color-literary: #B28F10;
 
   /* NEUTRAL & BACKGROUND COLORS */
   --color-black: #000000;
@@ -34,11 +35,11 @@
   --border-color-primary: #000000;
 
   /* GLOW EFFECTS - Dynamic rainbow glow */
-  --glow-red: 0 0 15px rgba(255, 23, 68, 0.5), 0 0 10px rgba(255, 23, 68, 0.3);
-  --glow-blue: 0 0 15px rgba(0, 176, 255, 0.5), 0 0 10px rgba(0, 176, 255, 0.3);
-  --glow-yellow: 0 0 15px rgba(255, 235, 59, 0.5), 0 0 10px rgba(255, 235, 59, 0.3);
-  --glow-purple: 0 0 15px rgba(156, 39, 176, 0.5), 0 0 10px rgba(156, 39, 176, 0.3);
-  --glow-green: 0 0 15px rgba(0, 230, 118, 0.5), 0 0 10px rgba(0, 230, 118, 0.3);
+  --glow-red: 0 0 15px rgba(211, 16, 52, 0.5), 0 0 10px rgba(211, 16, 52, 0.3);
+  --glow-blue: 0 0 15px rgba(16, 137, 211, 0.5), 0 0 10px rgba(16, 137, 211, 0.3);
+  --glow-yellow: 0 0 15px rgba(178, 143, 16, 0.5), 0 0 10px rgba(178, 143, 16, 0.3);
+  --glow-purple: 0 0 15px rgba(128, 32, 149, 0.5), 0 0 10px rgba(128, 32, 149, 0.3);
+  --glow-green: 0 0 15px rgba(16, 178, 76, 0.5), 0 0 10px rgba(16, 178, 76, 0.3);
   --glow-white: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.3);
 
   /* HALFTONE PATTERN */
@@ -48,9 +49,9 @@
 
 /* HALFTONE DOT PATTERN BACKGROUND */
 .halftone-background {
-  background-image: radial-gradient(circle, rgba(255, 23, 68, var(--halftone-opacity)) 2px, transparent 2px),
-                    radial-gradient(circle, rgba(0, 176, 255, var(--halftone-opacity)) 2px, transparent 2px),
-                    radial-gradient(circle, rgba(255, 235, 59, var(--halftone-opacity)) 2px, transparent 2px);
+  background-image: radial-gradient(circle, rgba(211, 16, 52, var(--halftone-opacity)) 2px, transparent 2px),
+                    radial-gradient(circle, rgba(16, 137, 211, var(--halftone-opacity)) 2px, transparent 2px),
+                    radial-gradient(circle, rgba(178, 143, 16, var(--halftone-opacity)) 2px, transparent 2px);
   background-size: calc(var(--halftone-size) * 3) calc(var(--halftone-size) * 3),
                    calc(var(--halftone-size) * 3 + 2px) calc(var(--halftone-size) * 3 + 2px),
                    calc(var(--halftone-size) * 3 + 4px) calc(var(--halftone-size) * 3 + 4px);
@@ -61,8 +62,8 @@
 .halftone-background-subtle {
   background-image: repeating-radial-gradient(
     circle,
-    rgba(255, 23, 68, 0.15) 0px,
-    rgba(255, 23, 68, 0.15) 2px,
+    rgba(211, 16, 52, 0.15) 0px,
+    rgba(211, 16, 52, 0.15) 2px,
     transparent 2px,
     transparent 8px
   );
@@ -80,32 +81,38 @@
 .comic-panel-red {
   border: var(--border-thick) solid var(--color-red);
   border-radius: 8px;
-  box-shadow: 4px 4px 0px rgba(255, 23, 68, 0.3), 8px 8px 0px rgba(255, 23, 68, 0.15);
+  box-shadow: 4px 4px 0px rgba(211, 16, 52, 0.3), 8px 8px 0px rgba(211, 16, 52, 0.15);
 }
 
 .comic-panel-blue {
   border: var(--border-thick) solid var(--color-blue);
   border-radius: 8px;
-  box-shadow: 4px 4px 0px rgba(0, 176, 255, 0.3), 8px 8px 0px rgba(0, 176, 255, 0.15);
+  box-shadow: 4px 4px 0px rgba(16, 137, 211, 0.3), 8px 8px 0px rgba(16, 137, 211, 0.15);
 }
 
 .comic-panel-yellow {
   border: var(--border-thick) solid var(--color-yellow);
   border-radius: 8px;
-  box-shadow: 4px 4px 0px rgba(255, 235, 59, 0.5), 8px 8px 0px rgba(255, 235, 59, 0.2);
+  box-shadow: 4px 4px 0px rgba(178, 143, 16, 0.45), 8px 8px 0px rgba(178, 143, 16, 0.2);
   color: var(--text-dark);
 }
 
 .comic-panel-purple {
   border: var(--border-thick) solid var(--color-purple);
   border-radius: 8px;
-  box-shadow: 4px 4px 0px rgba(156, 39, 176, 0.3), 8px 8px 0px rgba(156, 39, 176, 0.15);
+  box-shadow: 4px 4px 0px rgba(128, 32, 149, 0.3), 8px 8px 0px rgba(128, 32, 149, 0.15);
+}
+
+.comic-panel-orange {
+  border: var(--border-thick) solid var(--color-orange);
+  border-radius: 8px;
+  box-shadow: 4px 4px 0px rgba(211, 123, 16, 0.35), 8px 8px 0px rgba(211, 123, 16, 0.18);
 }
 
 .comic-panel-green {
   border: var(--border-thick) solid var(--color-green);
   border-radius: 8px;
-  box-shadow: 4px 4px 0px rgba(0, 230, 118, 0.3), 8px 8px 0px rgba(0, 230, 118, 0.15);
+  box-shadow: 4px 4px 0px rgba(16, 178, 76, 0.3), 8px 8px 0px rgba(16, 178, 76, 0.15);
 }
 
 .comic-panel-cyan {
@@ -352,17 +359,17 @@
 
 .action-text-red {
   color: var(--color-red);
-  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 23, 68, 0.4);
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.4), 0 0 20px rgba(211, 16, 52, 0.4);
 }
 
 .action-text-blue {
   color: var(--color-blue);
-  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 176, 255, 0.4);
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.4), 0 0 20px rgba(16, 137, 211, 0.4);
 }
 
 .action-text-yellow {
   color: var(--color-yellow);
-  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 235, 59, 0.3);
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5), 0 0 20px rgba(178, 143, 16, 0.35);
 }
 
 /* BUTTON STYLES - Comic theme */

@@ -32,7 +32,7 @@ const createMockEventData = (eventId) => {
     'fallback2': {
       _id: 'fallback2',
       name: 'Mr and Ms Fest',
-      description: 'Compete for the prestigious title of Mr. and Ms. Halcyon 2025.',
+      description: 'Compete for the prestigious title of Mr. and Ms. Halcyon 2026.',
       date: new Date('2025-03-15T15:00:00'),
       venue: 'Main Stage',
       day: 1,

@@ -15,8 +15,10 @@ function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
         </button>
 
         <div className="payment-header">
-          <i className="fas fa-credit-card payment-icon"></i>
-          <h2>Team Payment Instructions</h2>
+          <div className="payment-header-title">
+            <i className="fas fa-credit-card payment-icon"></i>
+            <h2>Team Payment Instructions</h2>
+          </div>
           <p className="event-details">Event: <strong>{eventName}</strong></p>
           <p className="fee-details">Team Registration Fee: <strong>₹{eventFee}</strong></p>
 
@@ -31,7 +33,12 @@ function PaymentInstructions({ eventName, eventFee, onClose, onProceedToERP }) {
                 <div className="step-content">
                   <h4>Access ERP Portal</h4>
                   <p>Click the "Go to ERP Portal" button below to access the official payment gateway.</p>
-                  <p><strong>Portal URL:</strong> http://erp.sit.ac.in/</p>
+                  <p>
+                    <strong>Portal URL:</strong>{' '}
+                    <a href="http://erp.sit.ac.in/" target="_blank" rel="noopener noreferrer">
+                      http://erp.sit.ac.in/
+                    </a>
+                  </p>
                 </div>
               </div>
 

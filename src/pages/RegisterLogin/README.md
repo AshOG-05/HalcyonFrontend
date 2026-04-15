@@ -1,6 +1,6 @@
-# Authentication System for Halcyon 2025
+# Authentication System for Halcyon 2026
 
-This directory contains the authentication system for the Halcyon 2025 festival website. It includes the following features:
+This directory contains the authentication system for the Halcyon 2026 festival website. It includes the following features:
 
 ## Features
 
@@ -64,4 +64,4 @@ You can change these names in the `src/config.js` file.
 
 ## Customization
 
-You can customize the appearance of the authentication pages by modifying the `styles.css` file. The current design follows the space theme of the Halcyon 2025 festival.
+You can customize the appearance of the authentication pages by modifying the `styles.css` file. The current design follows the space theme of the Halcyon 2026 festival.

@@ -679,3 +679,20 @@ label #btn:hover {
     left: calc(100% - 40px);
   }
 }
+
+/* Remove the visual strip between Banner and About */
+.about.comic-about-container {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+  transform: translateY(-1px);
+}
+
+.about-box {
+  margin-top: 7.5rem !important;
+}
+
+@media (max-width: 768px) {
+  .about-box {
+    margin-top: 4.5rem !important;
+  }
+}

@@ -136,7 +136,7 @@ function EventRegistrationPage() {
       <div className="event-registration-content">
         <div className="event-registration-header">
           <h1>Event <span className="highlight">Registration</span></h1>
-          <p>Join us for an unforgettable experience at Halcyon 2025!</p>
+          <p>Join us for an unforgettable experience at Halcyon 2026!</p>
         </div>
 
         {loading ? (

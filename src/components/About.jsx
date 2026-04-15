@@ -31,7 +31,7 @@ function About() {
         <div className="comic-badge comic-badge-pow">POW!</div>
       </div>
 
-      <div className="about-box" style={{ marginTop: '10vh' }}>
+      <div className="about-box" style={{ marginTop: 0 }}>
 
         {/* Comic section header */}
         <div className="comic-section-header">

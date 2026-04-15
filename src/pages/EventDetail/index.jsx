@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { API_URL, APP_CONFIG } from '../../config';
+import { API_URL, getCategoryPageThemeStyle } from '../../config';
 import { isLoggedIn } from '../../services/authService';
 import EventRegistrationForm from '../../components/EventRegistrationForm';
 import './styles.css';
+import '../../components/comicLoading.css';
 
 function EventDetail() {
   const { id } = useParams();
@@ -21,6 +22,23 @@ function EventDetail() {
   useEffect(() => {
     fetchEventDetails();
   }, [id]);
+
+  useLayoutEffect(() => {
+    document.body.style.setProperty('background-image', 'none');
+    document.body.style.setProperty('background-color', 'transparent');
+    document.body.style.setProperty('background-attachment', 'scroll');
+    const hideBodyDecor = document.createElement('style');
+    hideBodyDecor.setAttribute('data-event-detail-fix', '1');
+    hideBodyDecor.textContent =
+      'body::before, body::after { display: none !important; }';
+    document.head.appendChild(hideBodyDecor);
+    return () => {
+      document.body.style.removeProperty('background-image');
+      document.body.style.removeProperty('background-color');
+      document.body.style.removeProperty('background-attachment');
+      hideBodyDecor.remove();
+    };
+  }, []);
 
   const fetchEventDetails = async () => {
     try {
@@ -40,14 +58,12 @@ function EventDetail() {
   };
 
   const handleRegister = () => {
-    // Check if user is logged in
     if (!isLoggedIn()) {
-      // Redirect to login page with a return URL back to this EventDetail page (black theme)
-      navigate(`/RegisterLogin?redirect=/event/${id}`);
+      navigate(
+        '/RegisterLogin?redirect=' + encodeURIComponent('/event/' + id)
+      );
       return;
     }
-
-    // Show the registration form
     setShowRegistrationForm(true);
   };
 
@@ -64,66 +80,78 @@ function EventDetail() {
 
   if (loading) {
     return (
-      <div className="event-detail-container">
-        <div className="loading">Loading event details...</div>
+      <div
+        className="event-detail-container"
+        style={getCategoryPageThemeStyle('other')}
+      >
+        <div className="event-detail-inner">
+          <div className="loading">
+            <div className="comic-loading-wrap">
+              <div
+                className="comic-loading"
+                role="status"
+                aria-live="polite"
+                aria-label="Loading event details"
+              >
+                <div className="comic-loading__sun" />
+              </div>
+              <div className="comic-loading-bars" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </div>
+            </div>
+            <p>Loading event details...</p>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="event-detail-container">
-        <div className="error">Error: {error}</div>
-        <button
-          className="back-button"
-          onClick={() => navigate('/events')}
-        >
-          Back to Events
-        </button>
+      <div
+        className="event-detail-container"
+        style={getCategoryPageThemeStyle('other')}
+      >
+        <div className="event-detail-inner">
+          <div className="error">Error: {error}</div>
+          <button
+            className="back-button"
+            onClick={() => navigate('/events')}
+          >
+            Back to Events
+          </button>
+        </div>
       </div>
     );
   }
 
   if (!event) {
     return (
-      <div className="event-detail-container">
-        <div className="error">Event not found</div>
-        <button
-          className="back-button"
-          onClick={() => navigate('/events')}
-        >
-          Back to Events
-        </button>
+      <div
+        className="event-detail-container"
+        style={getCategoryPageThemeStyle('other')}
+      >
+        <div className="event-detail-inner">
+          <div className="error">Event not found</div>
+          <button
+            className="back-button"
+            onClick={() => navigate('/events')}
+          >
+            Back to Events
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="event-detail-container">
-      {/* Background elements */}
-      <div className="event-detail-bg">
-        {/* Stars background */}
-        <div className="stars-container">
-          {[...Array(100)].map((_, i) => (
-            <div
-              key={i}
-              className="star"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 2}s`
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Gradient shapes */}
-        <div className="gradient-shape shape-1"></div>
-        <div className="gradient-shape shape-2"></div>
-        <div className="gradient-shape shape-3"></div>
-      </div>
-
+    <div
+      className="event-detail-container"
+      style={getCategoryPageThemeStyle(event.category || 'other')}
+    >
+      <div className="event-detail-inner">
       {showRegistrationForm ? (
         <EventRegistrationForm
           eventId={id}
@@ -256,6 +284,7 @@ function EventDetail() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

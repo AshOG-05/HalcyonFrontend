@@ -75,32 +75,38 @@ function InteractiveExplore() {
     {
       id: 1,
       title: "Dance",
-      image: "/assets/dance-event.jpg",
+      image: "/assets/comic_background_9.jpg",
+      sticker: "/assets/pow.png",
     },
     {
       id: 2,
       title: "Music",
-      image: "/assets/music-event.jpg",
+      image: "/assets/comic_background_9.jpg",
+      sticker: "/assets/wow.png",
     },
     {
       id: 3,
       title: "Gaming",
-      image: "/assets/tech-event.jpg",
+      image: "/assets/comic_background_9.jpg",
+      sticker: "/assets/boom.png",
     },
     {
       id: 4,
       title: "Theatre",
-      image: "/assets/art-event.jpg",
+      image: "/assets/comic_background_9.jpg",
+      sticker: "/assets/poof.png",
     },
     {
       id: 5,
       title: "Fine Arts",
-      image: "/assets/art-event.jpg",
+      image: "/assets/comic_background_9.jpg",
+      sticker: "/assets/yeah.png",
     },
     {
       id: 6,
       title: "Literary",
-      image: "/assets/tech-bg.jpg",
+      image: "/assets/comic_background_9.jpg",
+      sticker: "/assets/wow.png",
     },
   ];
 
@@ -117,14 +123,18 @@ function InteractiveExplore() {
             data-id={item.id}
             className={`flex-card-container ${activeId === item.id ? 'active' : ''}`}
             style={{
-              backgroundImage: `url(${item.image})`,
-              backgroundColor: 'transparent',
+              backgroundImage: 'none',
               ...(isMobile && activeId === item.id ? { height: '15rem' } : {})
             }}
             onMouseEnter={() => !isMobile && setActiveId(item.id)}
             onClick={() => setActiveId(item.id)}
           >
             <div className="card-overlay">
+              <span
+                className="card-sticker"
+                style={{ backgroundImage: `url(${item.sticker})` }}
+                aria-hidden="true"
+              />
               {isMobile && <i className={`card-icon ${
                 item.title === 'Dance' ? 'fas fa-music' :
                 item.title === 'Music' ? 'fas fa-guitar' :
